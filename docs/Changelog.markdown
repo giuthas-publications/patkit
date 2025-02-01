@@ -28,8 +28,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 
 - PATKIT will soon be available on pypi under the name patkit.
-- 0.15 is planned to be a re-implementation of the simulation code that was
-  originally released for Ultrafest 2024.
 - 0.16 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
 - 0.17 is planned to be a data structure update giving support for multiple data
@@ -40,6 +38,21 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
+
+## [0.15.0]
+
+## Highlights
+
+- Re-implementation of the simulation code that was originally released for
+  Ultrafest 2024.
+
+## Added
+
+## Changed
+
+## Fixed
+
+## Bugs
 
 ## [0.14.0] 2025-01-31
 
