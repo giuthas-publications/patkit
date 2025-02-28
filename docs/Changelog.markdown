@@ -52,6 +52,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## Fixed
 
+- GitHub actions should now run a bit smoother and not attempt to run in forks.
+- Hopefully fixed an older error complaining that `\i` is not a valid escape
+  sequence in `\infty`.
+
 ## Bugs
 
 ## [0.14.0] 2025-01-31
