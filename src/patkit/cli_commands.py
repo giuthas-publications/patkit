@@ -153,7 +153,7 @@ def publish(path: Path, config_file: Path | None, output_dir: Path | None):
         path=path, config_file=config_file
     )
 
-
+# TODO 0.15: either directory or config_file should be removed or made optional
 @click.command()
 @click.argument(
     "directory",
@@ -163,7 +163,7 @@ def publish(path: Path, config_file: Path | None, output_dir: Path | None):
     type=click.Path(exists=True, dir_okay=False, file_okay=True),
     required=False,
 )
-def simulate(path: Path, config_file: Path | None):
+def simulate(directory: Path, config_file: Path | None):
     """
     Run a simulation experiment.
 
@@ -175,6 +175,10 @@ def simulate(path: Path, config_file: Path | None):
         config_file=config_file,
     )
     comparisons, contours, sound_pairs = setup_simulation(config)
-    run_simulations(config, comparisons, contours, sound_pairs)
+    run_simulations(configuration=config,
+                    save_directory=directory,
+                    comparisons=comparisons,
+                    contours=contours,
+                    sound_pairs=sound_pairs)
 
 
