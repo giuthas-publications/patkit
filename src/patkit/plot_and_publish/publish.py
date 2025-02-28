@@ -185,7 +185,7 @@ def publish_distribution_data(
         gridspec_kw={'hspace': 0, 'wspace': 0}
     )
 
-    plot_categories = ["l$\infty$" if metric ==
+    plot_categories = [r"l$\infty$" if metric ==
                        "l_inf" else metric for metric in plot_categories]
 
     for i, ax in enumerate(axes.flatten()):
