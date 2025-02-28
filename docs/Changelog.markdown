@@ -41,22 +41,37 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [0.15.0]
 
-## Highlights
+### Highlights
 
 - Re-implementation of the simulation code that was originally released for
   Ultrafest 2024.
 
-## Added
+### Added
 
-## Changed
+- `patkit simulate` command
 
-## Fixed
+### Changed
+
+- Release notes are going to be automatically populated from the Changelog for
+  better readability.
+
+### Fixed
 
 - GitHub actions should now run a bit smoother and not attempt to run in forks.
 - Hopefully fixed an older error complaining that `\i` is not a valid escape
   sequence in `\infty`.
 
-## Bugs
+### Bugs
+
+## [0.14.1] 2025-02-18
+
+### Added 
+
+- Automated releases on testpypi, pypi and github. Testpypi will in the future
+  be used for pre-releases (alpha, beta, release candidate/rc) and pypi for
+  regular releases. 
+- Technically the software is still in alpha status as a whole but will get
+  occasional alpha/beta/rc releases of the 0.x releases.
 
 ## [0.14.0] 2025-01-31
 
