@@ -28,16 +28,28 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 
 - PATKIT will soon be available on pypi under the name patkit.
-- 0.16 is planned to be a general configuration update moving from central to
+- 0.17 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
-- 0.17 is planned to be a data structure update giving support for multiple data
+- 0.18 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.18 is planned to update the GUI with full TextGrid editing.
-- 0.19 is planned to be a release of automated segmentation exercises.
-- After 0.19 there are planned updates to CLI, GUI, ultrasound frame
+- 0.19 is planned to update the GUI with full TextGrid editing.
+- 0.20 is planned to be a release of automated segmentation exercises.
+- After 0.20 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
+
+## [0.16.0]
+
+### Highlights
+
+- Kymography on ultrasound data.
+
+### Added
+
+- Kymography
+  - Selection of a target line on ultrasound a representative ultrasound frame.
+  - Plotting the kymograph for the selected line.
 
 ## [0.15.0]
 
