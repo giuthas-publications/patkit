@@ -294,13 +294,11 @@
    </widget>
    <widget class="QMenu" name="menu_image">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="title">
      <string>Image</string>
     </property>
-    <addaction name="actionSave_plot_as"/>
-    <addaction name="actionSave_as"/>
    </widget>
    <widget class="QMenu" name="menu_script">
     <property name="enabled">
