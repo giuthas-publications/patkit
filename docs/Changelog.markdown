@@ -44,12 +44,16 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Highlights
 
 - Kymography on ultrasound data.
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
 
 ### Added
 
 - Kymography
   - Selection of a target line on ultrasound a representative ultrasound frame.
   - Plotting the kymograph for the selected line.
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
 
 ## [0.15.0]
 
