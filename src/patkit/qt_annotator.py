@@ -65,7 +65,7 @@ from PyQt6.uic import loadUiType
 from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
-from patkit.constants import GuiColorScheme
+from patkit.constants import GuiColorScheme, GuiImageType
 from patkit.data_structures import Session
 from patkit.export import (
     export_aggregate_image_and_meta,
@@ -188,29 +188,30 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         #     self.tr("Ctrl+E", "File|Export figure...")), self)
         # self.export_figure_shortcut.activated.connect(self.export_figure)
 
-        self.menu_select_small_image = self.menu_image.addMenu(
+        self.menu_select_image = self.menu_image.addMenu(
             "Select small image")
         self.action_mean_image = QAction(
-            text="Mean image", parent=self.menu_select_small_image)
+            text="Mean image", parent=self.menu_select_image)
         self.action_frame = QAction(
-            text="Frame at cursor", parent=self.menu_select_small_image)
+            text="Frame at cursor", parent=self.menu_select_image)
         self.action_raw_frame = QAction(
-            text="Raw frame at cursor", parent=self.menu_select_small_image)
+            text="Raw frame at cursor", parent=self.menu_select_image)
         self.action_mean_image.setCheckable(True)
         self.action_mean_image.setChecked(True)
         self.action_frame.setCheckable(True)
         self.action_raw_frame.setCheckable(True)
-        self.menu_select_small_image.addAction(self.action_mean_image)
-        self.menu_select_small_image.addAction(self.action_frame)
-        self.menu_select_small_image.addAction(self.action_raw_frame)
+        self.menu_select_image.addAction(self.action_mean_image)
+        self.menu_select_image.addAction(self.action_frame)
+        self.menu_select_image.addAction(self.action_raw_frame)
 
         self.menu_select_small_action_group = QActionGroup(
-            self.menu_select_small_image)
+            self.menu_select_image)
         self.menu_select_small_action_group.addAction(self.action_mean_image)
         self.menu_select_small_action_group.addAction(self.action_frame)
         self.menu_select_small_action_group.addAction(self.action_raw_frame)
         self.menu_select_small_action_group.triggered.connect(
-            self.small_image_updater)
+            self.image_updater)
+        self.image_type = GuiImageType.MEAN_IMAGE
 
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
@@ -710,7 +711,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Display an already interpolated ultrasound frame.
         """
-        if self.current.annotations['selection_index'] == -1:
+        if (self.current.annotations['selection_index'] == -1
+                or self.image_type == GuiImageType.MEAN_IMAGE):
             self.action_export_ultrasound_frame.setEnabled(False)
             self.ultra_axes.clear()
             image_name = 'AggregateImage mean on RawUltrasound'
@@ -727,14 +729,18 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             index = self.current.annotations['selection_index']
 
             ultrasound = self.current.modalities['RawUltrasound']
-            image = ultrasound.interpolated_image(index)
+            if self.image_type == GuiImageType.FRAME:
+                image = ultrasound.interpolated_image(index)
+            elif self.image_type == GuiImageType.RAW_FRAME:
+                image = ultrasound.raw_image(index)
 
             self.ultra_axes.imshow(
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
-            if 'Splines' in self.current.modalities:
+            if (self.image_type == GuiImageType.FRAME
+                    and 'Splines' in self.current.modalities):
                 splines = self.current.modalities['Splines']
                 index = self.current.annotations['selection_index']
                 ultra = self.current.modalities['RawUltrasound']
@@ -754,7 +760,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 # ic(np.diff(time_diff, n=1))
                 # ic(np.max(np.abs(np.diff(time_diff, n=1))))
 
-                epsilon = max((self.main_config.epsilon, splines.time_precision))
+                epsilon = max((self.main_config.epsilon,
+                               splines.time_precision))
                 min_difference = abs(
                     splines.timevector[spline_index] - timestamp)
                 # maybe this instead when loading data
@@ -881,19 +888,20 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.update()
             self.update_ui()
 
-    def small_image_updater(self) -> None:
+    def image_updater(self) -> None:
         """
         Update which kind of image is shown in the small figure panel.
         """
         match self.menu_select_small_action_group.checkedAction():
             case self.action_mean_image:
-                print('mean image')
+                self.image_type = GuiImageType.MEAN_IMAGE
             case self.action_frame:
-                print('frame')
+                self.image_type = GuiImageType.FRAME
             case self.action_raw_frame:
-                print('raw frame')
+                self.image_type = GuiImageType.RAW_FRAME
             case _:
-                print('none')
+                _logger.warning("Somehow the small image type has been unset.")
+        self.update()
 
     def quit(self):
         """
