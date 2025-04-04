@@ -189,7 +189,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         # self.export_figure_shortcut.activated.connect(self.export_figure)
 
         self.menu_select_image = self.menu_image.addMenu(
-            "Select small image")
+            "Select image")
         self.action_mean_image = QAction(
             text="Mean image", parent=self.menu_select_image)
         self.action_frame = QAction(
@@ -212,6 +212,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.menu_select_small_action_group.triggered.connect(
             self.image_updater)
         self.image_type = GuiImageType.MEAN_IMAGE
+
+        self.action_select_kymography_line = QAction(
+            text="Select kymography sample line", parent=self.menu_plot)
+        self.menu_plot.addAction(self.action_select_kymography_line)
 
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
@@ -438,12 +442,17 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.goLineEdit.setText(str(self.index + 1))
 
+        if self.image_type == GuiImageType.FRAME:
+            self.menu_select_kymography_line.setEnabled(True)
+        else:
+            self.menu_select_kymography_line.setEnabled(False)
+
     def plot_modality_axes(
-            self,
-            axes_number: int,
-            axes_name: str,
-            zero_offset: float = 0,
-            ylim: list[float, float] | None = None
+        self,
+        axes_number: int,
+        axes_name: str,
+        zero_offset: float = 0,
+        ylim: list[float, float] | None = None,
     ) -> None:
         """
         Plot modalities on a data_axes.
@@ -902,6 +911,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             case _:
                 _logger.warning("Somehow the small image type has been unset.")
         self.update()
+        self.update_ui()
 
     def quit(self):
         """
