@@ -351,7 +351,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.multicursor = None
 
         self.show()
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
         self.update()
 
     def change_to_dark(self):
@@ -425,7 +425,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
-        self.figure.canvas.draw()
+        self.figure.canvas.draw_idle()
 
         if self.display_tongue:
             _logger.debug("Drawing ultra frame in update")
@@ -443,9 +443,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.goLineEdit.setText(str(self.index + 1))
 
         if self.image_type == GuiImageType.FRAME:
-            self.menu_select_kymography_line.setEnabled(True)
+            self.action_select_kymography_line.setEnabled(True)
         else:
-            self.menu_select_kymography_line.setEnabled(False)
+            self.action_select_kymography_line.setEnabled(False)
 
     def plot_modality_axes(
         self,
@@ -795,7 +795,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                                 splines.cartesian_spline(spline_index))
             else:
                 _logger.info("No splines")
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
 
     def draw_raw_ultra_frame(self):
         """
@@ -816,7 +816,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         array = np.flip(array, 0).copy()
         array = array.astype(np.int8)
         self.ultra_axes.imshow(array, interpolation='nearest', cmap='gray')
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
 
     def next(self):
         """
