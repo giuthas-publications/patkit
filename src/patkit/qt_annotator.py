@@ -40,45 +40,52 @@ from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
 
-import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qtagg import \
-    FigureCanvasQTAgg as FigureCanvas
+import numpy as np
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+
 # Plotting functions and hooks for GUI
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
 from PyQt6 import QtWidgets
+
 # GUI functionality
 from PyQt6.QtCore import QCoreApplication, Qt
 from PyQt6.QtGui import (
-    QGuiApplication, QIntValidator, QKeySequence, QShortcut
+    QAction,
+    QActionGroup,
+    QGuiApplication,
+    QIntValidator,
+    QKeySequence,
+    QShortcut,
 )
 from PyQt6.QtWidgets import QFileDialog
 from PyQt6.uic import loadUiType
 from qbstyles import mpl_style
 
+from patkit.configuration import Configuration
 from patkit.constants import GuiColorScheme
 from patkit.data_structures import Session
-from patkit.configuration import Configuration
 from patkit.export import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
-    export_session_and_recording_meta, export_ultrasound_frame_and_meta
+    export_session_and_recording_meta,
+    export_ultrasound_frame_and_meta,
 )
-from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
-    ReplaceDialog
-)
+from patkit.gui import BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog
 from patkit.plot_and_publish import (
-    format_legend, get_colors_in_sequence,
-    mark_peaks, plot_spline, plot_satgrid_tier, plot_spectrogram,
-    plot_timeseries, plot_wav
+    format_legend,
+    get_colors_in_sequence,
+    mark_peaks,
+    plot_satgrid_tier,
+    plot_spectrogram,
+    plot_spline,
+    plot_timeseries,
+    plot_wav,
 )
 from patkit.plot_and_publish.plot import plot_spectrogram2
-from patkit.save_and_load import (
-    save_recording_session, load_recording_session
-)
+from patkit.save_and_load import load_recording_session, save_recording_session
 from patkit.ui_callbacks import UiCallbacks
 
 # Load the GUI layout generated with QtDesigner.
@@ -180,6 +187,30 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         # self.export_figure_shortcut = QShortcut(QKeySequence(
         #     self.tr("Ctrl+E", "File|Export figure...")), self)
         # self.export_figure_shortcut.activated.connect(self.export_figure)
+
+        self.menu_select_small_image = self.menu_image.addMenu(
+            "Select small image")
+        self.action_mean_image = QAction(
+            text="Mean image", parent=self.menu_select_small_image)
+        self.action_frame = QAction(
+            text="Frame at cursor", parent=self.menu_select_small_image)
+        self.action_raw_frame = QAction(
+            text="Raw frame at cursor", parent=self.menu_select_small_image)
+        self.action_mean_image.setCheckable(True)
+        self.action_mean_image.setChecked(True)
+        self.action_frame.setCheckable(True)
+        self.action_raw_frame.setCheckable(True)
+        self.menu_select_small_image.addAction(self.action_mean_image)
+        self.menu_select_small_image.addAction(self.action_frame)
+        self.menu_select_small_image.addAction(self.action_raw_frame)
+
+        self.menu_select_small_action_group = QActionGroup(
+            self.menu_select_small_image)
+        self.menu_select_small_action_group.addAction(self.action_mean_image)
+        self.menu_select_small_action_group.addAction(self.action_frame)
+        self.menu_select_small_action_group.addAction(self.action_raw_frame)
+        self.menu_select_small_action_group.triggered.connect(
+            self.small_image_updater)
 
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
@@ -849,6 +880,20 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.index = index_to_jump_to
             self.update()
             self.update_ui()
+
+    def small_image_updater(self) -> None:
+        """
+        Update which kind of image is shown in the small figure panel.
+        """
+        match self.menu_select_small_action_group.checkedAction():
+            case self.action_mean_image:
+                print('mean image')
+            case self.action_frame:
+                print('frame')
+            case self.action_raw_frame:
+                print('raw frame')
+            case _:
+                print('none')
 
     def quit(self):
         """
