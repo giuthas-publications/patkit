@@ -45,7 +45,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Highlights
 
-- Attempting to fix the build and distribution issue.
+- Attempting to fix the build and distribution / installation issue.
 
 
 ## [0.14.0] 2025-01-31
