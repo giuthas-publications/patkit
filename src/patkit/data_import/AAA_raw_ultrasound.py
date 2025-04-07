@@ -38,6 +38,7 @@ from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 
+from patkit.constants import AaaProbeType
 from patkit.data_structures import (
     FileInformation, Recording, RecordingMetaData)
 from patkit.modalities import RawUltrasound, RawUltrasoundMeta
@@ -56,8 +57,10 @@ def parse_recording_meta_from_aaa_prompt_file(
     if isinstance(filepath, str):
         filepath = Path(filepath)
 
-    with closing(open(filepath, 'r', encoding='utf-8')) as prompt_file:
-        lines = prompt_file.read().splitlines()
+    # with closing(open(filepath, 'r', encoding='utf-8')) as prompt_file:
+    with closing(open(filepath, 'r', encoding='iso8859-15')) as prompt_file:
+        contents = prompt_file.read()
+        lines = contents.splitlines()
         prompt = lines[0]
 
         if '/' in lines[1]:
@@ -182,6 +185,8 @@ def add_aaa_raw_ultrasound(
     # ultrasound data in the Recording. This throws KeyError if the meta
     # file didn't contain TimeInSecsOfFirstFrame.
     ult_time_offset = meta_dict.pop('time_in_secs_of_first_frame')
+    if 'kind' not in meta_dict:
+        meta_dict['kind'] = AaaProbeType.UNKNOWN
     meta = RawUltrasoundMeta(**meta_dict)
 
     file_info = FileInformation(

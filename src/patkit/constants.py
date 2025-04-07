@@ -57,6 +57,14 @@ PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
 
+class AaaProbeType(Enum):
+    """
+    Probe type codes saved by AAA.
+    """
+    UNKNOWN = -1
+    FAN = 0
+
+
 class AnnotationType(Enum):
     """
     Enum to differentiate Modality annotation types
