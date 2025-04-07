@@ -48,6 +48,7 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 # Plotting functions and hooks for GUI
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
+from mpl_point_clicker import clicker
 from PyQt6 import QtWidgets
 
 # GUI functionality
@@ -127,6 +128,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             pickle_filename: Path | str | None = None
     ):
         super().__init__()
+        self.kymography_clicker = None
         self.setupUi(self)
 
         setup_qtannotator_ui_callbacks()
@@ -720,6 +722,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Display an already interpolated ultrasound frame.
         """
+        # Display mean image if asked or if there is no selection cursor.
         if (self.current.annotations['selection_index'] == -1
                 or self.image_type == GuiImageType.MEAN_IMAGE):
             self.action_export_ultrasound_frame.setEnabled(False)
@@ -732,6 +735,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                     image, interpolation='nearest', cmap='gray',
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
+        # Display either raw or interpolated ultrasound if asked
         elif self.current.annotations['selection_index'] >= 0:
             self.action_export_ultrasound_frame.setEnabled(True)
             self.ultra_axes.clear()
@@ -747,6 +751,15 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
+
+            if self.image_type == GuiImageType.FRAME:
+                self.kymography_clicker = clicker(
+                    ax=self.ultra_axes,
+                    classes=["event"],
+                    markers=["x"],
+                    linestyle="--")
+                self.kymography_clicker.on_point_added(self.point_added_cb)
+                self.kymography_clicker.on_point_removed(self.point_removed_cb)
 
             if (self.image_type == GuiImageType.FRAME
                     and 'Splines' in self.current.modalities):
@@ -1208,6 +1221,19 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 writer.writerow(annotations)
             _logger.info(
                 "Wrote onset data in file %s.", filename)
+
+    def point_added_cb(self, position: tuple[float, float], klass: str):
+        x, y = position
+        print(f"New point of class {klass} added at {x=}, {y=}.")
+
+    def point_removed_cb(position: tuple[float, float], klass: str, idx):
+        x, y = position
+
+        suffix = {"1": "st", "2": "nd", "3": "rd"}.get(str(idx)[-1], "th")
+        print(
+            f"The {idx}{suffix} point of class {klass} with "
+            f"position {x=:.2f}, {y=:.2f}  was removed."
+        )
 
     def pd_category_cb(self):
         """
