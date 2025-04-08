@@ -54,8 +54,7 @@ from PyQt6.QtCore import QCoreApplication, Qt
 from PyQt6.QtGui import (
     QGuiApplication, QIntValidator, QKeySequence, QShortcut
 )
-from PyQt6.QtWidgets import QFileDialog
-from PyQt6.uic import loadUiType
+from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
 from patkit.constants import GuiColorScheme
@@ -70,6 +69,7 @@ from patkit.gui import (
     BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
     ReplaceDialog
 )
+from patkit.gui.annotator_window import Ui_MainWindow
 from patkit.plot_and_publish import (
     format_legend, get_colors_in_sequence,
     mark_peaks, plot_spline, plot_satgrid_tier, plot_spectrogram,
@@ -82,7 +82,7 @@ from patkit.save_and_load import (
 from patkit.ui_callbacks import UiCallbacks
 
 # Load the GUI layout generated with QtDesigner.
-Ui_MainWindow, QMainWindow = loadUiType('src/patkit/gui/qt_annotator.ui')
+# Ui_MainWindow, QMainWindow = loadUiType('src/patkit/gui/qt_annotator.ui')
 
 _logger = logging.getLogger('patkit.qt_annotator')
 
