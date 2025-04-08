@@ -33,6 +33,7 @@
 """
 Initialisation routines for PATKIT.
 """
+
 import shutil
 from importlib.resources import path as resource_path
 from logging import Logger
@@ -46,7 +47,8 @@ from patkit.configuration import (
 )
 from patkit.constants import PATKIT_CONFIG_DIR
 from patkit.data_loader import load_data
-from patkit.data_processor import process_modalities, process_statistics_in_recordings
+from patkit.data_processor import (
+    process_modalities, process_statistics_in_recordings)
 from patkit.data_structures import Session
 from patkit.metrics import (
     add_aggregate_images,
@@ -56,7 +58,8 @@ from patkit.metrics import (
     downsample_metrics_in_session,
 )
 from patkit.modalities import RawUltrasound, Splines
-from patkit.utility_functions import log_elapsed_time, path_from_name, set_logging_level
+from patkit.utility_functions import (
+    log_elapsed_time, path_from_name, set_logging_level)
 
 
 def initialise_patkit(
