@@ -130,7 +130,11 @@ def initialise_logger_and_config(
         if not config_file.exists():
             if not default_config_dir.exists():
                 default_config_dir.mkdir()
-            _copy_default_config(default_config_dir)
+            with resource_path(
+                    "patkit", "default_configuration"
+            ) as fspath:
+                shutil.copytree(
+                    fspath, default_config_dir, dirs_exist_ok=True)
 
     else:
         config_file = path_from_name(config_file)
@@ -141,16 +145,6 @@ def initialise_logger_and_config(
     logger = set_logging_level(logging_level)
 
     return config, exclusion_file, logger
-
-
-def _copy_default_config(default_config_dir: Path) -> None:
-    with resource_path(
-            "patkit", "default_configuration"
-    ) as fspath:
-        # print(fspath)
-        # for file in fspath.iterdir():
-        #     print(file)
-        shutil.copytree(fspath, default_config_dir, dirs_exist_ok=True)
 
 
 def add_derived_data(
