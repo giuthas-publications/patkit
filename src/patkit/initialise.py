@@ -124,13 +124,14 @@ def initialise_logger_and_config(
         These are the main Configuration, exclusion file as Path, and the
         logger.
     """
-    default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
-    if not default_config_dir.exists():
-        default_config_dir.mkdir()
-        _copy_default_config(default_config_dir)
-
     if config_file is None:
+        default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
         config_file = default_config_dir/"configuration.yaml"
+        if not config_file.exists():
+            if not default_config_dir.exists():
+                default_config_dir.mkdir()
+            _copy_default_config(default_config_dir)
+
     else:
         config_file = path_from_name(config_file)
 
@@ -146,7 +147,10 @@ def _copy_default_config(default_config_dir: Path) -> None:
     with resource_path(
             "patkit", "default_configuration"
     ) as fspath:
-        shutil.copytree(fspath, default_config_dir)
+        # print(fspath)
+        # for file in fspath.iterdir():
+        #     print(file)
+        shutil.copytree(fspath, default_config_dir, dirs_exist_ok=True)
 
 
 def add_derived_data(
