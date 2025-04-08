@@ -59,9 +59,9 @@ from .qt_annotator import run_annotator
 # __all__ = ['add_derived_data', 'initialise_patkit']
 
 # Load logging config from json file.
-LOG_CONFIG = "default_configuration/patkit_logging_configuration.json"
+LOG_CONFIG = "patkit_logging_configuration.json"
 with resource_path(
-        'patkit', LOG_CONFIG
+        'patkit.default_configuration', LOG_CONFIG
 ) as configuration_path:
     with open(configuration_path, 'r', encoding='utf-8') as configuration_file:
         config_dict = json.load(configuration_file)
