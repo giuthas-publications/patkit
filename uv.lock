@@ -615,18 +615,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mpl-interactions"
-version = "0.24.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "matplotlib" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/d7/b5/458d2bd9985d939d709769d4604ac5ea0d5eb2d76ed8cfa1746ce2269be3/mpl_interactions-0.24.2.tar.gz", hash = "sha256:2ef91b44bd3fb88395d7ea0bae862b7c987004d87dfb478c8bc1655999a3c2e1", size = 36042395 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/56/947abc9885841744c708d57871c05d381ecb1bb8f12e5d6ec138e4cf99e6/mpl_interactions-0.24.2-py3-none-any.whl", hash = "sha256:bacda7af49007096942d01a4973e7df5b52afaa8385a688a383e34ffee6105d3", size = 45549 },
-]
-
-[[package]]
 name = "mpl-point-clicker"
 version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -824,7 +812,6 @@ dependencies = [
     { name = "licenseheaders" },
     { name = "matplotlib" },
     { name = "more-itertools" },
-    { name = "mpl-interactions" },
     { name = "mpl-point-clicker" },
     { name = "nestedtext" },
     { name = "numpy" },
@@ -854,7 +841,6 @@ requires-dist = [
     { name = "licenseheaders", specifier = ">=0.8.8" },
     { name = "matplotlib", specifier = ">=3.10.0" },
     { name = "more-itertools", specifier = ">=10.5.0" },
-    { name = "mpl-interactions", specifier = ">=0.24.2" },
     { name = "mpl-point-clicker", specifier = ">=0.4.1" },
     { name = "nestedtext", specifier = ">=3.7" },
     { name = "numpy", specifier = ">=2.2.1" },

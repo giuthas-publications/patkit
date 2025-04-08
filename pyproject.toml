@@ -28,7 +28,6 @@ dependencies = [
   "licenseheaders>=0.8.8",
   "matplotlib>=3.10.0",
   "more-itertools>=10.5.0",
-  "mpl-interactions>=0.24.2",
   "mpl-point-clicker>=0.4.1",
   "nestedtext>=3.7",
   "numpy>=2.2.1",
