@@ -33,35 +33,37 @@
 """
 Initialisation routines for PATKIT.
 """
-
+import shutil
+from importlib.resources import path as resource_path
 from logging import Logger
 from pathlib import Path
 
 from patkit.annotations import add_peaks
 from patkit.configuration import (
-    apply_exclusion_list, load_exclusion_list, Configuration
+    Configuration,
+    apply_exclusion_list,
+    load_exclusion_list,
 )
+from patkit.constants import PATKIT_CONFIG_DIR
 from patkit.data_loader import load_data
-from patkit.data_processor import (
-    process_modalities,
-    process_statistics_in_recordings
-)
+from patkit.data_processor import process_modalities, process_statistics_in_recordings
 from patkit.data_structures import Session
 from patkit.metrics import (
-    add_aggregate_images, add_distance_matrices, add_pd,
-    add_spline_metric, downsample_metrics_in_session
+    add_aggregate_images,
+    add_distance_matrices,
+    add_pd,
+    add_spline_metric,
+    downsample_metrics_in_session,
 )
 from patkit.modalities import RawUltrasound, Splines
-from patkit.utility_functions import (
-    path_from_name, set_logging_level, log_elapsed_time
-)
+from patkit.utility_functions import log_elapsed_time, path_from_name, set_logging_level
 
 
 def initialise_patkit(
-        path: Path | str | None = None,
-        config_file: Path | str | None = None,
-        exclusion_file: Path | str | None = None,
-        logging_level: int | None = None,
+    path: Path | str | None = None,
+    config_file: Path | str | None = None,
+    exclusion_file: Path | str | None = None,
+    logging_level: int | None = None,
 ) -> tuple[Configuration, Logger, Session]:
     """
     Initialise the basic structures for running patkit.
@@ -82,7 +84,7 @@ def initialise_patkit(
     config, exclusion_file, logger = initialise_logger_and_config(
         config_file=config_file,
         exclusion_file=exclusion_file,
-        logging_level=logging_level
+        logging_level=logging_level,
     )
 
     exclusion_list = None
@@ -99,9 +101,9 @@ def initialise_patkit(
 
 
 def initialise_logger_and_config(
-        config_file: Path | str | None = None,
-        exclusion_file: Path | str | None = None,
-        logging_level: int | None = None,
+    config_file: Path | str | None = None,
+    exclusion_file: Path | str | None = None,
+    logging_level: int | None = None,
 ) -> tuple[Configuration, Path, Logger]:
     """
     Initialise logger and configuration.
@@ -122,21 +124,35 @@ def initialise_logger_and_config(
         These are the main Configuration, exclusion file as Path, and the
         logger.
     """
-    if config_file is None:
-        config_file = Path("configuration/configuration.yaml")
+    default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
+    if not default_config_dir.exists():
+        default_config_dir.mkdir()
+        _copy_default_config(default_config_dir)
 
-    config_file = path_from_name(config_file)
+    if config_file is None:
+        config_file = default_config_dir/"configuration.yaml"
+    else:
+        config_file = path_from_name(config_file)
+
+    config = Configuration(config_file)
+
     exclusion_file = path_from_name(exclusion_file)
     logger = set_logging_level(logging_level)
-    config = Configuration(config_file)
 
     return config, exclusion_file, logger
 
 
+def _copy_default_config(default_config_dir: Path) -> None:
+    with resource_path(
+            "patkit", "default_configuration"
+    ) as fspath:
+        shutil.copytree(fspath, default_config_dir)
+
+
 def add_derived_data(
-        session: Session,
-        config: Configuration,
-        logger: Logger,
+    session: Session,
+    config: Configuration,
+    logger: Logger,
 ) -> None:
     """
     Add derived data to the Session according to the Configuration.
@@ -169,7 +185,7 @@ def add_derived_data(
         modality_operation_dict["PD"] = (
             add_pd,
             [RawUltrasound],
-            pd_arguments.model_dump()
+            pd_arguments.model_dump(),
         )
 
     if data_run_config.aggregate_image_arguments:
@@ -177,7 +193,7 @@ def add_derived_data(
         modality_operation_dict["AggregateImage"] = (
             add_aggregate_images,
             [RawUltrasound],
-            aggregate_image_arguments.model_dump()
+            aggregate_image_arguments.model_dump(),
         )
 
     if data_run_config.spline_metric_arguments:
@@ -185,11 +201,10 @@ def add_derived_data(
         modality_operation_dict["SplineMetric"] = (
             add_spline_metric,
             [Splines],
-            spline_metric_args.model_dump()
+            spline_metric_args.model_dump(),
         )
 
-    process_modalities(recordings=session,
-                       processing_functions=modality_operation_dict)
+    process_modalities(recordings=session, processing_functions=modality_operation_dict)
 
     statistic_operation_dict = {}
     if data_run_config.distance_matrix_arguments:
@@ -197,24 +212,23 @@ def add_derived_data(
         statistic_operation_dict["DistanceMatrix"] = (
             add_distance_matrices,
             ["AggregateImage mean on RawUltrasound"],
-            distance_matrix_arguments.model_dump()
+            distance_matrix_arguments.model_dump(),
         )
 
     process_statistics_in_recordings(
-        session=session,
-        processing_functions=statistic_operation_dict)
+        session=session, processing_functions=statistic_operation_dict
+    )
 
     if data_run_config.downsample:
-        downsample_metrics_in_session(recording_session=session,
-                                      data_run_config=data_run_config)
+        downsample_metrics_in_session(
+            recording_session=session, data_run_config=data_run_config
+        )
 
     if data_run_config.peaks:
         modality_pattern = data_run_config.peaks.modality_pattern
         for recording in session:
             if recording.excluded:
-                logger.info(
-                    "Recording excluded from peak finding: %s",
-                    recording.name)
+                logger.info("Recording excluded from peak finding: %s", recording.name)
                 continue
             for modality_name in recording:
                 if modality_pattern.search(modality_name):

@@ -48,6 +48,7 @@ here, but in case somebody is interested:
 - [PATKIT Class hierarchies](classes_patkit.png "PATKIT Class hierarchies")
 """
 
+from importlib.resources import path as resource_path
 import json
 import logging.config
 
@@ -58,10 +59,13 @@ from .qt_annotator import run_annotator
 # __all__ = ['add_derived_data', 'initialise_patkit']
 
 # Load logging config from json file.
-LOG_CONFIG = "configuration/patkit_logging_configuration.json"
-with open(LOG_CONFIG, 'r', encoding='utf-8') as configuration_file:
-    config_dict = json.load(configuration_file)
-    logging.config.dictConfig(config_dict)
+LOG_CONFIG = "default_configuration/patkit_logging_configuration.json"
+with resource_path(
+        'patkit', LOG_CONFIG
+) as configuration_path:
+    with open(configuration_path, 'r', encoding='utf-8') as configuration_file:
+        config_dict = json.load(configuration_file)
+        logging.config.dictConfig(config_dict)
 
 # Create the module logger.
 _patkit_logger = logging.getLogger('patkit')
