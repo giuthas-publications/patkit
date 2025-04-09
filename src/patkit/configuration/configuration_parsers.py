@@ -48,7 +48,10 @@ from strictyaml import (
 )
 
 from patkit.constants import (
-    DEFAULT_ENCODING, IntervalBoundary, IntervalCategory
+    DEFAULT_ENCODING,
+    IntervalBoundary,
+    IntervalCategory,
+    PATKIT_CONFIG_DIR,
 )
 
 from .configuration_models import (
@@ -69,6 +72,24 @@ _raw_plot_params_dict = {}
 _raw_publish_params_dict = {}
 
 _logger = logging.getLogger('patkit.configuration_parsers')
+
+
+class ConfigPathValidator(ScalarValidator):
+    """
+    Validate yaml representing a Path.
+
+    Please note that empty fields are interpreted as not available and
+    represented by None. If you want to specify current working directory, use
+    '.'
+    """
+
+    def validate_scalar(self, chunk):
+        if chunk.contents:
+            path = Path(chunk.contents).expanduser()
+            if path.parent == Path('.'):
+                path = PATKIT_CONFIG_DIR/path
+            return path.expanduser()
+        return None
 
 
 class PathValidator(ScalarValidator):
@@ -183,10 +204,10 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
             schema = Map({
                 "epsilon": Float(),
                 "mains_frequency": Float(),
-                "gui_parameter_file": PathValidator(),
-                Optional("data_run_parameter_file"): PathValidator(),
-                Optional("simulation_parameter_file"): PathValidator(),
-                Optional("publish_parameter_file"): PathValidator()
+                "gui_parameter_file": ConfigPathValidator(),
+                Optional("data_run_parameter_file"): ConfigPathValidator(),
+                Optional("simulation_parameter_file"): ConfigPathValidator(),
+                Optional("publish_parameter_file"): ConfigPathValidator()
             })
             try:
                 _raw_config_dict = load(yaml_file.read(), schema)
@@ -196,8 +217,9 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
                 _logger.fatal(str(error))
                 raise
     else:
-        _logger.fatal(
-            "Didn't find main config file at %s.", str(filepath))
+        message = ("Didn't find main config file at %s.", str(filepath))
+        _logger.fatal(message)
+        print(message)
         sys.exit()
 
     config_dict.update(_raw_config_dict.data)
@@ -301,8 +323,10 @@ def load_run_params(filepath: Path | str | None = None) -> YAML:
                 _logger.fatal(str(error))
                 raise
     else:
-        _logger.fatal(
+        message = (
             "Didn't find run parameter file at %s.", str(filepath))
+        _logger.fatal(message)
+        print(message)
         sys.exit()
 
     data_run_params.update(_raw_data_run_params_dict.data)
@@ -367,9 +391,11 @@ def load_simulation_params(filepath: Path | str) -> YAML:
                 _logger.fatal(str(error))
                 raise
     else:
-        _logger.fatal(
+        message = (
             "Didn't find simulation parameter file at %s.",
             str(filepath))
+        _logger.fatal(message)
+        print(message)
         sys.exit()
 
     return simulation_params_dict
@@ -441,8 +467,10 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
                 _logger.fatal(str(error))
                 raise
     else:
-        _logger.fatal(
+        message = (
             "Didn't find gui parameter file at %s.", str(filepath))
+        _logger.fatal(message)
+        print(message)
         sys.exit()
 
     gui_params.update(_raw_gui_params_dict.data)
@@ -511,8 +539,10 @@ def load_publish_params(filepath: Path | str | None = None) -> YAML:
                 _logger.fatal(str(error))
                 raise
     else:
-        _logger.fatal(
+        message = (
             "Didn't find the publish parameter file at %s.", str(filepath))
+        _logger.fatal(message)
+        print(message)
         sys.exit()
 
     publish_params.update(_raw_publish_params_dict.data)

@@ -1,7 +1,7 @@
 
 [project]
 name = "patkit"
-version = "0.14.1"
+version = "0.14.2a7"
 description = "Phonetic Analysis ToolKit: Tools for processing phonetic data"
 authors = [
   {email = "giuthas@gmail.com"},
@@ -30,7 +30,6 @@ dependencies = [
   "more-itertools>=10.5.0",
   "nestedtext>=3.7",
   "numpy>=2.2.1",
-  "opencv-python>=4.10.0.84",
   "pdoc>=15.0.1",
   "praat-textgrids>=1.4.0",
   "pydantic>=2.10.4",
@@ -64,5 +63,5 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.sdist]
 packages = ["src/patkit"]
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/patkit"]
+#[tool.hatch.build.targets.wheel]
+#packages = ["src/patkit"]
