@@ -31,7 +31,6 @@ dependencies = [
   "mpl-point-clicker>=0.4.1",
   "nestedtext>=3.7",
   "numpy>=2.2.1",
-  "opencv-python>=4.10.0.84",
   "pdoc>=15.0.1",
   "praat-textgrids>=1.4.0",
   "pydantic>=2.10.4",
@@ -64,7 +63,3 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.sdist]
 packages = ["src/patkit"]
-
-#[tool.hatch.build.targets.wheel]
-#packages = ["src/patkit"]
-#artifacts = ["*.ui"]

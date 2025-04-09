@@ -27,7 +27,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- PATKIT will soon be available on pypi under the name patkit.
+- 0.15 is planned to be a re-implementation of the simulation code that was
+  originally released for Ultrafest 2024.
+- 0.16 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
 - 0.17 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
 - 0.18 is planned to be a data structure update giving support for multiple data
@@ -77,7 +80,16 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Hopefully fixed an older error complaining that `\i` is not a valid escape
   sequence in `\infty`.
 
-### Bugs
+
+## [0.14.2a7] 2025-04-09
+
+### Highlights
+
+- Attempting to fix the build and distribution / installation issue.
+- PATKIT is available on pypi under the name patkit.
+- Alpha/beta/rc releases will be made on test-pypi for those interested in
+  running bleeding edge versions.
+  - Pre-releases should now work also on GitHub.
 
 ## [0.14.1] 2025-02-18
 

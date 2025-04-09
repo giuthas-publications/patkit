@@ -33,7 +33,7 @@
 import logging
 import math
 
-import cv2
+# import cv2
 import numpy as np
 from scipy import ndimage
 from tqdm import tqdm
@@ -106,6 +106,7 @@ def to_fan(
     return np.array(images)
 
 
+# TODO 1.0: Make the parameters mandatory, add typehinting
 def to_fan_2d(
         img, *, angle=None, zero_offset=None, pixels_per_mm=None,
         num_vectors=None, magnify=1, reserve=1800
@@ -114,15 +115,15 @@ def to_fan_2d(
     Transform a raw ultrasound image to a fanshaped image.
     """
 
-    if None in [angle, zero_offset, pixels_per_mm, num_vectors]:
-        warning = 'WARNING: Not all the necessary information was provided. '
-        warning += 'General parameters are used instead.'
-        _logger.warning(warning)
-        img = cv2.resize(img, (500, 500))
-        angle = 0.0031
-        zero_offset = 150
-        pixels_per_mm = 2
-        num_vectors = img.shape[0]
+    # if None in [angle, zero_offset, pixels_per_mm, num_vectors]:
+    #     warning = 'WARNING: Not all the necessary information was provided. '
+    #     warning += 'General parameters are used instead.'
+    #     _logger.warning(warning)
+    #     img = cv2.resize(img, (500, 500))
+    #     angle = 0.0031
+    #     zero_offset = 150
+    #     pixels_per_mm = 2
+    #     num_vectors = img.shape[0]
 
     pixels_per_mm = pixels_per_mm // magnify
 

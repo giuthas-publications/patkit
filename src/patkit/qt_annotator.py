@@ -61,8 +61,7 @@ from PyQt6.QtGui import (
     QKeySequence,
     QShortcut,
 )
-from PyQt6.QtWidgets import QFileDialog
-from PyQt6.uic import loadUiType
+from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
@@ -74,7 +73,9 @@ from patkit.export import (
     export_session_and_recording_meta,
     export_ultrasound_frame_and_meta,
 )
-from patkit.gui import BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog
+from patkit.gui import (
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog)
+from patkit.gui.annotator_window import Ui_MainWindow
 from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
@@ -88,9 +89,6 @@ from patkit.plot_and_publish import (
 from patkit.plot_and_publish.plot import plot_spectrogram2
 from patkit.save_and_load import load_recording_session, save_recording_session
 from patkit.ui_callbacks import UiCallbacks
-
-# Load the GUI layout generated with QtDesigner.
-Ui_MainWindow, QMainWindow = loadUiType('src/patkit/gui/qt_annotator.ui')
 
 _logger = logging.getLogger('patkit.qt_annotator')
 
