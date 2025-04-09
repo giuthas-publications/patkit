@@ -27,16 +27,17 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- PATKIT will soon be available on pypi under the name patkit.
 - 0.15 is planned to be a re-implementation of the simulation code that was
   originally released for Ultrafest 2024.
-- 0.16 is planned to be a general configuration update moving from central to
+- 0.16 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
+- 0.17 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
-- 0.17 is planned to be a data structure update giving support for multiple data
+- 0.18 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.18 is planned to update the GUI with full TextGrid editing.
-- 0.19 is planned to be a release of automated segmentation exercises.
-- After 0.19 there are planned updates to CLI, GUI, ultrasound frame
+- 0.19 is planned to update the GUI with full TextGrid editing.
+- 0.20 is planned to be a release of automated segmentation exercises.
+- After 0.20 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
@@ -46,7 +47,9 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Highlights
 
 - Attempting to fix the build and distribution / installation issue.
-
+- PATKIT is available on pypi under the name patkit.
+- Alpha/beta/rc releases will be made on test-pypi for those interested in
+  running bleeding edge versions.
 
 ## [0.14.0] 2025-01-31
 
