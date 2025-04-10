@@ -36,7 +36,7 @@ from pathlib import Path
 
 from .configuration_parsers import (
     load_main_config, load_gui_params, load_publish_params,
-    load_run_params  # , load_plot_params
+    load_run_params, load_simulation_params  # , load_plot_params
 )
 from .configuration_models import (
     GuiConfig, MainConfig, DataRunConfig, PublishConfig, SimulationConfig
@@ -82,7 +82,7 @@ class Configuration:
 
         if self._main_config.simulation_parameter_file is not None:
             self._simulation_yaml = load_simulation_params(
-                self._main_config.simulation_param_file)
+                self._main_config.simulation_parameter_file)
             self._simulation_config = SimulationConfig(
                 **self._simulation_yaml.data)
 
