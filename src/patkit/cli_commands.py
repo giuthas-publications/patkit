@@ -156,7 +156,7 @@ def publish(path: Path, config_file: Path | None, output_dir: Path | None):
 
 @click.command()
 @click.argument(
-    "config_file",
+    "path",
     type=click.Path(dir_okay=False, file_okay=True, path_type=Path),
 )
 def simulate(path: Path):
