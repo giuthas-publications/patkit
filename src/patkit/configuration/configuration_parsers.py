@@ -339,11 +339,12 @@ def load_run_params(filepath: Path | str | None = None) -> YAML:
 
 def load_simulation_params(filepath: Path | str) -> YAML:
     """
-
+    Load simulation parameters from a `yaml` file.
 
     Parameters
     ----------
-    filepath :
+    filepath : Path | str
+        Path to the simulation parameters file or equivalent string.
 
     Returns
     -------
