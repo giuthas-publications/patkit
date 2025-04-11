@@ -42,7 +42,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
 
-## [0.14.2a7] 2025-04-09
+## [0.14.2a8] 2025-04-11
 
 ### Highlights
 
@@ -51,6 +51,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Alpha/beta/rc releases will be made on test-pypi for those interested in
   running bleeding edge versions.
   - Pre-releases should now work also on GitHub.
+
+## Added
+
+- Conditional import of readline or pyreadline3 so that the interpreter mode
+  should work also on windows. (And in fact the program should run at all...)
+
 
 ## [0.14.0] 2025-01-31
 
