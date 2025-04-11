@@ -37,7 +37,6 @@ Original version was published for Ultrafest 2024.
 """
 
 from functools import partial
-from pathlib import Path
 
 import numpy as np
 
@@ -45,6 +44,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 from patkit.constants import SplineNNDsEnum, SplineShapesEnum
+from patkit.configuration import Configuration
+from patkit.utility_functions import product_dict
 from patkit.metrics.calculate_spline_metric import (
     # spline_diff_metric,
     spline_nnd_metric, spline_shape_metric
@@ -177,16 +178,25 @@ def simulate_single_contour_metrics(
     return mci_baselines, mci_results
 
 
-def setup_simulation():
-    save_path = Path("ultrafest2024/")
+def setup_simulation(config: Configuration):
+    sim_configuration = config.simulation_config
+    save_path = sim_configuration.output_directory
     if not save_path.exists():
         save_path.mkdir()
-    sounds = ['æ', 'i']
+    sounds = sim_configuration.sounds
     contours = {
         sound: generate_contour(sound) for sound in sounds
     }
-    perturbations = [-2, -1, -.5, .5, 1, 2]
+    perturbations = sim_configuration.perturbations
 
+    comparison_generation = {
+        "first": sounds,
+        "second": sounds,
+        "perturbed": ["first", "second"],
+    }
+    comparison_params = product_dict(**comparison_generation)
+    comparisons = [Comparison(**params) for params in comparison_params]
+    print(comparisons)
     comparisons = [
         Comparison(first='æ', second='æ', perturbed='second'),
         Comparison(first='æ', second='æ', perturbed='first'),
@@ -197,6 +207,7 @@ def setup_simulation():
         Comparison(first='i', second='æ', perturbed='second'),
         Comparison(first='i', second='æ', perturbed='first'),
     ]
+    print(comparisons)
     sound_pairs = [
         ComparisonSoundPair(first='æ', second='æ'),
         ComparisonSoundPair(first='i', second='i'),
