@@ -82,12 +82,18 @@ class ConfigPathValidator(ScalarValidator):
     represented by None. If you want to specify current working directory, use
     '.'
     """
+    def __init__(self, path: Path | None = None):
+        self.path = path
+        super().__init__()
 
     def validate_scalar(self, chunk):
         if chunk.contents:
             path = Path(chunk.contents).expanduser()
             if path.parent == Path('.'):
-                path = PATKIT_CONFIG_DIR/path
+                if self.path is not None:
+                    path = self.path/path
+                else:
+                    path = PATKIT_CONFIG_DIR/path
             return path.expanduser()
         return None
 
@@ -198,16 +204,17 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
 
     _logger.info("Loading main configuration from %s", str(filepath))
 
+    config_path_validator = ConfigPathValidator(filepath.parent)
     if filepath.is_file():
         with closing(
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
                 "epsilon": Float(),
                 "mains_frequency": Float(),
-                "gui_parameter_file": ConfigPathValidator(),
-                Optional("data_run_parameter_file"): ConfigPathValidator(),
-                Optional("simulation_parameter_file"): ConfigPathValidator(),
-                Optional("publish_parameter_file"): ConfigPathValidator()
+                "gui_parameter_file": config_path_validator,
+                Optional("data_run_parameter_file"): config_path_validator,
+                Optional("simulation_parameter_file"): config_path_validator,
+                Optional("publish_parameter_file"): config_path_validator,
             })
             try:
                 _raw_config_dict = load(yaml_file.read(), schema)
@@ -360,7 +367,7 @@ def load_simulation_params(filepath: Path | str) -> YAML:
     sound_pair_params = Map({
         "sounds": Seq(Str()),
         Optional("perturbed"): Seq(Str()),
-        "combinations": Str,
+        "combinations": Str(),
     })
 
     schema = Map({
