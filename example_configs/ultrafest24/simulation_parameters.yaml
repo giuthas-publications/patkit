@@ -32,7 +32,7 @@ spline_nnd_params:
     combinations: full_cartesian # only_cross, only_self
 
 spline_shape_params:
-  metric: 'mci'
+  metric: 'modified_curvature'
 
 plotting_params:
   sound_pair_params:
