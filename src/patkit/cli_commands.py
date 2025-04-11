@@ -170,10 +170,8 @@ def simulate(path: Path):
     config, exclusion_file, logger = initialise_logger_and_config(
         config_file=path,
     )
-
-    comparisons, contours, sound_pairs = setup_simulation(config)
-    run_simulations(configuration=config,
-                    # save_directory=directory,
-                    comparisons=comparisons,
+    contours, comparisons, sound_pairs = setup_simulation(config)
+    run_simulations(sim_configuration=config.simulation_config,
                     contours=contours,
+                    comparisons=comparisons,
                     sound_pairs=sound_pairs)

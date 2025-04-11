@@ -64,15 +64,21 @@ from .rays_on_contours import (
     shape_metric_rays_on_contours,
 )
 from .perturbation_series_plots import mci_perturbation_series_plot
+from patkit.configuration.configuration_models import SimulationConfig
 
 
 def run_simulations(
-    comparisons, contours, perturbations, save_path, sound_pairs
+        sim_configuration: SimulationConfig,
+        contours: dict[str, np.ndarray],
+        comparisons: list[Comparison],
+        sound_pairs: list[ComparisonSoundPair],
 ) -> None:
     """
     Main to create plots for the Ultrafest 2024 paper.
     """
     # TODO 0.15: these should run based on config
+    perturbations = sim_configuration.perturbations
+    save_path = sim_configuration.output_directory
     annd_baselines, annd_results = simulate_dyadic_metrics(
         comparisons, contours, perturbations)
     mci_baselines, mci_results = simulate_single_contour_metrics(
@@ -178,7 +184,9 @@ def simulate_single_contour_metrics(
     return mci_baselines, mci_results
 
 
-def setup_simulation(config: Configuration):
+def setup_simulation(
+        config: Configuration
+) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
     sim_configuration = config.simulation_config
     save_path = sim_configuration.output_directory
     if not save_path.exists():
@@ -187,7 +195,6 @@ def setup_simulation(config: Configuration):
     contours = {
         sound: generate_contour(sound) for sound in sounds
     }
-    perturbations = sim_configuration.perturbations
 
     comparison_generation = {
         "first": sounds,
@@ -195,26 +202,36 @@ def setup_simulation(config: Configuration):
         "perturbed": ["first", "second"],
     }
     comparison_params = product_dict(**comparison_generation)
-    comparisons = [Comparison(**params) for params in comparison_params]
-    print(comparisons)
     comparisons = [
-        Comparison(first='æ', second='æ', perturbed='second'),
-        Comparison(first='æ', second='æ', perturbed='first'),
-        Comparison(first='i', second='i', perturbed='second'),
-        Comparison(first='i', second='i', perturbed='first'),
-        Comparison(first='æ', second='i', perturbed='second'),
-        Comparison(first='æ', second='i', perturbed='first'),
-        Comparison(first='i', second='æ', perturbed='second'),
-        Comparison(first='i', second='æ', perturbed='first'),
+        Comparison(**params) for params in comparison_params
     ]
-    print(comparisons)
+    # print(comparisons)
+    # comparisons = [
+    #     Comparison(first='æ', second='æ', perturbed='second'),
+    #     Comparison(first='æ', second='æ', perturbed='first'),
+    #     Comparison(first='i', second='i', perturbed='second'),
+    #     Comparison(first='i', second='i', perturbed='first'),
+    #     Comparison(first='æ', second='i', perturbed='second'),
+    #     Comparison(first='æ', second='i', perturbed='first'),
+    #     Comparison(first='i', second='æ', perturbed='second'),
+    #     Comparison(first='i', second='æ', perturbed='first'),
+    # ]
+    # print(comparisons)
+    sound_pair_generation = {
+        "first": sounds,
+        "second": sounds,
+    }
+    sound_pair_params = product_dict(**sound_pair_generation)
     sound_pairs = [
-        ComparisonSoundPair(first='æ', second='æ'),
-        ComparisonSoundPair(first='i', second='i'),
-        ComparisonSoundPair(first='æ', second='i'),
-        ComparisonSoundPair(first='i', second='æ'),
+        ComparisonSoundPair(**params) for params in sound_pair_params
     ]
-    return comparisons, contours, perturbations, save_path, sound_pairs
+    # sound_pairs = [
+    #     ComparisonSoundPair(first='æ', second='æ'),
+    #     ComparisonSoundPair(first='i', second='i'),
+    #     ComparisonSoundPair(first='æ', second='i'),
+    #     ComparisonSoundPair(first='i', second='æ'),
+    # ]
+    return contours, comparisons, sound_pairs
 
 
 def generate_sound_pairs(
