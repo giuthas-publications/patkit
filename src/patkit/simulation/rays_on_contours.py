@@ -42,9 +42,10 @@ import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
+from patkit.constants import ComparisonMember
 from patkit.plot_and_publish.plot_utilities import get_colors_in_sequence
 from .metric_calculations import (
-    Comparison, ComparisonMember, ComparisonSoundPair,
+    Comparison, ComparisonSoundPair,
 )
 from .simulation_plots import (
     display_contour,

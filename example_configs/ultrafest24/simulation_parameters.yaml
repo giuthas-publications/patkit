@@ -30,6 +30,9 @@ spline_nnd_params:
       - 'second'
       - 'first'
     combinations: full_cartesian # only_cross, only_self
+    sort:
+      matching_first: True
+      sort_by: first # first, second
 
 spline_shape_params:
   metric: 'modified_curvature'

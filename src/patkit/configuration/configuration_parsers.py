@@ -366,8 +366,12 @@ def load_simulation_params(filepath: Path | str) -> YAML:
 
     sound_pair_params = Map({
         "sounds": Seq(Str()),
-        Optional("perturbed"): Seq(Str()),
         "combinations": Str(),
+        Optional("perturbed"): Seq(Str()),
+        Optional("sort"): Map({
+            "matching_first": Bool(),
+            "sort_by": Str(),
+        })
     })
 
     schema = Map({

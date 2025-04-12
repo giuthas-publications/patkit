@@ -38,7 +38,7 @@ from typing import Annotated, Callable
 import numpy as np
 from pydantic import BaseModel
 
-from patkit.external_class_extensions import ListablePrintableEnum
+from patkit.constants import ComparisonMember
 from patkit.utility_functions import product_dict
 
 from .contour_tools import contour_point_perturbations
@@ -48,14 +48,6 @@ MetricFunction = Annotated[
     "Metrics need to accept one np.ndarray as argument and "
     "return a np.ndarray. This is only an alias for 'Metric'"
 ]
-
-
-class ComparisonMember(ListablePrintableEnum):
-    """
-    Which comparison member the perturbations should be applied to.
-    """
-    FIRST = "first"
-    SECOND = "second"
 
 
 class ComparisonSoundPair(BaseModel, frozen=True):

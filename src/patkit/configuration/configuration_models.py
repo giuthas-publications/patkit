@@ -55,6 +55,7 @@ from patkit.constants import (
     SplineDataColumn, SplineMetaColumn, SplineNNDsEnum, SplineShapesEnum
 )
 from patkit.external_class_extensions import UpdatableBaseModel
+from patkit.constants import ComparisonMember
 
 _logger = logging.getLogger('patkit.configuration_models')
 
@@ -393,10 +394,16 @@ class SoundCombinationsType(Enum):
     ONLY_SELF = "only_self"
 
 
+class ComparisonSortingParams(UpdatableBaseModel):
+    matching_first: bool
+    sort_by: ComparisonMember
+
+
 class SoundPairParams(UpdatableBaseModel):
     sounds: list[str]
     combinations: SoundCombinationsType
     perturbed: list[str] | None = None
+    sort: ComparisonSortingParams | None = None
 
 
 class SplineNndParams(UpdatableBaseModel):

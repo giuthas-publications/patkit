@@ -66,6 +66,14 @@ class AnnotationType(Enum):
     ACOUSTIC_ONSET = "acoustic_onset"
 
 
+class ComparisonMember(ListablePrintableEnum):
+    """
+    Which comparison member the perturbations should be applied to.
+    """
+    FIRST = "first"
+    SECOND = "second"
+
+
 class CoordinateSystems(Enum):
     """
     Enum to differentiate coordinate systems.

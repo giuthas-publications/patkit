@@ -44,7 +44,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 from patkit.constants import SplineNNDsEnum, SplineShapesEnum
-from patkit.configuration import Configuration
+from patkit.configuration import SimulationConfig
 from patkit.utility_functions import product_dict
 from patkit.metrics.calculate_spline_metric import (
     # spline_diff_metric,
@@ -53,7 +53,7 @@ from patkit.metrics.calculate_spline_metric import (
 
 from .contour_tools import generate_contour
 from .metric_calculations import (
-    Comparison, ComparisonSoundPair,
+    Comparison, ComparisonMember, ComparisonSoundPair,
     calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,
     get_distance_metric_baselines,
@@ -64,7 +64,6 @@ from .rays_on_contours import (
     shape_metric_rays_on_contours,
 )
 from .perturbation_series_plots import mci_perturbation_series_plot
-from patkit.configuration.configuration_models import SimulationConfig
 
 
 def run_simulations(
@@ -218,6 +217,7 @@ def setup_contours_comparisons_soundpairs(
     comparisons = [
         Comparison(**params) for params in comparison_params
     ]
+
     sound_pair_generation = {
         "first": sounds,
         "second": sounds,
@@ -227,3 +227,25 @@ def setup_contours_comparisons_soundpairs(
         ComparisonSoundPair(**params) for params in sound_pair_params
     ]
     return contours, comparisons, sound_pairs
+
+
+def _sort_comparisons(
+        comparisons: list[Comparison],
+        sort_by: ComparisonMember = ComparisonMember.FIRST,
+) -> list[Comparison]:
+    matching = [
+        comparison for comparison in comparisons
+        if comparison.first == comparison.second
+    ]
+    matching.sort(key=lambda comparison: comparison.first)
+
+    non_matching = [
+        comparison for comparison in comparisons
+        if comparison.first != comparison.second
+    ]
+    if sort_by == ComparisonMember.FIRST:
+        non_matching.sort(key=lambda comparison: comparison.first)
+    else:
+        non_matching.sort(key=lambda comparison: comparison.second)
+
+    return matching.extend(non_matching)
