@@ -35,6 +35,15 @@ does:
   - Run `patkit recorded_data/minimal` in the folder where you downloaded the data
     and experiment from there.
 
+- If on Linux of the debian variety (ubuntu, popos, others), you may also need 
+to run the following:
+```shell
+apt-get update
+apt-get upgrade
+sudo apt-get install -y libxcb-cursor-dev
+```
+Try this in case trying to run patkit complains about a missing `xcb` plugin.
+
 ## Current version and development plans
 
 See [Changelog](docs/Changelog.markdown), for what's new in the current version

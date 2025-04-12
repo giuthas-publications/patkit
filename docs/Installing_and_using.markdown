@@ -81,6 +81,17 @@ First install PATKIT to run from the commandline.
 - This will analyse a minimal three recording example and open the GUI `patkit
   recorded_data/minimal`
 
+### If running fails on Linux
+
+- If on Linux of the debian variety (ubuntu, popos, others), you may also need 
+to run the following:
+```shell
+apt-get update
+apt-get upgrade
+sudo apt-get install -y libxcb-cursor-dev
+```
+Try this in case trying to run patkit complains about a missing `xcb` plugin.
+
 ## Running the examples
 
 TODO 0.15: update this

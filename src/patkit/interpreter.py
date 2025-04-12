@@ -35,7 +35,11 @@ patkit interactive interpreter.
 import atexit
 import code
 import os
-import readline
+try:
+    import readline
+except ImportError:
+    import pyreadline3 as readline
+
 import rlcompleter
 
 from patkit.configuration import Configuration
