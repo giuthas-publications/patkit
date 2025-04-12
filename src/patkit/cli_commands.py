@@ -41,7 +41,7 @@ from patkit.initialise import initialise_logger_and_config, initialise_patkit
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
-from patkit.simulation.simulate import setup_simulation
+from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
 
 
 @click.command(name="open")
@@ -170,7 +170,7 @@ def simulate(path: Path):
     config, exclusion_file, logger = initialise_logger_and_config(
         config_file=path,
     )
-    contours, comparisons, sound_pairs = setup_simulation(config)
+    contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(config)
     run_simulations(sim_configuration=config.simulation_config,
                     contours=contours,
                     comparisons=comparisons,

@@ -184,7 +184,7 @@ def simulate_single_contour_metrics(
     return mci_baselines, mci_results
 
 
-def setup_simulation(
+def setup_contours_comparisons_soundpairs(
         config: Configuration
 ) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
     sim_configuration = config.simulation_config
@@ -205,18 +205,6 @@ def setup_simulation(
     comparisons = [
         Comparison(**params) for params in comparison_params
     ]
-    # print(comparisons)
-    # comparisons = [
-    #     Comparison(first='æ', second='æ', perturbed='second'),
-    #     Comparison(first='æ', second='æ', perturbed='first'),
-    #     Comparison(first='i', second='i', perturbed='second'),
-    #     Comparison(first='i', second='i', perturbed='first'),
-    #     Comparison(first='æ', second='i', perturbed='second'),
-    #     Comparison(first='æ', second='i', perturbed='first'),
-    #     Comparison(first='i', second='æ', perturbed='second'),
-    #     Comparison(first='i', second='æ', perturbed='first'),
-    # ]
-    # print(comparisons)
     sound_pair_generation = {
         "first": sounds,
         "second": sounds,
@@ -225,12 +213,6 @@ def setup_simulation(
     sound_pairs = [
         ComparisonSoundPair(**params) for params in sound_pair_params
     ]
-    # sound_pairs = [
-    #     ComparisonSoundPair(first='æ', second='æ'),
-    #     ComparisonSoundPair(first='i', second='i'),
-    #     ComparisonSoundPair(first='æ', second='i'),
-    #     ComparisonSoundPair(first='i', second='æ'),
-    # ]
     return contours, comparisons, sound_pairs
 
 
