@@ -187,7 +187,20 @@ def simulate_single_contour_metrics(
 def setup_contours_comparisons_soundpairs(
         sim_configuration: SimulationConfig
 ) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
+    """
+    Setup the contours, Comparisons and ComparisonSoundPairs for a simulation.
 
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The SimulationConfig
+
+    Returns
+    -------
+    tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]
+        First member is a dict of the contours indexed by sound, followed by
+        lists of the Comparisons and ComparisonSoundPairs.
+    """
     save_path = sim_configuration.output_directory
     if not save_path.exists():
         save_path.mkdir()
@@ -214,15 +227,3 @@ def setup_contours_comparisons_soundpairs(
         ComparisonSoundPair(**params) for params in sound_pair_params
     ]
     return contours, comparisons, sound_pairs
-
-
-def generate_sound_pairs(
-         sounds: list[str]
-) -> list[ComparisonSoundPair] | list[Comparison]:
-    sound_pairs = [
-        ComparisonSoundPair(first='æ', second='æ'),
-        ComparisonSoundPair(first='i', second='i'),
-        ComparisonSoundPair(first='æ', second='i'),
-        ComparisonSoundPair(first='i', second='æ'),
-    ]
-    return sound_pairs
