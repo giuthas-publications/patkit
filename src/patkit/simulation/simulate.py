@@ -185,9 +185,9 @@ def simulate_single_contour_metrics(
 
 
 def setup_contours_comparisons_soundpairs(
-        config: Configuration
+        sim_configuration: SimulationConfig
 ) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
-    sim_configuration = config.simulation_config
+
     save_path = sim_configuration.output_directory
     if not save_path.exists():
         save_path.mkdir()
