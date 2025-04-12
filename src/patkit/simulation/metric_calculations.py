@@ -72,15 +72,15 @@ class ComparisonSoundPair(BaseModel, frozen=True):
                 f"to second {self.second}.")
 
 
-class Comparison(BaseModel, frozen=True):
+class Comparison(ComparisonSoundPair):
     """
     Defines a comparison between two contours, and which of them is perturbed.
 
     First should be compared to second with the contour named in perturbed
     being the one that gets perturbed.     
     """
-    first: str
-    second: str
+    # first: str
+    # second: str
     perturbed: ComparisonMember
 
     @property
