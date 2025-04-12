@@ -42,15 +42,26 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
 
-## [0.14.2a7] 2025-04-09
+## [0.14.2] 2025-04-11
 
 ### Highlights
 
-- Attempting to fix the build and distribution / installation issue.
 - PATKIT is available on pypi under the name patkit.
+- Fixed the build and distribution / installation issue: PATKIT should now run
+  on linux, mac, and windows.
 - Alpha/beta/rc releases will be made on test-pypi for those interested in
   running bleeding edge versions.
-  - Pre-releases should now work also on GitHub.
+  - Also, pre-releases now work on GitHub.
+
+## Added
+
+- Conditional import of readline or pyreadline3 so that the interpreter mode
+  should work also on windows.
+
+## Fixed 
+
+- Installation problems resulting in an empty package that would not run.
+
 
 ## [0.14.0] 2025-01-31
 
