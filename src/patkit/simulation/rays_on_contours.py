@@ -59,7 +59,7 @@ def distance_metric_rays_on_contours(
     metric_name: str,
     baselines: dict[Comparison, float],
     number_of_perturbations: int,
-    figsize: tuple[float, float],
+    figure_size: tuple[float, float],
     columns: list[ComparisonSoundPair],
     nrows: Optional[int] = 2,
     contour_rows: Optional[int] = 2,
@@ -81,7 +81,7 @@ def distance_metric_rays_on_contours(
         Baseline values for each contour.
     number_of_perturbations : int
         How many perturbation values there are.
-    figsize : tuple[float, float]
+    figure_size : tuple[float, float]
         size of the figure
     columns : list[ComparisonSoundPair]
         Order of contours to go through. 
@@ -110,7 +110,7 @@ def distance_metric_rays_on_contours(
     ncols = len(columns)
     _, axes = plt.subplots(nrows=nrows,
                            ncols=ncols,
-                           figsize=figsize,
+                           figsize=figure_size,
                            sharey=True,
                            sharex=True,
                            gridspec_kw=gridspec_keywords)

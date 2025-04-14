@@ -89,34 +89,41 @@ def run_simulations(
 
 
 def save_result_figures(
-        annd_baselines, annd_results, contours, mci_baselines, mci_results,
-        perturbations, save_path, sound_pairs
-):
+        annd_baselines,
+        annd_results,
+        contours,
+        mci_baselines,
+        mci_results,
+        perturbations,
+        save_path,
+        sound_pairs,
+) -> None:
     with PdfPages(save_path / "annd_contours.pdf") as pdf:
-        distance_metric_rays_on_contours(contours=contours,
-                                         metrics=annd_results,
-                                         metric_name="ANND",
-                                         baselines=annd_baselines,
-                                         number_of_perturbations=len(
-                                             perturbations),
-                                         figsize=(10.1, 4.72),
-                                         columns=sound_pairs,
-                                         scale=200,
-                                         color_threshold=[.1, -.1])
-        # plt.show()
+        distance_metric_rays_on_contours(
+            contours=contours,
+            metrics=annd_results,
+            metric_name="ANND",
+            baselines=annd_baselines,
+            number_of_perturbations=len(perturbations),
+            figure_size=(10.1, 4.72),
+            columns=sound_pairs,
+            scale=200,
+            color_threshold=[.1, -.1]
+        )
         plt.tight_layout()
         pdf.savefig(plt.gcf())
+
     with PdfPages(save_path / "mci_contours.pdf") as pdf:
-        shape_metric_rays_on_contours(contours=contours,
-                                      metrics=mci_results,
-                                      metric_name="MCI/Baseline MCI",
-                                      baselines=mci_baselines,
-                                      number_of_perturbations=len(
-                                          perturbations),
-                                      figsize=(7, 3.35),
-                                      scale=20,
-                                      color_threshold=np.log10([2, .5]))
-        # plt.show()
+        shape_metric_rays_on_contours(
+            contours=contours,
+            metrics=mci_results,
+            metric_name="MCI/Baseline MCI",
+            baselines=mci_baselines,
+            number_of_perturbations=len(perturbations),
+            figsize=(7, 3.35),
+            scale=20,
+            color_threshold=np.log10([2, .5])
+        )
         plt.tight_layout()
         pdf.savefig(plt.gcf())
     # with PdfPages(save_path/"annd_1.pdf") as pdf:
@@ -129,11 +136,10 @@ def save_result_figures(
     #                                     contour_2=contours['i'],
     #                                     steps=[1, 2, 5, 10])
     with PdfPages(save_path / "mci_timeseries.pdf") as pdf:
-        perturbations = [-2, -1, -.5, .5, 1, 2]
+        # perturbations = [-2, -1, -.5, .5, 1, 2]
         mci_perturbation_series_plot(contours=contours,
                                      perturbations=perturbations,
                                      figsize=(12, 8))
-        # plt.show()
         # plt.tight_layout()
         pdf.savefig(plt.gcf())
     # make_demonstration_contour_plot(
