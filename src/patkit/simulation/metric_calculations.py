@@ -97,12 +97,15 @@ class Comparison(ComparisonSoundPair):
 def get_distance_metric_baselines(
         metric: MetricFunction,
         contours: dict[str, np.ndarray]
-) -> dict[Comparison, np.ndarray]:
+) -> dict[Comparison, float]:
     """
     Get the metric evaluated between each pair of the contours.
 
     The pairs are formed as the Cartesian product of the keys in the contours
     dict.
+
+    Note that this function is intended for pairwise comparisons. Timeseries
+    comparisons should be/will be implemented as a separate function.
 
     Parameters
     ----------
@@ -129,10 +132,16 @@ def get_distance_metric_baselines(
         for combination in name_combinations
     ]
 
-    results = {
+    raw_results = {
         comp: metric(
             np.stack([contours[comp.first], contours[comp.second]]))
         for comp in comparisons}
+
+    results = {
+        key: float(raw_results[key][0])
+        for key in raw_results
+    }
+
     return results
 
 
