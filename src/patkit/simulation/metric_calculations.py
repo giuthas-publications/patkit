@@ -148,7 +148,7 @@ def get_distance_metric_baselines(
 def get_shape_metric_baselines(
         metric: MetricFunction,
         contours: dict[str, np.ndarray]
-) -> dict[str, np.ndarray]:
+) -> dict[str, float]:
     """
     Get the metric evaluated between each pair of the contours.
 
@@ -165,14 +165,21 @@ def get_shape_metric_baselines(
     Returns
     -------
     dict[str, float]
-        description
+        The unperturbed metric for each contour in a dict indexed by contour
+        names.
     """
     contour_names = list(contours.keys())
 
-    results = {
+    raw_results = {
         name: metric(np.expand_dims(contours[name], 0))
         for name in contour_names
     }
+
+    results = {
+        key: float(raw_results[key][0])
+        for key in raw_results
+    }
+
     return results
 
 

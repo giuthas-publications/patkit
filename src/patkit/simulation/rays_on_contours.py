@@ -295,7 +295,7 @@ def shape_metric_rays_on_contours(
     for j, contour_name in enumerate(metrics):
         reference = baselines[contour_name]
         axes[j].set_title(f"[{contour_name}]")
-        axes[j].set_xlabel(f"{metric_name} = {reference[0]:.2f}")
+        axes[j].set_xlabel(f"{metric_name} = {reference:.2f}")
         metric_dict = metrics[contour_name]
         baseline = baselines[contour_name]
         for i, perturbation in enumerate(metric_dict):

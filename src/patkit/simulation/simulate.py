@@ -100,7 +100,7 @@ def save_result_figures(
         annd_baselines: dict[Comparison, float],
         annd_results: dict[Comparison, dict[str, np.ndarray]],
         contours: dict[str, np.ndarray],
-        mci_baselines: dict[Comparison, float],
+        mci_baselines: dict[str, float],
         mci_results: dict[str, dict[str, np.ndarray]],
         perturbations: list[float],
         save_path: Path,
@@ -180,7 +180,7 @@ def simulate_dyadic_metrics(
 def simulate_single_contour_metrics(
         contours: dict[str, np.ndarray],
         perturbations: list[float] | tuple[float],
-) -> tuple[dict[str, np.ndarray], dict[str, dict[str, np.ndarray]]]:
+) -> tuple[dict[str, float], dict[str, dict[str, np.ndarray]]]:
     mci_call = partial(spline_shape_metric,
                        metric=SplineShapesEnum.MODIFIED_CURVATURE,
                        notice_base="Ultrafest 2024 simulation: "
