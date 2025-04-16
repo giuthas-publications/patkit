@@ -120,7 +120,7 @@ def save_result_figures(
             metric_name="MCI/Baseline MCI",
             baselines=mci_baselines,
             number_of_perturbations=len(perturbations),
-            figsize=(7, 3.35),
+            figure_size=(7, 3.35),
             scale=20,
             color_threshold=np.log10([2, .5])
         )

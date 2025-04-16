@@ -223,7 +223,7 @@ def shape_metric_rays_on_contours(
     metric_name: str,
     baselines: dict[str, float],
     number_of_perturbations: int,
-    figsize: tuple[float, float],
+    figure_size: tuple[float, float],
     nrows: Optional[int] = 1,
     contour_rows: Optional[int] = 2,
     scale: Optional[float] = 1,
@@ -244,7 +244,7 @@ def shape_metric_rays_on_contours(
         Baseline values for each contour.
     number_of_perturbations : int
         How many perturbation values there are.
-    figsize : tuple[float, float]
+    figure_size : tuple[float, float]
         size of the figure
     nrows : Optional[int], optional
         number of subplot rows in the plot, by default 1
@@ -270,7 +270,7 @@ def shape_metric_rays_on_contours(
     ncols = len(contour_names)
     _, axes = plt.subplots(nrows=nrows,
                            ncols=ncols,
-                           figsize=figsize,
+                           figsize=figure_size,
                            sharey=True,
                            sharex=True,
                            gridspec_kw=gridspec_keywords)
