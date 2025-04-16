@@ -37,6 +37,7 @@ Original version was published for Ultrafest 2024.
 """
 
 from functools import partial
+from pathlib import Path
 
 import numpy as np
 
@@ -84,19 +85,26 @@ def run_simulations(
         contours, perturbations)
 
     # TODO 0.15: RESULTS
-    save_result_figures(annd_baselines, annd_results, contours, mci_baselines,
-                        mci_results, perturbations, save_path, sound_pairs)
+    save_result_figures(
+        annd_baselines=annd_baselines,
+        annd_results=annd_results,
+        contours=contours,
+        mci_baselines=mci_baselines,
+        mci_results=mci_results,
+        perturbations=perturbations,
+        save_path=save_path,
+        sound_pairs=sound_pairs)
 
 
 def save_result_figures(
-        annd_baselines,
-        annd_results,
-        contours,
-        mci_baselines,
-        mci_results,
-        perturbations,
-        save_path,
-        sound_pairs,
+        annd_baselines: dict[Comparison, float],
+        annd_results: dict[Comparison, dict[str, np.ndarray]],
+        contours: dict[str, np.ndarray],
+        mci_baselines: dict[Comparison, float],
+        mci_results: dict[str, dict[str, np.ndarray]],
+        perturbations: list[float],
+        save_path: Path,
+        sound_pairs: list[ComparisonSoundPair],
 ) -> None:
     with PdfPages(save_path / "annd_contours.pdf") as pdf:
         distance_metric_rays_on_contours(
@@ -172,7 +180,7 @@ def simulate_dyadic_metrics(
 def simulate_single_contour_metrics(
         contours: dict[str, np.ndarray],
         perturbations: list[float] | tuple[float],
-) -> tuple[dict[Comparison, float], dict[str, dict[str, np.ndarray]]]:
+) -> tuple[dict[str, np.ndarray], dict[str, dict[str, np.ndarray]]]:
     mci_call = partial(spline_shape_metric,
                        metric=SplineShapesEnum.MODIFIED_CURVATURE,
                        notice_base="Ultrafest 2024 simulation: "
@@ -253,5 +261,5 @@ def _sort_comparisons(
         non_matching.sort(key=lambda comparison: comparison.first)
     else:
         non_matching.sort(key=lambda comparison: comparison.second)
-
-    return matching.extend(non_matching)
+    matching.extend(non_matching)
+    return matching

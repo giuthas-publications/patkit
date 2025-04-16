@@ -141,7 +141,7 @@ def distance_metric_rays_on_contours(
             reference = baselines[Comparison(
                 first=sound_pair.first, second=sound_pair.second,
                 perturbed=ComparisonMember.FIRST)]
-            axes[1, i].set_xlabel(f"{metric_name} = {reference[0]:.2f}")
+            axes[1, i].set_xlabel(f"{metric_name} = {reference:.2f}")
 
     axes[0, 0].set_ylabel("Baseline to perturbed")
     axes[1, 0].set_ylabel("Perturbed to baseline")
