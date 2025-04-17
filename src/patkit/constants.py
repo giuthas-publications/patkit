@@ -297,3 +297,26 @@ Enum of all valid spline metrics.
 
 This is formed as a UnionEnum of the subtypes.
 """
+
+
+class SimulationContourVowel(
+        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Currently available simulated vowel contours.
+    """
+    AE = 'æ'
+    I = 'i'
+
+
+class SimulationContourConsonant(
+        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Currently available simulated consonant contours.
+
+    Yes, at the moment there are none.
+    """
+
+
+SimulationContourSoundEnum = enum_union(
+    [SimulationContourVowel, SimulationContourConsonant],
+    "SimulationContourEnum")

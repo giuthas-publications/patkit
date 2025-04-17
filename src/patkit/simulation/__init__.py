@@ -35,10 +35,10 @@ This package is for simulating data and plotting simulation results.
 Currently, it deals with only simulated tongue contour data.
 """
 from .contour_tools import (
-    SimulationContourConsonant, SimulationContourVowel,
-    SimulationContourSoundEnum,
     generate_contour, contour_point_perturbations
 )
+from patkit.constants import SimulationContourConsonant, \
+    SimulationContourSoundEnum, SimulationContourVowel
 from .metric_calculations import (
     calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,

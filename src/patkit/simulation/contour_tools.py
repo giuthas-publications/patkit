@@ -38,29 +38,7 @@ from typing import Optional, Union
 
 import numpy as np
 
-from patkit.external_class_extensions import (
-    enum_union, ListablePrintableEnum, ValueComparedEnumMeta)
-
-
-class SimulationContourVowel(
-        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
-    """
-    Currently available simulated vowel contours.
-    """
-    AE = 'æ'
-    I = 'i'
-
-
-class SimulationContourConsonant(
-        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
-    """
-    Currently available simulated consonant contours.
-    """
-
-
-SimulationContourSoundEnum = enum_union(
-    [SimulationContourVowel, SimulationContourConsonant],
-    "SimulationContourEnum")
+from patkit.constants import SimulationContourSoundEnum, SimulationContourVowel
 
 
 def generate_contour(
