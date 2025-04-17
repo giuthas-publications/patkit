@@ -201,7 +201,7 @@ def setup_contours_comparisons_soundpairs(
         sim_configuration: SimulationConfig
 ) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
     """
-    Setup the contours, Comparisons and ComparisonSoundPairs for a simulation.
+    Set up the contours, Comparisons and ComparisonSoundPairs for a simulation.
 
     Parameters
     ----------

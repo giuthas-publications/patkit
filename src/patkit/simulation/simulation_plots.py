@@ -44,53 +44,6 @@ from patkit.utility_functions import polar_to_cartesian, cartesian_to_polar
 from .contour_tools import contour_point_perturbations
 
 
-def display_contour(
-        axes: Axes,
-        contour: np.ndarray,
-        display_indeces: bool = False,
-        offset: float = 0,
-        origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
-        color: str | None = None,
-        polar: bool = True) -> None:
-    """
-    Plot a contour.
-
-    Parameters
-    ----------
-    axes : Axes
-        Axes to plot.
-    contour : np.ndarray
-        The contour to plot
-    display_indeces : bool
-        Should indeces be displayed, by default False
-    offset : float
-        Radial offset of the index texts, by default 0
-    origin_offset: tuple[float, float]
-        Offset of the contour origin in cartesian coordinates, 
-        by default (0.0, 0.0)
-    color : str
-        Color to display both the contour and the indeces in, by default None
-    polar : bool
-        Is the contour in polar coordinates, by default True
-    """
-    if polar:
-        contour = polar_to_cartesian(contour)
-
-    origin_offset = np.array(origin_offset).reshape((2, 1))
-    contour = np.add(origin_offset, contour)
-
-    if color:
-        line = axes.plot(contour[1, :], contour[0, :], color=color)
-    else:
-        line = axes.plot(contour[1, :], contour[0, :])
-    color = line[0].get_color()
-
-    if display_indeces:
-        for i in range(contour.shape[1]):
-            axes.text(contour[1, i]-offset, contour[0, i],
-                      str(i+1), color=color, fontsize=12)
-
-
 def _metric_values_to_rays(
         contour: np.ndarray,
         metric_values: dict[str, np.ndarray],
@@ -139,6 +92,53 @@ def _metric_values_to_rays(
     ]
 
     return segments
+
+
+def display_contour(
+        axes: Axes,
+        contour: np.ndarray,
+        display_indeces: bool = False,
+        offset: float = 0,
+        origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
+        color: str | None = None,
+        polar: bool = True) -> None:
+    """
+    Plot a contour.
+
+    Parameters
+    ----------
+    axes : Axes
+        Axes to plot.
+    contour : np.ndarray
+        The contour to plot
+    display_indeces : bool
+        Should indeces be displayed, by default False
+    offset : float
+        Radial offset of the index texts, by default 0
+    origin_offset: tuple[float, float]
+        Offset of the contour origin in cartesian coordinates, 
+        by default (0.0, 0.0)
+    color : str
+        Color to display both the contour and the indeces in, by default None
+    polar : bool
+        Is the contour in polar coordinates, by default True
+    """
+    if polar:
+        contour = polar_to_cartesian(contour)
+
+    origin_offset = np.array(origin_offset).reshape((2, 1))
+    contour = np.add(origin_offset, contour)
+
+    if color:
+        line = axes.plot(contour[1, :], contour[0, :], color=color)
+    else:
+        line = axes.plot(contour[1, :], contour[0, :])
+    color = line[0].get_color()
+
+    if display_indeces:
+        for i in range(contour.shape[1]):
+            axes.text(contour[1, i]-offset, contour[0, i],
+                      str(i+1), color=color, fontsize=12)
 
 
 def contour_ray_plot(
