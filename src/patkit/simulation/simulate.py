@@ -43,7 +43,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from patkit.constants import SplineNNDsEnum, SplineShapesEnum
+from patkit.constants import ComparisonMember, SplineNNDsEnum, SplineShapesEnum
 from patkit.configuration import SimulationConfig
 from patkit.utility_functions import product_dict
 from patkit.metrics.calculate_spline_metric import (
@@ -53,12 +53,12 @@ from patkit.metrics.calculate_spline_metric import (
 
 from .contour_tools import generate_contour
 from .metric_calculations import (
-    ComparisonMember, calculate_metric_series_for_comparisons,
+    calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,
     get_distance_metric_baselines,
     get_shape_metric_baselines,
 )
-from . import Comparison, ComparisonSoundPair
+from .simulation_datastructures import Comparison, ComparisonSoundPair
 from .rays_on_contours import (
     distance_metric_rays_on_contours,
     shape_metric_rays_on_contours,

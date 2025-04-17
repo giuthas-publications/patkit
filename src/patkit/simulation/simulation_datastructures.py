@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Annotated, Callable
 
 import numpy as np
@@ -54,3 +55,35 @@ class Comparison(ComparisonSoundPair):
     def __repr__(self) -> str:
         return (f"Comparison: from first {self.first} "
                 f"to second {self.second}, perturbed is {self.perturbed}")
+
+
+@dataclass
+class ShapeMetricSimulationResult:
+    """
+    Baseline and results from simulations of shape metrics.
+
+    Parameters
+    ----------
+    baselines : dict[str, float]
+        Baseline for each metric and contour.
+    results : dict[str, dict[str, np.ndarray]]
+        Results for each metric/contour/perturbation
+    """
+    baselines: dict[str, float]
+    results: dict[str, dict[str, np.ndarray]]
+
+
+@dataclass
+class DistanceMetricSimulationResult:
+    """
+    Baseline and results from simulations of shape metrics.
+
+    Parameters
+    ----------
+    baselines : dict[str, float]
+        Baseline for each metric and contour.
+    results : dict[str, dict[str, np.ndarray]]
+        Results for each metric/contour/perturbation
+    """
+    baselines: dict[Comparison, float]
+    results: dict[str, dict[str, np.ndarray]]

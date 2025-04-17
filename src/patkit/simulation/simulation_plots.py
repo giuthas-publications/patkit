@@ -32,7 +32,6 @@
 """
 Plotting routines for simulation results.
 """
-from dataclasses import dataclass
 
 import numpy as np
 
@@ -42,20 +41,7 @@ from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 
 from patkit.utility_functions import polar_to_cartesian, cartesian_to_polar
-from . import Comparison
 from .contour_tools import contour_point_perturbations
-
-
-@dataclass
-class SingleContourSimulationResult:
-    baselines: dict[str, float]
-    results: dict[str, dict[str, np.ndarray]]
-
-
-@dataclass
-class TwoContourSimulationResult:
-    baselines: dict[Comparison, float]
-    results: dict[str, dict[str, np.ndarray]]
 
 
 def _metric_values_to_rays(
