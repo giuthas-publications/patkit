@@ -398,14 +398,14 @@ def display_indeces_on_contours(
 
     for i in range(contour1.shape[1]):
         if outside:
-            r = max(contour1[0, i], contour2[0, i]) + offset
+            r = np.max(contour1[0, i], contour2[0, i]) + offset
         else:
-            r = min(contour1[0, i], contour2[0, i]) - offset
+            r = np.min(contour1[0, i], contour2[0, i]) - offset
 
         r_phi_array = np.array([r, contour1[1, i]])
         text_coordinates = polar_to_cartesian(r_phi_array)
 
-        axes.text(text_coordinates[1], text_coordinates[0],
+        axes.text(float(text_coordinates[1]), float(text_coordinates[0]),
                   str(i+1), color=color, fontsize=12,
                   horizontalalignment='center', verticalalignment='center')
 
@@ -471,7 +471,7 @@ def plot_contour_segment(
 
     if show_index:
         text_coordinates = polar_to_cartesian(contour[:, index] + [offset, 0])
-        axes.text(text_coordinates[1], text_coordinates[0],
+        axes.text(float(text_coordinates[1]), float(text_coordinates[0]),
                   str(index+1), color=color, fontsize=12,
                   horizontalalignment='center', verticalalignment='center')
 
