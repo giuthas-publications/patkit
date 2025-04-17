@@ -90,12 +90,12 @@ class DistanceMetricSimulationResult:
         being raised or unpredictable behavior.
     baselines : dict[str, float]
         Baseline for each metric and contour.
-    results : dict[str, dict[str, np.ndarray]]
+    results : dict[Comparison, dict[str, np.ndarray]]
         Results for each metric/contour/perturbation
     """
     metric: SplineMetricEnum
     baselines: dict[Comparison, float]
-    results: dict[str, dict[str, np.ndarray]]
+    results: dict[Comparison, dict[str, np.ndarray]]
 
     def __post_init__(self):
         if isinstance(self.metric, SplineShapesEnum):
