@@ -37,7 +37,6 @@ Original version was published for Ultrafest 2024.
 """
 
 from functools import partial
-from pathlib import Path
 
 import numpy as np
 
@@ -76,9 +75,8 @@ def run_simulations(
     """
     Main to create plots for the Ultrafest 2024 paper.
     """
-    # TODO 0.15: these should run based on config
     perturbations = sim_configuration.perturbations
-    save_path = sim_configuration.output_directory
+
     annd_baselines, annd_results = simulate_dyadic_metrics(
         comparisons, contours, perturbations)
     mci_baselines, mci_results = simulate_single_contour_metrics(
@@ -86,26 +84,28 @@ def run_simulations(
 
     # TODO 0.15: RESULTS
     save_result_figures(
+        sim_configuration=sim_configuration,
+        contours=contours,
+        sound_pairs=sound_pairs,
         annd_baselines=annd_baselines,
         annd_results=annd_results,
-        contours=contours,
         mci_baselines=mci_baselines,
         mci_results=mci_results,
-        perturbations=perturbations,
-        save_path=save_path,
-        sound_pairs=sound_pairs)
+    )
 
 
 def save_result_figures(
+        sim_configuration: SimulationConfig,
+        contours: dict[str, np.ndarray],
+        sound_pairs: list[ComparisonSoundPair],
         annd_baselines: dict[Comparison, float],
         annd_results: dict[Comparison, dict[str, np.ndarray]],
-        contours: dict[str, np.ndarray],
         mci_baselines: dict[str, float],
         mci_results: dict[str, dict[str, np.ndarray]],
-        perturbations: list[float],
-        save_path: Path,
-        sound_pairs: list[ComparisonSoundPair],
 ) -> None:
+    save_path = sim_configuration.output_directory
+    perturbations = sim_configuration.perturbations
+
     with PdfPages(save_path / "annd_contours.pdf") as pdf:
         distance_metric_rays_on_contours(
             contours=contours,
