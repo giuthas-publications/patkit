@@ -41,6 +41,7 @@ from functools import partial
 import numpy as np
 
 import matplotlib.pyplot as plt
+from icecream import ic
 from matplotlib.backends.backend_pdf import PdfPages
 
 from patkit.constants import ComparisonMember, SplineNNDsEnum, SplineShapesEnum
@@ -66,6 +67,28 @@ from .rays_on_contours import (
 from .perturbation_series_plots import mci_perturbation_series_plot
 
 
+def _sort_comparisons(
+        comparisons: list[Comparison],
+        sort_by: ComparisonMember = ComparisonMember.FIRST,
+) -> list[Comparison]:
+    matching = [
+        comparison for comparison in comparisons
+        if comparison.first == comparison.second
+    ]
+    matching.sort(key=lambda comparison: comparison.first)
+
+    non_matching = [
+        comparison for comparison in comparisons
+        if comparison.first != comparison.second
+    ]
+    if sort_by == ComparisonMember.FIRST:
+        non_matching.sort(key=lambda comparison: comparison.first)
+    else:
+        non_matching.sort(key=lambda comparison: comparison.second)
+    matching.extend(non_matching)
+    return matching
+
+
 def run_simulations(
         sim_configuration: SimulationConfig,
         contours: dict[str, np.ndarray],
@@ -77,9 +100,9 @@ def run_simulations(
     """
     perturbations = sim_configuration.perturbations
 
-    annd_baselines, annd_results = simulate_dyadic_metrics(
+    annd_baselines, annd_results = simulate_contour_distance_metrics(
         comparisons, contours, perturbations)
-    mci_baselines, mci_results = simulate_single_contour_metrics(
+    mci_baselines, mci_results = simulate_contour_shape_metrics(
         contours, perturbations)
 
     # TODO 0.15: RESULTS
@@ -94,67 +117,7 @@ def run_simulations(
     )
 
 
-def save_result_figures(
-        sim_configuration: SimulationConfig,
-        contours: dict[str, np.ndarray],
-        sound_pairs: list[ComparisonSoundPair],
-        annd_baselines: dict[Comparison, float],
-        annd_results: dict[Comparison, dict[str, np.ndarray]],
-        mci_baselines: dict[str, float],
-        mci_results: dict[str, dict[str, np.ndarray]],
-) -> None:
-    save_path = sim_configuration.output_directory
-    perturbations = sim_configuration.perturbations
-
-    with PdfPages(save_path / "annd_contours.pdf") as pdf:
-        distance_metric_rays_on_contours(
-            contours=contours,
-            metrics=annd_results,
-            metric_name="ANND",
-            baselines=annd_baselines,
-            number_of_perturbations=len(perturbations),
-            figure_size=(10.1, 4.72),
-            columns=sound_pairs,
-            scale=200,
-            color_threshold=[.1, -.1]
-        )
-        plt.tight_layout()
-        pdf.savefig(plt.gcf())
-
-    with PdfPages(save_path / "mci_contours.pdf") as pdf:
-        shape_metric_rays_on_contours(
-            contours=contours,
-            metrics=mci_results,
-            metric_name="MCI/Baseline MCI",
-            baselines=mci_baselines,
-            number_of_perturbations=len(perturbations),
-            figure_size=(7, 3.35),
-            scale=20,
-            color_threshold=np.log10([2, .5])
-        )
-        plt.tight_layout()
-        pdf.savefig(plt.gcf())
-    # with PdfPages(save_path/"annd_1.pdf") as pdf:
-    #     make_annd_perturbation_series_plot(annd_dict=annd_results, pdf=pdf)
-    # with PdfPages(save_path/"annd_2.pdf") as pdf:
-    #     make_annd_perturbation_series_plot_2(annd_dict=annd_results,
-    #                                          annd_baseline=annd_baseline,
-    #                                          pdf=pdf)
-    # make_mpbpd_perturbation_series_plot(contour_1=contours['æ'],
-    #                                     contour_2=contours['i'],
-    #                                     steps=[1, 2, 5, 10])
-    with PdfPages(save_path / "mci_timeseries.pdf") as pdf:
-        # perturbations = [-2, -1, -.5, .5, 1, 2]
-        mci_perturbation_series_plot(contours=contours,
-                                     perturbations=perturbations,
-                                     figsize=(12, 8))
-        # plt.tight_layout()
-        pdf.savefig(plt.gcf())
-    # make_demonstration_contour_plot(
-    #     contour_1=contours['æ'], contour_2=contours['i'])
-
-
-def simulate_dyadic_metrics(
+def simulate_contour_distance_metrics(
         comparisons: list[Comparison],
         contours: dict[str, np.ndarray],
         perturbations: list[float],
@@ -174,10 +137,11 @@ def simulate_dyadic_metrics(
     )
     annd_baselines = get_distance_metric_baselines(
         metric=annd_call, contours=contours)
+    ic(annd_results, annd_baselines)
     return annd_baselines, annd_results
 
 
-def simulate_single_contour_metrics(
+def simulate_contour_shape_metrics(
         contours: dict[str, np.ndarray],
         perturbations: list[float] | tuple[float],
 ) -> tuple[dict[str, float], dict[str, dict[str, np.ndarray]]]:
@@ -243,23 +207,61 @@ def setup_contours_comparisons_soundpairs(
     return contours, comparisons, sound_pairs
 
 
-def _sort_comparisons(
-        comparisons: list[Comparison],
-        sort_by: ComparisonMember = ComparisonMember.FIRST,
-) -> list[Comparison]:
-    matching = [
-        comparison for comparison in comparisons
-        if comparison.first == comparison.second
-    ]
-    matching.sort(key=lambda comparison: comparison.first)
+def save_result_figures(
+        sim_configuration: SimulationConfig,
+        contours: dict[str, np.ndarray],
+        sound_pairs: list[ComparisonSoundPair],
+        annd_baselines: dict[Comparison, float],
+        annd_results: dict[Comparison, dict[str, np.ndarray]],
+        mci_baselines: dict[str, float],
+        mci_results: dict[str, dict[str, np.ndarray]],
+) -> None:
+    save_path = sim_configuration.output_directory
+    perturbations = sim_configuration.perturbations
 
-    non_matching = [
-        comparison for comparison in comparisons
-        if comparison.first != comparison.second
-    ]
-    if sort_by == ComparisonMember.FIRST:
-        non_matching.sort(key=lambda comparison: comparison.first)
-    else:
-        non_matching.sort(key=lambda comparison: comparison.second)
-    matching.extend(non_matching)
-    return matching
+    with PdfPages(save_path / "annd_contours.pdf") as pdf:
+        distance_metric_rays_on_contours(
+            contours=contours,
+            metrics=annd_results,
+            metric_name="ANND",
+            baselines=annd_baselines,
+            number_of_perturbations=len(perturbations),
+            figure_size=(10.1, 4.72),
+            columns=sound_pairs,
+            scale=200,
+            color_threshold=[.1, -.1]
+        )
+        plt.tight_layout()
+        pdf.savefig(plt.gcf())
+
+    with PdfPages(save_path / "mci_contours.pdf") as pdf:
+        shape_metric_rays_on_contours(
+            contours=contours,
+            metrics=mci_results,
+            metric_name="MCI/Baseline MCI",
+            baselines=mci_baselines,
+            number_of_perturbations=len(perturbations),
+            figure_size=(7, 3.35),
+            scale=20,
+            color_threshold=np.log10([2, .5])
+        )
+        plt.tight_layout()
+        pdf.savefig(plt.gcf())
+    # with PdfPages(save_path/"annd_1.pdf") as pdf:
+    #     make_annd_perturbation_series_plot(annd_dict=annd_results, pdf=pdf)
+    # with PdfPages(save_path/"annd_2.pdf") as pdf:
+    #     make_annd_perturbation_series_plot_2(annd_dict=annd_results,
+    #                                          annd_baseline=annd_baseline,
+    #                                          pdf=pdf)
+    # make_mpbpd_perturbation_series_plot(contour_1=contours['æ'],
+    #                                     contour_2=contours['i'],
+    #                                     steps=[1, 2, 5, 10])
+    with PdfPages(save_path / "mci_timeseries.pdf") as pdf:
+        # perturbations = [-2, -1, -.5, .5, 1, 2]
+        mci_perturbation_series_plot(contours=contours,
+                                     perturbations=perturbations,
+                                     figsize=(12, 8))
+        # plt.tight_layout()
+        pdf.savefig(plt.gcf())
+    # make_demonstration_contour_plot(
+    #     contour_1=contours['æ'], contour_2=contours['i'])
