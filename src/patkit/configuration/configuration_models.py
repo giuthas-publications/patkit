@@ -423,6 +423,7 @@ class SimulationPlottingParams(UpdatableBaseModel):
 class SimulationConfig(UpdatableBaseModel):
     output_directory: Path
     logging_notice_base: str = ""
+    make_demonstration_contour_plot: bool = False
     sounds: list[str]
     perturbations: list[float]
     spline_nnd_params: SplineNndParams

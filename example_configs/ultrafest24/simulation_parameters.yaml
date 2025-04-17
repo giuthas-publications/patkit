@@ -7,6 +7,8 @@
 output_directory: "ultrafest2024/"
 logging_notice_base: "Ultrafest 2024 simulation: "
 
+make_demonstration_contour_plot: True
+
 sounds: 
   - 'æ'
   - 'i'

@@ -398,9 +398,9 @@ def display_indeces_on_contours(
 
     for i in range(contour1.shape[1]):
         if outside:
-            r = np.max(contour1[0, i], contour2[0, i]) + offset
+            r = np.max([contour1[0, i], contour2[0, i]]) + offset
         else:
-            r = np.min(contour1[0, i], contour2[0, i]) - offset
+            r = np.min([contour1[0, i], contour2[0, i]]) - offset
 
         r_phi_array = np.array([r, contour1[1, i]])
         text_coordinates = polar_to_cartesian(r_phi_array)
