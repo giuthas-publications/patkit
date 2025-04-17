@@ -40,12 +40,13 @@ from .contour_tools import (
     generate_contour, contour_point_perturbations
 )
 from .metric_calculations import (
-    Comparison, ComparisonSoundPair, MetricFunction,
     calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,
     get_distance_metric_baselines,
     get_shape_metric_baselines
 )
+from .simulation_datastructures import Comparison, ComparisonSoundPair, \
+    MetricFunction
 
 from .simulate import run_simulations
 

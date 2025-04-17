@@ -45,7 +45,7 @@ from patkit.metrics.tongue_shape_analysis import spline_shape_metric
 from patkit.plot_and_publish.plot_utilities import get_colors_in_sequence
 
 from .contour_tools import contour_point_perturbations
-from .metric_calculations import Comparison, ComparisonSoundPair
+from . import Comparison, ComparisonSoundPair
 from .simulation_plots import plot_distance_metric_against_perturbation_point
 
 

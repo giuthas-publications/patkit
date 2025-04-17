@@ -44,9 +44,7 @@ from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
 from patkit.constants import ComparisonMember
 from patkit.plot_and_publish.plot_utilities import get_colors_in_sequence
-from .metric_calculations import (
-    Comparison, ComparisonSoundPair,
-)
+from . import Comparison, ComparisonSoundPair
 from .simulation_plots import (
     contour_ray_plot,
     dual_contour_ray_plot,

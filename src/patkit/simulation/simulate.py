@@ -53,12 +53,12 @@ from patkit.metrics.calculate_spline_metric import (
 
 from .contour_tools import generate_contour
 from .metric_calculations import (
-    Comparison, ComparisonMember, ComparisonSoundPair,
-    calculate_metric_series_for_comparisons,
+    ComparisonMember, calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,
     get_distance_metric_baselines,
     get_shape_metric_baselines,
 )
+from . import Comparison, ComparisonSoundPair
 from .rays_on_contours import (
     distance_metric_rays_on_contours,
     shape_metric_rays_on_contours,
