@@ -4,7 +4,8 @@ from typing import Annotated, Callable
 import numpy as np
 from pydantic import BaseModel
 
-from patkit.constants import ComparisonMember
+from patkit.constants import ComparisonMember, SplineMetricEnum, \
+    SplineShapesEnum
 
 MetricFunction = Annotated[
     Callable[[np.ndarray], np.ndarray],
@@ -64,11 +65,14 @@ class ShapeMetricSimulationResult:
 
     Parameters
     ----------
+    metric : SplineShapesEnum
+        Metric used in deriving the results.
     baselines : dict[str, float]
         Baseline for each metric and contour.
     results : dict[str, dict[str, np.ndarray]]
         Results for each metric/contour/perturbation
     """
+    metric: SplineShapesEnum
     baselines: dict[str, float]
     results: dict[str, dict[str, np.ndarray]]
 
@@ -80,10 +84,22 @@ class DistanceMetricSimulationResult:
 
     Parameters
     ----------
+    metric : SplineMetricEnum
+        Metric used in deriving the results. While SplineMetricEnum includes
+        also spline shape metrics, passing one here will result in a ValueError
+        being raised or unpredictable behavior.
     baselines : dict[str, float]
         Baseline for each metric and contour.
     results : dict[str, dict[str, np.ndarray]]
         Results for each metric/contour/perturbation
     """
+    metric: SplineMetricEnum
     baselines: dict[Comparison, float]
     results: dict[str, dict[str, np.ndarray]]
+
+    def __post_init__(self):
+        if isinstance(self.metric, SplineShapesEnum):
+            raise ValueError(
+                f"DistanceMetricSimulationResult does not accept "
+                f"SplineShapesEnum as metric type. Found {self.metric}."
+            )
