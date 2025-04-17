@@ -241,6 +241,77 @@ def contour_ray_plot(
         axes.add_collection(line_segments)
 
 
+def dual_contour_ray_plot(
+        axes: Axes,
+        unperturbed_contour: np.ndarray,
+        perturbed_contour: np.ndarray,
+        metric_values: float | np.ndarray,
+        metric_reference_value: float,
+        scale: float = 1.0,
+        origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
+        relative: bool = False,
+        color_threshold: tuple[float, float] = None,
+        colors: list[tuple[float, float, float, float]] | list[str] = None
+) -> None:
+    """
+    Plot two contours and use one as the basis for a ray plot.
+
+    This is a wrapper for calls to `display_contour` and `contour_ray_plot`.
+
+    Parameters
+    ----------
+    axes : Axes
+        Axes to plot on.
+    unperturbed_contour : np.ndarray
+        This contour will be displayed in lightgrey without rays.
+    perturbed_contour : np.ndarray
+        This contour will be used as the basis of the ray plot.
+    metric_values : dict[str, np.ndarray]
+        Metric values to plot by perturbation values.
+    metric_reference_value : float
+        Metric value to use as reference.
+    scale : float
+        Scaling factor for the rays, by default 1
+    origin_offset : tuple[float, float]
+        Cartesian offset for the origin, by default (0.0, 0.0)
+    relative : bool
+        True for calculating the ray magnitude as ratio of metric value and
+        metric reference value; False for ray magnitude as difference between
+        metric value and reference., by default False
+    color_threshold :  tuple(float, float)
+        Threshold to switch from the first to the second color in plotting the
+        rays if a second color is specified (see below). Specified in metric's
+        units relative to the `metric_reference_value`. If only one float is
+        given instead of tuple of two, it will be used symmetrically as
+        +/-color_threshold. By default, None.
+    colors : list[tuple[float,float,float,float]] | list[str]
+        One or two RGB or RGBA tuples: e.g. [(0.1, 0.1, 0.1, 1.0)] to specify a
+        single color, or a list of RGB or RGBA strings. Arbitrary color strings,
+        etc., are not allowed. By default, None.
+
+    Returns
+    -------
+
+    """
+    display_contour(
+        axes=axes,
+        contour=unperturbed_contour,
+        origin_offset=origin_offset,
+        color="lightgrey",
+    )
+    contour_ray_plot(
+        axes=axes,
+        contour=perturbed_contour,
+        metric_values=metric_values,
+        metric_reference_value=metric_reference_value,
+        scale=scale,
+        origin_offset=origin_offset,
+        relative=relative,
+        color_threshold=color_threshold,
+        colors=colors,
+    )
+
+
 def plot_metric_on_contour(
         axes: Axes,
         contour: np.ndarray,

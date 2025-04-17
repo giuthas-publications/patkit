@@ -48,8 +48,8 @@ from .metric_calculations import (
     Comparison, ComparisonSoundPair,
 )
 from .simulation_plots import (
-    display_contour,
     contour_ray_plot,
+    dual_contour_ray_plot,
 )
 
 
@@ -186,37 +186,31 @@ def distance_metric_rays_on_contours(
                 )
             else:
                 if comparison.perturbed == ComparisonMember.SECOND:
-                    display_contour(
-                        axes[row, column],
-                        contours[comparison.first],
-                        origin_offset=origin_offset,
-                        color='lightgrey')
-                    contour_ray_plot(
+                    dual_contour_ray_plot(
                         axes=axes[row, column],
-                        contour=contours[comparison.second],
+                        unperturbed_contour=contours[comparison.first],
+                        perturbed_contour=contours[comparison.second],
                         metric_values=metric_dict[perturbation],
                         metric_reference_value=baseline,
                         scale=scale,
                         origin_offset=origin_offset,
                         relative=False,
                         color_threshold=color_threshold,
-                        colors=colors,)
+                        colors=colors,
+                    )
                 else:
-                    display_contour(
-                        axes[row, column],
-                        contours[comparison.second],
-                        origin_offset=origin_offset,
-                        color='lightgrey')
-                    contour_ray_plot(
+                    dual_contour_ray_plot(
                         axes=axes[row, column],
-                        contour=contours[comparison.first],
+                        unperturbed_contour=contours[comparison.second],
+                        perturbed_contour=contours[comparison.first],
                         metric_values=metric_dict[perturbation],
                         metric_reference_value=baseline,
                         scale=scale,
                         origin_offset=origin_offset,
                         relative=False,
                         color_threshold=color_threshold,
-                        colors=colors,)
+                        colors=colors,
+                    )
 
 
 def shape_metric_rays_on_contours(
@@ -260,6 +254,7 @@ def shape_metric_rays_on_contours(
         `metric_reference_value`, by default None
     """
     plt.style.use('tableau-colorblind10')
+    colors = None
     if color_threshold is not None:
         colors = get_colors_in_sequence(2)
 
