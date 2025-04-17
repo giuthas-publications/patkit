@@ -414,7 +414,6 @@ def load_simulation_params(filepath: Path | str) -> YAML:
     return simulation_params_dict
 
 
-
 def load_gui_params(filepath: Path | str | None = None) -> YAML:
     """
     Read the config file from filepath.
@@ -449,7 +448,6 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
         Optional("modalities"): Seq(Str()),
         Optional("modality_names"): Seq(Str()),
     }
-
 
     if filepath.is_file():
         with closing(
