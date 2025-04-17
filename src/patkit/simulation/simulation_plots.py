@@ -49,7 +49,7 @@ def display_contour(
         contour: np.ndarray,
         display_indeces: bool = False,
         offset: float = 0,
-        origin_offset: tuple[float, float] = (0.0, 0.0),
+        origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
         color: str | None = None,
         polar: bool = True) -> None:
     """
@@ -65,7 +65,7 @@ def display_contour(
         Should indeces be displayed, by default False
     offset : float
         Radial offset of the index texts, by default 0
-    origin_offset: tuple[float, float]]
+    origin_offset: tuple[float, float]
         Offset of the contour origin in cartesian coordinates, 
         by default (0.0, 0.0)
     color : str
@@ -94,7 +94,7 @@ def display_contour(
 def _metric_values_to_rays(
         contour: np.ndarray,
         metric_values: dict[str, np.ndarray],
-        origin_offset: tuple[float, float] = (0.0, 0.0),
+        origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
         relative: bool = False,
 ) -> list[np.ndarray]:
     """
@@ -144,13 +144,13 @@ def _metric_values_to_rays(
 def contour_ray_plot(
     axes: Axes,
     contour: np.ndarray,
-    metric_values: dict[str, np.ndarray],
+    metric_values: float | np.ndarray,
     metric_reference_value: float,
     scale: float = 1.0,
-    origin_offset: tuple[float, float] = (0.0, 0.0),
+    origin_offset: tuple[float, float] | np.ndarray = (0.0, 0.0),
     relative: bool = False,
     color_threshold: tuple[float, float] = None,
-    colors: list[tuple[float, float, float, float]] = None
+    colors: list[tuple[float, float, float, float]] | list[str] = None
 ) -> None:
     """
     Plot metric values as rays on a contour.
@@ -173,16 +173,16 @@ def contour_ray_plot(
         True for calculating the ray magnitude as ratio of metric value and
         metric reference value; False for ray magnitude as difference between
         metric value and reference., by default False
-    color_threshold :  tuple(float, float)]
+    color_threshold :  tuple(float, float)
         Threshold to switch from the first to the second color in plotting the
         rays if a second color is specified (see below). Specified in metric's
         units relative to the `metric_reference_value`. If only one float is
         given instead of tuple of two, it will be used symmetrically as
-        +/-color_threshold. By default, None
-    colors : list[tuple[float,float,float,float]]]
+        +/-color_threshold. By default, None.
+    colors : list[tuple[float,float,float,float]] | list[str]
         One or two RGB or RGBA tuples: e.g. [(0.1, 0.1, 0.1, 1.0)] to specify a
-        single color. Arbitrary color strings, etc., are not allowed, by default
-        None
+        single color, or a list of RGB or RGBA strings. Arbitrary color strings,
+        etc., are not allowed. By default, None.
     """
     # making sure that array operations work as expected.
     if color_threshold is not None:
@@ -244,7 +244,7 @@ def contour_ray_plot(
 def plot_metric_on_contour(
         axes: Axes,
         contour: np.ndarray,
-        metric_values: dict[str, np.ndarray],
+        metric_values: np.ndarray,
         origin_offset: tuple[float, float] = (0.0, 0.0),
         display_indeces: bool = False,
         index_offset: float = 0,
@@ -259,7 +259,7 @@ def plot_metric_on_contour(
         Axes to plot on.
     contour : np.ndarray
         Contour to plot (on).
-    metric_values : dict[str, np.ndarray]
+    metric_values : np.ndarray
         Metric values to plot.
     origin_offset : tuple[float, float]
         Cartesian offset of the origin, by default (0.0, 0.0)
@@ -301,7 +301,7 @@ def display_indeces_on_contours(
     """
     Display indeces on two contours.
 
-    The indeces are displayed either on the inside or outside of both contours
+    The indeces are displayed either on the inside or outside both contours
     to avoid overlapping between the text and the contours.
 
     Parameters
@@ -332,9 +332,9 @@ def display_indeces_on_contours(
             r = min(contour1[0, i], contour2[0, i]) - offset
 
         r_phi_array = np.array([r, contour1[1, i]])
-        text_coords = polar_to_cartesian(r_phi_array)
+        text_coordinates = polar_to_cartesian(r_phi_array)
 
-        axes.text(text_coords[1], text_coords[0],
+        axes.text(text_coordinates[1], text_coordinates[0],
                   str(i+1), color=color, fontsize=12,
                   horizontalalignment='center', verticalalignment='center')
 
@@ -399,8 +399,8 @@ def plot_contour_segment(
     color = line[0].get_color()
 
     if show_index:
-        text_coords = polar_to_cartesian(contour[:, index] + [offset, 0])
-        axes.text(text_coords[1], text_coords[0],
+        text_coordinates = polar_to_cartesian(contour[:, index] + [offset, 0])
+        axes.text(text_coordinates[1], text_coordinates[0],
                   str(index+1), color=color, fontsize=12,
                   horizontalalignment='center', verticalalignment='center')
 

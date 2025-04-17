@@ -97,6 +97,7 @@ def distance_metric_rays_on_contours(
         `metric_reference_value`, by default None
     """
     plt.style.use('tableau-colorblind10')
+    colors = None
     if color_threshold is not None:
         colors = get_colors_in_sequence(2)
 
@@ -181,7 +182,8 @@ def distance_metric_rays_on_contours(
                     scale=scale,
                     origin_offset=origin_offset,
                     color_threshold=color_threshold,
-                    colors=colors,)
+                    colors=colors,
+                )
             else:
                 if comparison.perturbed == ComparisonMember.SECOND:
                     display_contour(
