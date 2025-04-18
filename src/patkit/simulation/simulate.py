@@ -103,7 +103,6 @@ def run_simulations(
     """
     Main to create plots for the Ultrafest 2024 paper.
     """
-    # TODO 0.15: the following two are not yet fully parametric
     distance_results = simulate_contour_distance_metrics(
         sim_configuration=sim_configuration,
         comparisons=comparisons,
@@ -272,12 +271,12 @@ def save_result_figures(
             plt.tight_layout()
             pdf.savefig(plt.gcf())
 
-        # TODO 0.15: this can't be in this loop if the metric is set in stone
-        with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
-            mci_perturbation_series_plot(contours=contours,
-                                         perturbations=perturbations,
-                                         figsize=(12, 8))
-            pdf.savefig(plt.gcf())
+    # TODO 0.15: this can't be in this loop if the metric is set in stone
+    with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
+        mci_perturbation_series_plot(contours=contours,
+                                     perturbations=perturbations,
+                                     figsize=(12, 8))
+        pdf.savefig(plt.gcf())
 
     # TODO 0.15: make this parametric
     if sim_configuration.make_demonstration_contour_plot is not None:
