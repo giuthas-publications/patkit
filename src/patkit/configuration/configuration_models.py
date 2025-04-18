@@ -50,9 +50,15 @@ import numpy as np
 from pydantic import conlist, PositiveInt
 
 from patkit.constants import (
-    CoordinateSystems, Datasource, GuiColorScheme,
-    IntervalBoundary, IntervalCategory,
-    SplineDataColumn, SplineMetaColumn, SplineNNDsEnum, SplineShapesEnum
+    CoordinateSystems,
+    Datasource,
+    GuiColorScheme,
+    IntervalBoundary,
+    IntervalCategory,
+    SplineDataColumn,
+    SplineMetaColumn,
+    SplineMetricEnum,
+    SplineShapesEnum,
 )
 from patkit.external_class_extensions import UpdatableBaseModel
 from patkit.constants import ComparisonMember
@@ -406,14 +412,21 @@ class SoundPairParams(UpdatableBaseModel):
     sort: ComparisonSortingParams | None = None
 
 
-class SplineNndParams(UpdatableBaseModel):
-    metric: SplineNNDsEnum
+class ContourDistanceParams(UpdatableBaseModel):
+    metrics: list[SplineMetricEnum]
     timestep: PositiveInt
     sound_pair_params: SoundPairParams
 
+    def __post_init__(self):
+        if isinstance(self.metric, SplineShapesEnum):
+            raise ValueError(
+                f"ContourDistanceParams does not accept "
+                f"SplineShapesEnum as metric type. Found {self.metric}."
+            )
+
 
 class SplineShapeParams(UpdatableBaseModel):
-    metric: SplineShapesEnum
+    metrics: list[SplineShapesEnum]
 
 
 class SimulationPlottingParams(UpdatableBaseModel):
@@ -426,8 +439,8 @@ class SimulationConfig(UpdatableBaseModel):
     make_demonstration_contour_plot: bool = False
     sounds: list[str]
     perturbations: list[float]
-    spline_nnd_params: SplineNndParams
-    spline_shape_params: SplineShapeParams
+    contour_distance: ContourDistanceParams
+    contour_shape: SplineShapeParams
     plotting_params: SimulationPlottingParams
 
 

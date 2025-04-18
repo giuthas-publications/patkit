@@ -380,13 +380,13 @@ def load_simulation_params(filepath: Path | str) -> YAML:
         Optional("make_demonstration_contour_plot"): Bool(),
         "sounds": Seq(Str()),
         "perturbations": Seq(Float()),
-        "spline_nnd_params": Map({
-            "metric": Str(),
+        "contour_distance": Map({
+            "metrics": Seq(Str()),
             "timestep": Int(),
             "sound_pair_params": sound_pair_params,
         }),
-        "spline_shape_params": Map({
-            "metric": Str(),
+        "contour_shape": Map({
+            "metrics": Seq(Str()),
         }),
         "plotting_params": Map({
             "sound_pair_params": sound_pair_params,

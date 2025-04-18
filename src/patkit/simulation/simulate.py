@@ -102,8 +102,6 @@ def run_simulations(
     """
     Main to create plots for the Ultrafest 2024 paper.
     """
-    perturbations = sim_configuration.perturbations
-
     # TODO 0.15: the following two are not yet fully parametric
     distance_results = simulate_contour_distance_metrics(
         sim_configuration=sim_configuration,
@@ -111,7 +109,9 @@ def run_simulations(
         contours=contours,
     )
     shape_results = simulate_contour_shape_metrics(
-        contours, perturbations)
+        sim_configuration=sim_configuration,
+        contours=contours,
+    )
 
     save_result_figures(
         sim_configuration=sim_configuration,
@@ -127,54 +127,57 @@ def simulate_contour_distance_metrics(
         comparisons: list[Comparison],
         contours: dict[str, np.ndarray],
 ) -> list[DistanceMetricSimulationResult]:
-    perturbations = sim_configuration.perturbations
-    metric = SplineNNDsEnum.ANND
-    annd_call = partial(spline_nnd_metric,
-                        metric=metric,
-                        timestep=1,
-                        notice_base="Ultrafest 2024 simulation: "
-                        )
-    annd_results = calculate_metric_series_for_comparisons(
-        metric=annd_call,
-        contours=contours,
-        comparisons=comparisons,
-        perturbations=perturbations,
-        interleave=True
-    )
-    annd_baselines = get_distance_metric_baselines(
-        metric=annd_call, contours=contours)
-    results = DistanceMetricSimulationResult(
-        metric=metric,
-        results=annd_results,
-        baselines=annd_baselines)
-    return [results]
+    results = []
+    for metric in sim_configuration.contour_distance.metrics:
+        call = partial(
+            spline_nnd_metric,
+            metric=metric,
+            timestep=sim_configuration.contour_distance.timestep,
+            notice_base=sim_configuration.logging_notice_base,
+        )
+        result = calculate_metric_series_for_comparisons(
+            metric=call,
+            contours=contours,
+            comparisons=comparisons,
+            perturbations=sim_configuration.perturbations,
+            interleave=True
+        )
+        baseline = get_distance_metric_baselines(
+            metric=call, contours=contours)
+        results.append(
+            DistanceMetricSimulationResult(
+                metric=metric, results=result, baselines=baseline
+            )
+        )
+    return results
 
 
 def simulate_contour_shape_metrics(
+        sim_configuration: SimulationConfig,
         contours: dict[str, np.ndarray],
-        perturbations: list[float] | tuple[float],
 ) -> list[ShapeMetricSimulationResult]:
-
-    metric = SplineShapesEnum.MODIFIED_CURVATURE
-    mci_call = partial(spline_shape_metric,
-                       metric=metric,
-                       notice_base="Ultrafest 2024 simulation: "
-                       )
-    mci_results = calculate_metric_series_for_contours(
-        metric=mci_call,
-        contours=contours,
-        perturbations=perturbations
-    )
-    mci_baselines = get_shape_metric_baselines(
-        metric=mci_call,
-        contours=contours,
-    )
-    results = ShapeMetricSimulationResult(
-        metric=metric,
-        baselines=mci_baselines,
-        results=mci_results
-    )
-    return [results]
+    results = []
+    for metric in sim_configuration.contour_shape.metrics:
+        call = partial(
+            spline_shape_metric,
+            metric=metric,
+            notice_base=sim_configuration.logging_notice_base,
+        )
+        result = calculate_metric_series_for_contours(
+            metric=call,
+            contours=contours,
+            perturbations=sim_configuration.perturbations
+        )
+        baseline = get_shape_metric_baselines(
+            metric=call,
+            contours=contours,
+        )
+        results.append(
+            ShapeMetricSimulationResult(
+                metric=metric, baselines=baseline, results=result
+            )
+        )
+    return results
 
 
 def setup_contours_comparisons_soundpairs(

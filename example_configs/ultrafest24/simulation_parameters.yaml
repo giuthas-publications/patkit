@@ -21,8 +21,9 @@ perturbations:
   - 1 
   - 2
 
-spline_nnd_params:
-  metric: "annd"
+contour_distance:
+  metrics:
+    - "annd"
   timestep: 1
   sound_pair_params:
     sounds:
@@ -36,8 +37,9 @@ spline_nnd_params:
       matching_first: True
       sort_by: first # first, second
 
-spline_shape_params:
-  metric: 'modified_curvature'
+contour_shape:
+  metrics:
+    - 'modified_curvature'
 
 plotting_params:
   sound_pair_params:
