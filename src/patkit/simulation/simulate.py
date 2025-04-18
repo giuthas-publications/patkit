@@ -237,9 +237,9 @@ def save_result_figures(
     save_dir = sim_configuration.output_directory
     perturbations = sim_configuration.perturbations
 
-    for i, distance_metric_result in enumerate(distance_metric_results):
+    for distance_metric_result in distance_metric_results:
         save_path = (
-                save_dir / f"{distance_metric_result.metric}_{i}_contours.pdf")
+                save_dir / f"{distance_metric_result.metric}_contours.pdf")
         with PdfPages(save_path) as pdf:
             distance_metric_rays_on_contours(
                 contours=contours,
@@ -255,10 +255,9 @@ def save_result_figures(
             plt.tight_layout()
             pdf.savefig(plt.gcf())
 
-    # TODO: is i redundant here?
-    for i, shape_metric_result in enumerate(shape_metric_results):
+    for shape_metric_result in shape_metric_results:
         save_path = (
-                save_dir / f"{shape_metric_result.metric}_{i}_contours.pdf")
+                save_dir / f"{shape_metric_result.metric}_contours.pdf")
         with PdfPages(save_path) as pdf:
             shape_metric_rays_on_contours(
                 contours=contours,
@@ -273,6 +272,7 @@ def save_result_figures(
             plt.tight_layout()
             pdf.savefig(plt.gcf())
 
+        # TODO 0.15: this can't be in this loop if the metric is set in stone
         with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
             mci_perturbation_series_plot(contours=contours,
                                          perturbations=perturbations,
