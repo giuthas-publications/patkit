@@ -58,17 +58,18 @@ from .metric_calculations import (
     get_distance_metric_baselines,
     get_shape_metric_baselines,
 )
+from .perturbation_series_plots import mci_perturbation_series_plot
+from .rays_on_contours import (
+    distance_metric_rays_on_contours,
+    shape_metric_rays_on_contours,
+)
 from .simulation_datastructures import (
     Comparison,
     ComparisonSoundPair,
     DistanceMetricSimulationResult,
     ShapeMetricSimulationResult,
 )
-from .rays_on_contours import (
-    distance_metric_rays_on_contours,
-    shape_metric_rays_on_contours,
-)
-from .perturbation_series_plots import mci_perturbation_series_plot
+from .simulation_plots import make_demonstration_contour_plot
 
 
 def _sort_comparisons(
@@ -232,18 +233,14 @@ def save_result_figures(
         sound_pairs: list[ComparisonSoundPair],
         distance_metric_results: list[DistanceMetricSimulationResult],
         shape_metric_results: list[ShapeMetricSimulationResult],
-        # annd_baselines: dict[Comparison, float],
-        # annd_results: dict[Comparison, dict[str, np.ndarray]],
-        # mci_baselines: dict[str, float],
-        # mci_results: dict[str, dict[str, np.ndarray]],
 ) -> None:
-    save_path = sim_configuration.output_directory
+    save_dir = sim_configuration.output_directory
     perturbations = sim_configuration.perturbations
 
     for i, distance_metric_result in enumerate(distance_metric_results):
-        next_path = (
-                save_path / f"{distance_metric_result.metric}_{i}_contours.pdf")
-        with PdfPages(next_path) as pdf:
+        save_path = (
+                save_dir / f"{distance_metric_result.metric}_{i}_contours.pdf")
+        with PdfPages(save_path) as pdf:
             distance_metric_rays_on_contours(
                 contours=contours,
                 metrics=distance_metric_result.results,
@@ -258,10 +255,11 @@ def save_result_figures(
             plt.tight_layout()
             pdf.savefig(plt.gcf())
 
+    # TODO: is i redundant here?
     for i, shape_metric_result in enumerate(shape_metric_results):
-        next_path = (
-                save_path / f"{shape_metric_result.metric}_{i}_contours.pdf")
-        with PdfPages(next_path) as pdf:
+        save_path = (
+                save_dir / f"{shape_metric_result.metric}_{i}_contours.pdf")
+        with PdfPages(save_path) as pdf:
             shape_metric_rays_on_contours(
                 contours=contours,
                 metrics=shape_metric_result.results,
@@ -275,15 +273,15 @@ def save_result_figures(
             plt.tight_layout()
             pdf.savefig(plt.gcf())
 
-        with PdfPages(save_path / "mci_timeseries.pdf") as pdf:
+        with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
             mci_perturbation_series_plot(contours=contours,
                                          perturbations=perturbations,
                                          figsize=(12, 8))
-            # plt.tight_layout()
             pdf.savefig(plt.gcf())
 
     # TODO 0.15: make this parametric
     if sim_configuration.make_demonstration_contour_plot is not None:
-        from patkit.simulation import make_demonstration_contour_plot
-        make_demonstration_contour_plot(
-            contour_1=contours['æ'], contour_2=contours['i'])
+        with PdfPages(save_dir / "demonstration_contour_plot.pdf") as pdf:
+            make_demonstration_contour_plot(
+                contour_1=contours['æ'], contour_2=contours['i'])
+            pdf.savefig(plt.gcf())

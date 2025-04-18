@@ -564,8 +564,6 @@ def make_demonstration_contour_plot(
     axes[0].set_xlim((-70, 25))
     axes[1].set_xlim((-70, 25))
 
-    plt.show()
-
 
 def plot_distance_metric_against_perturbation_point(
         axes: list[Axes], 
