@@ -100,9 +100,6 @@ def run_simulations(
         comparisons: list[Comparison],
         sound_pairs: list[ComparisonSoundPair],
 ) -> None:
-    """
-    Main to create plots for the Ultrafest 2024 paper.
-    """
     distance_results = simulate_contour_distance_metrics(
         sim_configuration=sim_configuration,
         comparisons=comparisons,
