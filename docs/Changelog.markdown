@@ -27,16 +27,14 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.15 is planned to be a re-implementation of the simulation code that was
-  originally released for Ultrafest 2024.
-- 0.16 is planned to be an implementation of kymography. This might get moved 
-  to a release after 0.20.
-- 0.17 is planned to be a general configuration update moving from central to
+- 0.16 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
-- 0.18 is planned to be a data structure update giving support for multiple data
+- 0.17 is planned to update the GUI with full TextGrid editing.
+- 0.18 is planned to be a release of automated segmentation exercises.
+- 0.19 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.19 is planned to update the GUI with full TextGrid editing.
-- 0.20 is planned to be a release of automated segmentation exercises.
+- 0.20 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
 - After 0.20 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
@@ -51,12 +49,14 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- `patkit simulate` command
+- `patkit simulate` command for simulating different metrics on spline data. It
+  uses the simulation_parameters.yaml file.
 
 ### Changed
 
 - Release notes are going to be automatically populated from the Changelog for
   better readability.
+- Planned release schedule has changed.
 
 ### Fixed
 
