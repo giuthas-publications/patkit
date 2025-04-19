@@ -240,14 +240,10 @@ def save_result_figures(
             with PdfPages(save_path) as pdf:
                 distance_metric_rays_on_contours(
                     contours=contours,
-                    metrics=distance_metric_result.results,
-                    metric_name=distance_metric_result.metric,
-                    baselines=distance_metric_result.baselines,
+                    distance_metric_result=distance_metric_result,
                     number_of_perturbations=len(perturbations),
-                    figure_size=ray_plot_params.figure_size,
                     columns=sound_pairs,
-                    scale=ray_plot_params.scale,
-                    color_threshold=ray_plot_params.color_threshold,
+                    ray_plot_params=ray_plot_params,
                 )
                 plt.tight_layout()
                 pdf.savefig(plt.gcf())
@@ -258,16 +254,11 @@ def save_result_figures(
             save_path = (
                     save_dir / f"{shape_metric_result.metric}_contours.pdf")
             with PdfPages(save_path) as pdf:
-                metric = shape_metric_result.metric
                 shape_metric_rays_on_contours(
                     contours=contours,
-                    metrics=shape_metric_result.results,
-                    metric_name=f"{metric}/Baseline {metric}",
-                    baselines=shape_metric_result.baselines,
+                    shape_metric_result=shape_metric_result,
+                    ray_plot_params=ray_plot_params,
                     number_of_perturbations=len(perturbations),
-                    figure_size=ray_plot_params.figure_size,
-                    scale=ray_plot_params.scale,
-                    color_threshold=np.log10(ray_plot_params.color_threshold),
                 )
                 plt.tight_layout()
                 pdf.savefig(plt.gcf())

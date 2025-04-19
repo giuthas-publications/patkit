@@ -42,25 +42,27 @@ from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
 from patkit.constants import ComparisonMember
 from patkit.plot_and_publish.plot_utilities import get_colors_in_sequence
-from .simulation_datastructures import Comparison, ComparisonSoundPair
+from .simulation_datastructures import (
+    Comparison,
+    ComparisonSoundPair,
+    DistanceMetricSimulationResult,
+    ShapeMetricSimulationResult,
+)
 from .simulation_plots import (
     contour_ray_plot,
     dual_contour_ray_plot,
 )
+from ..configuration.configuration_models import RayPlotParams
 
 
 def distance_metric_rays_on_contours(
     contours: dict[str, np.ndarray],
-    metrics: dict[Comparison, dict[str, np.ndarray]],
-    metric_name: str,
-    baselines: dict[Comparison, float],
+    distance_metric_result: DistanceMetricSimulationResult,
+    ray_plot_params: RayPlotParams,
     number_of_perturbations: int,
-    figure_size: tuple[float, float],
     columns: list[ComparisonSoundPair],
     nrows: int = 2,
     contour_rows: int = 2,
-    scale: float = 1,
-    color_threshold: list[float, float] | None = None,
 ) -> None:
     """
     Plot a distance metric values on contours.
@@ -69,29 +71,27 @@ def distance_metric_rays_on_contours(
     ----------
     contours : dict[str, np.ndarray]
         Contours by name to plot the metrics on.
-    metrics : dict[str, dict[str, np.ndarray]]
-        Metric values to plot, by contour name and perturbation value.
-    metric_name : str
-        Name of the metric to be plotted.
-    baselines : dict[str, float]
-        Baseline values for each contour.
+    distance_metric_result : DistanceMetricSimulationResult
+        Results and baselines from distance metric simulation.
+    ray_plot_params : RayPlotParams
+        Plotting parameters for the ray plot.
     number_of_perturbations : int
         How many perturbation values there are.
-    figure_size : tuple[float, float]
-        size of the figure
     columns : list[ComparisonSoundPair]
         Order of contours to go through. 
     nrows : int
         number of subplot rows in the plot, by default 1
     contour_rows : int
         number of contour rows in the subplots, by default 2
-    scale : float
-        Scaling factor for the metric values, by default 1
-    color_threshold :  list[float, float] | None
-        Threshold to switch from the first to the second color in plotting the
-        rays. Specified in metric's units relative to the
-        `metric_reference_value`, by default None
     """
+    metrics = distance_metric_result.results
+    metric_name = distance_metric_result.metric
+    baselines = distance_metric_result.baselines
+
+    scale = ray_plot_params.scale
+    figure_size = ray_plot_params.figure_size
+    color_threshold = ray_plot_params.color_threshold
+
     plt.style.use('tableau-colorblind10')
     colors = None
     if color_threshold is not None:
@@ -209,15 +209,11 @@ def distance_metric_rays_on_contours(
 
 def shape_metric_rays_on_contours(
     contours: dict[str, np.ndarray],
-    metrics: dict[str, dict[str, np.ndarray]],
-    metric_name: str,
-    baselines: dict[str, float],
+    shape_metric_result: ShapeMetricSimulationResult,
+    ray_plot_params: RayPlotParams,
     number_of_perturbations: int,
-    figure_size: tuple[float, float],
     nrows: int = 1,
     contour_rows: int = 2,
-    scale: float = 1,
-    color_threshold: list[float, float] | None = None,
 ) -> None:
     """
     Plot shape metric values on contours.
@@ -226,27 +222,25 @@ def shape_metric_rays_on_contours(
     ----------
     contours : dict[str, np.ndarray]
         Contours by name to plot the metrics on.
-    metrics : dict[str, dict[str, np.ndarray]]
-        Metric values to plot, by contour name and perturbation value.
-    metric_name : str
-        Name of the metric to be plotted.
-    baselines : dict[str, float]
-        Baseline values for each contour.
+    shape_metric_result : ShapeMetricSimulationResult
+        Results and baselines from shape metric simulation.
+    ray_plot_params : RayPlotParams
+        Plotting parameters for the ray plot.
     number_of_perturbations : int
         How many perturbation values there are.
-    figure_size : tuple[float, float]
-        size of the figure
     nrows : int
         number of subplot rows in the plot, by default 1
     contour_rows : int
         number of contour rows in the subplots, by default 2
-    scale : float
-        Scaling factor for the metric values, by default 1
-    color_threshold : list[float, float] | None
-        Threshold to switch from the first to the second color in plotting the
-        rays. Specified in metric's units relative to the
-        `metric_reference_value`, by default None
     """
+    metrics = shape_metric_result.results
+    metric_name = shape_metric_result.metric
+    baselines = shape_metric_result.baselines
+
+    scale = ray_plot_params.scale
+    figure_size = ray_plot_params.figure_size
+    color_threshold = ray_plot_params.color_threshold
+
     plt.style.use('tableau-colorblind10')
     colors = None
     if color_threshold is not None:
@@ -286,7 +280,8 @@ def shape_metric_rays_on_contours(
     for j, contour_name in enumerate(metrics):
         reference = baselines[contour_name]
         axes[j].set_title(f"[{contour_name}]")
-        axes[j].set_xlabel(f"{metric_name} = {reference:.2f}")
+        axes[j].set_xlabel(
+            f"{metric_name}/Baseline {metric_name} = {reference:.2f}")
         metric_dict = metrics[contour_name]
         baseline = baselines[contour_name]
         for i, perturbation in enumerate(metric_dict):
