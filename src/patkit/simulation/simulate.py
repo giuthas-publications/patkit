@@ -99,6 +99,24 @@ def run_simulations(
         comparisons: list[Comparison],
         sound_pairs: list[ComparisonSoundPair],
 ) -> None:
+    """
+    Run simulations.
+
+    Currently, runs only spline/contour simulations.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The configuration specifying the simulation to run.
+    contours : dict[str, np.ndarray]
+        Dict of ndarrays/tongue contours indexed by the IPA character of the
+        corresponding sound.
+    comparisons : list[Comparison]
+        List of Comparisons to perform between the contours for distance metric
+        simulation.
+    sound_pairs : list[ComparisonSoundPair]
+        List of sound pairs to be used in plotting.
+    """
     distance_results = simulate_contour_distance_metrics(
         sim_configuration=sim_configuration,
         comparisons=comparisons,
@@ -123,6 +141,26 @@ def simulate_contour_distance_metrics(
         comparisons: list[Comparison],
         contours: dict[str, np.ndarray],
 ) -> list[DistanceMetricSimulationResult]:
+    """
+    Simulate contour shape metrics on splines.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        Configuration variables for the simulation.
+    comparisons : list[Comparison]
+        List of Comparisons specifying which contour to compare to which and
+        which of the two contours should be perturbed.
+    contours : dict[str, np.ndarray]
+        Dict of contours to run the simulation on: ndarrays indexed by the IPA
+        character of the corresponding sound.
+
+    Returns
+    -------
+    list[DistanceMetricSimulationResult]
+        List of DistanceMetricSimulationResult containing the simulation
+        results.
+    """
     results = []
     for metric in sim_configuration.contour_distance.metrics:
         call = partial(
@@ -152,6 +190,22 @@ def simulate_contour_shape_metrics(
         sim_configuration: SimulationConfig,
         contours: dict[str, np.ndarray],
 ) -> list[ShapeMetricSimulationResult]:
+    """
+    Simulate contour shape metrics on splines.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        Configuration variables for the simulation.
+    contours : dict[str, np.ndarray]
+        Dict of contours to run the simulation on: ndarrays indexed by the IPA
+        character of the corresponding sound.
+
+    Returns
+    -------
+    list[ShapeMetricSimulationResult]
+        List of ShapeMetricSimulationResults containing the simulation results.
+    """
     results = []
     for metric in sim_configuration.contour_shape.metrics:
         call = partial(
@@ -229,6 +283,23 @@ def save_result_figures(
         distance_metric_results: list[DistanceMetricSimulationResult],
         shape_metric_results: list[ShapeMetricSimulationResult],
 ) -> None:
+    """
+    Plot and save result figures based on the directives in simulation config.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The configuration for the simulation including plotting directives.
+    contours : dict[str, np.ndarray]
+        The contours the simulation was run on. Dict of ndarrays indexed by the
+        IPA characters of the corresponding sound.
+    sound_pairs : list[ComparisonSoundPair]
+        The sound pairs th simulation was run on.
+    distance_metric_results : list[DistanceMetricSimulationResult]
+        Results from distance metric simulations.
+    shape_metric_results : list[ShapeMetricSimulationResult]
+        Results from shape metric simulations.
+    """
     save_dir = sim_configuration.output_directory
     perturbations = sim_configuration.perturbations
 
