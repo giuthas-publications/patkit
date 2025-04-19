@@ -161,7 +161,7 @@ def annd_perturbation_series_crosswise_plot(
 
 def mci_perturbation_series_plot(
         contours: dict[str, np.ndarray],
-        figure_size: tuple[float, float],
+        figure_size: tuple[float, float] = (12, 8),
         perturbations: list[float] | tuple[float] = (1.0,),
 ) -> None:
     """
@@ -172,9 +172,9 @@ def mci_perturbation_series_plot(
     contours : dict[str, np.ndarray]
         Contours by name to plot the metrics on.
     figure_size : tuple[float, float]
-        size of the figure
+        Size of the figure in inches. By default, `(12, 8)`.
     perturbations : Optional[list[float]], optional
-        perturbation values to use, by default (1.0)
+        Perturbation values to use, by default `(1.0,)`.
     """
     plt.style.use('tableau-colorblind10')
     gridspec_keywords = {
