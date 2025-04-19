@@ -7,9 +7,7 @@
 output_directory: "ultrafest2024/"
 logging_notice_base: "Ultrafest 2024 simulation: "
 
-make_demonstration_contour_plot: True
-
-sounds: 
+sounds:
   - 'æ'
   - 'i'
     
@@ -41,9 +39,36 @@ contour_shape:
   metrics:
     - 'modified_curvature'
 
-plotting_params:
-  sound_pair_params:
-    sounds:
-      - 'æ'
-      - 'i'
-    combinations: full_cartesian # only_cross, only_self
+mci_perturbation_series_plot:
+  filename: "mci_perturbation_series_plot.pdf"
+  figure_size:
+    - 12
+    - 8
+
+distance_metric_ray_plot:
+  figure_size:
+    - 10.1
+    - 4.72
+  scale: 200
+  color_threshold:
+    - .1
+    - -.1
+
+shape_metric_ray_plot:
+  figure_size:
+    - 7
+    - 3.35
+  scale: 20
+  color_threshold:
+    - 2
+    - .5
+
+demonstration_contour_plot:
+  filename: "demonstration_contour_plot.pdf"
+  figure_size:
+    - 6.4
+    - 4.8
+  sounds:
+    - 'æ'
+    - 'i'
+

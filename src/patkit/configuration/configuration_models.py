@@ -429,19 +429,32 @@ class SplineShapeParams(UpdatableBaseModel):
     metrics: list[SplineShapesEnum]
 
 
-class SimulationPlottingParams(UpdatableBaseModel):
-    sound_pair_params: SoundPairParams
+class SimulationPlotParams(UpdatableBaseModel):
+    figure_size: tuple[float, float] | None = None
+    filename: str | None = None
+
+
+class SimulationDemonstrationPlotParams(SimulationPlotParams):
+    sounds: list[str, str]
+
+
+class RayPlotParams(UpdatableBaseModel):
+    scale: float
+    color_threshold: list[float, float]
+    figure_size: tuple[float, float] | None = None
 
 
 class SimulationConfig(UpdatableBaseModel):
     output_directory: Path
     logging_notice_base: str = ""
-    make_demonstration_contour_plot: bool = False
     sounds: list[str]
     perturbations: list[float]
     contour_distance: ContourDistanceParams
     contour_shape: SplineShapeParams
-    plotting_params: SimulationPlottingParams
+    demonstration_contour_plot: SimulationDemonstrationPlotParams | None = None
+    mci_perturbation_series_plot: SimulationPlotParams | None = None
+    distance_metric_ray_plot: RayPlotParams | None = None
+    shape_metric_ray_plot: RayPlotParams | None = None
 
 
 class HeightRatios(UpdatableBaseModel):

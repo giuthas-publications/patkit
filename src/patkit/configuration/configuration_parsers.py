@@ -374,24 +374,50 @@ def load_simulation_params(filepath: Path | str) -> YAML:
         })
     })
 
-    schema = Map({
-        "output_directory": PathValidator(),
-        Optional("logging_notice_base"): Str(),
-        Optional("make_demonstration_contour_plot"): Bool(),
-        "sounds": Seq(Str()),
-        "perturbations": Seq(Float()),
-        "contour_distance": Map({
-            "metrics": Seq(Str()),
-            "timestep": Int(),
-            "sound_pair_params": sound_pair_params,
-        }),
-        "contour_shape": Map({
-            "metrics": Seq(Str()),
-        }),
-        "plotting_params": Map({
-            "sound_pair_params": sound_pair_params,
-        })
-    })
+    ray_plot_params = Map(
+        {
+            Optional("figure_size"): FixedSeq([Float(), Float()]),
+            "scale": Float(),
+            "color_threshold": FixedSeq([Float(), Float()]),
+        }
+    )
+
+    schema = Map(
+        {
+            "output_directory": PathValidator(),
+            Optional("logging_notice_base"): Str(),
+            Optional("make_demonstration_contour_plot"): Bool(),
+            "sounds": Seq(Str()),
+            "perturbations": Seq(Float()),
+            "contour_distance": Map(
+                {
+                    "metrics": Seq(Str()),
+                    "timestep": Int(),
+                    "sound_pair_params": sound_pair_params,
+                }
+            ),
+            "contour_shape": Map(
+                {
+                    "metrics": Seq(Str()),
+                }
+            ),
+            Optional("demonstration_contour_plot"): Map(
+                {
+                    "filename": Str(),
+                    "sounds": FixedSeq([Str(), Str()]),
+                    Optional("figure_size"): FixedSeq([Float(), Float()]),
+                }
+            ),
+            Optional("mci_perturbation_series_plot"): Map(
+                {
+                    Optional("filename"): Str(),
+                    Optional("figure_size"): FixedSeq([Float(), Float()]),
+                }
+            ),
+            Optional("distance_metric_ray_plot"): ray_plot_params,
+            Optional("shape_metric_ray_plot"): ray_plot_params,
+        }
+    )
 
     if filepath.is_file():
         with closing(

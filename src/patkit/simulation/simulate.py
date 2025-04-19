@@ -39,11 +39,10 @@ Original version was published for Ultrafest 2024.
 from functools import partial
 
 import numpy as np
-
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from patkit.constants import ComparisonMember, SplineNNDsEnum, SplineShapesEnum
+from patkit.constants import ComparisonMember
 from patkit.configuration import SimulationConfig
 from patkit.utility_functions import product_dict
 from patkit.metrics.calculate_spline_metric import (
@@ -233,52 +232,62 @@ def save_result_figures(
     save_dir = sim_configuration.output_directory
     perturbations = sim_configuration.perturbations
 
-    for distance_metric_result in distance_metric_results:
-        save_path = (
-                save_dir / f"{distance_metric_result.metric}_contours.pdf")
-        with PdfPages(save_path) as pdf:
-            distance_metric_rays_on_contours(
+    if sim_configuration.distance_metric_ray_plot is not None:
+        ray_plot_params = sim_configuration.distance_metric_ray_plot
+        for distance_metric_result in distance_metric_results:
+            save_path = (
+                    save_dir / f"{distance_metric_result.metric}_contours.pdf")
+            with PdfPages(save_path) as pdf:
+                distance_metric_rays_on_contours(
+                    contours=contours,
+                    metrics=distance_metric_result.results,
+                    metric_name=distance_metric_result.metric,
+                    baselines=distance_metric_result.baselines,
+                    number_of_perturbations=len(perturbations),
+                    figure_size=ray_plot_params.figure_size,
+                    columns=sound_pairs,
+                    scale=ray_plot_params.scale,
+                    color_threshold=ray_plot_params.color_threshold,
+                )
+                plt.tight_layout()
+                pdf.savefig(plt.gcf())
+
+    if sim_configuration.shape_metric_ray_plot is not None:
+        ray_plot_params = sim_configuration.shape_metric_ray_plot
+        for shape_metric_result in shape_metric_results:
+            save_path = (
+                    save_dir / f"{shape_metric_result.metric}_contours.pdf")
+            with PdfPages(save_path) as pdf:
+                metric = shape_metric_result.metric
+                shape_metric_rays_on_contours(
+                    contours=contours,
+                    metrics=shape_metric_result.results,
+                    metric_name=f"{metric}/Baseline {metric}",
+                    baselines=shape_metric_result.baselines,
+                    number_of_perturbations=len(perturbations),
+                    figure_size=ray_plot_params.figure_size,
+                    scale=ray_plot_params.scale,
+                    color_threshold=np.log10(ray_plot_params.color_threshold),
+                )
+                plt.tight_layout()
+                pdf.savefig(plt.gcf())
+
+    if sim_configuration.mci_perturbation_series_plot:
+        mci_config = sim_configuration.mci_perturbation_series_plot
+        with PdfPages(save_dir / mci_config.filename) as pdf:
+            mci_perturbation_series_plot(
                 contours=contours,
-                metrics=distance_metric_result.results,
-                metric_name=distance_metric_result.metric,
-                baselines=distance_metric_result.baselines,
-                number_of_perturbations=len(perturbations),
-                figure_size=(10.1, 4.72),
-                columns=sound_pairs,
-                scale=200,
-                color_threshold=[.1, -.1]
+                perturbations=perturbations,
+                figure_size=mci_config.figure_size,
             )
-            plt.tight_layout()
             pdf.savefig(plt.gcf())
 
-    for shape_metric_result in shape_metric_results:
-        save_path = (
-                save_dir / f"{shape_metric_result.metric}_contours.pdf")
-        with PdfPages(save_path) as pdf:
-            shape_metric_rays_on_contours(
-                contours=contours,
-                metrics=shape_metric_result.results,
-                metric_name="MCI/Baseline MCI",
-                baselines=shape_metric_result.baselines,
-                number_of_perturbations=len(perturbations),
-                figure_size=(7, 3.35),
-                scale=20,
-                color_threshold=np.log10([2, .5])
-            )
-            plt.tight_layout()
-            pdf.savefig(plt.gcf())
-
-    # TODO 0.15: this can't be in this loop if the metric is set in stone
-    if sim_configuration:
-        with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
-            mci_perturbation_series_plot(contours=contours,
-                                         perturbations=perturbations,
-                                         figure_size=(12, 8))
-            pdf.savefig(plt.gcf())
-
-    # TODO 0.15: make this parametric
-    if sim_configuration.make_demonstration_contour_plot is not None:
-        with PdfPages(save_dir / "demonstration_contour_plot.pdf") as pdf:
+    if sim_configuration.demonstration_contour_plot is not None:
+        plot_params = sim_configuration.demonstration_contour_plot
+        with PdfPages(save_dir / plot_params.filename) as pdf:
             make_demonstration_contour_plot(
-                contour_1=contours['æ'], contour_2=contours['i'])
+                contour_1=contours[plot_params.sounds[0]],
+                contour_2=contours[plot_params.sounds[1]],
+                figure_size=plot_params.figure_size,
+            )
             pdf.savefig(plt.gcf())

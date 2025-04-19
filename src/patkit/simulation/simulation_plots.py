@@ -509,7 +509,10 @@ def display_fan(
 
 # TODO 0.15: This one puts the numbers in the second panel in wrong places.
 def make_demonstration_contour_plot(
-        contour_1: np.ndarray, contour_2: np.ndarray) -> None:
+        contour_1: np.ndarray,
+        contour_2: np.ndarray,
+        figure_size: tuple[float, float] | None = None
+) -> None:
     """
     Demonstrate two contours and perturbations on the first contour.
 
@@ -519,7 +522,12 @@ def make_demonstration_contour_plot(
         Contour on both parts of the plot.
     contour_2 : np.ndarray
         Contour only on the first part of the plot.
+    figure_size: tuple[float, float] | None
+        Size of the figure in inches. If None is passed, defaults to 6.4 by 4.8.
     """
+    if figure_size is None:
+        figure_size = (6.4, 4.8)
+
     plt.style.use('tableau-colorblind10')
     main_color = plt.rcParams['axes.prop_cycle'].by_key()['color'][0]
     accent_color = plt.rcParams['axes.prop_cycle'].by_key()['color'][1]
@@ -531,8 +539,11 @@ def make_demonstration_contour_plot(
         # 'top': .95,
         # 'bottom': 0.05,
     }
-    _, axes = plt.subplots(1, 2, figsize=(6.4, 4.8), sharey=True,
-                           gridspec_kw=gridspec_keywords)
+    _, axes = plt.subplots(
+        1, 2,
+        figsize=figure_size,
+        sharey=True,
+        gridspec_kw=gridspec_keywords)
 
     for ax in axes:
         ax.set_aspect('equal')
