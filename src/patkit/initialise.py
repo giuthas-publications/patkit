@@ -83,7 +83,7 @@ def initialise_patkit(
         session is an instance of Session.
     """
     path = path_from_name(path)
-    # TODO 0.15: Move this call to cli_commands like with simulate.
+    # TODO 0.16: Move this call to cli_commands like with simulate.
     config, exclusion_file, logger = initialise_logger_and_config(
         config_file=config_file,
         exclusion_file=exclusion_file,
