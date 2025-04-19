@@ -34,8 +34,6 @@
 Plot metric rays on contours for different perturbations.
 """
 
-from typing import Optional
-
 import numpy as np
 
 import matplotlib.font_manager as fm
@@ -59,10 +57,10 @@ def distance_metric_rays_on_contours(
     number_of_perturbations: int,
     figure_size: tuple[float, float],
     columns: list[ComparisonSoundPair],
-    nrows: Optional[int] = 2,
-    contour_rows: Optional[int] = 2,
-    scale: Optional[float] = 1,
-    color_threshold: Optional[list[float]] = None,
+    nrows: int = 2,
+    contour_rows: int = 2,
+    scale: float = 1,
+    color_threshold: list[float, float] | None = None,
 ) -> None:
     """
     Plot a distance metric values on contours.
@@ -83,13 +81,13 @@ def distance_metric_rays_on_contours(
         size of the figure
     columns : list[ComparisonSoundPair]
         Order of contours to go through. 
-    nrows : Optional[int], optional
+    nrows : int
         number of subplot rows in the plot, by default 1
-    contour_rows : Optional[int], optional
+    contour_rows : int
         number of contour rows in the subplots, by default 2
-    scale : Optional[float], optional
+    scale : float
         Scaling factor for the metric values, by default 1
-    color_threshold :  Optional[float]
+    color_threshold :  list[float, float] | None
         Threshold to switch from the first to the second color in plotting the
         rays. Specified in metric's units relative to the
         `metric_reference_value`, by default None
@@ -102,8 +100,6 @@ def distance_metric_rays_on_contours(
     gridspec_keywords = {
         'wspace': 0.0,
         'hspace': 0.0,
-        # 'top': .95,
-        # 'bottom': 0.05,
     }
 
     ncols = len(columns)
@@ -218,10 +214,10 @@ def shape_metric_rays_on_contours(
     baselines: dict[str, float],
     number_of_perturbations: int,
     figure_size: tuple[float, float],
-    nrows: Optional[int] = 1,
-    contour_rows: Optional[int] = 2,
-    scale: Optional[float] = 1,
-    color_threshold: Optional[list[float]] = None,
+    nrows: int = 1,
+    contour_rows: int = 2,
+    scale: float = 1,
+    color_threshold: list[float, float] | None = None,
 ) -> None:
     """
     Plot shape metric values on contours.
@@ -240,13 +236,13 @@ def shape_metric_rays_on_contours(
         How many perturbation values there are.
     figure_size : tuple[float, float]
         size of the figure
-    nrows : Optional[int], optional
+    nrows : int
         number of subplot rows in the plot, by default 1
-    contour_rows : Optional[int], optional
+    contour_rows : int
         number of contour rows in the subplots, by default 2
-    scale : Optional[float], optional
+    scale : float
         Scaling factor for the metric values, by default 1
-    color_threshold :  Optional[float]
+    color_threshold : list[float, float] | None
         Threshold to switch from the first to the second color in plotting the
         rays. Specified in metric's units relative to the
         `metric_reference_value`, by default None
@@ -301,8 +297,6 @@ def shape_metric_rays_on_contours(
                 origin_offset[1]-10, origin_offset[0]+25,
                 f"{perturbation} mm",
                 horizontalalignment='center',)
-            # ic(j, perturbation, np.max(metric_dict[perturbation]), np.max(
-            #     metric_dict[perturbation]/baseline))
             contour_ray_plot(
                 axes=axes[j],
                 contour=contours[contour_name],
