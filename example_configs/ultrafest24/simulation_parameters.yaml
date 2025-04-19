@@ -5,12 +5,15 @@
 
 # This is where PATKIT will save results of data processing. 
 output_directory: "ultrafest2024/"
+# Used in logging messages.
 logging_notice_base: "Ultrafest 2024 simulation: "
 
+# Which sounds to request tongue contours for
 sounds:
   - 'æ'
   - 'i'
-    
+
+# Which perturbation values (in mm) to use in simulations.
 perturbations: 
   - -2 
   - -1 
@@ -19,32 +22,40 @@ perturbations:
   - 1 
   - 2
 
+# Parameters for contour distance metric simulation
 contour_distance:
+  # Any spline distance metric recognised by PATKIT can be added here on new lines.
   metrics:
     - "annd"
-  timestep: 1
+  timestep: 1 # For now, this should always be 1.
   sound_pair_params:
-    sounds:
+    sounds: # Which sounds to use
       - 'æ'
       - 'i'
-    perturbed:
+    perturbed: # Which one to perturb first, which one second.
       - 'second'
       - 'first'
     combinations: full_cartesian # only_cross, only_self
-    sort:
+    sort: # TODO 1.0: Isn't in use yet.
       matching_first: True
       sort_by: first # first, second
 
+# Parameters for contour
 contour_shape:
+  # Any spline shape metric recognised by PATKIT can be added here on new lines.
   metrics:
     - 'modified_curvature'
 
+# Include this (and 'modified_curvature' above) to produce
+# a mci perturbation series plot.
 mci_perturbation_series_plot:
   filename: "mci_perturbation_series_plot.pdf"
   figure_size:
     - 12
     - 8
 
+# This produces a plot with change in the distance metric plotted
+# as a ray on the perturbed point of the contour.
 distance_metric_ray_plot:
   figure_size:
     - 10.1
@@ -54,6 +65,7 @@ distance_metric_ray_plot:
     - .1
     - -.1
 
+# Same as distance_metric_ray_plot but for shape metrics.
 shape_metric_ray_plot:
   figure_size:
     - 7
@@ -63,6 +75,8 @@ shape_metric_ray_plot:
     - 2
     - .5
 
+# Two panel plot that demonstrates how the perturbations are applied.
+# See the Ultrafest 2024 extended abstract for an example.
 demonstration_contour_plot:
   filename: "demonstration_contour_plot.pdf"
   figure_size:
