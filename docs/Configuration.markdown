@@ -1,8 +1,8 @@
 # Configuration files
 
-NOTE: Parts of the description haven't yet been implemented for version 0.14.
+NOTE: Parts of the description haven't yet been implemented for version 0.15.
 
-TODO 0.15: See that the below description actually corresponds to reality.
+TODO 0.16: See that the below description actually corresponds to reality.
 
 There are some configuration files that appear under both global and local
 below. Local overrides global in all cases. These could also be called user
@@ -158,18 +158,28 @@ analysis.
 
 ### Simulation parameters
 
+Simulations are run on mock up tongue splines/contours extracted manually from
+Peter Ladefoged's Vowels and Consonants. A commented version of the
+configuration walked through below can be found on PATKIT's GitHub repository in
+the `example_configs` folder.
 
+The first parameters define where to save the resulting plots and what message
+prefix should be used in logging messages.
 
 ```yaml
 output_directory: "ultrafest2024/"
 logging_notice_base: "Ultrafest 2024 simulation: "
 ```
 
+Sound/contour selection is defined with IPA characters:
+
 ```yaml
 sounds: 
   - 'æ'
   - 'i'
 ```
+
+This parameter defines the used point-wise perturbations in millimeters.
 
 ```yaml 
 perturbations: 
@@ -181,8 +191,10 @@ perturbations:
   - 2
 ```
 
+This parameter group defines the spline distance metric simulation.
+
 ```yaml
-spline_nnd_params:
+contour_distance:
   metric: "annd"
   timestep: 1
   sound_pair_params:
@@ -195,18 +207,49 @@ spline_nnd_params:
     combinations: full_cartesian # only_cross, only_self
 ```
 
+This (rather simple) parameter group defines the spline shape metric simulation.
+
 ```yaml
 spline_shape_params:
   metric: 'mci'
 ```
 
+And finally the result figures are defined with the following parameter groups.
+To omit a figure from the final plotting just comment out or delete the group
+from the configuration file.
+
 ```yaml
-plotting_params:
-  sound_pair_params:
-    sounds:
-      - 'æ'
-      - 'i'
-    combinations: full_cartesian # only_cross, only_self
+# This produces a plot with change in the distance metric plotted
+# as a ray on the perturbed point of the contour.
+distance_metric_ray_plot:
+  figure_size:
+    - 10.1
+    - 4.72
+  scale: 200
+  color_threshold:
+    - .1
+    - -.1
+
+# Same as distance_metric_ray_plot but for shape metrics.
+shape_metric_ray_plot:
+  figure_size:
+    - 7
+    - 3.35
+  scale: 20
+  color_threshold:
+    - 2
+    - .5
+
+# Two panel plot that demonstrates how the perturbations are applied.
+# See the Ultrafest 2024 extended abstract for an example.
+demonstration_contour_plot:
+  filename: "demonstration_contour_plot.pdf"
+  figure_size:
+    - 6.4
+    - 4.8
+  sounds:
+    - 'æ'
+    - 'i'
 ```
 
 
