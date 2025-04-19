@@ -34,11 +34,8 @@
 Perturbation series plots.
 """
 
-from typing import Optional
-
-import numpy as np
-
 import matplotlib.pyplot as plt
+import numpy as np
 
 from patkit.constants import SplineShapesEnum
 from patkit.metrics.tongue_shape_analysis import spline_shape_metric
@@ -49,9 +46,18 @@ from .simulation_datastructures import Comparison, ComparisonSoundPair
 from .simulation_plots import plot_distance_metric_against_perturbation_point
 
 
+def _distance_metric_labels_and_legend(axes, columns, labels, lines) -> None:
+    axes[0, 0].set_ylabel("Baseline\nto perturbed")
+    axes[1, 0].set_ylabel("Perturbed\nto baseline")
+    if lines is not None and labels is not None:
+        axes[0, len(columns) - 1].legend(lines, labels, bbox_to_anchor=(
+            1, 0.6), loc="upper left")
+
+
 def annd_perturbation_series_like_to_like_plot(
-        annd_dict: dict[Comparison, dict[str, np.ndarray]],
-        columns: list[str],
+    annd_dict: dict[Comparison, dict[str, np.ndarray]],
+    columns: list[str],
+    figure_size: tuple[float, float] = (12, 3),
 ) -> None:
     """
     Make the first part of the perturbation series plot for ANND.
@@ -66,6 +72,8 @@ def annd_perturbation_series_like_to_like_plot(
     columns : list[str]
         Order of contours to go through. Used to access the results from
         annd_dict.
+    figure_size : tuple[float, float]
+        Size of the figure in inches. By default, (12, 3).
     """
     plt.style.use('tableau-colorblind10')
     colors = get_colors_in_sequence(6)
@@ -73,17 +81,17 @@ def annd_perturbation_series_like_to_like_plot(
     gridspec_keywords = {
         'wspace': 0.0,
         'hspace': 0.0,
-        # 'top': .95,
-        # 'bottom': 0.05,
     }
     _, axes = plt.subplots(nrows=2, ncols=len(columns),
-                           figsize=(12, 3),
+                           figsize=figure_size,
                            sharex=True, sharey='row',
                            gridspec_kw=gridspec_keywords)
 
     filtered_annd_dict = {key.first: annd_dict[key]
                           for key in annd_dict if key.first == key.second}
 
+    lines = None
+    labels = None
     for i, sound in enumerate(columns):
         (lines, labels) = plot_distance_metric_against_perturbation_point(
             axes[0:2, i], filtered_annd_dict[sound], colors=colors)
@@ -93,17 +101,16 @@ def annd_perturbation_series_like_to_like_plot(
         axes[0, i].axhline(0, linestyle=":", color="lightgray")
         axes[1, i].axhline(0, linestyle=":", color="lightgray")
 
-    axes[0, 0].set_ylabel("Baseline\nto perturbed")
-    axes[1, 0].set_ylabel("Perturbed\nto baseline")
-
-    axes[0, len(columns)-1].legend(lines, labels, bbox_to_anchor=(
-        1, 0.6), loc="upper left")
+    _distance_metric_labels_and_legend(
+        axes=axes, columns=columns, labels=labels, lines=lines
+    )
 
 
 def annd_perturbation_series_crosswise_plot(
     annd_dict: dict[Comparison, dict[str, np.ndarray]],
     annd_baseline: np.ndarray,
-    columns: list[ComparisonSoundPair]
+    columns: list[ComparisonSoundPair],
+    figure_size: tuple[float, float] = (12, 3),
 ) -> None:
     """
     Make the first part of the perturbation series plot for ANND.
@@ -117,6 +124,8 @@ def annd_perturbation_series_crosswise_plot(
     columns : list[ComparisonSoundPair]
         Order of contour pairs to go through. Used to access the results from
         annd_dict.
+    figure_size : tuple[float, float]
+        Size of the figure in inches. By default, (12, 3).
     """
     plt.style.use('tableau-colorblind10')
     colors = get_colors_in_sequence(6)
@@ -124,10 +133,8 @@ def annd_perturbation_series_crosswise_plot(
     gridspec_keywords = {
         'wspace': 0.0,
         'hspace': 0.0,
-        # 'top': .95,
-        # 'bottom': 0.05,
     }
-    _, axes = plt.subplots(2, 2, figsize=(12, 3),
+    _, axes = plt.subplots(2, 2, figsize=figure_size,
                            sharex=True, sharey='row',
                            gridspec_kw=gridspec_keywords)
 
@@ -135,6 +142,8 @@ def annd_perturbation_series_crosswise_plot(
         ComparisonSoundPair(first=key.first, second=key.second): annd_dict[key]
         for key in annd_dict if key.first != key.second}
 
+    lines = None
+    labels = None
     for i, sound_pair in enumerate(columns):
         (lines, labels) = plot_distance_metric_against_perturbation_point(
             axes[:, i], filtered_annd_dict[sound_pair], colors=colors)
@@ -145,17 +154,15 @@ def annd_perturbation_series_crosswise_plot(
         axes[0, i].axhline(annd_baseline[1], linestyle=":", color="lightgray")
         axes[1, i].axhline(annd_baseline[0], linestyle=":", color="lightgray")
 
-    axes[0, 0].set_ylabel("Baseline\nto perturbed")
-    axes[1, 0].set_ylabel("Perturbed\nto baseline")
-
-    axes[0, len(columns)-1].legend(lines, labels, bbox_to_anchor=(
-        1, 0.6), loc="upper left")
+    _distance_metric_labels_and_legend(
+        axes=axes, columns=columns, labels=labels, lines=lines
+    )
 
 
 def mci_perturbation_series_plot(
         contours: dict[str, np.ndarray],
-        figsize: tuple[float, float],
-        perturbations: Optional[list[float]] = (1.0),
+        figure_size: tuple[float, float],
+        perturbations: list[float] | tuple[float] = (1.0,),
 ) -> None:
     """
     Make a perturbation series plot for MCI.
@@ -164,7 +171,7 @@ def mci_perturbation_series_plot(
     ----------
     contours : dict[str, np.ndarray]
         Contours by name to plot the metrics on.
-    figsize : tuple[float, float]
+    figure_size : tuple[float, float]
         size of the figure
     perturbations : Optional[list[float]], optional
         perturbation values to use, by default (1.0)
@@ -173,18 +180,16 @@ def mci_perturbation_series_plot(
     gridspec_keywords = {
         'wspace': 0.0,
         'hspace': 0.0,
-        # 'left': .05
-        # 'top': .95,
-        # 'bottom': 0.05,
     }
     figure, axes = plt.subplots(nrows=len(perturbations),
                                 ncols=len(contours),
-                                figsize=figsize,
+                                figsize=figure_size,
                                 sharex=True, sharey=True,
                                 gridspec_kw=gridspec_keywords)
 
     ref_mci = [0, 0]
 
+    mci = None
     for j, contour_name in enumerate(contours):
         for i, perturbation in enumerate(perturbations):
             perturbed = contour_point_perturbations(
@@ -212,8 +217,9 @@ def mci_perturbation_series_plot(
                 loc='upper right',
                 handlelength=0,
                 handletextpad=0)
-        axes[0, j].set_title(
-            f"Change in MCI for [{contour_name}] relative to {mci[0]:.1f}")
+        if mci is not None:
+            axes[0, j].set_title(
+                f"Change in MCI for [{contour_name}] relative to {mci[0]:.1f}")
 
     figure.text(0.05, 0.5, r"log$_{10}$(Perturbed MCI / Reference MCI)",
                 ha="center", va="center", rotation=90)

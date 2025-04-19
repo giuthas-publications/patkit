@@ -269,11 +269,12 @@ def save_result_figures(
             pdf.savefig(plt.gcf())
 
     # TODO 0.15: this can't be in this loop if the metric is set in stone
-    with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
-        mci_perturbation_series_plot(contours=contours,
-                                     perturbations=perturbations,
-                                     figsize=(12, 8))
-        pdf.savefig(plt.gcf())
+    if sim_configuration:
+        with PdfPages(save_dir / "mci_timeseries.pdf") as pdf:
+            mci_perturbation_series_plot(contours=contours,
+                                         perturbations=perturbations,
+                                         figure_size=(12, 8))
+            pdf.savefig(plt.gcf())
 
     # TODO 0.15: make this parametric
     if sim_configuration.make_demonstration_contour_plot is not None:
