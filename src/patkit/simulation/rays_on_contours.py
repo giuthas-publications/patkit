@@ -228,7 +228,7 @@ def shape_metric_rays_on_contours(
         number of contour rows in the subplots, by default 2
     """
     metrics = shape_metric_result.results
-    metric_name = shape_metric_result.metric
+    metric_name = shape_metric_result.metric.short_name()
     baselines = shape_metric_result.baselines
 
     plt.style.use('tableau-colorblind10')

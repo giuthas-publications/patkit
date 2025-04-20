@@ -289,6 +289,25 @@ class SplineShapesEnum(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
     MODIFIED_CURVATURE = 'modified_curvature'
     PROCRUSTES = 'procrustes'
 
+    def short_name(self) -> str:
+        """
+        Return the short name or abbreviation of this SplineShape metric.
+
+        Returns
+        -------
+        str
+            The short name.
+        """
+        match self:
+            case SplineShapesEnum.CURVATURE:
+                return "CI"
+            case SplineShapesEnum.FOURIER:
+                return "Fourier"
+            case SplineShapesEnum.MODIFIED_CURVATURE:
+                return "MCI"
+            case SplineShapesEnum.PROCRUSTES:
+                return "PROC"
+
 
 SplineMetricEnum = enum_union(
     [SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum], "SplineMetricEnum")
