@@ -320,3 +320,13 @@ class SimulationContourConsonant(
 SimulationContourSoundEnum = enum_union(
     [SimulationContourVowel, SimulationContourConsonant],
     "SimulationContourEnum")
+
+
+class OverwriteConfirmation(Enum):
+    """
+    Codes for a user's response when asked if a file should be overwritten.
+    """
+    YES = 'yes'
+    YES_TO_ALL = 'yes to all'
+    NO = 'no'
+    NO_TO_ALL = 'no to all'

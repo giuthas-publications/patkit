@@ -35,7 +35,7 @@ from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QLabel, QDialogButtonBox)
 from PyQt6.QtCore import Qt
 
-from patkit.ui_callbacks import OverwriteConfirmation
+from patkit.constants import OverwriteConfirmation
 
 
 class ReplaceDialog(QDialog):
