@@ -52,7 +52,7 @@ from .simulation_plots import (
     contour_ray_plot,
     dual_contour_ray_plot,
 )
-from ..configuration.configuration_models import RayPlotParams
+from patkit.configuration.configuration_models import RayPlotParams
 
 
 def distance_metric_rays_on_contours(
@@ -165,8 +165,6 @@ def distance_metric_rays_on_contours(
                 origin_offset[1]-10, origin_offset[0]-15,
                 f"{perturbation} mm",
                 horizontalalignment='center',)
-            # ic(perturbation, comparison, np.max(
-            #     np.abs(metric_dict[perturbation]-baseline)))
             if comparison.first == comparison.second:
                 contour_ray_plot(
                     axes=axes[row, column],
