@@ -85,16 +85,12 @@ def distance_metric_rays_on_contours(
         number of contour rows in the subplots, by default 2
     """
     metrics = distance_metric_result.results
-    metric_name = distance_metric_result.metric
+    metric_name = str(distance_metric_result.metric).upper()
     baselines = distance_metric_result.baselines
-
-    scale = ray_plot_params.scale
-    figure_size = ray_plot_params.figure_size
-    color_threshold = ray_plot_params.color_threshold
 
     plt.style.use('tableau-colorblind10')
     colors = None
-    if color_threshold is not None:
+    if ray_plot_params.color_threshold is not None:
         colors = get_colors_in_sequence(2)
 
     gridspec_keywords = {
@@ -105,7 +101,7 @@ def distance_metric_rays_on_contours(
     ncols = len(columns)
     _, axes = plt.subplots(nrows=nrows,
                            ncols=ncols,
-                           figsize=figure_size,
+                           figsize=ray_plot_params.figure_size,
                            sharey=True,
                            sharex=True,
                            gridspec_kw=gridspec_keywords)
@@ -117,7 +113,7 @@ def distance_metric_rays_on_contours(
         font_properties = fm.FontProperties(size=9)
         scale_bar = AnchoredSizeBar(
             ax.transData,
-            size=.1*scale, label=f'0.1 {metric_name}',
+            size=.1*ray_plot_params.scale, label=f'0.1 {metric_name}',
             loc='upper left',
             pad=.5,
             color=plt.rcParams['axes.prop_cycle'].by_key()['color'][0],
@@ -171,9 +167,9 @@ def distance_metric_rays_on_contours(
                     contour=contours[comparison.first],
                     metric_values=metric_dict[perturbation],
                     metric_reference_value=baseline,
-                    scale=scale,
+                    scale=ray_plot_params.scale,
                     origin_offset=origin_offset,
-                    color_threshold=color_threshold,
+                    color_threshold=ray_plot_params.color_threshold,
                     colors=colors,
                 )
             else:
@@ -184,10 +180,10 @@ def distance_metric_rays_on_contours(
                         perturbed_contour=contours[comparison.second],
                         metric_values=metric_dict[perturbation],
                         metric_reference_value=baseline,
-                        scale=scale,
+                        scale=ray_plot_params.scale,
                         origin_offset=origin_offset,
                         relative=False,
-                        color_threshold=color_threshold,
+                        color_threshold=ray_plot_params.color_threshold,
                         colors=colors,
                     )
                 else:
@@ -197,10 +193,10 @@ def distance_metric_rays_on_contours(
                         perturbed_contour=contours[comparison.first],
                         metric_values=metric_dict[perturbation],
                         metric_reference_value=baseline,
-                        scale=scale,
+                        scale=ray_plot_params.scale,
                         origin_offset=origin_offset,
                         relative=False,
-                        color_threshold=color_threshold,
+                        color_threshold=ray_plot_params.color_threshold,
                         colors=colors,
                     )
 
@@ -235,13 +231,9 @@ def shape_metric_rays_on_contours(
     metric_name = shape_metric_result.metric
     baselines = shape_metric_result.baselines
 
-    scale = ray_plot_params.scale
-    figure_size = ray_plot_params.figure_size
-    color_threshold = ray_plot_params.color_threshold
-
     plt.style.use('tableau-colorblind10')
     colors = None
-    if color_threshold is not None:
+    if ray_plot_params.color_threshold is not None:
         colors = get_colors_in_sequence(2)
 
     gridspec_keywords = {
@@ -253,7 +245,7 @@ def shape_metric_rays_on_contours(
     ncols = len(contour_names)
     _, axes = plt.subplots(nrows=nrows,
                            ncols=ncols,
-                           figsize=figure_size,
+                           figsize=ray_plot_params.figure_size,
                            sharey=True,
                            sharex=True,
                            gridspec_kw=gridspec_keywords)
@@ -265,7 +257,7 @@ def shape_metric_rays_on_contours(
         font_properties = fm.FontProperties(size=9)
         scale_bar = AnchoredSizeBar(
             ax.transData,
-            size=scale*np.log10(2), label='log10(2)',
+            size=ray_plot_params.scale*np.log10(2), label='log10(2)',
             loc='upper left',
             pad=.5,
             color=plt.rcParams['axes.prop_cycle'].by_key()['color'][0],
@@ -295,8 +287,8 @@ def shape_metric_rays_on_contours(
                 contour=contours[contour_name],
                 metric_values=metric_dict[perturbation],
                 metric_reference_value=baseline,
-                scale=scale,
+                scale=ray_plot_params.scale,
                 origin_offset=origin_offset,
                 relative=True,
-                color_threshold=color_threshold,
+                color_threshold=ray_plot_params.color_threshold,
                 colors=colors,)
