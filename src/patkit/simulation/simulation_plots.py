@@ -193,6 +193,7 @@ def contour_ray_plot(
         metric_values = np.log10(metric_values / metric_reference_value)
         metric_values = scale * metric_values
         if color_threshold is not None:
+            color_threshold = np.log10(color_threshold)
             color_threshold = scale * color_threshold
     else:
         metric_values = (metric_values - metric_reference_value)*scale
