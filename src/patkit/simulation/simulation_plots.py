@@ -448,17 +448,20 @@ def plot_contour_segment(
         If index is out of bounds of the contour.
     """
     if polar:
-        contour = polar_to_cartesian(contour)
+        cartesian_contour = polar_to_cartesian(contour)
+    else:
+        cartesian_contour = contour
+        contour = cartesian_to_polar(contour)
 
     if index == 0:
-        contour_segment = contour[:, :2]
-    elif index < contour.shape[1]:
-        contour_segment = contour[:, index-1:index+2]
-    elif index == contour.shape[1]:
-        contour_segment = contour[:, index-1:]
+        contour_segment = cartesian_contour[:, :2]
+    elif index < cartesian_contour.shape[1]:
+        contour_segment = cartesian_contour[:, index - 1:index + 2]
+    elif index == cartesian_contour.shape[1]:
+        contour_segment = cartesian_contour[:, index - 1:]
     else:
         raise IndexError("Index out of bounds index=" + str(index) +
-                         ", shape=" + str(contour.shape))
+                         ", shape=" + str(cartesian_contour.shape))
 
     if color:
         line = axes.plot(contour_segment[1, :],
@@ -547,6 +550,8 @@ def make_demonstration_contour_plot(
 
     for ax in axes:
         ax.set_aspect('equal')
+
+    # Two contours with rays from the origin and numbering on the outside.
     display_fan(axes[0], contour_1)
     display_fan(axes[0], contour_2)
     display_contour(axes[0], contour_1, display_indeces=False,
@@ -556,6 +561,7 @@ def make_demonstration_contour_plot(
     display_indeces_on_contours(
         axes[0], contour_1, contour_2, offset=4, color=accent_color2)
 
+    # One contour with perturbations out and in.
     display_contour(axes[1], contour_1, color=main_color)
     perturbed_positive = contour_point_perturbations(
         contour=contour_1.copy(),

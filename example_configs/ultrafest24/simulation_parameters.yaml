@@ -80,8 +80,8 @@ shape_metric_ray_plot:
 demonstration_contour_plot:
   filename: "demonstration_contour_plot.pdf"
   figure_size:
-    - 6.4
-    - 4.8
+    - 10
+    - 5.8
   sounds:
     - 'æ'
     - 'i'
