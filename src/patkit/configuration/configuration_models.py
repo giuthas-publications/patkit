@@ -50,11 +50,18 @@ import numpy as np
 from pydantic import conlist, PositiveInt
 
 from patkit.constants import (
-    CoordinateSystems, Datasource, GuiColorScheme,
-    IntervalBoundary, IntervalCategory,
-    SplineDataColumn, SplineMetaColumn, SplineNNDsEnum, SplineShapesEnum
+    CoordinateSystems,
+    Datasource,
+    GuiColorScheme,
+    IntervalBoundary,
+    IntervalCategory,
+    SplineDataColumn,
+    SplineMetaColumn,
+    SplineMetricEnum,
+    SplineShapesEnum,
 )
 from patkit.external_class_extensions import UpdatableBaseModel
+from patkit.constants import ComparisonMember
 
 _logger = logging.getLogger('patkit.configuration_models')
 
@@ -393,34 +400,62 @@ class SoundCombinationsType(Enum):
     ONLY_SELF = "only_self"
 
 
+class ComparisonSortingParams(UpdatableBaseModel):
+    matching_first: bool
+    sort_by: ComparisonMember
+
+
 class SoundPairParams(UpdatableBaseModel):
     sounds: list[str]
     combinations: SoundCombinationsType
     perturbed: list[str] | None = None
+    sort: ComparisonSortingParams | None = None
 
 
-class SplineNndParams(UpdatableBaseModel):
-    metric: SplineNNDsEnum
+class ContourDistanceParams(UpdatableBaseModel):
+    metrics: list[SplineMetricEnum]
     timestep: PositiveInt
     sound_pair_params: SoundPairParams
 
+    def __post_init__(self):
+        if isinstance(self.metric, SplineShapesEnum):
+            raise ValueError(
+                f"ContourDistanceParams does not accept "
+                f"SplineShapesEnum as metric type. Found {self.metric}."
+            )
+
 
 class SplineShapeParams(UpdatableBaseModel):
-    metric: SplineShapesEnum
+    metrics: list[SplineShapesEnum]
 
 
-class SimulationPlottingParams(UpdatableBaseModel):
-    sound_pair_params: SoundPairParams
+class SimulationPlotParams(UpdatableBaseModel):
+    figure_size: tuple[float, float] | None = None
+    filename: str | None = None
+
+
+class SimulationDemonstrationPlotParams(SimulationPlotParams):
+    sounds: list[str, str]
+
+
+class RayPlotParams(UpdatableBaseModel):
+    scale: float
+    color_threshold: list[float, float]
+    figure_size: tuple[float, float] | None = None
 
 
 class SimulationConfig(UpdatableBaseModel):
     output_directory: Path
+    overwrite_plots: bool | None = None
     logging_notice_base: str = ""
     sounds: list[str]
     perturbations: list[float]
-    spline_nnd_params: SplineNndParams
-    spline_shape_params: SplineShapeParams
-    plotting_params: SimulationPlottingParams
+    contour_distance: ContourDistanceParams
+    contour_shape: SplineShapeParams
+    demonstration_contour_plot: SimulationDemonstrationPlotParams | None = None
+    mci_perturbation_series_plot: SimulationPlotParams | None = None
+    distance_metric_ray_plot: RayPlotParams | None = None
+    shape_metric_ray_plot: RayPlotParams | None = None
 
 
 class HeightRatios(UpdatableBaseModel):

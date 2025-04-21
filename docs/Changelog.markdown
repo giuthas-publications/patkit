@@ -27,20 +27,43 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.15 is planned to be a re-implementation of the simulation code that was
-  originally released for Ultrafest 2024.
-- 0.16 is planned to be an implementation of kymography. This might get moved 
-  to a release after 0.20.
-- 0.17 is planned to be a general configuration update moving from central to
+- 0.16 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
-- 0.18 is planned to be a data structure update giving support for multiple data
+- 0.17 is planned to update the GUI with full TextGrid editing.
+- 0.18 is planned to be a release of automated segmentation exercises.
+- 0.19 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.19 is planned to update the GUI with full TextGrid editing.
-- 0.20 is planned to be a release of automated segmentation exercises.
+- 0.20 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
 - After 0.20 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
+
+## [0.15.0]
+
+### Highlights
+
+- Re-implementation of the simulation code that was originally released for
+  Ultrafest 2024.
+
+### Added
+
+- `patkit simulate` command for simulating different metrics on spline data. It
+  uses the simulation_parameters.yaml file.
+
+### Changed
+
+- Release notes are going to be automatically populated from the Changelog for
+  better readability.
+- Planned release schedule has changed.
+
+### Fixed
+
+- GitHub actions should now run a bit smoother and not attempt to run in forks.
+- Hopefully fixed an older error complaining that `\i` is not a valid escape
+  sequence in `\infty`.
+
 
 ## [0.14.2] 2025-04-11
 
@@ -61,6 +84,18 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ## Fixed 
 
 - Installation problems resulting in an empty package that would not run.
+
+
+
+## [0.14.1] 2025-02-18
+
+### Added 
+
+- Automated releases on testpypi, pypi and github. Testpypi will in the future
+  be used for pre-releases (alpha, beta, release candidate/rc) and pypi for
+  regular releases. 
+- Technically the software is still in alpha status as a whole but will get
+  occasional alpha/beta/rc releases of the 0.x releases.
 
 
 ## [0.14.0] 2025-01-31

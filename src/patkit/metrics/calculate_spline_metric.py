@@ -40,13 +40,14 @@ import numpy as np
 
 from patkit.data_structures import ModalityData, Recording
 from patkit.modalities import Splines
+from patkit.constants import (
+    SplineDiffsEnum, SplineMetricEnum, SplineNNDsEnum, SplineShapesEnum
+)
 
 from .metrics_helpers import calculate_timevector
 from .spline_metric import (
     SplineMetric, SplineMetricParameters
 )
-from ..constants import SplineDiffsEnum, SplineMetricEnum, SplineNNDsEnum, \
-    SplineShapesEnum
 from .tongue_shape_analysis import spline_shape_metric
 
 _logger = logging.getLogger('patkit.gen_spline_metric')
@@ -117,8 +118,6 @@ def spline_nnd_metric(
     ----------
     data : np.ndarray
         the spline data
-    time_points : np.ndarray
-        number of time points in the result
     metric : SplineMetricEnum
         which metric to calculate
     timestep : int
@@ -129,7 +128,7 @@ def spline_nnd_metric(
     Returns
     -------
     np.ndarray
-        an array of analysis values where array.shape[0] == time_points
+        an array of analysis values where `array.shape[0] == time_points`
     """
     time_points = data.shape[0] - timestep
     result = np.zeros(time_points)
@@ -148,9 +147,9 @@ def spline_nnd_metric(
             diff = np.sum(diff, axis=0)
             diff = np.sqrt(diff)
             nnd[j] = np.amin(diff)
-        if metric == SplineMetricEnum.ANND:
+        if metric == SplineNNDsEnum.ANND:
             result[i] = np.average(nnd)
-        elif metric == SplineMetricEnum.MNND:
+        elif metric == SplineNNDsEnum.MNND:
             result[i] = np.median(nnd)
 
     _logger.debug("%s: %s calculated.", notice_base, metric)

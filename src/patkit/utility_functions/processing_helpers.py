@@ -56,6 +56,10 @@ def product_dict(**kwargs):
     """
     Produce a list of dicts of the Cartesian product of lists in a dict.
 
+    In essence goes from a dict that contains lists to a list that contains
+    dicts where the dicts span all of the combinations of the list members in
+    the original dict's fields.
+
     ```python
     options = {"number": [1,2,3], "color": ["orange","blue"] }
     print(list(product_dict(**options)))

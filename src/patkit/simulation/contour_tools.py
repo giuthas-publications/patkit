@@ -33,49 +33,24 @@
 Tools for working with simulated tongue contours.
 """
 
-
-from typing import Optional, Union
-
 import numpy as np
 
-from patkit.external_class_extensions import (
-    enum_union, ListablePrintableEnum, ValueComparedEnumMeta)
-
-
-class SimulationContourVowel(
-        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
-    """
-    Currently available simulated vowel contours.
-    """
-    AE = 'æ'
-    I = 'i'
-
-
-class SimulationContourConsonant(
-        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
-    """
-    Currently available simulated consonant contours.
-    """
-
-
-SimulationContourSoundEnum = enum_union(
-    [SimulationContourVowel, SimulationContourConsonant],
-    "SimulationContourEnum")
+from patkit.constants import SimulationContourSoundEnum, SimulationContourVowel
 
 
 def generate_contour(
-        sound: Optional[Union[str, SimulationContourSoundEnum]] = None,
-        number_of_points: Optional[int] = 42
+        sound: str | SimulationContourSoundEnum | None = None,
+        number_of_points: int = 42
 ) -> np.ndarray:
     """
     Generate a radial contour for the requested sound.
 
     Parameters
     ----------
-    sound : SimulationContourEnum, optional
+    sound : str | SimulationContourEnum | None
         The requested sound, by default SimulationContourVowel.AE
 
-    number_of_points : Optional[int], optional
+    number_of_points : int
         Future option for generating a different number of interpolation
         points, by default 42
 
@@ -127,9 +102,9 @@ def generate_contour(
 
 def contour_point_perturbations(
         contour: np.ndarray,
-        reference_contour: Optional[np.ndarray] = None,
-        perturbation: Optional[float] = 1.0,
-        interleave: Optional[bool] = False
+        reference_contour: np.ndarray | None = None,
+        perturbation: float = 1.0,
+        interleave: bool = False
 ) -> np.ndarray:
     """
     Perturb a contour by the given amount at each point at a time.

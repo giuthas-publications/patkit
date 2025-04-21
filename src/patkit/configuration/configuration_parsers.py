@@ -82,12 +82,18 @@ class ConfigPathValidator(ScalarValidator):
     represented by None. If you want to specify current working directory, use
     '.'
     """
+    def __init__(self, path: Path | None = None):
+        self.path = path
+        super().__init__()
 
     def validate_scalar(self, chunk):
         if chunk.contents:
             path = Path(chunk.contents).expanduser()
             if path.parent == Path('.'):
-                path = PATKIT_CONFIG_DIR/path
+                if self.path is not None:
+                    path = self.path/path
+                else:
+                    path = PATKIT_CONFIG_DIR/path
             return path.expanduser()
         return None
 
@@ -198,16 +204,17 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
 
     _logger.info("Loading main configuration from %s", str(filepath))
 
+    config_path_validator = ConfigPathValidator(filepath.parent)
     if filepath.is_file():
         with closing(
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
                 "epsilon": Float(),
                 "mains_frequency": Float(),
-                "gui_parameter_file": ConfigPathValidator(),
-                Optional("data_run_parameter_file"): ConfigPathValidator(),
-                Optional("simulation_parameter_file"): ConfigPathValidator(),
-                Optional("publish_parameter_file"): ConfigPathValidator()
+                "gui_parameter_file": config_path_validator,
+                Optional("data_run_parameter_file"): config_path_validator,
+                Optional("simulation_parameter_file"): config_path_validator,
+                Optional("publish_parameter_file"): config_path_validator,
             })
             try:
                 _raw_config_dict = load(yaml_file.read(), schema)
@@ -339,11 +346,12 @@ def load_run_params(filepath: Path | str | None = None) -> YAML:
 
 def load_simulation_params(filepath: Path | str) -> YAML:
     """
-
+    Load simulation parameters from a `yaml` file.
 
     Parameters
     ----------
-    filepath :
+    filepath : Path | str
+        Path to the simulation parameters file or equivalent string.
 
     Returns
     -------
@@ -358,27 +366,59 @@ def load_simulation_params(filepath: Path | str) -> YAML:
 
     sound_pair_params = Map({
         "sounds": Seq(Str()),
+        "combinations": Str(),
         Optional("perturbed"): Seq(Str()),
-        "combinations": Str,
-    })
-
-    schema = Map({
-        "output_directory": PathValidator(),
-        Optional("logging_notice_base"): Str(),
-        "sounds": Seq(Str()),
-        "perturbations": Seq(Float()),
-        "spline_nnd_params": Map({
-            "metric": Str(),
-            "timestep": Int(),
-            "sound_pair_params": sound_pair_params,
-        }),
-        "spline_shape_params": Map({
-            "metric": Str(),
-        }),
-        "plotting_params": Map({
-            "sound_pair_params": sound_pair_params,
+        Optional("sort"): Map({
+            "matching_first": Bool(),
+            "sort_by": Str(),
         })
     })
+
+    ray_plot_params = Map(
+        {
+            Optional("figure_size"): FixedSeq([Float(), Float()]),
+            "scale": Float(),
+            "color_threshold": FixedSeq([Float(), Float()]),
+        }
+    )
+
+    schema = Map(
+        {
+            "output_directory": PathValidator(),
+            Optional("overwrite_plots"): Bool(),
+            Optional("logging_notice_base"): Str(),
+            Optional("make_demonstration_contour_plot"): Bool(),
+            "sounds": Seq(Str()),
+            "perturbations": Seq(Float()),
+            "contour_distance": Map(
+                {
+                    "metrics": Seq(Str()),
+                    "timestep": Int(),
+                    "sound_pair_params": sound_pair_params,
+                }
+            ),
+            "contour_shape": Map(
+                {
+                    "metrics": Seq(Str()),
+                }
+            ),
+            Optional("demonstration_contour_plot"): Map(
+                {
+                    "filename": Str(),
+                    "sounds": FixedSeq([Str(), Str()]),
+                    Optional("figure_size"): FixedSeq([Float(), Float()]),
+                }
+            ),
+            Optional("mci_perturbation_series_plot"): Map(
+                {
+                    Optional("filename"): Str(),
+                    Optional("figure_size"): FixedSeq([Float(), Float()]),
+                }
+            ),
+            Optional("distance_metric_ray_plot"): ray_plot_params,
+            Optional("shape_metric_ray_plot"): ray_plot_params,
+        }
+    )
 
     if filepath.is_file():
         with closing(
@@ -401,7 +441,6 @@ def load_simulation_params(filepath: Path | str) -> YAML:
     return simulation_params_dict
 
 
-
 def load_gui_params(filepath: Path | str | None = None) -> YAML:
     """
     Read the config file from filepath.
@@ -418,7 +457,7 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
 
     _logger.info("Loading GUI configuration from %s", str(filepath))
 
-    # TODO 0.15: make sure that normalise gets included here and in config
+    # TODO 0.16: make sure that normalise gets included here and in config
     # models.
     axes_params_dict = {
         Optional(
@@ -436,7 +475,6 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
         Optional("modalities"): Seq(Str()),
         Optional("modality_names"): Seq(Str()),
     }
-
 
     if filepath.is_file():
         with closing(

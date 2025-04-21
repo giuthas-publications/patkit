@@ -2,8 +2,6 @@ name: pre_release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+a[0-9]+"
       - "v[0-9]+.[0-9]+.[0-9]+b[0-9]+"
@@ -16,6 +14,7 @@ env:
 jobs:
   details:
     runs-on: ubuntu-latest
+    if: github.repository == 'giuthas/patkit'
     outputs:
       new_version: ${{ steps.release.outputs.new_version }}
       suffix: ${{ steps.release.outputs.suffix }}
@@ -95,8 +94,7 @@ jobs:
 
   testpypi_publish:
     name: Publish to TestPyPI
-    needs:
-    - setup_and_build
+    needs: [details, setup_and_build]
     runs-on: ubuntu-latest
     environment:
       name: testpypi
@@ -116,7 +114,7 @@ jobs:
 
   github_release:
     name: Create GitHub Release
-    needs: [setup_and_build, details, testpypi_publish]
+    needs: [details, setup_and_build, testpypi_publish]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -132,9 +130,18 @@ jobs:
           name: python-package-distributions
           path: dist/
 
+      - name: Get latest release info
+        id: query-release-info
+        uses: release-flow/keep-a-changelog-action@v2
+        with:
+          command: query
+          version: latest
+          changelog: 'docs/Changelog.markdown'
+
       - name: Create GitHub Release
         id: create_release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create ${{ needs.details.outputs.tag_name }} dist/* --title ${{ needs.details.outputs.tag_name }} --notes "Details in [Changelog](docs/Changelog.markdown)." --prerelease
+          echo ${{env.title_string}}
+          gh release create ${{ needs.details.outputs.tag_name }} dist/* --title "${{steps.query-release-info.outputs.version}} - ${{steps.query-release-info.outputs.release-date }}" --notes "{{steps.query-release-info.outputs.release-notes}}" --prerelease

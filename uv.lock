@@ -771,7 +771,7 @@ wheels = [
 
 [[package]]
 name = "patkit"
-version = "0.14.2a8"
+version = "0.15.0"
 source = { editable = "." }
 dependencies = [
     { name = "build" },
@@ -790,7 +790,7 @@ dependencies = [
     { name = "pydicom" },
     { name = "pylint" },
     { name = "pyqt6" },
-    { name = "pyreadline3", marker = "sys_platform == 'windows'" },
+    { name = "pyreadline3", marker = "sys_platform == 'win32'" },
     { name = "qbstyles" },
     { name = "scipy" },
     { name = "seaborn" },
@@ -818,7 +818,7 @@ requires-dist = [
     { name = "pydicom", specifier = ">=3.0.1" },
     { name = "pylint", specifier = ">=3.3.3" },
     { name = "pyqt6", specifier = ">=6.8.0" },
-    { name = "pyreadline3", marker = "sys_platform == 'windows'", specifier = ">=3.5.4" },
+    { name = "pyreadline3", marker = "sys_platform == 'win32'", specifier = ">=3.5.4" },
     { name = "qbstyles", specifier = ">=0.1.4" },
     { name = "scipy", specifier = ">=1.15.0" },
     { name = "seaborn", specifier = ">=0.13.2" },

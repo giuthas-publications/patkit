@@ -37,14 +37,16 @@ Original version was published for Ultrafest 2024.
 """
 
 from functools import partial
-from pathlib import Path
 
+import click
 import numpy as np
-
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+from typing_extensions import override
 
-from patkit.constants import SplineNNDsEnum, SplineShapesEnum
+from patkit.constants import ComparisonMember
+from patkit.configuration import SimulationConfig
+from patkit.utility_functions import product_dict
 from patkit.metrics.calculate_spline_metric import (
     # spline_diff_metric,
     spline_nnd_metric, spline_shape_metric
@@ -52,167 +54,331 @@ from patkit.metrics.calculate_spline_metric import (
 
 from .contour_tools import generate_contour
 from .metric_calculations import (
-    Comparison, ComparisonSoundPair,
     calculate_metric_series_for_comparisons,
     calculate_metric_series_for_contours,
     get_distance_metric_baselines,
     get_shape_metric_baselines,
 )
+from .perturbation_series_plots import mci_perturbation_series_plot
 from .rays_on_contours import (
     distance_metric_rays_on_contours,
     shape_metric_rays_on_contours,
 )
-from .perturbation_series_plots import mci_perturbation_series_plot
+from .simulation_datastructures import (
+    Comparison,
+    ComparisonSoundPair,
+    DistanceMetricSimulationResult,
+    ShapeMetricSimulationResult,
+)
+from .simulation_plots import make_demonstration_contour_plot
+
+
+def _sort_comparisons(
+        comparisons: list[Comparison],
+        sort_by: ComparisonMember = ComparisonMember.FIRST,
+) -> list[Comparison]:
+    matching = [
+        comparison for comparison in comparisons
+        if comparison.first == comparison.second
+    ]
+    matching.sort(key=lambda comparison: comparison.first)
+
+    non_matching = [
+        comparison for comparison in comparisons
+        if comparison.first != comparison.second
+    ]
+    if sort_by == ComparisonMember.FIRST:
+        non_matching.sort(key=lambda comparison: comparison.first)
+    else:
+        non_matching.sort(key=lambda comparison: comparison.second)
+    matching.extend(non_matching)
+    return matching
 
 
 def run_simulations(
-    comparisons, contours, perturbations, save_path, sound_pairs
+        sim_configuration: SimulationConfig,
+        contours: dict[str, np.ndarray],
+        comparisons: list[Comparison],
+        sound_pairs: list[ComparisonSoundPair],
 ) -> None:
     """
-    Main to create plots for the Ultrafest 2024 paper.
+    Run simulations.
+
+    Currently, runs only spline/contour simulations.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The configuration specifying the simulation to run.
+    contours : dict[str, np.ndarray]
+        Dict of ndarrays/tongue contours indexed by the IPA character of the
+        corresponding sound.
+    comparisons : list[Comparison]
+        List of Comparisons to perform between the contours for distance metric
+        simulation.
+    sound_pairs : list[ComparisonSoundPair]
+        List of sound pairs to be used in plotting.
     """
-    # TODO 0.15: these should run based on config
-    annd_baselines, annd_results = simulate_dyadic_metrics(
-        comparisons, contours, perturbations)
-    mci_baselines, mci_results = simulate_single_contour_metrics(
-        contours, perturbations)
+    distance_results = simulate_contour_distance_metrics(
+        sim_configuration=sim_configuration,
+        comparisons=comparisons,
+        contours=contours,
+    )
+    shape_results = simulate_contour_shape_metrics(
+        sim_configuration=sim_configuration,
+        contours=contours,
+    )
 
-    # TODO 0.15: RESULTS
-    save_result_figures(annd_baselines, annd_results, contours, mci_baselines,
-                        mci_results, perturbations, save_path, sound_pairs)
-
-
-def save_result_figures(
-        annd_baselines, annd_results, contours, mci_baselines, mci_results,
-        perturbations, save_path, sound_pairs
-):
-    with PdfPages(save_path / "annd_contours.pdf") as pdf:
-        distance_metric_rays_on_contours(contours=contours,
-                                         metrics=annd_results,
-                                         metric_name="ANND",
-                                         baselines=annd_baselines,
-                                         number_of_perturbations=len(
-                                             perturbations),
-                                         figsize=(10.1, 4.72),
-                                         columns=sound_pairs,
-                                         scale=200,
-                                         color_threshold=[.1, -.1])
-        # plt.show()
-        plt.tight_layout()
-        pdf.savefig(plt.gcf())
-    with PdfPages(save_path / "mci_contours.pdf") as pdf:
-        shape_metric_rays_on_contours(contours=contours,
-                                      metrics=mci_results,
-                                      metric_name="MCI/Baseline MCI",
-                                      baselines=mci_baselines,
-                                      number_of_perturbations=len(
-                                          perturbations),
-                                      figsize=(7, 3.35),
-                                      scale=20,
-                                      color_threshold=np.log10([2, .5]))
-        # plt.show()
-        plt.tight_layout()
-        pdf.savefig(plt.gcf())
-    # with PdfPages(save_path/"annd_1.pdf") as pdf:
-    #     make_annd_perturbation_series_plot(annd_dict=annd_results, pdf=pdf)
-    # with PdfPages(save_path/"annd_2.pdf") as pdf:
-    #     make_annd_perturbation_series_plot_2(annd_dict=annd_results,
-    #                                          annd_baseline=annd_baseline,
-    #                                          pdf=pdf)
-    # make_mpbpd_perturbation_series_plot(contour_1=contours['æ'],
-    #                                     contour_2=contours['i'],
-    #                                     steps=[1, 2, 5, 10])
-    with PdfPages(save_path / "mci_timeseries.pdf") as pdf:
-        perturbations = [-2, -1, -.5, .5, 1, 2]
-        mci_perturbation_series_plot(contours=contours,
-                                     perturbations=perturbations,
-                                     figsize=(12, 8))
-        # plt.show()
-        # plt.tight_layout()
-        pdf.savefig(plt.gcf())
-    # make_demonstration_contour_plot(
-    #     contour_1=contours['æ'], contour_2=contours['i'])
+    save_result_figures(
+        sim_configuration=sim_configuration,
+        contours=contours,
+        sound_pairs=sound_pairs,
+        distance_metric_results=distance_results,
+        shape_metric_results=shape_results,
+    )
 
 
-def simulate_dyadic_metrics(
+def simulate_contour_distance_metrics(
+        sim_configuration: SimulationConfig,
         comparisons: list[Comparison],
         contours: dict[str, np.ndarray],
-        perturbations: list[float],
-) -> tuple[dict[Comparison, float], dict[Comparison, dict[str, np.ndarray]]]:
+) -> list[DistanceMetricSimulationResult]:
+    """
+    Simulate contour shape metrics on splines.
 
-    annd_call = partial(spline_nnd_metric,
-                        metric=SplineNNDsEnum.ANND,
-                        timestep=1,
-                        notice_base="Ultrafest 2024 simulation: "
-                        )
-    annd_results = calculate_metric_series_for_comparisons(
-        metric=annd_call,
-        contours=contours,
-        comparisons=comparisons,
-        perturbations=perturbations,
-        interleave=True
-    )
-    annd_baselines = get_distance_metric_baselines(
-        metric=annd_call, contours=contours)
-    return annd_baselines, annd_results
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        Configuration variables for the simulation.
+    comparisons : list[Comparison]
+        List of Comparisons specifying which contour to compare to which and
+        which of the two contours should be perturbed.
+    contours : dict[str, np.ndarray]
+        Dict of contours to run the simulation on: ndarrays indexed by the IPA
+        character of the corresponding sound.
+
+    Returns
+    -------
+    list[DistanceMetricSimulationResult]
+        List of DistanceMetricSimulationResult containing the simulation
+        results.
+    """
+    results = []
+    for metric in sim_configuration.contour_distance.metrics:
+        call = partial(
+            spline_nnd_metric,
+            metric=metric,
+            timestep=sim_configuration.contour_distance.timestep,
+            notice_base=sim_configuration.logging_notice_base,
+        )
+        result = calculate_metric_series_for_comparisons(
+            metric=call,
+            contours=contours,
+            comparisons=comparisons,
+            perturbations=sim_configuration.perturbations,
+            interleave=True
+        )
+        baseline = get_distance_metric_baselines(
+            metric=call, contours=contours)
+        results.append(
+            DistanceMetricSimulationResult(
+                metric=metric, results=result, baselines=baseline
+            )
+        )
+    return results
 
 
-def simulate_single_contour_metrics(
+def simulate_contour_shape_metrics(
+        sim_configuration: SimulationConfig,
         contours: dict[str, np.ndarray],
-        perturbations: list[float] | tuple[float],
-) -> tuple[dict[Comparison, float], dict[str, dict[str, np.ndarray]]]:
-    mci_call = partial(spline_shape_metric,
-                       metric=SplineShapesEnum.MODIFIED_CURVATURE,
-                       notice_base="Ultrafest 2024 simulation: "
-                       )
-    mci_results = calculate_metric_series_for_contours(
-        metric=mci_call,
-        contours=contours,
-        perturbations=perturbations
-    )
-    mci_baselines = get_shape_metric_baselines(
-        metric=mci_call,
-        contours=contours,
-    )
-    return mci_baselines, mci_results
+) -> list[ShapeMetricSimulationResult]:
+    """
+    Simulate contour shape metrics on splines.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        Configuration variables for the simulation.
+    contours : dict[str, np.ndarray]
+        Dict of contours to run the simulation on: ndarrays indexed by the IPA
+        character of the corresponding sound.
+
+    Returns
+    -------
+    list[ShapeMetricSimulationResult]
+        List of ShapeMetricSimulationResults containing the simulation results.
+    """
+    results = []
+    for metric in sim_configuration.contour_shape.metrics:
+        call = partial(
+            spline_shape_metric,
+            metric=metric,
+            notice_base=sim_configuration.logging_notice_base,
+        )
+        result = calculate_metric_series_for_contours(
+            metric=call,
+            contours=contours,
+            perturbations=sim_configuration.perturbations
+        )
+        baseline = get_shape_metric_baselines(
+            metric=call,
+            contours=contours,
+        )
+        results.append(
+            ShapeMetricSimulationResult(
+                metric=metric, baselines=baseline, results=result
+            )
+        )
+    return results
 
 
-def setup_simulation():
-    save_path = Path("ultrafest2024/")
+def setup_contours_comparisons_soundpairs(
+        sim_configuration: SimulationConfig
+) -> tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]:
+    """
+    Set up the contours, Comparisons and ComparisonSoundPairs for a simulation.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The SimulationConfig
+
+    Returns
+    -------
+    tuple[dict[str, np.ndarray], list[Comparison], list[ComparisonSoundPair]]
+        First member is a dict of the contours indexed by sound, followed by
+        lists of the Comparisons and ComparisonSoundPairs.
+    """
+    save_path = sim_configuration.output_directory
     if not save_path.exists():
         save_path.mkdir()
-    sounds = ['æ', 'i']
+    sounds = sim_configuration.sounds
     contours = {
         sound: generate_contour(sound) for sound in sounds
     }
-    perturbations = [-2, -1, -.5, .5, 1, 2]
 
+    comparison_generation = {
+        "first": sounds,
+        "second": sounds,
+        "perturbed": ["first", "second"],
+    }
+    comparison_params = product_dict(**comparison_generation)
     comparisons = [
-        Comparison(first='æ', second='æ', perturbed='second'),
-        Comparison(first='æ', second='æ', perturbed='first'),
-        Comparison(first='i', second='i', perturbed='second'),
-        Comparison(first='i', second='i', perturbed='first'),
-        Comparison(first='æ', second='i', perturbed='second'),
-        Comparison(first='æ', second='i', perturbed='first'),
-        Comparison(first='i', second='æ', perturbed='second'),
-        Comparison(first='i', second='æ', perturbed='first'),
+        Comparison(**params) for params in comparison_params
     ]
+
+    sound_pair_generation = {
+        "first": sounds,
+        "second": sounds,
+    }
+    sound_pair_params = product_dict(**sound_pair_generation)
     sound_pairs = [
-        ComparisonSoundPair(first='æ', second='æ'),
-        ComparisonSoundPair(first='i', second='i'),
-        ComparisonSoundPair(first='æ', second='i'),
-        ComparisonSoundPair(first='i', second='æ'),
+        ComparisonSoundPair(**params) for params in sound_pair_params
     ]
-    return comparisons, contours, perturbations, save_path, sound_pairs
+    return contours, comparisons, sound_pairs
 
 
-def generate_sound_pairs(
-         sounds: list[str]
-) -> list[ComparisonSoundPair] | list[Comparison]:
-    sound_pairs = [
-        ComparisonSoundPair(first='æ', second='æ'),
-        ComparisonSoundPair(first='i', second='i'),
-        ComparisonSoundPair(first='æ', second='i'),
-        ComparisonSoundPair(first='i', second='æ'),
-    ]
-    return sound_pairs
+def save_result_figures(
+        sim_configuration: SimulationConfig,
+        contours: dict[str, np.ndarray],
+        sound_pairs: list[ComparisonSoundPair],
+        distance_metric_results: list[DistanceMetricSimulationResult],
+        shape_metric_results: list[ShapeMetricSimulationResult],
+) -> None:
+    """
+    Plot and save result figures based on the directives in simulation config.
+
+    Parameters
+    ----------
+    sim_configuration : SimulationConfig
+        The configuration for the simulation including plotting directives.
+    contours : dict[str, np.ndarray]
+        The contours the simulation was run on. Dict of ndarrays indexed by the
+        IPA characters of the corresponding sound.
+    sound_pairs : list[ComparisonSoundPair]
+        The sound pairs th simulation was run on.
+    distance_metric_results : list[DistanceMetricSimulationResult]
+        Results from distance metric simulations.
+    shape_metric_results : list[ShapeMetricSimulationResult]
+        Results from shape metric simulations.
+    """
+    save_dir = sim_configuration.output_directory
+    perturbations = sim_configuration.perturbations
+
+    if sim_configuration.distance_metric_ray_plot is not None:
+        ray_plot_params = sim_configuration.distance_metric_ray_plot
+        for distance_metric_result in distance_metric_results:
+            save_path = (
+                    save_dir / f"{distance_metric_result.metric}_contours.pdf")
+            write_plot = _determine_plot_writing(save_path, sim_configuration)
+            if write_plot:
+                with PdfPages(save_path) as pdf:
+                    distance_metric_rays_on_contours(
+                        contours=contours,
+                        distance_metric_result=distance_metric_result,
+                        number_of_perturbations=len(perturbations),
+                        columns=sound_pairs,
+                        ray_plot_params=ray_plot_params,
+                    )
+                    plt.tight_layout()
+                    pdf.savefig(plt.gcf())
+
+    if sim_configuration.shape_metric_ray_plot is not None:
+        ray_plot_params = sim_configuration.shape_metric_ray_plot
+        for shape_metric_result in shape_metric_results:
+            save_path = (
+                    save_dir / f"{shape_metric_result.metric}_contours.pdf")
+            write_plot = _determine_plot_writing(save_path, sim_configuration)
+            if write_plot:
+                with PdfPages(save_path) as pdf:
+                    shape_metric_rays_on_contours(
+                        contours=contours,
+                        shape_metric_result=shape_metric_result,
+                        ray_plot_params=ray_plot_params,
+                        number_of_perturbations=len(perturbations),
+                    )
+                    plt.tight_layout()
+                    pdf.savefig(plt.gcf())
+
+    if sim_configuration.mci_perturbation_series_plot:
+        mci_config = sim_configuration.mci_perturbation_series_plot
+        save_path = save_dir / mci_config.filename
+
+        write_plot = _determine_plot_writing(save_path, sim_configuration)
+        if write_plot:
+            with PdfPages(save_path) as pdf:
+                mci_perturbation_series_plot(
+                    contours=contours,
+                    perturbations=perturbations,
+                    figure_size=mci_config.figure_size,
+                )
+                pdf.savefig(plt.gcf())
+
+    if sim_configuration.demonstration_contour_plot is not None:
+        plot_params = sim_configuration.demonstration_contour_plot
+        save_path = save_dir / plot_params.filename
+
+        write_plot = _determine_plot_writing(save_path, sim_configuration)
+        if write_plot:
+            with PdfPages(save_path) as pdf:
+                make_demonstration_contour_plot(
+                    contour_1=contours[plot_params.sounds[0]],
+                    contour_2=contours[plot_params.sounds[1]],
+                    figure_size=plot_params.figure_size,
+                )
+                pdf.savefig(plt.gcf())
+
+
+def _determine_plot_writing(save_path, sim_configuration):
+    if save_path.exists():
+        write_plot = False
+        if sim_configuration.overwrite_plots is None:
+            write_plot = click.confirm(
+                f"{save_path} exists.\n"
+                f"Do you want to overwrite the file?"
+            )
+        elif sim_configuration.overwrite_plots is True:
+            write_plot = True
+    else:
+        write_plot = True
+    return write_plot

@@ -1,4 +1,4 @@
-# PATKIT test data
+# Test data
 
 The data included with PATKIT can be used to try out the software and also
 (hopefully by 1.0) to run some tests to verify that PATKIT is working

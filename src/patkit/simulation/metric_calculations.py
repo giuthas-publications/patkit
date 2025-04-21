@@ -33,84 +33,27 @@
 This module contains functions used to apply metrics to simulated data.
 """
 
-from typing import Annotated, Callable
-
 import numpy as np
-from pydantic import BaseModel
 
-from patkit.external_class_extensions import ListablePrintableEnum
+from patkit.constants import ComparisonMember
 from patkit.utility_functions import product_dict
+from .simulation_datastructures import Comparison, MetricFunction
 
 from .contour_tools import contour_point_perturbations
-
-MetricFunction = Annotated[
-    Callable[[np.ndarray], np.ndarray],
-    "Metrics need to accept one np.ndarray as argument and "
-    "return a np.ndarray. This is only an alias for 'Metric'"
-]
-
-
-class ComparisonMember(ListablePrintableEnum):
-    """
-    Which comparison member the perturbations should be applied to.
-    """
-    FIRST = "first"
-    SECOND = "second"
-
-
-class ComparisonSoundPair(BaseModel, frozen=True):
-    """
-    Defines a comparison between two contours.
-
-    First should be compared to second.     
-    """
-    first: str
-    second: str
-
-    def __repr__(self) -> str:
-        return (f"Comparison: from first {self.first} "
-                f"to second {self.second}.")
-
-
-class Comparison(BaseModel, frozen=True):
-    """
-    Defines a comparison between two contours, and which of them is perturbed.
-
-    First should be compared to second with the contour named in perturbed
-    being the one that gets perturbed.     
-    """
-    first: str
-    second: str
-    perturbed: ComparisonMember
-
-    @property
-    def perturbed_name(self) -> str:
-        """
-        Name of the perturbed contour.
-
-        Returns
-        -------
-        str
-            The name as a string.
-        """
-        if self.perturbed == ComparisonMember.FIRST:
-            return self.first
-        return self.second
-
-    def __repr__(self) -> str:
-        return (f"Comparison: from first {self.first} "
-                f"to second {self.second}, perturbed is {self.perturbed}")
 
 
 def get_distance_metric_baselines(
         metric: MetricFunction,
         contours: dict[str, np.ndarray]
-) -> dict[Comparison, np.ndarray]:
+) -> dict[Comparison, float]:
     """
     Get the metric evaluated between each pair of the contours.
 
     The pairs are formed as the Cartesian product of the keys in the contours
     dict.
+
+    Note that this function is intended for pairwise comparisons. Timeseries
+    comparisons should be/will be implemented as a separate function.
 
     Parameters
     ----------
@@ -137,17 +80,23 @@ def get_distance_metric_baselines(
         for combination in name_combinations
     ]
 
-    results = {
+    raw_results = {
         comp: metric(
             np.stack([contours[comp.first], contours[comp.second]]))
         for comp in comparisons}
+
+    results = {
+        key: float(raw_results[key][0])
+        for key in raw_results
+    }
+
     return results
 
 
 def get_shape_metric_baselines(
         metric: MetricFunction,
         contours: dict[str, np.ndarray]
-) -> dict[str, np.ndarray]:
+) -> dict[str, float]:
     """
     Get the metric evaluated between each pair of the contours.
 
@@ -164,14 +113,21 @@ def get_shape_metric_baselines(
     Returns
     -------
     dict[str, float]
-        description
+        The unperturbed metric for each contour in a dict indexed by contour
+        names.
     """
     contour_names = list(contours.keys())
 
-    results = {
+    raw_results = {
         name: metric(np.expand_dims(contours[name], 0))
         for name in contour_names
     }
+
+    results = {
+        key: float(raw_results[key][0])
+        for key in raw_results
+    }
+
     return results
 
 

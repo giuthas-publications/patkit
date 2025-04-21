@@ -290,7 +290,7 @@ def annotations_to_dataframe(
 
     dataframe['metric'] = pandas.Categorical(dataframe['metric'])
     categories = dataframe['metric'].unique()
-    categories = ["l$\infty$" if metric ==
+    categories = [r"l$\infty$" if metric ==
                   "l_inf" else metric for metric in categories]
     dataframe['metric'] = dataframe['metric'].cat.rename_categories(categories)
 

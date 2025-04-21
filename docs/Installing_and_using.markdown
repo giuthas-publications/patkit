@@ -96,6 +96,8 @@ Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
 TODO 0.15: update this
 
+Get the [test data](Test_data.markdown).
+
 There are three small datasets included in the distribution. You can
 run tests on them with the test script `pd_test.py`. Currently, the
 following work and produce a new spaghetti_plot.pdf and a transcript

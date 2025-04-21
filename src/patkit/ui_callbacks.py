@@ -32,20 +32,11 @@
 #
 
 
-from enum import Enum
-from typing import Callable, Optional, Protocol, TypeVar
+from typing import Callable, Optional, TypeVar
+
+from patkit.constants import OverwriteConfirmation
 
 T = TypeVar('T')
-
-
-class OverwriteConfirmation(Enum):
-    """
-    Codes for a user's response when asked if a file should be overwritten.
-    """
-    YES = 'yes'
-    YES_TO_ALL = 'yes to all'
-    NO = 'no'
-    NO_TO_ALL = 'no to all'
 
 
 class UiCallbacks:
@@ -77,7 +68,7 @@ class UiCallbacks:
         filename : str
             File about to be overwritten.
         parent : _type_, optional
-            For tying a dialog to the gui mainwindow, by default None
+            For tying a dialog to the gui main window, by default None
 
         Returns
         -------
