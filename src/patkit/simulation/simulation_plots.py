@@ -511,7 +511,6 @@ def display_fan(
                       0, contour[0, i]], color='lightgray')
 
 
-# TODO 0.15: This one puts the numbers in the second panel in wrong places.
 def make_demonstration_contour_plot(
         contour_1: np.ndarray,
         contour_2: np.ndarray,
