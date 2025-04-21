@@ -38,9 +38,11 @@ Original version was published for Ultrafest 2024.
 
 from functools import partial
 
+import click
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
+from typing_extensions import override
 
 from patkit.constants import ComparisonMember
 from patkit.configuration import SimulationConfig
@@ -308,48 +310,75 @@ def save_result_figures(
         for distance_metric_result in distance_metric_results:
             save_path = (
                     save_dir / f"{distance_metric_result.metric}_contours.pdf")
-            with PdfPages(save_path) as pdf:
-                distance_metric_rays_on_contours(
-                    contours=contours,
-                    distance_metric_result=distance_metric_result,
-                    number_of_perturbations=len(perturbations),
-                    columns=sound_pairs,
-                    ray_plot_params=ray_plot_params,
-                )
-                plt.tight_layout()
-                pdf.savefig(plt.gcf())
+            write_plot = _determine_plot_writing(save_path, sim_configuration)
+            if write_plot:
+                with PdfPages(save_path) as pdf:
+                    distance_metric_rays_on_contours(
+                        contours=contours,
+                        distance_metric_result=distance_metric_result,
+                        number_of_perturbations=len(perturbations),
+                        columns=sound_pairs,
+                        ray_plot_params=ray_plot_params,
+                    )
+                    plt.tight_layout()
+                    pdf.savefig(plt.gcf())
 
     if sim_configuration.shape_metric_ray_plot is not None:
         ray_plot_params = sim_configuration.shape_metric_ray_plot
         for shape_metric_result in shape_metric_results:
             save_path = (
                     save_dir / f"{shape_metric_result.metric}_contours.pdf")
-            with PdfPages(save_path) as pdf:
-                shape_metric_rays_on_contours(
-                    contours=contours,
-                    shape_metric_result=shape_metric_result,
-                    ray_plot_params=ray_plot_params,
-                    number_of_perturbations=len(perturbations),
-                )
-                plt.tight_layout()
-                pdf.savefig(plt.gcf())
+            write_plot = _determine_plot_writing(save_path, sim_configuration)
+            if write_plot:
+                with PdfPages(save_path) as pdf:
+                    shape_metric_rays_on_contours(
+                        contours=contours,
+                        shape_metric_result=shape_metric_result,
+                        ray_plot_params=ray_plot_params,
+                        number_of_perturbations=len(perturbations),
+                    )
+                    plt.tight_layout()
+                    pdf.savefig(plt.gcf())
 
     if sim_configuration.mci_perturbation_series_plot:
         mci_config = sim_configuration.mci_perturbation_series_plot
-        with PdfPages(save_dir / mci_config.filename) as pdf:
-            mci_perturbation_series_plot(
-                contours=contours,
-                perturbations=perturbations,
-                figure_size=mci_config.figure_size,
-            )
-            pdf.savefig(plt.gcf())
+        save_path = save_dir / mci_config.filename
+
+        write_plot = _determine_plot_writing(save_path, sim_configuration)
+        if write_plot:
+            with PdfPages(save_path) as pdf:
+                mci_perturbation_series_plot(
+                    contours=contours,
+                    perturbations=perturbations,
+                    figure_size=mci_config.figure_size,
+                )
+                pdf.savefig(plt.gcf())
 
     if sim_configuration.demonstration_contour_plot is not None:
         plot_params = sim_configuration.demonstration_contour_plot
-        with PdfPages(save_dir / plot_params.filename) as pdf:
-            make_demonstration_contour_plot(
-                contour_1=contours[plot_params.sounds[0]],
-                contour_2=contours[plot_params.sounds[1]],
-                figure_size=plot_params.figure_size,
+        save_path = save_dir / plot_params.filename
+
+        write_plot = _determine_plot_writing(save_path, sim_configuration)
+        if write_plot:
+            with PdfPages(save_path) as pdf:
+                make_demonstration_contour_plot(
+                    contour_1=contours[plot_params.sounds[0]],
+                    contour_2=contours[plot_params.sounds[1]],
+                    figure_size=plot_params.figure_size,
+                )
+                pdf.savefig(plt.gcf())
+
+
+def _determine_plot_writing(save_path, sim_configuration):
+    if save_path.exists():
+        write_plot = False
+        if sim_configuration.overwrite_plots is None:
+            write_plot = click.confirm(
+                f"{save_path} exists.\n"
+                f"Do you want to overwrite the file?"
             )
-            pdf.savefig(plt.gcf())
+        elif sim_configuration.overwrite_plots is True:
+            write_plot = True
+    else:
+        write_plot = True
+    return write_plot
