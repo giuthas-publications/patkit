@@ -446,6 +446,7 @@ class RayPlotParams(UpdatableBaseModel):
 
 class SimulationConfig(UpdatableBaseModel):
     output_directory: Path
+    overwrite_plots: bool | None = None
     logging_notice_base: str = ""
     sounds: list[str]
     perturbations: list[float]

@@ -5,6 +5,8 @@
 
 # This is where PATKIT will save results of data processing. 
 output_directory: "ultrafest2024/"
+overwrite_plots: True
+
 # Used in logging messages.
 logging_notice_base: "Ultrafest 2024 simulation: "
 

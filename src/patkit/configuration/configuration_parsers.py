@@ -385,6 +385,7 @@ def load_simulation_params(filepath: Path | str) -> YAML:
     schema = Map(
         {
             "output_directory": PathValidator(),
+            Optional("overwrite_plots"): Bool(),
             Optional("logging_notice_base"): Str(),
             Optional("make_demonstration_contour_plot"): Bool(),
             "sounds": Seq(Str()),
