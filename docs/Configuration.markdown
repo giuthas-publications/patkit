@@ -163,11 +163,14 @@ Peter Ladefoged's Vowels and Consonants. A commented version of the
 configuration walked through below can be found on PATKIT's GitHub repository in
 the `example_configs` folder.
 
-The first parameters define where to save the resulting plots and what message
-prefix should be used in logging messages.
+The first parameters define where to save the resulting plots, if existing files
+should be overwritten, and what message prefix should be used in logging
+messages. If the `overwrite_plots` parameter is omitted, overwriting will be
+confirmed individually for each existing plot file.
 
 ```yaml
 output_directory: "ultrafest2024/"
+overwrite_plots: True
 logging_notice_base: "Ultrafest 2024 simulation: "
 ```
 
