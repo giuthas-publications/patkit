@@ -61,6 +61,18 @@
 
             </li>
             <li>
+                    <a class="class" href="#ComparisonMember">ComparisonMember</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#ComparisonMember.FIRST">FIRST</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ComparisonMember.SECOND">SECOND</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#CoordinateSystems">CoordinateSystems</a>
                             <ul class="memberlist">
                         <li>
@@ -309,11 +321,53 @@
                         <li>
                                 <a class="variable" href="#SplineShapesEnum.PROCRUSTES">PROCRUSTES</a>
                         </li>
+                        <li>
+                                <a class="function" href="#SplineShapesEnum.short_name">short_name</a>
+                        </li>
                 </ul>
 
             </li>
             <li>
                     <a class="variable" href="#SplineMetricEnum">SplineMetricEnum</a>
+            </li>
+            <li>
+                    <a class="class" href="#SimulationContourVowel">SimulationContourVowel</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#SimulationContourVowel.AE">AE</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#SimulationContourVowel.I">I</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#SimulationContourConsonant">SimulationContourConsonant</a>
+                            <ul class="memberlist">
+                </ul>
+
+            </li>
+            <li>
+                    <a class="variable" href="#SimulationContourSoundEnum">SimulationContourSoundEnum</a>
+            </li>
+            <li>
+                    <a class="class" href="#OverwriteConfirmation">OverwriteConfirmation</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#OverwriteConfirmation.YES">YES</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#OverwriteConfirmation.YES_TO_ALL">YES_TO_ALL</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#OverwriteConfirmation.NO">NO</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#OverwriteConfirmation.NO_TO_ALL">NO_TO_ALL</a>
+                        </li>
+                </ul>
+
             </li>
     </ul>
 
@@ -413,229 +467,289 @@ and never are stored. In effect, they function as look-up tables.</p>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>    <span class="n">ACOUSTIC_ONSET</span> <span class="o">=</span> <span class="s2">&quot;acoustic_onset&quot;</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CoordinateSystems</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ComparisonMember</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">):</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">    Enum to differentiate coordinate systems.</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">    Which comparison member the perturbations should be applied to.</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="n">CARTESIAN</span> <span class="o">=</span> <span class="s1">&#39;Cartesian&#39;</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="n">POLAR</span> <span class="o">=</span> <span class="s1">&#39;polar&#39;</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>    <span class="n">FIRST</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="n">SECOND</span> <span class="o">=</span> <span class="s2">&quot;second&quot;</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Datasource</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CoordinateSystems</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">    Data sources patkit can handle.</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">    Used in saving and loading to identify the data source in config, as well</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">    as in meta and skip the step of trying to figure the data source out from</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    the type of files present.</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="n">AAA</span> <span class="o">=</span> <span class="s2">&quot;AAA&quot;</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>    <span class="c1"># EVA = &quot;EVA&quot;</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="n">RASL</span> <span class="o">=</span> <span class="s2">&quot;RASL&quot;</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">    Enum to differentiate coordinate systems.</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    <span class="n">CARTESIAN</span> <span class="o">=</span> <span class="s1">&#39;Cartesian&#39;</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="n">POLAR</span> <span class="o">=</span> <span class="s1">&#39;polar&#39;</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Datasource</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    Data sources patkit can handle.</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiColorScheme</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    GUI styles.</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">    FOLLOW_SYSTEM means patkit will</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>    <span class="n">DARK</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="n">FOLLOW_SYSTEM</span> <span class="o">=</span> <span class="s2">&quot;follow_system&quot;</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>    <span class="n">LIGHT</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ImageMask</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">    Accepted image masking options in calculating PD.</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="n">TOP</span> <span class="o">=</span> <span class="s2">&quot;top&quot;</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="n">BOTTOM</span> <span class="o">=</span> <span class="s2">&quot;bottom&quot;</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="n">WHOLE</span> <span class="o">=</span> <span class="s2">&quot;whole&quot;</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    Used in saving and loading to identify the data source in config, as well</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">    as in meta and skip the step of trying to figure the data source out from</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    the type of files present.</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>    <span class="n">AAA</span> <span class="o">=</span> <span class="s2">&quot;AAA&quot;</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>    <span class="c1"># EVA = &quot;EVA&quot;</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>    <span class="n">RASL</span> <span class="o">=</span> <span class="s2">&quot;RASL&quot;</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiColorScheme</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    GUI styles.</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    FOLLOW_SYSTEM means patkit will</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="n">DARK</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="n">FOLLOW_SYSTEM</span> <span class="o">=</span> <span class="s2">&quot;follow_system&quot;</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="n">LIGHT</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalBoundary</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">    Begin and end for import type checking.</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="n">BEGIN</span> <span class="o">=</span> <span class="s1">&#39;begin&#39;</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="n">END</span> <span class="o">=</span> <span class="s1">&#39;end&#39;</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ImageMask</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">    Accepted image masking options in calculating PD.</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">TOP</span> <span class="o">=</span> <span class="s2">&quot;top&quot;</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="n">BOTTOM</span> <span class="o">=</span> <span class="s2">&quot;bottom&quot;</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="n">WHOLE</span> <span class="o">=</span> <span class="s2">&quot;whole&quot;</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalBoundary</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
 </span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">    Rule-based interval selection categories for import type checking.</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">    Begin and end for import type checking.</span>
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="n">FIRST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;first non-empty&#39;</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="n">LAST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;last non-empty&#39;</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>    <span class="n">FIRST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;first labeled&#39;</span>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>    <span class="n">LAST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;last labeled&#39;</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitconfigfile</span><span class="p">:</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="sd">    Human written yaml files to control importing data.</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s1">&#39;session_config.yaml&#39;</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>    <span class="n">SPLINE</span> <span class="o">=</span> <span class="s1">&#39;spline_config.yaml&#39;</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="n">BEGIN</span> <span class="o">=</span> <span class="s1">&#39;begin&#39;</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="n">END</span> <span class="o">=</span> <span class="s1">&#39;end&#39;</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a><span class="sd">    Rule-based interval selection categories for import type checking.</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>    <span class="n">FIRST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;first non-empty&#39;</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="n">LAST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;last non-empty&#39;</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>    <span class="n">FIRST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;first labeled&#39;</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>    <span class="n">LAST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;last labeled&#39;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitsuffix</span><span class="p">:</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    Suffixes for files saved by patkit.</span>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos. To see the</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">    whole layered scheme patkit uses see the &#39;Saving and Loading Data&#39; section</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">    in the documentation.</span>
-</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;.yaml&quot;</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>    <span class="n">DATA</span> <span class="o">=</span> <span class="s2">&quot;.npz&quot;</span>
-</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>    <span class="n">META</span> <span class="o">=</span> <span class="s2">&quot;.meta&quot;</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitconfigfile</span><span class="p">:</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="sd">    Human written yaml files to control importing data.</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s1">&#39;session_config.yaml&#39;</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>    <span class="n">SPLINE</span> <span class="o">=</span> <span class="s1">&#39;spline_config.yaml&#39;</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitsuffix</span><span class="p">:</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a><span class="sd">    Suffixes for files saved by patkit.</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SavedObjectTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">    Represent type of a saved patkit object in .patkit_meta.</span>
-</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="c1"># TODO 1.0: Check if this is actually in use.</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s2">&quot;Session&quot;</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="n">RECORDING</span> <span class="o">=</span> <span class="s2">&quot;Recording&quot;</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>    <span class="n">MODALITY</span> <span class="o">=</span> <span class="s2">&quot;Modality&quot;</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SourceSuffix</span><span class="p">:</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="sd">    Suffixes for files imported by patkit.</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos and for</span>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">    recognising what patkit is being asked to import.</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos. To see the</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="sd">    whole layered scheme patkit uses see the &#39;Saving and Loading Data&#39; section</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">    in the documentation.</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;.yaml&quot;</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>    <span class="n">DATA</span> <span class="o">=</span> <span class="s2">&quot;.npz&quot;</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="n">META</span> <span class="o">=</span> <span class="s2">&quot;.meta&quot;</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SavedObjectTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">    Represent type of a saved patkit object in .patkit_meta.</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="c1"># TODO 1.0: Check if this is actually in use.</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s2">&quot;Session&quot;</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>    <span class="n">RECORDING</span> <span class="o">=</span> <span class="s2">&quot;Recording&quot;</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>    <span class="n">MODALITY</span> <span class="o">=</span> <span class="s2">&quot;Modality&quot;</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">    Note that AAA_ULTRA_META_OLD is not a proper suffix and won&#39;t be recognised</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">    by pathlib and Path as such. Instead, do this</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">    ```python</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">    directory_path = Path(from_some_source)</span>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">    directory_path/(name_string + SourceSuffix.AAA_ULTRA_META_OLD)</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">    ```</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>    <span class="n">AAA_ULTRA</span> <span class="o">=</span> <span class="s2">&quot;.ult&quot;</span>
-</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>    <span class="n">AAA_ULTRA_META_OLD</span> <span class="o">=</span> <span class="s2">&quot;US.txt&quot;</span>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>    <span class="n">AAA_ULTRA_META_NEW</span> <span class="o">=</span> <span class="s2">&quot;.param&quot;</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>    <span class="n">AAA_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;.txt&quot;</span>
-</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>    <span class="n">AAA_SPLINES</span> <span class="o">=</span> <span class="s2">&quot;.spl&quot;</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>    <span class="n">AVI</span> <span class="o">=</span> <span class="s2">&quot;.avi&quot;</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>    <span class="n">CSV</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>
-</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="c1"># def patkit_suffix(</span>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="c1">#         patkit_type: Union[Recording, Session, Modality]) -&gt; str:</span>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="c1">#     &quot;&quot;&quot;</span>
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="c1">#     Generate a suffix for the save file of a patkit data structure.</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="c1">#     Parameters</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="c1">#     ----------</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="c1">#     patkit_type : Union[Recording, Session, Modality]</span>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="c1">#         The datastructures type.</span>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>
-</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="c1">#     Returns</span>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="c1">#     -------</span>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="c1">#     str</span>
-</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="c1">#         The suffix.</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a><span class="c1">#     &quot;&quot;&quot;</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="c1">#     # TODO 1.1: This is one possibility for not having hardcoded file</span>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="c1">#     # suffixes.</span>
-</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="c1">#     # Another is to let all the classes take care of it themselves and make it</span>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a><span class="c1">#     # into a Protocol (Python version of an interface).</span>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="c1">#     suffix = patkitSuffix.META</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="c1">#     if patkit_type == Recording:</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="c1">#         suffix = &#39;.Recording&#39; + suffix</span>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="c1">#     elif patkit_type == Session:</span>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="c1">#         suffix = &#39;.Session&#39; + suffix</span>
-</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="c1">#     elif patkit_type == Modality:</span>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="c1">#         suffix = &#39;&#39;</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="c1">#     return suffix</span>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>
-</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>
-</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDataColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="sd">    Basic data columns that any Spline should reasonably have.</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="sd">    Accepted values: &#39;r&#39; with &#39;phi&#39;, &#39;x&#39; with &#39;y&#39;, and &#39;confidence&#39;</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>    <span class="n">R</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>    <span class="n">PHI</span> <span class="o">=</span> <span class="s2">&quot;phi&quot;</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>    <span class="n">X</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
-</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>    <span class="n">Y</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>    <span class="n">CONFIDENCE</span> <span class="o">=</span> <span class="s2">&quot;confidence&quot;</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SourceSuffix</span><span class="p">:</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">    Suffixes for files imported by patkit.</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos and for</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">    recognising what patkit is being asked to import.</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="sd">    Note that AAA_ULTRA_META_OLD is not a proper suffix and won&#39;t be recognised</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    by pathlib and Path as such. Instead, do this</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">    ```python</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">    directory_path = Path(from_some_source)</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">    directory_path/(name_string + SourceSuffix.AAA_ULTRA_META_OLD)</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">    ```</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>    <span class="n">AAA_ULTRA</span> <span class="o">=</span> <span class="s2">&quot;.ult&quot;</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>    <span class="n">AAA_ULTRA_META_OLD</span> <span class="o">=</span> <span class="s2">&quot;US.txt&quot;</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>    <span class="n">AAA_ULTRA_META_NEW</span> <span class="o">=</span> <span class="s2">&quot;.param&quot;</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>    <span class="n">AAA_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;.txt&quot;</span>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>    <span class="n">AAA_SPLINES</span> <span class="o">=</span> <span class="s2">&quot;.spl&quot;</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>    <span class="n">AVI</span> <span class="o">=</span> <span class="s2">&quot;.avi&quot;</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>    <span class="n">CSV</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="c1"># def patkit_suffix(</span>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a><span class="c1">#         patkit_type: Union[Recording, Session, Modality]) -&gt; str:</span>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a><span class="c1">#     &quot;&quot;&quot;</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a><span class="c1">#     Generate a suffix for the save file of a patkit data structure.</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="c1">#     Parameters</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a><span class="c1">#     ----------</span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="c1">#     patkit_type : Union[Recording, Session, Modality]</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="c1">#         The datastructures type.</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a><span class="c1">#     Returns</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="c1">#     -------</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a><span class="c1">#     str</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a><span class="c1">#         The suffix.</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a><span class="c1">#     &quot;&quot;&quot;</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a><span class="c1">#     # TODO 1.1: This is one possibility for not having hardcoded file</span>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a><span class="c1">#     # suffixes.</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a><span class="c1">#     # Another is to let all the classes take care of it themselves and make it</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a><span class="c1">#     # into a Protocol (Python version of an interface).</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a><span class="c1">#     suffix = patkitSuffix.META</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="c1">#     if patkit_type == Recording:</span>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="c1">#         suffix = &#39;.Recording&#39; + suffix</span>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="c1">#     elif patkit_type == Session:</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="c1">#         suffix = &#39;.Session&#39; + suffix</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a><span class="c1">#     elif patkit_type == Modality:</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a><span class="c1">#         suffix = &#39;&#39;</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a><span class="c1">#     return suffix</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDataColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a><span class="sd">    Basic data columns that any Spline should reasonably have.</span>
 </span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>
-</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>
-</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineMetaColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a><span class="sd">    Basic metadata that any Spline should reasonably have.</span>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>
-</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a><span class="sd">    Accepted values:</span>
-</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a><span class="sd">    - ignore: marks a column to be ignored, unlike the others below, </span>
-</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a><span class="sd">        can be used several times</span>
-</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a><span class="sd">    - id: used to identify the speaker, </span>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a><span class="sd">        often contained in a csv field called &#39;family name&#39;</span>
-</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="sd">    - given names: appended to &#39;id&#39; if not marked &#39;ignore&#39;</span>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="sd">    - date and time: dat3 and time of recording</span>
-</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a><span class="sd">    - prompt: prompt of recording, used to identify the recording with &#39;id&#39;</span>
-</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a><span class="sd">    - annotation label: optional field containing annotation information</span>
-</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">    - time in recording: timestamp of the frame this spline belongs to</span>
-</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="sd">    - number of spline points: number of sample points in the spline used </span>
-</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a><span class="sd">        to parse the coordinates and possible confidence information    </span>
-</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>    <span class="n">IGNORE</span> <span class="o">=</span> <span class="s2">&quot;ignore&quot;</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>    <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>    <span class="n">GIVEN_NAMES</span> <span class="o">=</span> <span class="s2">&quot;given names&quot;</span>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>    <span class="n">DATE_AND_TIME</span> <span class="o">=</span> <span class="s2">&quot;date and time&quot;</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>    <span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">&quot;prompt&quot;</span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>    <span class="n">ANNOTATION_LABEL</span> <span class="o">=</span> <span class="s2">&quot;annotation label&quot;</span>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>    <span class="n">TIME_IN_RECORDING</span> <span class="o">=</span> <span class="s2">&quot;time in recording&quot;</span>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>    <span class="n">NUMBER_OF_SPLINE_POINTS</span> <span class="o">=</span> <span class="s2">&quot;number of spline points&quot;</span>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>
-</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDiffsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
-</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a><span class="sd">    Spline metrics that use distance between corresponding points.</span>
-</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>    <span class="n">APBPD</span> <span class="o">=</span> <span class="s1">&#39;apbpd&#39;</span>
-</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>    <span class="n">MPBPD</span> <span class="o">=</span> <span class="s1">&#39;mpbpd&#39;</span>
-</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>    <span class="n">SPLINE_L1</span> <span class="o">=</span> <span class="s1">&#39;spline_l1&#39;</span>
-</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>    <span class="n">SPLINE_L2</span> <span class="o">=</span> <span class="s1">&#39;spline_l2&#39;</span>
-</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>
-</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>
-</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineNNDsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
-</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a><span class="sd">    Spline metrics that use nearest neighbour distance.</span>
-</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>    <span class="n">ANND</span> <span class="o">=</span> <span class="s1">&#39;annd&#39;</span>
-</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>    <span class="n">MNND</span> <span class="o">=</span> <span class="s1">&#39;mnnd&#39;</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a><span class="sd">    Accepted values: &#39;r&#39; with &#39;phi&#39;, &#39;x&#39; with &#39;y&#39;, and &#39;confidence&#39;</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>    <span class="n">R</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>    <span class="n">PHI</span> <span class="o">=</span> <span class="s2">&quot;phi&quot;</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>    <span class="n">X</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>    <span class="n">Y</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>    <span class="n">CONFIDENCE</span> <span class="o">=</span> <span class="s2">&quot;confidence&quot;</span>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineMetaColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="sd">    Basic metadata that any Spline should reasonably have.</span>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a><span class="sd">    Accepted values:</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a><span class="sd">    - ignore: marks a column to be ignored, unlike the others below, </span>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a><span class="sd">        can be used several times</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a><span class="sd">    - id: used to identify the speaker, </span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a><span class="sd">        often contained in a csv field called &#39;family name&#39;</span>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a><span class="sd">    - given names: appended to &#39;id&#39; if not marked &#39;ignore&#39;</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a><span class="sd">    - date and time: dat3 and time of recording</span>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a><span class="sd">    - prompt: prompt of recording, used to identify the recording with &#39;id&#39;</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a><span class="sd">    - annotation label: optional field containing annotation information</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a><span class="sd">    - time in recording: timestamp of the frame this spline belongs to</span>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">    - number of spline points: number of sample points in the spline used </span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        to parse the coordinates and possible confidence information    </span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>    <span class="n">IGNORE</span> <span class="o">=</span> <span class="s2">&quot;ignore&quot;</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>    <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>    <span class="n">GIVEN_NAMES</span> <span class="o">=</span> <span class="s2">&quot;given names&quot;</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>    <span class="n">DATE_AND_TIME</span> <span class="o">=</span> <span class="s2">&quot;date and time&quot;</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>    <span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">&quot;prompt&quot;</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>    <span class="n">ANNOTATION_LABEL</span> <span class="o">=</span> <span class="s2">&quot;annotation label&quot;</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>    <span class="n">TIME_IN_RECORDING</span> <span class="o">=</span> <span class="s2">&quot;time in recording&quot;</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>    <span class="n">NUMBER_OF_SPLINE_POINTS</span> <span class="o">=</span> <span class="s2">&quot;number of spline points&quot;</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDiffsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a><span class="sd">    Spline metrics that use distance between corresponding points.</span>
+</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>    <span class="n">APBPD</span> <span class="o">=</span> <span class="s1">&#39;apbpd&#39;</span>
+</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>    <span class="n">MPBPD</span> <span class="o">=</span> <span class="s1">&#39;mpbpd&#39;</span>
+</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>    <span class="n">SPLINE_L1</span> <span class="o">=</span> <span class="s1">&#39;spline_l1&#39;</span>
+</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>    <span class="n">SPLINE_L2</span> <span class="o">=</span> <span class="s1">&#39;spline_l2&#39;</span>
 </span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>
 </span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>
-</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineShapesEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineNNDsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
 </span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="sd">    Spline metrics that characterise shape.</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a><span class="sd">    Spline metrics that use nearest neighbour distance.</span>
 </span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>    <span class="n">CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;curvature&#39;</span>
-</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>    <span class="n">FOURIER</span> <span class="o">=</span> <span class="s1">&#39;fourier&#39;</span>
-</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a>    <span class="n">MODIFIED_CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;modified_curvature&#39;</span>
-</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>    <span class="n">PROCRUSTES</span> <span class="o">=</span> <span class="s1">&#39;procrustes&#39;</span>
-</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a>
-</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>
-</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="n">SplineMetricEnum</span> <span class="o">=</span> <span class="n">enum_union</span><span class="p">(</span>
-</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>    <span class="p">[</span><span class="n">SplineDiffsEnum</span><span class="p">,</span> <span class="n">SplineNNDsEnum</span><span class="p">,</span> <span class="n">SplineShapesEnum</span><span class="p">],</span> <span class="s2">&quot;SplineMetricEnum&quot;</span><span class="p">)</span>
-</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a><span class="sd">Enum of all valid spline metrics.</span>
-</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a>
-</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a><span class="sd">This is formed as a UnionEnum of the subtypes.</span>
-</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>    <span class="n">ANND</span> <span class="o">=</span> <span class="s1">&#39;annd&#39;</span>
+</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>    <span class="n">MNND</span> <span class="o">=</span> <span class="s1">&#39;mnnd&#39;</span>
+</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a>
+</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>
+</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineShapesEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a><span class="sd">    Spline metrics that characterise shape.</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>    <span class="n">CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;curvature&#39;</span>
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>    <span class="n">FOURIER</span> <span class="o">=</span> <span class="s1">&#39;fourier&#39;</span>
+</span><span id="L-289"><a href="#L-289"><span class="linenos">289</span></a>    <span class="n">MODIFIED_CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;modified_curvature&#39;</span>
+</span><span id="L-290"><a href="#L-290"><span class="linenos">290</span></a>    <span class="n">PROCRUSTES</span> <span class="o">=</span> <span class="s1">&#39;procrustes&#39;</span>
+</span><span id="L-291"><a href="#L-291"><span class="linenos">291</span></a>
+</span><span id="L-292"><a href="#L-292"><span class="linenos">292</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-293"><a href="#L-293"><span class="linenos">293</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a><span class="sd">        Return the short name or abbreviation of this SplineShape metric.</span>
+</span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>
+</span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a><span class="sd">        Returns</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a><span class="sd">        -------</span>
+</span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a><span class="sd">        str</span>
+</span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a><span class="sd">            The short name.</span>
+</span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a>        <span class="k">match</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">CURVATURE</span><span class="p">:</span>
+</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a>                <span class="k">return</span> <span class="s2">&quot;CI&quot;</span>
+</span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">FOURIER</span><span class="p">:</span>
+</span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a>                <span class="k">return</span> <span class="s2">&quot;Fourier&quot;</span>
+</span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">MODIFIED_CURVATURE</span><span class="p">:</span>
+</span><span id="L-307"><a href="#L-307"><span class="linenos">307</span></a>                <span class="k">return</span> <span class="s2">&quot;MCI&quot;</span>
+</span><span id="L-308"><a href="#L-308"><span class="linenos">308</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">PROCRUSTES</span><span class="p">:</span>
+</span><span id="L-309"><a href="#L-309"><span class="linenos">309</span></a>                <span class="k">return</span> <span class="s2">&quot;PROC&quot;</span>
+</span><span id="L-310"><a href="#L-310"><span class="linenos">310</span></a>
+</span><span id="L-311"><a href="#L-311"><span class="linenos">311</span></a>
+</span><span id="L-312"><a href="#L-312"><span class="linenos">312</span></a><span class="n">SplineMetricEnum</span> <span class="o">=</span> <span class="n">enum_union</span><span class="p">(</span>
+</span><span id="L-313"><a href="#L-313"><span class="linenos">313</span></a>    <span class="p">[</span><span class="n">SplineDiffsEnum</span><span class="p">,</span> <span class="n">SplineNNDsEnum</span><span class="p">,</span> <span class="n">SplineShapesEnum</span><span class="p">],</span> <span class="s2">&quot;SplineMetricEnum&quot;</span><span class="p">)</span>
+</span><span id="L-314"><a href="#L-314"><span class="linenos">314</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-315"><a href="#L-315"><span class="linenos">315</span></a><span class="sd">Enum of all valid spline metrics.</span>
+</span><span id="L-316"><a href="#L-316"><span class="linenos">316</span></a>
+</span><span id="L-317"><a href="#L-317"><span class="linenos">317</span></a><span class="sd">This is formed as a UnionEnum of the subtypes.</span>
+</span><span id="L-318"><a href="#L-318"><span class="linenos">318</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-319"><a href="#L-319"><span class="linenos">319</span></a>
+</span><span id="L-320"><a href="#L-320"><span class="linenos">320</span></a>
+</span><span id="L-321"><a href="#L-321"><span class="linenos">321</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationContourVowel</span><span class="p">(</span>
+</span><span id="L-322"><a href="#L-322"><span class="linenos">322</span></a>        <span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-323"><a href="#L-323"><span class="linenos">323</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-324"><a href="#L-324"><span class="linenos">324</span></a><span class="sd">    Currently available simulated vowel contours.</span>
+</span><span id="L-325"><a href="#L-325"><span class="linenos">325</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-326"><a href="#L-326"><span class="linenos">326</span></a>    <span class="n">AE</span> <span class="o">=</span> <span class="s1">&#39;æ&#39;</span>
+</span><span id="L-327"><a href="#L-327"><span class="linenos">327</span></a>    <span class="n">I</span> <span class="o">=</span> <span class="s1">&#39;i&#39;</span>
+</span><span id="L-328"><a href="#L-328"><span class="linenos">328</span></a>
+</span><span id="L-329"><a href="#L-329"><span class="linenos">329</span></a>
+</span><span id="L-330"><a href="#L-330"><span class="linenos">330</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationContourConsonant</span><span class="p">(</span>
+</span><span id="L-331"><a href="#L-331"><span class="linenos">331</span></a>        <span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a><span class="sd">    Currently available simulated consonant contours.</span>
+</span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a>
+</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a><span class="sd">    Yes, at the moment there are none.</span>
+</span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a>
+</span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a>
+</span><span id="L-339"><a href="#L-339"><span class="linenos">339</span></a><span class="n">SimulationContourSoundEnum</span> <span class="o">=</span> <span class="n">enum_union</span><span class="p">(</span>
+</span><span id="L-340"><a href="#L-340"><span class="linenos">340</span></a>    <span class="p">[</span><span class="n">SimulationContourVowel</span><span class="p">,</span> <span class="n">SimulationContourConsonant</span><span class="p">],</span>
+</span><span id="L-341"><a href="#L-341"><span class="linenos">341</span></a>    <span class="s2">&quot;SimulationContourEnum&quot;</span><span class="p">)</span>
+</span><span id="L-342"><a href="#L-342"><span class="linenos">342</span></a>
+</span><span id="L-343"><a href="#L-343"><span class="linenos">343</span></a>
+</span><span id="L-344"><a href="#L-344"><span class="linenos">344</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteConfirmation</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="L-345"><a href="#L-345"><span class="linenos">345</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-346"><a href="#L-346"><span class="linenos">346</span></a><span class="sd">    Codes for a user&#39;s response when asked if a file should be overwritten.</span>
+</span><span id="L-347"><a href="#L-347"><span class="linenos">347</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-348"><a href="#L-348"><span class="linenos">348</span></a>    <span class="n">YES</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+</span><span id="L-349"><a href="#L-349"><span class="linenos">349</span></a>    <span class="n">YES_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;yes to all&#39;</span>
+</span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a>    <span class="n">NO</span> <span class="o">=</span> <span class="s1">&#39;no&#39;</span>
+</span><span id="L-351"><a href="#L-351"><span class="linenos">351</span></a>    <span class="n">NO_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;no to all&#39;</span>
 </span></pre></div>
 
 
@@ -643,7 +757,7 @@ and never are stored. In effect, they function as look-up tables.</p>
                 <section id="PATKIT_VERSION">
                     <div class="attr variable">
             <span class="name">PATKIT_VERSION</span>        =
-<span class="default_value">&#39;0.14&#39;</span>
+<span class="default_value">&#39;0.15.0&#39;</span>
 
         
     </div>
@@ -655,7 +769,7 @@ and never are stored. In effect, they function as look-up tables.</p>
                 <section id="PATKIT_FILE_VERSION">
                     <div class="attr variable">
             <span class="name">PATKIT_FILE_VERSION</span>        =
-<span class="default_value">&#39;0.14&#39;</span>
+<span class="default_value">&#39;0.15.0&#39;</span>
 
         
     </div>
@@ -762,6 +876,64 @@ and never are stored. In effect, they function as look-up tables.</p>
 
                             </div>
                 </section>
+                <section id="ComparisonMember">
+                            <input id="ComparisonMember-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">ComparisonMember</span><wbr>(<span class="base"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></span>):
+
+                <label class="view-source-button" for="ComparisonMember-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ComparisonMember"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ComparisonMember-70"><a href="#ComparisonMember-70"><span class="linenos">70</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ComparisonMember</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">):</span>
+</span><span id="ComparisonMember-71"><a href="#ComparisonMember-71"><span class="linenos">71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="ComparisonMember-72"><a href="#ComparisonMember-72"><span class="linenos">72</span></a><span class="sd">    Which comparison member the perturbations should be applied to.</span>
+</span><span id="ComparisonMember-73"><a href="#ComparisonMember-73"><span class="linenos">73</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="ComparisonMember-74"><a href="#ComparisonMember-74"><span class="linenos">74</span></a>    <span class="n">FIRST</span> <span class="o">=</span> <span class="s2">&quot;first&quot;</span>
+</span><span id="ComparisonMember-75"><a href="#ComparisonMember-75"><span class="linenos">75</span></a>    <span class="n">SECOND</span> <span class="o">=</span> <span class="s2">&quot;second&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Which comparison member the perturbations should be applied to.</p>
+</div>
+
+
+                            <div id="ComparisonMember.FIRST" class="classattr">
+                                <div class="attr variable">
+            <span class="name">FIRST</span>        =
+<span class="default_value">&lt;<a href="#ComparisonMember.FIRST">ComparisonMember.FIRST</a>: &#39;first&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ComparisonMember.FIRST"></a>
+    
+    
+
+                            </div>
+                            <div id="ComparisonMember.SECOND" class="classattr">
+                                <div class="attr variable">
+            <span class="name">SECOND</span>        =
+<span class="default_value">&lt;<a href="#ComparisonMember.SECOND">ComparisonMember.SECOND</a>: &#39;second&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ComparisonMember.SECOND"></a>
+    
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></dt>
+                                <dd id="ComparisonMember.values" class="function"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum.values">values</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
                 <section id="CoordinateSystems">
                             <input id="CoordinateSystems-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -773,12 +945,12 @@ and never are stored. In effect, they function as look-up tables.</p>
 
     </div>
     <a class="headerlink" href="#CoordinateSystems"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="CoordinateSystems-70"><a href="#CoordinateSystems-70"><span class="linenos">70</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CoordinateSystems</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="CoordinateSystems-71"><a href="#CoordinateSystems-71"><span class="linenos">71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="CoordinateSystems-72"><a href="#CoordinateSystems-72"><span class="linenos">72</span></a><span class="sd">    Enum to differentiate coordinate systems.</span>
-</span><span id="CoordinateSystems-73"><a href="#CoordinateSystems-73"><span class="linenos">73</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="CoordinateSystems-74"><a href="#CoordinateSystems-74"><span class="linenos">74</span></a>    <span class="n">CARTESIAN</span> <span class="o">=</span> <span class="s1">&#39;Cartesian&#39;</span>
-</span><span id="CoordinateSystems-75"><a href="#CoordinateSystems-75"><span class="linenos">75</span></a>    <span class="n">POLAR</span> <span class="o">=</span> <span class="s1">&#39;polar&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CoordinateSystems-78"><a href="#CoordinateSystems-78"><span class="linenos">78</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CoordinateSystems</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="CoordinateSystems-79"><a href="#CoordinateSystems-79"><span class="linenos">79</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="CoordinateSystems-80"><a href="#CoordinateSystems-80"><span class="linenos">80</span></a><span class="sd">    Enum to differentiate coordinate systems.</span>
+</span><span id="CoordinateSystems-81"><a href="#CoordinateSystems-81"><span class="linenos">81</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="CoordinateSystems-82"><a href="#CoordinateSystems-82"><span class="linenos">82</span></a>    <span class="n">CARTESIAN</span> <span class="o">=</span> <span class="s1">&#39;Cartesian&#39;</span>
+</span><span id="CoordinateSystems-83"><a href="#CoordinateSystems-83"><span class="linenos">83</span></a>    <span class="n">POLAR</span> <span class="o">=</span> <span class="s1">&#39;polar&#39;</span>
 </span></pre></div>
 
 
@@ -822,17 +994,17 @@ and never are stored. In effect, they function as look-up tables.</p>
 
     </div>
     <a class="headerlink" href="#Datasource"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Datasource-78"><a href="#Datasource-78"><span class="linenos">78</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Datasource</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="Datasource-79"><a href="#Datasource-79"><span class="linenos">79</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Datasource-80"><a href="#Datasource-80"><span class="linenos">80</span></a><span class="sd">    Data sources patkit can handle.</span>
-</span><span id="Datasource-81"><a href="#Datasource-81"><span class="linenos">81</span></a>
-</span><span id="Datasource-82"><a href="#Datasource-82"><span class="linenos">82</span></a><span class="sd">    Used in saving and loading to identify the data source in config, as well</span>
-</span><span id="Datasource-83"><a href="#Datasource-83"><span class="linenos">83</span></a><span class="sd">    as in meta and skip the step of trying to figure the data source out from</span>
-</span><span id="Datasource-84"><a href="#Datasource-84"><span class="linenos">84</span></a><span class="sd">    the type of files present.</span>
-</span><span id="Datasource-85"><a href="#Datasource-85"><span class="linenos">85</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Datasource-86"><a href="#Datasource-86"><span class="linenos">86</span></a>    <span class="n">AAA</span> <span class="o">=</span> <span class="s2">&quot;AAA&quot;</span>
-</span><span id="Datasource-87"><a href="#Datasource-87"><span class="linenos">87</span></a>    <span class="c1"># EVA = &quot;EVA&quot;</span>
-</span><span id="Datasource-88"><a href="#Datasource-88"><span class="linenos">88</span></a>    <span class="n">RASL</span> <span class="o">=</span> <span class="s2">&quot;RASL&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Datasource-86"><a href="#Datasource-86"><span class="linenos">86</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Datasource</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="Datasource-87"><a href="#Datasource-87"><span class="linenos">87</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Datasource-88"><a href="#Datasource-88"><span class="linenos">88</span></a><span class="sd">    Data sources patkit can handle.</span>
+</span><span id="Datasource-89"><a href="#Datasource-89"><span class="linenos">89</span></a>
+</span><span id="Datasource-90"><a href="#Datasource-90"><span class="linenos">90</span></a><span class="sd">    Used in saving and loading to identify the data source in config, as well</span>
+</span><span id="Datasource-91"><a href="#Datasource-91"><span class="linenos">91</span></a><span class="sd">    as in meta and skip the step of trying to figure the data source out from</span>
+</span><span id="Datasource-92"><a href="#Datasource-92"><span class="linenos">92</span></a><span class="sd">    the type of files present.</span>
+</span><span id="Datasource-93"><a href="#Datasource-93"><span class="linenos">93</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Datasource-94"><a href="#Datasource-94"><span class="linenos">94</span></a>    <span class="n">AAA</span> <span class="o">=</span> <span class="s2">&quot;AAA&quot;</span>
+</span><span id="Datasource-95"><a href="#Datasource-95"><span class="linenos">95</span></a>    <span class="c1"># EVA = &quot;EVA&quot;</span>
+</span><span id="Datasource-96"><a href="#Datasource-96"><span class="linenos">96</span></a>    <span class="n">RASL</span> <span class="o">=</span> <span class="s2">&quot;RASL&quot;</span>
 </span></pre></div>
 
 
@@ -880,15 +1052,15 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#GuiColorScheme"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiColorScheme-91"><a href="#GuiColorScheme-91"><span class="linenos">91</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiColorScheme</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="GuiColorScheme-92"><a href="#GuiColorScheme-92"><span class="linenos">92</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="GuiColorScheme-93"><a href="#GuiColorScheme-93"><span class="linenos">93</span></a><span class="sd">    GUI styles.</span>
-</span><span id="GuiColorScheme-94"><a href="#GuiColorScheme-94"><span class="linenos">94</span></a>
-</span><span id="GuiColorScheme-95"><a href="#GuiColorScheme-95"><span class="linenos">95</span></a><span class="sd">    FOLLOW_SYSTEM means patkit will</span>
-</span><span id="GuiColorScheme-96"><a href="#GuiColorScheme-96"><span class="linenos">96</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="GuiColorScheme-97"><a href="#GuiColorScheme-97"><span class="linenos">97</span></a>    <span class="n">DARK</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span>
-</span><span id="GuiColorScheme-98"><a href="#GuiColorScheme-98"><span class="linenos">98</span></a>    <span class="n">FOLLOW_SYSTEM</span> <span class="o">=</span> <span class="s2">&quot;follow_system&quot;</span>
-</span><span id="GuiColorScheme-99"><a href="#GuiColorScheme-99"><span class="linenos">99</span></a>    <span class="n">LIGHT</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiColorScheme-99"><a href="#GuiColorScheme-99"><span class="linenos"> 99</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiColorScheme</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="GuiColorScheme-100"><a href="#GuiColorScheme-100"><span class="linenos">100</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="GuiColorScheme-101"><a href="#GuiColorScheme-101"><span class="linenos">101</span></a><span class="sd">    GUI styles.</span>
+</span><span id="GuiColorScheme-102"><a href="#GuiColorScheme-102"><span class="linenos">102</span></a>
+</span><span id="GuiColorScheme-103"><a href="#GuiColorScheme-103"><span class="linenos">103</span></a><span class="sd">    FOLLOW_SYSTEM means patkit will</span>
+</span><span id="GuiColorScheme-104"><a href="#GuiColorScheme-104"><span class="linenos">104</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="GuiColorScheme-105"><a href="#GuiColorScheme-105"><span class="linenos">105</span></a>    <span class="n">DARK</span> <span class="o">=</span> <span class="s2">&quot;dark&quot;</span>
+</span><span id="GuiColorScheme-106"><a href="#GuiColorScheme-106"><span class="linenos">106</span></a>    <span class="n">FOLLOW_SYSTEM</span> <span class="o">=</span> <span class="s2">&quot;follow_system&quot;</span>
+</span><span id="GuiColorScheme-107"><a href="#GuiColorScheme-107"><span class="linenos">107</span></a>    <span class="n">LIGHT</span> <span class="o">=</span> <span class="s2">&quot;light&quot;</span>
 </span></pre></div>
 
 
@@ -946,16 +1118,16 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#ImageMask"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ImageMask-102"><a href="#ImageMask-102"><span class="linenos">102</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ImageMask</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="ImageMask-103"><a href="#ImageMask-103"><span class="linenos">103</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="ImageMask-104"><a href="#ImageMask-104"><span class="linenos">104</span></a><span class="sd">    Accepted image masking options in calculating PD.</span>
-</span><span id="ImageMask-105"><a href="#ImageMask-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="ImageMask-106"><a href="#ImageMask-106"><span class="linenos">106</span></a>    <span class="n">TOP</span> <span class="o">=</span> <span class="s2">&quot;top&quot;</span>
-</span><span id="ImageMask-107"><a href="#ImageMask-107"><span class="linenos">107</span></a>    <span class="n">BOTTOM</span> <span class="o">=</span> <span class="s2">&quot;bottom&quot;</span>
-</span><span id="ImageMask-108"><a href="#ImageMask-108"><span class="linenos">108</span></a>    <span class="n">WHOLE</span> <span class="o">=</span> <span class="s2">&quot;whole&quot;</span>
-</span><span id="ImageMask-109"><a href="#ImageMask-109"><span class="linenos">109</span></a>
-</span><span id="ImageMask-110"><a href="#ImageMask-110"><span class="linenos">110</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ImageMask-111"><a href="#ImageMask-111"><span class="linenos">111</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ImageMask-110"><a href="#ImageMask-110"><span class="linenos">110</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ImageMask</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="ImageMask-111"><a href="#ImageMask-111"><span class="linenos">111</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="ImageMask-112"><a href="#ImageMask-112"><span class="linenos">112</span></a><span class="sd">    Accepted image masking options in calculating PD.</span>
+</span><span id="ImageMask-113"><a href="#ImageMask-113"><span class="linenos">113</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="ImageMask-114"><a href="#ImageMask-114"><span class="linenos">114</span></a>    <span class="n">TOP</span> <span class="o">=</span> <span class="s2">&quot;top&quot;</span>
+</span><span id="ImageMask-115"><a href="#ImageMask-115"><span class="linenos">115</span></a>    <span class="n">BOTTOM</span> <span class="o">=</span> <span class="s2">&quot;bottom&quot;</span>
+</span><span id="ImageMask-116"><a href="#ImageMask-116"><span class="linenos">116</span></a>    <span class="n">WHOLE</span> <span class="o">=</span> <span class="s2">&quot;whole&quot;</span>
+</span><span id="ImageMask-117"><a href="#ImageMask-117"><span class="linenos">117</span></a>
+</span><span id="ImageMask-118"><a href="#ImageMask-118"><span class="linenos">118</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ImageMask-119"><a href="#ImageMask-119"><span class="linenos">119</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 </span></pre></div>
 
 
@@ -1011,12 +1183,12 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#IntervalBoundary"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="IntervalBoundary-114"><a href="#IntervalBoundary-114"><span class="linenos">114</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalBoundary</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="IntervalBoundary-115"><a href="#IntervalBoundary-115"><span class="linenos">115</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="IntervalBoundary-116"><a href="#IntervalBoundary-116"><span class="linenos">116</span></a><span class="sd">    Begin and end for import type checking.</span>
-</span><span id="IntervalBoundary-117"><a href="#IntervalBoundary-117"><span class="linenos">117</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="IntervalBoundary-118"><a href="#IntervalBoundary-118"><span class="linenos">118</span></a>    <span class="n">BEGIN</span> <span class="o">=</span> <span class="s1">&#39;begin&#39;</span>
-</span><span id="IntervalBoundary-119"><a href="#IntervalBoundary-119"><span class="linenos">119</span></a>    <span class="n">END</span> <span class="o">=</span> <span class="s1">&#39;end&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="IntervalBoundary-122"><a href="#IntervalBoundary-122"><span class="linenos">122</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalBoundary</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="IntervalBoundary-123"><a href="#IntervalBoundary-123"><span class="linenos">123</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="IntervalBoundary-124"><a href="#IntervalBoundary-124"><span class="linenos">124</span></a><span class="sd">    Begin and end for import type checking.</span>
+</span><span id="IntervalBoundary-125"><a href="#IntervalBoundary-125"><span class="linenos">125</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="IntervalBoundary-126"><a href="#IntervalBoundary-126"><span class="linenos">126</span></a>    <span class="n">BEGIN</span> <span class="o">=</span> <span class="s1">&#39;begin&#39;</span>
+</span><span id="IntervalBoundary-127"><a href="#IntervalBoundary-127"><span class="linenos">127</span></a>    <span class="n">END</span> <span class="o">=</span> <span class="s1">&#39;end&#39;</span>
 </span></pre></div>
 
 
@@ -1060,14 +1232,14 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#IntervalCategory"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="IntervalCategory-122"><a href="#IntervalCategory-122"><span class="linenos">122</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="IntervalCategory-123"><a href="#IntervalCategory-123"><span class="linenos">123</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="IntervalCategory-124"><a href="#IntervalCategory-124"><span class="linenos">124</span></a><span class="sd">    Rule-based interval selection categories for import type checking.</span>
-</span><span id="IntervalCategory-125"><a href="#IntervalCategory-125"><span class="linenos">125</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="IntervalCategory-126"><a href="#IntervalCategory-126"><span class="linenos">126</span></a>    <span class="n">FIRST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;first non-empty&#39;</span>
-</span><span id="IntervalCategory-127"><a href="#IntervalCategory-127"><span class="linenos">127</span></a>    <span class="n">LAST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;last non-empty&#39;</span>
-</span><span id="IntervalCategory-128"><a href="#IntervalCategory-128"><span class="linenos">128</span></a>    <span class="n">FIRST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;first labeled&#39;</span>
-</span><span id="IntervalCategory-129"><a href="#IntervalCategory-129"><span class="linenos">129</span></a>    <span class="n">LAST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;last labeled&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="IntervalCategory-130"><a href="#IntervalCategory-130"><span class="linenos">130</span></a><span class="k">class</span><span class="w"> </span><span class="nc">IntervalCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="IntervalCategory-131"><a href="#IntervalCategory-131"><span class="linenos">131</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="IntervalCategory-132"><a href="#IntervalCategory-132"><span class="linenos">132</span></a><span class="sd">    Rule-based interval selection categories for import type checking.</span>
+</span><span id="IntervalCategory-133"><a href="#IntervalCategory-133"><span class="linenos">133</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="IntervalCategory-134"><a href="#IntervalCategory-134"><span class="linenos">134</span></a>    <span class="n">FIRST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;first non-empty&#39;</span>
+</span><span id="IntervalCategory-135"><a href="#IntervalCategory-135"><span class="linenos">135</span></a>    <span class="n">LAST_NON_EMPTY</span> <span class="o">=</span> <span class="s1">&#39;last non-empty&#39;</span>
+</span><span id="IntervalCategory-136"><a href="#IntervalCategory-136"><span class="linenos">136</span></a>    <span class="n">FIRST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;first labeled&#39;</span>
+</span><span id="IntervalCategory-137"><a href="#IntervalCategory-137"><span class="linenos">137</span></a>    <span class="n">LAST_LABELED</span> <span class="o">=</span> <span class="s1">&#39;last labeled&#39;</span>
 </span></pre></div>
 
 
@@ -1136,13 +1308,13 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#Patkitconfigfile"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Patkitconfigfile-132"><a href="#Patkitconfigfile-132"><span class="linenos">132</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="Patkitconfigfile-133"><a href="#Patkitconfigfile-133"><span class="linenos">133</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitconfigfile</span><span class="p">:</span>
-</span><span id="Patkitconfigfile-134"><a href="#Patkitconfigfile-134"><span class="linenos">134</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Patkitconfigfile-135"><a href="#Patkitconfigfile-135"><span class="linenos">135</span></a><span class="sd">    Human written yaml files to control importing data.</span>
-</span><span id="Patkitconfigfile-136"><a href="#Patkitconfigfile-136"><span class="linenos">136</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Patkitconfigfile-137"><a href="#Patkitconfigfile-137"><span class="linenos">137</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s1">&#39;session_config.yaml&#39;</span>
-</span><span id="Patkitconfigfile-138"><a href="#Patkitconfigfile-138"><span class="linenos">138</span></a>    <span class="n">SPLINE</span> <span class="o">=</span> <span class="s1">&#39;spline_config.yaml&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Patkitconfigfile-140"><a href="#Patkitconfigfile-140"><span class="linenos">140</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Patkitconfigfile-141"><a href="#Patkitconfigfile-141"><span class="linenos">141</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitconfigfile</span><span class="p">:</span>
+</span><span id="Patkitconfigfile-142"><a href="#Patkitconfigfile-142"><span class="linenos">142</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Patkitconfigfile-143"><a href="#Patkitconfigfile-143"><span class="linenos">143</span></a><span class="sd">    Human written yaml files to control importing data.</span>
+</span><span id="Patkitconfigfile-144"><a href="#Patkitconfigfile-144"><span class="linenos">144</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Patkitconfigfile-145"><a href="#Patkitconfigfile-145"><span class="linenos">145</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s1">&#39;session_config.yaml&#39;</span>
+</span><span id="Patkitconfigfile-146"><a href="#Patkitconfigfile-146"><span class="linenos">146</span></a>    <span class="n">SPLINE</span> <span class="o">=</span> <span class="s1">&#39;spline_config.yaml&#39;</span>
 </span></pre></div>
 
 
@@ -1187,18 +1359,18 @@ the type of files present.</p>
 
     </div>
     <a class="headerlink" href="#Patkitsuffix"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Patkitsuffix-141"><a href="#Patkitsuffix-141"><span class="linenos">141</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="Patkitsuffix-142"><a href="#Patkitsuffix-142"><span class="linenos">142</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitsuffix</span><span class="p">:</span>
-</span><span id="Patkitsuffix-143"><a href="#Patkitsuffix-143"><span class="linenos">143</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Patkitsuffix-144"><a href="#Patkitsuffix-144"><span class="linenos">144</span></a><span class="sd">    Suffixes for files saved by patkit.</span>
-</span><span id="Patkitsuffix-145"><a href="#Patkitsuffix-145"><span class="linenos">145</span></a>
-</span><span id="Patkitsuffix-146"><a href="#Patkitsuffix-146"><span class="linenos">146</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos. To see the</span>
-</span><span id="Patkitsuffix-147"><a href="#Patkitsuffix-147"><span class="linenos">147</span></a><span class="sd">    whole layered scheme patkit uses see the &#39;Saving and Loading Data&#39; section</span>
-</span><span id="Patkitsuffix-148"><a href="#Patkitsuffix-148"><span class="linenos">148</span></a><span class="sd">    in the documentation.</span>
-</span><span id="Patkitsuffix-149"><a href="#Patkitsuffix-149"><span class="linenos">149</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Patkitsuffix-150"><a href="#Patkitsuffix-150"><span class="linenos">150</span></a>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;.yaml&quot;</span>
-</span><span id="Patkitsuffix-151"><a href="#Patkitsuffix-151"><span class="linenos">151</span></a>    <span class="n">DATA</span> <span class="o">=</span> <span class="s2">&quot;.npz&quot;</span>
-</span><span id="Patkitsuffix-152"><a href="#Patkitsuffix-152"><span class="linenos">152</span></a>    <span class="n">META</span> <span class="o">=</span> <span class="s2">&quot;.meta&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Patkitsuffix-149"><a href="#Patkitsuffix-149"><span class="linenos">149</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Patkitsuffix-150"><a href="#Patkitsuffix-150"><span class="linenos">150</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Patkitsuffix</span><span class="p">:</span>
+</span><span id="Patkitsuffix-151"><a href="#Patkitsuffix-151"><span class="linenos">151</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Patkitsuffix-152"><a href="#Patkitsuffix-152"><span class="linenos">152</span></a><span class="sd">    Suffixes for files saved by patkit.</span>
+</span><span id="Patkitsuffix-153"><a href="#Patkitsuffix-153"><span class="linenos">153</span></a>
+</span><span id="Patkitsuffix-154"><a href="#Patkitsuffix-154"><span class="linenos">154</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos. To see the</span>
+</span><span id="Patkitsuffix-155"><a href="#Patkitsuffix-155"><span class="linenos">155</span></a><span class="sd">    whole layered scheme patkit uses see the &#39;Saving and Loading Data&#39; section</span>
+</span><span id="Patkitsuffix-156"><a href="#Patkitsuffix-156"><span class="linenos">156</span></a><span class="sd">    in the documentation.</span>
+</span><span id="Patkitsuffix-157"><a href="#Patkitsuffix-157"><span class="linenos">157</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Patkitsuffix-158"><a href="#Patkitsuffix-158"><span class="linenos">158</span></a>    <span class="n">CONFIG</span> <span class="o">=</span> <span class="s2">&quot;.yaml&quot;</span>
+</span><span id="Patkitsuffix-159"><a href="#Patkitsuffix-159"><span class="linenos">159</span></a>    <span class="n">DATA</span> <span class="o">=</span> <span class="s2">&quot;.npz&quot;</span>
+</span><span id="Patkitsuffix-160"><a href="#Patkitsuffix-160"><span class="linenos">160</span></a>    <span class="n">META</span> <span class="o">=</span> <span class="s2">&quot;.meta&quot;</span>
 </span></pre></div>
 
 
@@ -1258,14 +1430,14 @@ in the documentation.</p>
 
     </div>
     <a class="headerlink" href="#SavedObjectTypes"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SavedObjectTypes-155"><a href="#SavedObjectTypes-155"><span class="linenos">155</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SavedObjectTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="SavedObjectTypes-156"><a href="#SavedObjectTypes-156"><span class="linenos">156</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SavedObjectTypes-157"><a href="#SavedObjectTypes-157"><span class="linenos">157</span></a><span class="sd">    Represent type of a saved patkit object in .patkit_meta.</span>
-</span><span id="SavedObjectTypes-158"><a href="#SavedObjectTypes-158"><span class="linenos">158</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SavedObjectTypes-159"><a href="#SavedObjectTypes-159"><span class="linenos">159</span></a>    <span class="c1"># TODO 1.0: Check if this is actually in use.</span>
-</span><span id="SavedObjectTypes-160"><a href="#SavedObjectTypes-160"><span class="linenos">160</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s2">&quot;Session&quot;</span>
-</span><span id="SavedObjectTypes-161"><a href="#SavedObjectTypes-161"><span class="linenos">161</span></a>    <span class="n">RECORDING</span> <span class="o">=</span> <span class="s2">&quot;Recording&quot;</span>
-</span><span id="SavedObjectTypes-162"><a href="#SavedObjectTypes-162"><span class="linenos">162</span></a>    <span class="n">MODALITY</span> <span class="o">=</span> <span class="s2">&quot;Modality&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SavedObjectTypes-163"><a href="#SavedObjectTypes-163"><span class="linenos">163</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SavedObjectTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="SavedObjectTypes-164"><a href="#SavedObjectTypes-164"><span class="linenos">164</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SavedObjectTypes-165"><a href="#SavedObjectTypes-165"><span class="linenos">165</span></a><span class="sd">    Represent type of a saved patkit object in .patkit_meta.</span>
+</span><span id="SavedObjectTypes-166"><a href="#SavedObjectTypes-166"><span class="linenos">166</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SavedObjectTypes-167"><a href="#SavedObjectTypes-167"><span class="linenos">167</span></a>    <span class="c1"># TODO 1.0: Check if this is actually in use.</span>
+</span><span id="SavedObjectTypes-168"><a href="#SavedObjectTypes-168"><span class="linenos">168</span></a>    <span class="n">SESSION</span> <span class="o">=</span> <span class="s2">&quot;Session&quot;</span>
+</span><span id="SavedObjectTypes-169"><a href="#SavedObjectTypes-169"><span class="linenos">169</span></a>    <span class="n">RECORDING</span> <span class="o">=</span> <span class="s2">&quot;Recording&quot;</span>
+</span><span id="SavedObjectTypes-170"><a href="#SavedObjectTypes-170"><span class="linenos">170</span></a>    <span class="n">MODALITY</span> <span class="o">=</span> <span class="s2">&quot;Modality&quot;</span>
 </span></pre></div>
 
 
@@ -1322,28 +1494,28 @@ in the documentation.</p>
 
     </div>
     <a class="headerlink" href="#SourceSuffix"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SourceSuffix-165"><a href="#SourceSuffix-165"><span class="linenos">165</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="SourceSuffix-166"><a href="#SourceSuffix-166"><span class="linenos">166</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SourceSuffix</span><span class="p">:</span>
-</span><span id="SourceSuffix-167"><a href="#SourceSuffix-167"><span class="linenos">167</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SourceSuffix-168"><a href="#SourceSuffix-168"><span class="linenos">168</span></a><span class="sd">    Suffixes for files imported by patkit.</span>
-</span><span id="SourceSuffix-169"><a href="#SourceSuffix-169"><span class="linenos">169</span></a>
-</span><span id="SourceSuffix-170"><a href="#SourceSuffix-170"><span class="linenos">170</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos and for</span>
-</span><span id="SourceSuffix-171"><a href="#SourceSuffix-171"><span class="linenos">171</span></a><span class="sd">    recognising what patkit is being asked to import.</span>
-</span><span id="SourceSuffix-172"><a href="#SourceSuffix-172"><span class="linenos">172</span></a>
-</span><span id="SourceSuffix-173"><a href="#SourceSuffix-173"><span class="linenos">173</span></a><span class="sd">    Note that AAA_ULTRA_META_OLD is not a proper suffix and won&#39;t be recognised</span>
-</span><span id="SourceSuffix-174"><a href="#SourceSuffix-174"><span class="linenos">174</span></a><span class="sd">    by pathlib and Path as such. Instead, do this</span>
-</span><span id="SourceSuffix-175"><a href="#SourceSuffix-175"><span class="linenos">175</span></a><span class="sd">    ```python</span>
-</span><span id="SourceSuffix-176"><a href="#SourceSuffix-176"><span class="linenos">176</span></a><span class="sd">    directory_path = Path(from_some_source)</span>
-</span><span id="SourceSuffix-177"><a href="#SourceSuffix-177"><span class="linenos">177</span></a><span class="sd">    directory_path/(name_string + SourceSuffix.AAA_ULTRA_META_OLD)</span>
-</span><span id="SourceSuffix-178"><a href="#SourceSuffix-178"><span class="linenos">178</span></a><span class="sd">    ```</span>
-</span><span id="SourceSuffix-179"><a href="#SourceSuffix-179"><span class="linenos">179</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SourceSuffix-180"><a href="#SourceSuffix-180"><span class="linenos">180</span></a>    <span class="n">AAA_ULTRA</span> <span class="o">=</span> <span class="s2">&quot;.ult&quot;</span>
-</span><span id="SourceSuffix-181"><a href="#SourceSuffix-181"><span class="linenos">181</span></a>    <span class="n">AAA_ULTRA_META_OLD</span> <span class="o">=</span> <span class="s2">&quot;US.txt&quot;</span>
-</span><span id="SourceSuffix-182"><a href="#SourceSuffix-182"><span class="linenos">182</span></a>    <span class="n">AAA_ULTRA_META_NEW</span> <span class="o">=</span> <span class="s2">&quot;.param&quot;</span>
-</span><span id="SourceSuffix-183"><a href="#SourceSuffix-183"><span class="linenos">183</span></a>    <span class="n">AAA_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;.txt&quot;</span>
-</span><span id="SourceSuffix-184"><a href="#SourceSuffix-184"><span class="linenos">184</span></a>    <span class="n">AAA_SPLINES</span> <span class="o">=</span> <span class="s2">&quot;.spl&quot;</span>
-</span><span id="SourceSuffix-185"><a href="#SourceSuffix-185"><span class="linenos">185</span></a>    <span class="n">AVI</span> <span class="o">=</span> <span class="s2">&quot;.avi&quot;</span>
-</span><span id="SourceSuffix-186"><a href="#SourceSuffix-186"><span class="linenos">186</span></a>    <span class="n">CSV</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SourceSuffix-173"><a href="#SourceSuffix-173"><span class="linenos">173</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="SourceSuffix-174"><a href="#SourceSuffix-174"><span class="linenos">174</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SourceSuffix</span><span class="p">:</span>
+</span><span id="SourceSuffix-175"><a href="#SourceSuffix-175"><span class="linenos">175</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SourceSuffix-176"><a href="#SourceSuffix-176"><span class="linenos">176</span></a><span class="sd">    Suffixes for files imported by patkit.</span>
+</span><span id="SourceSuffix-177"><a href="#SourceSuffix-177"><span class="linenos">177</span></a>
+</span><span id="SourceSuffix-178"><a href="#SourceSuffix-178"><span class="linenos">178</span></a><span class="sd">    These exist as a convenient way of not needing to risk typos and for</span>
+</span><span id="SourceSuffix-179"><a href="#SourceSuffix-179"><span class="linenos">179</span></a><span class="sd">    recognising what patkit is being asked to import.</span>
+</span><span id="SourceSuffix-180"><a href="#SourceSuffix-180"><span class="linenos">180</span></a>
+</span><span id="SourceSuffix-181"><a href="#SourceSuffix-181"><span class="linenos">181</span></a><span class="sd">    Note that AAA_ULTRA_META_OLD is not a proper suffix and won&#39;t be recognised</span>
+</span><span id="SourceSuffix-182"><a href="#SourceSuffix-182"><span class="linenos">182</span></a><span class="sd">    by pathlib and Path as such. Instead, do this</span>
+</span><span id="SourceSuffix-183"><a href="#SourceSuffix-183"><span class="linenos">183</span></a><span class="sd">    ```python</span>
+</span><span id="SourceSuffix-184"><a href="#SourceSuffix-184"><span class="linenos">184</span></a><span class="sd">    directory_path = Path(from_some_source)</span>
+</span><span id="SourceSuffix-185"><a href="#SourceSuffix-185"><span class="linenos">185</span></a><span class="sd">    directory_path/(name_string + SourceSuffix.AAA_ULTRA_META_OLD)</span>
+</span><span id="SourceSuffix-186"><a href="#SourceSuffix-186"><span class="linenos">186</span></a><span class="sd">    ```</span>
+</span><span id="SourceSuffix-187"><a href="#SourceSuffix-187"><span class="linenos">187</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SourceSuffix-188"><a href="#SourceSuffix-188"><span class="linenos">188</span></a>    <span class="n">AAA_ULTRA</span> <span class="o">=</span> <span class="s2">&quot;.ult&quot;</span>
+</span><span id="SourceSuffix-189"><a href="#SourceSuffix-189"><span class="linenos">189</span></a>    <span class="n">AAA_ULTRA_META_OLD</span> <span class="o">=</span> <span class="s2">&quot;US.txt&quot;</span>
+</span><span id="SourceSuffix-190"><a href="#SourceSuffix-190"><span class="linenos">190</span></a>    <span class="n">AAA_ULTRA_META_NEW</span> <span class="o">=</span> <span class="s2">&quot;.param&quot;</span>
+</span><span id="SourceSuffix-191"><a href="#SourceSuffix-191"><span class="linenos">191</span></a>    <span class="n">AAA_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;.txt&quot;</span>
+</span><span id="SourceSuffix-192"><a href="#SourceSuffix-192"><span class="linenos">192</span></a>    <span class="n">AAA_SPLINES</span> <span class="o">=</span> <span class="s2">&quot;.spl&quot;</span>
+</span><span id="SourceSuffix-193"><a href="#SourceSuffix-193"><span class="linenos">193</span></a>    <span class="n">AVI</span> <span class="o">=</span> <span class="s2">&quot;.avi&quot;</span>
+</span><span id="SourceSuffix-194"><a href="#SourceSuffix-194"><span class="linenos">194</span></a>    <span class="n">CSV</span> <span class="o">=</span> <span class="s2">&quot;.csv&quot;</span>
 </span></pre></div>
 
 
@@ -1459,17 +1631,17 @@ by pathlib and Path as such. Instead, do this</p>
 
     </div>
     <a class="headerlink" href="#SplineDataColumn"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineDataColumn-218"><a href="#SplineDataColumn-218"><span class="linenos">218</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDataColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="SplineDataColumn-219"><a href="#SplineDataColumn-219"><span class="linenos">219</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SplineDataColumn-220"><a href="#SplineDataColumn-220"><span class="linenos">220</span></a><span class="sd">    Basic data columns that any Spline should reasonably have.</span>
-</span><span id="SplineDataColumn-221"><a href="#SplineDataColumn-221"><span class="linenos">221</span></a>
-</span><span id="SplineDataColumn-222"><a href="#SplineDataColumn-222"><span class="linenos">222</span></a><span class="sd">    Accepted values: &#39;r&#39; with &#39;phi&#39;, &#39;x&#39; with &#39;y&#39;, and &#39;confidence&#39;</span>
-</span><span id="SplineDataColumn-223"><a href="#SplineDataColumn-223"><span class="linenos">223</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SplineDataColumn-224"><a href="#SplineDataColumn-224"><span class="linenos">224</span></a>    <span class="n">R</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
-</span><span id="SplineDataColumn-225"><a href="#SplineDataColumn-225"><span class="linenos">225</span></a>    <span class="n">PHI</span> <span class="o">=</span> <span class="s2">&quot;phi&quot;</span>
-</span><span id="SplineDataColumn-226"><a href="#SplineDataColumn-226"><span class="linenos">226</span></a>    <span class="n">X</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
-</span><span id="SplineDataColumn-227"><a href="#SplineDataColumn-227"><span class="linenos">227</span></a>    <span class="n">Y</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
-</span><span id="SplineDataColumn-228"><a href="#SplineDataColumn-228"><span class="linenos">228</span></a>    <span class="n">CONFIDENCE</span> <span class="o">=</span> <span class="s2">&quot;confidence&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineDataColumn-226"><a href="#SplineDataColumn-226"><span class="linenos">226</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDataColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="SplineDataColumn-227"><a href="#SplineDataColumn-227"><span class="linenos">227</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineDataColumn-228"><a href="#SplineDataColumn-228"><span class="linenos">228</span></a><span class="sd">    Basic data columns that any Spline should reasonably have.</span>
+</span><span id="SplineDataColumn-229"><a href="#SplineDataColumn-229"><span class="linenos">229</span></a>
+</span><span id="SplineDataColumn-230"><a href="#SplineDataColumn-230"><span class="linenos">230</span></a><span class="sd">    Accepted values: &#39;r&#39; with &#39;phi&#39;, &#39;x&#39; with &#39;y&#39;, and &#39;confidence&#39;</span>
+</span><span id="SplineDataColumn-231"><a href="#SplineDataColumn-231"><span class="linenos">231</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SplineDataColumn-232"><a href="#SplineDataColumn-232"><span class="linenos">232</span></a>    <span class="n">R</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span>
+</span><span id="SplineDataColumn-233"><a href="#SplineDataColumn-233"><span class="linenos">233</span></a>    <span class="n">PHI</span> <span class="o">=</span> <span class="s2">&quot;phi&quot;</span>
+</span><span id="SplineDataColumn-234"><a href="#SplineDataColumn-234"><span class="linenos">234</span></a>    <span class="n">X</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+</span><span id="SplineDataColumn-235"><a href="#SplineDataColumn-235"><span class="linenos">235</span></a>    <span class="n">Y</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span>
+</span><span id="SplineDataColumn-236"><a href="#SplineDataColumn-236"><span class="linenos">236</span></a>    <span class="n">CONFIDENCE</span> <span class="o">=</span> <span class="s2">&quot;confidence&quot;</span>
 </span></pre></div>
 
 
@@ -1551,31 +1723,31 @@ by pathlib and Path as such. Instead, do this</p>
 
     </div>
     <a class="headerlink" href="#SplineMetaColumn"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineMetaColumn-231"><a href="#SplineMetaColumn-231"><span class="linenos">231</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineMetaColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-</span><span id="SplineMetaColumn-232"><a href="#SplineMetaColumn-232"><span class="linenos">232</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SplineMetaColumn-233"><a href="#SplineMetaColumn-233"><span class="linenos">233</span></a><span class="sd">    Basic metadata that any Spline should reasonably have.</span>
-</span><span id="SplineMetaColumn-234"><a href="#SplineMetaColumn-234"><span class="linenos">234</span></a>
-</span><span id="SplineMetaColumn-235"><a href="#SplineMetaColumn-235"><span class="linenos">235</span></a><span class="sd">    Accepted values:</span>
-</span><span id="SplineMetaColumn-236"><a href="#SplineMetaColumn-236"><span class="linenos">236</span></a><span class="sd">    - ignore: marks a column to be ignored, unlike the others below, </span>
-</span><span id="SplineMetaColumn-237"><a href="#SplineMetaColumn-237"><span class="linenos">237</span></a><span class="sd">        can be used several times</span>
-</span><span id="SplineMetaColumn-238"><a href="#SplineMetaColumn-238"><span class="linenos">238</span></a><span class="sd">    - id: used to identify the speaker, </span>
-</span><span id="SplineMetaColumn-239"><a href="#SplineMetaColumn-239"><span class="linenos">239</span></a><span class="sd">        often contained in a csv field called &#39;family name&#39;</span>
-</span><span id="SplineMetaColumn-240"><a href="#SplineMetaColumn-240"><span class="linenos">240</span></a><span class="sd">    - given names: appended to &#39;id&#39; if not marked &#39;ignore&#39;</span>
-</span><span id="SplineMetaColumn-241"><a href="#SplineMetaColumn-241"><span class="linenos">241</span></a><span class="sd">    - date and time: dat3 and time of recording</span>
-</span><span id="SplineMetaColumn-242"><a href="#SplineMetaColumn-242"><span class="linenos">242</span></a><span class="sd">    - prompt: prompt of recording, used to identify the recording with &#39;id&#39;</span>
-</span><span id="SplineMetaColumn-243"><a href="#SplineMetaColumn-243"><span class="linenos">243</span></a><span class="sd">    - annotation label: optional field containing annotation information</span>
-</span><span id="SplineMetaColumn-244"><a href="#SplineMetaColumn-244"><span class="linenos">244</span></a><span class="sd">    - time in recording: timestamp of the frame this spline belongs to</span>
-</span><span id="SplineMetaColumn-245"><a href="#SplineMetaColumn-245"><span class="linenos">245</span></a><span class="sd">    - number of spline points: number of sample points in the spline used </span>
-</span><span id="SplineMetaColumn-246"><a href="#SplineMetaColumn-246"><span class="linenos">246</span></a><span class="sd">        to parse the coordinates and possible confidence information    </span>
-</span><span id="SplineMetaColumn-247"><a href="#SplineMetaColumn-247"><span class="linenos">247</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SplineMetaColumn-248"><a href="#SplineMetaColumn-248"><span class="linenos">248</span></a>    <span class="n">IGNORE</span> <span class="o">=</span> <span class="s2">&quot;ignore&quot;</span>
-</span><span id="SplineMetaColumn-249"><a href="#SplineMetaColumn-249"><span class="linenos">249</span></a>    <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
-</span><span id="SplineMetaColumn-250"><a href="#SplineMetaColumn-250"><span class="linenos">250</span></a>    <span class="n">GIVEN_NAMES</span> <span class="o">=</span> <span class="s2">&quot;given names&quot;</span>
-</span><span id="SplineMetaColumn-251"><a href="#SplineMetaColumn-251"><span class="linenos">251</span></a>    <span class="n">DATE_AND_TIME</span> <span class="o">=</span> <span class="s2">&quot;date and time&quot;</span>
-</span><span id="SplineMetaColumn-252"><a href="#SplineMetaColumn-252"><span class="linenos">252</span></a>    <span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">&quot;prompt&quot;</span>
-</span><span id="SplineMetaColumn-253"><a href="#SplineMetaColumn-253"><span class="linenos">253</span></a>    <span class="n">ANNOTATION_LABEL</span> <span class="o">=</span> <span class="s2">&quot;annotation label&quot;</span>
-</span><span id="SplineMetaColumn-254"><a href="#SplineMetaColumn-254"><span class="linenos">254</span></a>    <span class="n">TIME_IN_RECORDING</span> <span class="o">=</span> <span class="s2">&quot;time in recording&quot;</span>
-</span><span id="SplineMetaColumn-255"><a href="#SplineMetaColumn-255"><span class="linenos">255</span></a>    <span class="n">NUMBER_OF_SPLINE_POINTS</span> <span class="o">=</span> <span class="s2">&quot;number of spline points&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineMetaColumn-239"><a href="#SplineMetaColumn-239"><span class="linenos">239</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineMetaColumn</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="SplineMetaColumn-240"><a href="#SplineMetaColumn-240"><span class="linenos">240</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineMetaColumn-241"><a href="#SplineMetaColumn-241"><span class="linenos">241</span></a><span class="sd">    Basic metadata that any Spline should reasonably have.</span>
+</span><span id="SplineMetaColumn-242"><a href="#SplineMetaColumn-242"><span class="linenos">242</span></a>
+</span><span id="SplineMetaColumn-243"><a href="#SplineMetaColumn-243"><span class="linenos">243</span></a><span class="sd">    Accepted values:</span>
+</span><span id="SplineMetaColumn-244"><a href="#SplineMetaColumn-244"><span class="linenos">244</span></a><span class="sd">    - ignore: marks a column to be ignored, unlike the others below, </span>
+</span><span id="SplineMetaColumn-245"><a href="#SplineMetaColumn-245"><span class="linenos">245</span></a><span class="sd">        can be used several times</span>
+</span><span id="SplineMetaColumn-246"><a href="#SplineMetaColumn-246"><span class="linenos">246</span></a><span class="sd">    - id: used to identify the speaker, </span>
+</span><span id="SplineMetaColumn-247"><a href="#SplineMetaColumn-247"><span class="linenos">247</span></a><span class="sd">        often contained in a csv field called &#39;family name&#39;</span>
+</span><span id="SplineMetaColumn-248"><a href="#SplineMetaColumn-248"><span class="linenos">248</span></a><span class="sd">    - given names: appended to &#39;id&#39; if not marked &#39;ignore&#39;</span>
+</span><span id="SplineMetaColumn-249"><a href="#SplineMetaColumn-249"><span class="linenos">249</span></a><span class="sd">    - date and time: dat3 and time of recording</span>
+</span><span id="SplineMetaColumn-250"><a href="#SplineMetaColumn-250"><span class="linenos">250</span></a><span class="sd">    - prompt: prompt of recording, used to identify the recording with &#39;id&#39;</span>
+</span><span id="SplineMetaColumn-251"><a href="#SplineMetaColumn-251"><span class="linenos">251</span></a><span class="sd">    - annotation label: optional field containing annotation information</span>
+</span><span id="SplineMetaColumn-252"><a href="#SplineMetaColumn-252"><span class="linenos">252</span></a><span class="sd">    - time in recording: timestamp of the frame this spline belongs to</span>
+</span><span id="SplineMetaColumn-253"><a href="#SplineMetaColumn-253"><span class="linenos">253</span></a><span class="sd">    - number of spline points: number of sample points in the spline used </span>
+</span><span id="SplineMetaColumn-254"><a href="#SplineMetaColumn-254"><span class="linenos">254</span></a><span class="sd">        to parse the coordinates and possible confidence information    </span>
+</span><span id="SplineMetaColumn-255"><a href="#SplineMetaColumn-255"><span class="linenos">255</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SplineMetaColumn-256"><a href="#SplineMetaColumn-256"><span class="linenos">256</span></a>    <span class="n">IGNORE</span> <span class="o">=</span> <span class="s2">&quot;ignore&quot;</span>
+</span><span id="SplineMetaColumn-257"><a href="#SplineMetaColumn-257"><span class="linenos">257</span></a>    <span class="n">ID</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+</span><span id="SplineMetaColumn-258"><a href="#SplineMetaColumn-258"><span class="linenos">258</span></a>    <span class="n">GIVEN_NAMES</span> <span class="o">=</span> <span class="s2">&quot;given names&quot;</span>
+</span><span id="SplineMetaColumn-259"><a href="#SplineMetaColumn-259"><span class="linenos">259</span></a>    <span class="n">DATE_AND_TIME</span> <span class="o">=</span> <span class="s2">&quot;date and time&quot;</span>
+</span><span id="SplineMetaColumn-260"><a href="#SplineMetaColumn-260"><span class="linenos">260</span></a>    <span class="n">PROMPT</span> <span class="o">=</span> <span class="s2">&quot;prompt&quot;</span>
+</span><span id="SplineMetaColumn-261"><a href="#SplineMetaColumn-261"><span class="linenos">261</span></a>    <span class="n">ANNOTATION_LABEL</span> <span class="o">=</span> <span class="s2">&quot;annotation label&quot;</span>
+</span><span id="SplineMetaColumn-262"><a href="#SplineMetaColumn-262"><span class="linenos">262</span></a>    <span class="n">TIME_IN_RECORDING</span> <span class="o">=</span> <span class="s2">&quot;time in recording&quot;</span>
+</span><span id="SplineMetaColumn-263"><a href="#SplineMetaColumn-263"><span class="linenos">263</span></a>    <span class="n">NUMBER_OF_SPLINE_POINTS</span> <span class="o">=</span> <span class="s2">&quot;number of spline points&quot;</span>
 </span></pre></div>
 
 
@@ -1707,14 +1879,14 @@ to parse the coordinates and possible confidence information</li>
 
     </div>
     <a class="headerlink" href="#SplineDiffsEnum"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineDiffsEnum-258"><a href="#SplineDiffsEnum-258"><span class="linenos">258</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDiffsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
-</span><span id="SplineDiffsEnum-259"><a href="#SplineDiffsEnum-259"><span class="linenos">259</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SplineDiffsEnum-260"><a href="#SplineDiffsEnum-260"><span class="linenos">260</span></a><span class="sd">    Spline metrics that use distance between corresponding points.</span>
-</span><span id="SplineDiffsEnum-261"><a href="#SplineDiffsEnum-261"><span class="linenos">261</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SplineDiffsEnum-262"><a href="#SplineDiffsEnum-262"><span class="linenos">262</span></a>    <span class="n">APBPD</span> <span class="o">=</span> <span class="s1">&#39;apbpd&#39;</span>
-</span><span id="SplineDiffsEnum-263"><a href="#SplineDiffsEnum-263"><span class="linenos">263</span></a>    <span class="n">MPBPD</span> <span class="o">=</span> <span class="s1">&#39;mpbpd&#39;</span>
-</span><span id="SplineDiffsEnum-264"><a href="#SplineDiffsEnum-264"><span class="linenos">264</span></a>    <span class="n">SPLINE_L1</span> <span class="o">=</span> <span class="s1">&#39;spline_l1&#39;</span>
-</span><span id="SplineDiffsEnum-265"><a href="#SplineDiffsEnum-265"><span class="linenos">265</span></a>    <span class="n">SPLINE_L2</span> <span class="o">=</span> <span class="s1">&#39;spline_l2&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineDiffsEnum-266"><a href="#SplineDiffsEnum-266"><span class="linenos">266</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineDiffsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="SplineDiffsEnum-267"><a href="#SplineDiffsEnum-267"><span class="linenos">267</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineDiffsEnum-268"><a href="#SplineDiffsEnum-268"><span class="linenos">268</span></a><span class="sd">    Spline metrics that use distance between corresponding points.</span>
+</span><span id="SplineDiffsEnum-269"><a href="#SplineDiffsEnum-269"><span class="linenos">269</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SplineDiffsEnum-270"><a href="#SplineDiffsEnum-270"><span class="linenos">270</span></a>    <span class="n">APBPD</span> <span class="o">=</span> <span class="s1">&#39;apbpd&#39;</span>
+</span><span id="SplineDiffsEnum-271"><a href="#SplineDiffsEnum-271"><span class="linenos">271</span></a>    <span class="n">MPBPD</span> <span class="o">=</span> <span class="s1">&#39;mpbpd&#39;</span>
+</span><span id="SplineDiffsEnum-272"><a href="#SplineDiffsEnum-272"><span class="linenos">272</span></a>    <span class="n">SPLINE_L1</span> <span class="o">=</span> <span class="s1">&#39;spline_l1&#39;</span>
+</span><span id="SplineDiffsEnum-273"><a href="#SplineDiffsEnum-273"><span class="linenos">273</span></a>    <span class="n">SPLINE_L2</span> <span class="o">=</span> <span class="s1">&#39;spline_l2&#39;</span>
 </span></pre></div>
 
 
@@ -1791,12 +1963,12 @@ to parse the coordinates and possible confidence information</li>
 
     </div>
     <a class="headerlink" href="#SplineNNDsEnum"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineNNDsEnum-268"><a href="#SplineNNDsEnum-268"><span class="linenos">268</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineNNDsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
-</span><span id="SplineNNDsEnum-269"><a href="#SplineNNDsEnum-269"><span class="linenos">269</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SplineNNDsEnum-270"><a href="#SplineNNDsEnum-270"><span class="linenos">270</span></a><span class="sd">    Spline metrics that use nearest neighbour distance.</span>
-</span><span id="SplineNNDsEnum-271"><a href="#SplineNNDsEnum-271"><span class="linenos">271</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SplineNNDsEnum-272"><a href="#SplineNNDsEnum-272"><span class="linenos">272</span></a>    <span class="n">ANND</span> <span class="o">=</span> <span class="s1">&#39;annd&#39;</span>
-</span><span id="SplineNNDsEnum-273"><a href="#SplineNNDsEnum-273"><span class="linenos">273</span></a>    <span class="n">MNND</span> <span class="o">=</span> <span class="s1">&#39;mnnd&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineNNDsEnum-276"><a href="#SplineNNDsEnum-276"><span class="linenos">276</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineNNDsEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="SplineNNDsEnum-277"><a href="#SplineNNDsEnum-277"><span class="linenos">277</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineNNDsEnum-278"><a href="#SplineNNDsEnum-278"><span class="linenos">278</span></a><span class="sd">    Spline metrics that use nearest neighbour distance.</span>
+</span><span id="SplineNNDsEnum-279"><a href="#SplineNNDsEnum-279"><span class="linenos">279</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SplineNNDsEnum-280"><a href="#SplineNNDsEnum-280"><span class="linenos">280</span></a>    <span class="n">ANND</span> <span class="o">=</span> <span class="s1">&#39;annd&#39;</span>
+</span><span id="SplineNNDsEnum-281"><a href="#SplineNNDsEnum-281"><span class="linenos">281</span></a>    <span class="n">MNND</span> <span class="o">=</span> <span class="s1">&#39;mnnd&#39;</span>
 </span></pre></div>
 
 
@@ -1849,14 +2021,33 @@ to parse the coordinates and possible confidence information</li>
 
     </div>
     <a class="headerlink" href="#SplineShapesEnum"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineShapesEnum-276"><a href="#SplineShapesEnum-276"><span class="linenos">276</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineShapesEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
-</span><span id="SplineShapesEnum-277"><a href="#SplineShapesEnum-277"><span class="linenos">277</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="SplineShapesEnum-278"><a href="#SplineShapesEnum-278"><span class="linenos">278</span></a><span class="sd">    Spline metrics that characterise shape.</span>
-</span><span id="SplineShapesEnum-279"><a href="#SplineShapesEnum-279"><span class="linenos">279</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="SplineShapesEnum-280"><a href="#SplineShapesEnum-280"><span class="linenos">280</span></a>    <span class="n">CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;curvature&#39;</span>
-</span><span id="SplineShapesEnum-281"><a href="#SplineShapesEnum-281"><span class="linenos">281</span></a>    <span class="n">FOURIER</span> <span class="o">=</span> <span class="s1">&#39;fourier&#39;</span>
-</span><span id="SplineShapesEnum-282"><a href="#SplineShapesEnum-282"><span class="linenos">282</span></a>    <span class="n">MODIFIED_CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;modified_curvature&#39;</span>
-</span><span id="SplineShapesEnum-283"><a href="#SplineShapesEnum-283"><span class="linenos">283</span></a>    <span class="n">PROCRUSTES</span> <span class="o">=</span> <span class="s1">&#39;procrustes&#39;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineShapesEnum-284"><a href="#SplineShapesEnum-284"><span class="linenos">284</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SplineShapesEnum</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="SplineShapesEnum-285"><a href="#SplineShapesEnum-285"><span class="linenos">285</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum-286"><a href="#SplineShapesEnum-286"><span class="linenos">286</span></a><span class="sd">    Spline metrics that characterise shape.</span>
+</span><span id="SplineShapesEnum-287"><a href="#SplineShapesEnum-287"><span class="linenos">287</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum-288"><a href="#SplineShapesEnum-288"><span class="linenos">288</span></a>    <span class="n">CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;curvature&#39;</span>
+</span><span id="SplineShapesEnum-289"><a href="#SplineShapesEnum-289"><span class="linenos">289</span></a>    <span class="n">FOURIER</span> <span class="o">=</span> <span class="s1">&#39;fourier&#39;</span>
+</span><span id="SplineShapesEnum-290"><a href="#SplineShapesEnum-290"><span class="linenos">290</span></a>    <span class="n">MODIFIED_CURVATURE</span> <span class="o">=</span> <span class="s1">&#39;modified_curvature&#39;</span>
+</span><span id="SplineShapesEnum-291"><a href="#SplineShapesEnum-291"><span class="linenos">291</span></a>    <span class="n">PROCRUSTES</span> <span class="o">=</span> <span class="s1">&#39;procrustes&#39;</span>
+</span><span id="SplineShapesEnum-292"><a href="#SplineShapesEnum-292"><span class="linenos">292</span></a>
+</span><span id="SplineShapesEnum-293"><a href="#SplineShapesEnum-293"><span class="linenos">293</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-294"><a href="#SplineShapesEnum-294"><span class="linenos">294</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum-295"><a href="#SplineShapesEnum-295"><span class="linenos">295</span></a><span class="sd">        Return the short name or abbreviation of this SplineShape metric.</span>
+</span><span id="SplineShapesEnum-296"><a href="#SplineShapesEnum-296"><span class="linenos">296</span></a>
+</span><span id="SplineShapesEnum-297"><a href="#SplineShapesEnum-297"><span class="linenos">297</span></a><span class="sd">        Returns</span>
+</span><span id="SplineShapesEnum-298"><a href="#SplineShapesEnum-298"><span class="linenos">298</span></a><span class="sd">        -------</span>
+</span><span id="SplineShapesEnum-299"><a href="#SplineShapesEnum-299"><span class="linenos">299</span></a><span class="sd">        str</span>
+</span><span id="SplineShapesEnum-300"><a href="#SplineShapesEnum-300"><span class="linenos">300</span></a><span class="sd">            The short name.</span>
+</span><span id="SplineShapesEnum-301"><a href="#SplineShapesEnum-301"><span class="linenos">301</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum-302"><a href="#SplineShapesEnum-302"><span class="linenos">302</span></a>        <span class="k">match</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-303"><a href="#SplineShapesEnum-303"><span class="linenos">303</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">CURVATURE</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-304"><a href="#SplineShapesEnum-304"><span class="linenos">304</span></a>                <span class="k">return</span> <span class="s2">&quot;CI&quot;</span>
+</span><span id="SplineShapesEnum-305"><a href="#SplineShapesEnum-305"><span class="linenos">305</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">FOURIER</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-306"><a href="#SplineShapesEnum-306"><span class="linenos">306</span></a>                <span class="k">return</span> <span class="s2">&quot;Fourier&quot;</span>
+</span><span id="SplineShapesEnum-307"><a href="#SplineShapesEnum-307"><span class="linenos">307</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">MODIFIED_CURVATURE</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-308"><a href="#SplineShapesEnum-308"><span class="linenos">308</span></a>                <span class="k">return</span> <span class="s2">&quot;MCI&quot;</span>
+</span><span id="SplineShapesEnum-309"><a href="#SplineShapesEnum-309"><span class="linenos">309</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">PROCRUSTES</span><span class="p">:</span>
+</span><span id="SplineShapesEnum-310"><a href="#SplineShapesEnum-310"><span class="linenos">310</span></a>                <span class="k">return</span> <span class="s2">&quot;PROC&quot;</span>
 </span></pre></div>
 
 
@@ -1912,6 +2103,49 @@ to parse the coordinates and possible confidence information</li>
     
 
                             </div>
+                            <div id="SplineShapesEnum.short_name" class="classattr">
+                                        <input id="SplineShapesEnum.short_name-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">short_name</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+
+                <label class="view-source-button" for="SplineShapesEnum.short_name-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SplineShapesEnum.short_name"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SplineShapesEnum.short_name-293"><a href="#SplineShapesEnum.short_name-293"><span class="linenos">293</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-294"><a href="#SplineShapesEnum.short_name-294"><span class="linenos">294</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum.short_name-295"><a href="#SplineShapesEnum.short_name-295"><span class="linenos">295</span></a><span class="sd">        Return the short name or abbreviation of this SplineShape metric.</span>
+</span><span id="SplineShapesEnum.short_name-296"><a href="#SplineShapesEnum.short_name-296"><span class="linenos">296</span></a>
+</span><span id="SplineShapesEnum.short_name-297"><a href="#SplineShapesEnum.short_name-297"><span class="linenos">297</span></a><span class="sd">        Returns</span>
+</span><span id="SplineShapesEnum.short_name-298"><a href="#SplineShapesEnum.short_name-298"><span class="linenos">298</span></a><span class="sd">        -------</span>
+</span><span id="SplineShapesEnum.short_name-299"><a href="#SplineShapesEnum.short_name-299"><span class="linenos">299</span></a><span class="sd">        str</span>
+</span><span id="SplineShapesEnum.short_name-300"><a href="#SplineShapesEnum.short_name-300"><span class="linenos">300</span></a><span class="sd">            The short name.</span>
+</span><span id="SplineShapesEnum.short_name-301"><a href="#SplineShapesEnum.short_name-301"><span class="linenos">301</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="SplineShapesEnum.short_name-302"><a href="#SplineShapesEnum.short_name-302"><span class="linenos">302</span></a>        <span class="k">match</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-303"><a href="#SplineShapesEnum.short_name-303"><span class="linenos">303</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">CURVATURE</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-304"><a href="#SplineShapesEnum.short_name-304"><span class="linenos">304</span></a>                <span class="k">return</span> <span class="s2">&quot;CI&quot;</span>
+</span><span id="SplineShapesEnum.short_name-305"><a href="#SplineShapesEnum.short_name-305"><span class="linenos">305</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">FOURIER</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-306"><a href="#SplineShapesEnum.short_name-306"><span class="linenos">306</span></a>                <span class="k">return</span> <span class="s2">&quot;Fourier&quot;</span>
+</span><span id="SplineShapesEnum.short_name-307"><a href="#SplineShapesEnum.short_name-307"><span class="linenos">307</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">MODIFIED_CURVATURE</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-308"><a href="#SplineShapesEnum.short_name-308"><span class="linenos">308</span></a>                <span class="k">return</span> <span class="s2">&quot;MCI&quot;</span>
+</span><span id="SplineShapesEnum.short_name-309"><a href="#SplineShapesEnum.short_name-309"><span class="linenos">309</span></a>            <span class="k">case</span> <span class="n">SplineShapesEnum</span><span class="o">.</span><span class="n">PROCRUSTES</span><span class="p">:</span>
+</span><span id="SplineShapesEnum.short_name-310"><a href="#SplineShapesEnum.short_name-310"><span class="linenos">310</span></a>                <span class="k">return</span> <span class="s2">&quot;PROC&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Return the short name or abbreviation of this SplineShape metric.</p>
+
+<h6 id="returns">Returns</h6>
+
+<ul>
+<li><strong>str</strong>: The short name.</li>
+</ul>
+</div>
+
+
+                            </div>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
@@ -1937,6 +2171,189 @@ to parse the coordinates and possible confidence information</li>
 </div>
 
 
+                </section>
+                <section id="SimulationContourVowel">
+                            <input id="SimulationContourVowel-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">SimulationContourVowel</span><wbr>(<span class="base"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></span>):
+
+                <label class="view-source-button" for="SimulationContourVowel-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SimulationContourVowel"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SimulationContourVowel-322"><a href="#SimulationContourVowel-322"><span class="linenos">322</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationContourVowel</span><span class="p">(</span>
+</span><span id="SimulationContourVowel-323"><a href="#SimulationContourVowel-323"><span class="linenos">323</span></a>        <span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="SimulationContourVowel-324"><a href="#SimulationContourVowel-324"><span class="linenos">324</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SimulationContourVowel-325"><a href="#SimulationContourVowel-325"><span class="linenos">325</span></a><span class="sd">    Currently available simulated vowel contours.</span>
+</span><span id="SimulationContourVowel-326"><a href="#SimulationContourVowel-326"><span class="linenos">326</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="SimulationContourVowel-327"><a href="#SimulationContourVowel-327"><span class="linenos">327</span></a>    <span class="n">AE</span> <span class="o">=</span> <span class="s1">&#39;æ&#39;</span>
+</span><span id="SimulationContourVowel-328"><a href="#SimulationContourVowel-328"><span class="linenos">328</span></a>    <span class="n">I</span> <span class="o">=</span> <span class="s1">&#39;i&#39;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Currently available simulated vowel contours.</p>
+</div>
+
+
+                            <div id="SimulationContourVowel.AE" class="classattr">
+                                <div class="attr variable">
+            <span class="name">AE</span>        =
+<span class="default_value">&lt;<a href="#SimulationContourVowel.AE">SimulationContourVowel.AE</a>: &#39;æ&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SimulationContourVowel.AE"></a>
+    
+    
+
+                            </div>
+                            <div id="SimulationContourVowel.I" class="classattr">
+                                <div class="attr variable">
+            <span class="name">I</span>        =
+<span class="default_value">&lt;<a href="#SimulationContourVowel.I">SimulationContourVowel.I</a>: &#39;i&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SimulationContourVowel.I"></a>
+    
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></dt>
+                                <dd id="SimulationContourVowel.values" class="function"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum.values">values</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="SimulationContourConsonant">
+                            <input id="SimulationContourConsonant-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">SimulationContourConsonant</span><wbr>(<span class="base"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></span>):
+
+                <label class="view-source-button" for="SimulationContourConsonant-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SimulationContourConsonant"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SimulationContourConsonant-331"><a href="#SimulationContourConsonant-331"><span class="linenos">331</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationContourConsonant</span><span class="p">(</span>
+</span><span id="SimulationContourConsonant-332"><a href="#SimulationContourConsonant-332"><span class="linenos">332</span></a>        <span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="SimulationContourConsonant-333"><a href="#SimulationContourConsonant-333"><span class="linenos">333</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="SimulationContourConsonant-334"><a href="#SimulationContourConsonant-334"><span class="linenos">334</span></a><span class="sd">    Currently available simulated consonant contours.</span>
+</span><span id="SimulationContourConsonant-335"><a href="#SimulationContourConsonant-335"><span class="linenos">335</span></a>
+</span><span id="SimulationContourConsonant-336"><a href="#SimulationContourConsonant-336"><span class="linenos">336</span></a><span class="sd">    Yes, at the moment there are none.</span>
+</span><span id="SimulationContourConsonant-337"><a href="#SimulationContourConsonant-337"><span class="linenos">337</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Currently available simulated consonant contours.</p>
+
+<p>Yes, at the moment there are none.</p>
+</div>
+
+
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></dt>
+                                <dd id="SimulationContourConsonant.values" class="function"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum.values">values</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="SimulationContourSoundEnum">
+                    <div class="attr variable">
+            <span class="name">SimulationContourSoundEnum</span>        =
+<span class="default_value">&lt;union enum of (&lt;enum &#39;SimulationContourVowel&#39;&gt;, &lt;enum &#39;SimulationContourConsonant&#39;&gt;)&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SimulationContourSoundEnum"></a>
+    
+    
+
+                </section>
+                <section id="OverwriteConfirmation">
+                            <input id="OverwriteConfirmation-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">OverwriteConfirmation</span><wbr>(<span class="base">enum.Enum</span>):
+
+                <label class="view-source-button" for="OverwriteConfirmation-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#OverwriteConfirmation"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="OverwriteConfirmation-345"><a href="#OverwriteConfirmation-345"><span class="linenos">345</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteConfirmation</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+</span><span id="OverwriteConfirmation-346"><a href="#OverwriteConfirmation-346"><span class="linenos">346</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="OverwriteConfirmation-347"><a href="#OverwriteConfirmation-347"><span class="linenos">347</span></a><span class="sd">    Codes for a user&#39;s response when asked if a file should be overwritten.</span>
+</span><span id="OverwriteConfirmation-348"><a href="#OverwriteConfirmation-348"><span class="linenos">348</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="OverwriteConfirmation-349"><a href="#OverwriteConfirmation-349"><span class="linenos">349</span></a>    <span class="n">YES</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+</span><span id="OverwriteConfirmation-350"><a href="#OverwriteConfirmation-350"><span class="linenos">350</span></a>    <span class="n">YES_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;yes to all&#39;</span>
+</span><span id="OverwriteConfirmation-351"><a href="#OverwriteConfirmation-351"><span class="linenos">351</span></a>    <span class="n">NO</span> <span class="o">=</span> <span class="s1">&#39;no&#39;</span>
+</span><span id="OverwriteConfirmation-352"><a href="#OverwriteConfirmation-352"><span class="linenos">352</span></a>    <span class="n">NO_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;no to all&#39;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Codes for a user's response when asked if a file should be overwritten.</p>
+</div>
+
+
+                            <div id="OverwriteConfirmation.YES" class="classattr">
+                                <div class="attr variable">
+            <span class="name">YES</span>        =
+<span class="default_value">&lt;<a href="#OverwriteConfirmation.YES">OverwriteConfirmation.YES</a>: &#39;yes&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#OverwriteConfirmation.YES"></a>
+    
+    
+
+                            </div>
+                            <div id="OverwriteConfirmation.YES_TO_ALL" class="classattr">
+                                <div class="attr variable">
+            <span class="name">YES_TO_ALL</span>        =
+<span class="default_value">&lt;<a href="#OverwriteConfirmation.YES_TO_ALL">OverwriteConfirmation.YES_TO_ALL</a>: &#39;yes to all&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#OverwriteConfirmation.YES_TO_ALL"></a>
+    
+    
+
+                            </div>
+                            <div id="OverwriteConfirmation.NO" class="classattr">
+                                <div class="attr variable">
+            <span class="name">NO</span>        =
+<span class="default_value">&lt;<a href="#OverwriteConfirmation.NO">OverwriteConfirmation.NO</a>: &#39;no&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#OverwriteConfirmation.NO"></a>
+    
+    
+
+                            </div>
+                            <div id="OverwriteConfirmation.NO_TO_ALL" class="classattr">
+                                <div class="attr variable">
+            <span class="name">NO_TO_ALL</span>        =
+<span class="default_value">&lt;<a href="#OverwriteConfirmation.NO_TO_ALL">OverwriteConfirmation.NO_TO_ALL</a>: &#39;no to all&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#OverwriteConfirmation.NO_TO_ALL"></a>
+    
+    
+
+                            </div>
                 </section>
     </main>
 <script>

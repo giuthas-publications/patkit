@@ -34,6 +34,7 @@
                     <li><a href="simulation/perturbation_series_plots.html">perturbation_series_plots</a></li>
                     <li><a href="simulation/rays_on_contours.html">rays_on_contours</a></li>
                     <li><a href="simulation/simulate.html">simulate</a></li>
+                    <li><a href="simulation/simulation_datastructures.html">simulation_datastructures</a></li>
                     <li><a href="simulation/simulation_plots.html">simulation_plots</a></li>
             </ul>
 
@@ -97,37 +98,38 @@
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">Currently, it deals with only simulated tongue contour data.</span>
 </span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.contour_tools</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">SimulationContourConsonant</span><span class="p">,</span> <span class="n">SimulationContourVowel</span><span class="p">,</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="n">SimulationContourSoundEnum</span><span class="p">,</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="n">generate_contour</span><span class="p">,</span> <span class="n">contour_point_perturbations</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="p">)</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">generate_contour</span><span class="p">,</span> <span class="n">contour_point_perturbations</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationContourConsonant</span><span class="p">,</span> \
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="n">SimulationContourSoundEnum</span><span class="p">,</span> <span class="n">SimulationContourVowel</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.metric_calculations</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="n">Comparison</span><span class="p">,</span> <span class="n">ComparisonMember</span><span class="p">,</span> <span class="n">ComparisonSoundPair</span><span class="p">,</span> <span class="n">MetricFunction</span><span class="p">,</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">calculate_metric_series_for_comparisons</span><span class="p">,</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="n">calculate_metric_series_for_contours</span><span class="p">,</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="n">get_distance_metric_baselines</span><span class="p">,</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="n">get_shape_metric_baselines</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="p">)</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.simulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_simulations</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_plots</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="n">display_contour</span><span class="p">,</span> <span class="n">display_fan</span><span class="p">,</span> <span class="n">display_indeces_on_contours</span><span class="p">,</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">plot_contour_segment</span><span class="p">,</span> <span class="n">make_demonstration_contour_plot</span><span class="p">,</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="n">plot_metric_on_contour</span><span class="p">,</span> <span class="n">contour_ray_plot</span><span class="p">,</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">plot_distance_metric_against_perturbation_point</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="p">)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.rays_on_contours</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="n">distance_metric_rays_on_contours</span><span class="p">,</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="n">shape_metric_rays_on_contours</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="p">)</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.perturbation_series_plots</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="n">annd_perturbation_series_like_to_like_plot</span><span class="p">,</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="n">annd_perturbation_series_crosswise_plot</span><span class="p">,</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">mci_perturbation_series_plot</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="n">calculate_metric_series_for_comparisons</span><span class="p">,</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">calculate_metric_series_for_contours</span><span class="p">,</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="n">get_distance_metric_baselines</span><span class="p">,</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="n">get_shape_metric_baselines</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="p">)</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_datastructures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Comparison</span><span class="p">,</span> <span class="n">ComparisonSoundPair</span><span class="p">,</span> \
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="n">MetricFunction</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.simulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_simulations</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_plots</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">display_contour</span><span class="p">,</span> <span class="n">display_fan</span><span class="p">,</span> <span class="n">display_indeces_on_contours</span><span class="p">,</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="n">plot_contour_segment</span><span class="p">,</span> <span class="n">make_demonstration_contour_plot</span><span class="p">,</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">plot_metric_on_contour</span><span class="p">,</span> <span class="n">contour_ray_plot</span><span class="p">,</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="n">plot_distance_metric_against_perturbation_point</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.rays_on_contours</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="n">distance_metric_rays_on_contours</span><span class="p">,</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">shape_metric_rays_on_contours</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="p">)</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.perturbation_series_plots</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="n">annd_perturbation_series_like_to_like_plot</span><span class="p">,</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">annd_perturbation_series_crosswise_plot</span><span class="p">,</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="n">mci_perturbation_series_plot</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="p">)</span>
 </span></pre></div>
 
 
