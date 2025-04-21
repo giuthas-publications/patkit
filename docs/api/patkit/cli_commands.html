@@ -108,7 +108,7 @@
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.qt_annotator</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_annotator</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.interpreter</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_interpreter</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.simulation</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_simulations</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.simulation.simulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_simulation</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.simulation.simulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_contours_comparisons_soundpairs</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
@@ -223,26 +223,28 @@
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
 </span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span>
-</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="s2">&quot;directory&quot;</span><span class="p">,</span>
-</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dir_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="p">)</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span>
-</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>    <span class="s2">&quot;config_file&quot;</span><span class="p">,</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>    <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="p">)</span>
-</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">config_file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="sd">    Run a simulation experiment.</span>
-</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>
-</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a><span class="sd">    \b</span>
-</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="sd">    DIRECTORY to save results in. Will be created if it does not exist.</span>
-</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">    CONFIG_FILE configuration .yaml file specifying the simulation to run.</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>    <span class="n">config</span><span class="p">,</span> <span class="n">exclusion_file</span><span class="p">,</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">initialise_logger_and_config</span><span class="p">(</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>        <span class="n">config_file</span><span class="o">=</span><span class="n">config_file</span><span class="p">,</span>
-</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>    <span class="p">)</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>    <span class="n">comparisons</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">sound_pairs</span> <span class="o">=</span> <span class="n">setup_simulation</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>    <span class="n">run_simulations</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">sound_pairs</span><span class="p">)</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>    <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">file_okay</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">path_type</span><span class="o">=</span><span class="n">Path</span><span class="p">),</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="p">)</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">    Run a simulation experiment.</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="sd">    \b</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="sd">    PATH to a ỳaml file which contains the parameters for running the</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="sd">    simulation.</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>    <span class="n">config</span><span class="p">,</span> <span class="n">exclusion_file</span><span class="p">,</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">initialise_logger_and_config</span><span class="p">(</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="n">config_file</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>    <span class="p">)</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>    <span class="n">contours</span><span class="p">,</span> <span class="n">comparisons</span><span class="p">,</span> <span class="n">sound_pairs</span> <span class="o">=</span> <span class="n">setup_contours_comparisons_soundpairs</span><span class="p">(</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="n">sim_configuration</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">simulation_config</span><span class="p">)</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>    <span class="n">run_simulations</span><span class="p">(</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>        <span class="n">sim_configuration</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">simulation_config</span><span class="p">,</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>        <span class="n">contours</span><span class="o">=</span><span class="n">contours</span><span class="p">,</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="n">comparisons</span><span class="o">=</span><span class="n">comparisons</span><span class="p">,</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="n">sound_pairs</span><span class="o">=</span><span class="n">sound_pairs</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>    <span class="p">)</span>
 </span></pre></div>
 
 
@@ -315,8 +317,8 @@ CONFIG_FILE configuration .yaml file.</p>
             <div class="docstring"><p>Run a simulation experiment.</p>
 
 <p>
-DIRECTORY to save results in. Will be created if it does not exist.
-CONFIG_FILE configuration .yaml file specifying the simulation to run.</p>
+PATH to a ỳaml file which contains the parameters for running the
+simulation.</p>
 </div>
 
 

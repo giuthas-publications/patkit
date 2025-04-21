@@ -27,22 +27,20 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.15 is planned to be a re-implementation of the simulation code that was
-  originally released for Ultrafest 2024.
-- 0.16 is planned to be an implementation of kymography. This might get moved 
-  to a release after 0.20.
-- 0.17 is planned to be a general configuration update moving from central to
+- 0.16 is planned to be a general configuration update moving from central to
   local (stored with data) configuration.
-- 0.18 is planned to be a data structure update giving support for multiple data
+- 0.17 is planned to update the GUI with full TextGrid editing.
+- 0.18 is planned to be a release of automated segmentation exercises.
+- 0.19 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.19 is planned to update the GUI with full TextGrid editing.
-- 0.20 is planned to be a release of automated segmentation exercises.
+- 0.20 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
 - After 0.20 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new algorithms
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
 
-## [0.16.0]
+## [0.X.0]
 
 ### Highlights
 
@@ -67,12 +65,14 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- `patkit simulate` command
+- `patkit simulate` command for simulating different metrics on spline data. It
+  uses the simulation_parameters.yaml file.
 
 ### Changed
 
 - Release notes are going to be automatically populated from the Changelog for
   better readability.
+- Planned release schedule has changed.
 
 ### Fixed
 
@@ -81,15 +81,26 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   sequence in `\infty`.
 
 
-## [0.14.2a7] 2025-04-09
+## [0.14.2] 2025-04-11
 
 ### Highlights
 
-- Attempting to fix the build and distribution / installation issue.
 - PATKIT is available on pypi under the name patkit.
+- Fixed the build and distribution / installation issue: PATKIT should now run
+  on linux, mac, and windows.
 - Alpha/beta/rc releases will be made on test-pypi for those interested in
   running bleeding edge versions.
-  - Pre-releases should now work also on GitHub.
+  - Also, pre-releases now work on GitHub.
+
+## Added
+
+- Conditional import of readline or pyreadline3 so that the interpreter mode
+  should work also on windows.
+
+## Fixed 
+
+- Installation problems resulting in an empty package that would not run.
+
 
 ## [0.14.1] 2025-02-18
 
@@ -100,6 +111,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   regular releases. 
 - Technically the software is still in alpha status as a whole but will get
   occasional alpha/beta/rc releases of the 0.x releases.
+
 
 ## [0.14.0] 2025-01-31
 

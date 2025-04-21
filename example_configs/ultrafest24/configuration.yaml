@@ -10,9 +10,9 @@ epsilon: 0.00001
 mains_frequency: 50
 
 # No data run parameters here, only simulation.
-simulation_parameter_file: configuration/simulation_parameters.yaml
+simulation_parameter_file: simulation_parameters.yaml
 
 # GUI setup parameters
-gui_parameter_file: configuration/gui_parameters.yaml
+gui_parameter_file: gui_parameters.yaml
 
-publish_parameter_file: configuration/publish_parameters.yaml
+publish_parameter_file: publish_parameters.yaml

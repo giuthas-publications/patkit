@@ -74,6 +74,14 @@ class AnnotationType(Enum):
     ACOUSTIC_ONSET = "acoustic_onset"
 
 
+class ComparisonMember(ListablePrintableEnum):
+    """
+    Which comparison member the perturbations should be applied to.
+    """
+    FIRST = "first"
+    SECOND = "second"
+
+
 class CoordinateSystems(Enum):
     """
     Enum to differentiate coordinate systems.
@@ -299,6 +307,25 @@ class SplineShapesEnum(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
     MODIFIED_CURVATURE = 'modified_curvature'
     PROCRUSTES = 'procrustes'
 
+    def short_name(self) -> str:
+        """
+        Return the short name or abbreviation of this SplineShape metric.
+
+        Returns
+        -------
+        str
+            The short name.
+        """
+        match self:
+            case SplineShapesEnum.CURVATURE:
+                return "CI"
+            case SplineShapesEnum.FOURIER:
+                return "Fourier"
+            case SplineShapesEnum.MODIFIED_CURVATURE:
+                return "MCI"
+            case SplineShapesEnum.PROCRUSTES:
+                return "PROC"
+
 
 SplineMetricEnum = enum_union(
     [SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum], "SplineMetricEnum")
@@ -307,3 +334,36 @@ Enum of all valid spline metrics.
 
 This is formed as a UnionEnum of the subtypes.
 """
+
+
+class SimulationContourVowel(
+        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Currently available simulated vowel contours.
+    """
+    AE = 'æ'
+    I = 'i'
+
+
+class SimulationContourConsonant(
+        ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Currently available simulated consonant contours.
+
+    Yes, at the moment there are none.
+    """
+
+
+SimulationContourSoundEnum = enum_union(
+    [SimulationContourVowel, SimulationContourConsonant],
+    "SimulationContourEnum")
+
+
+class OverwriteConfirmation(Enum):
+    """
+    Codes for a user's response when asked if a file should be overwritten.
+    """
+    YES = 'yes'
+    YES_TO_ALL = 'yes to all'
+    NO = 'no'
+    NO_TO_ALL = 'no to all'

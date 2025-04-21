@@ -40,9 +40,9 @@ from pathlib import Path
 import nestedtext
 import numpy as np
 
-from patkit.constants import PATKIT_FILE_VERSION, Patkitsuffix
+from patkit.constants import OverwriteConfirmation, PATKIT_FILE_VERSION, Patkitsuffix
 from patkit.data_structures import Modality, Recording, Session, Statistic
-from patkit.ui_callbacks import UiCallbacks, OverwriteConfirmation
+from patkit.ui_callbacks import UiCallbacks
 
 from .save_and_load_schemas import nested_text_converters
 from ..data_structures.base_classes import DataAggregator

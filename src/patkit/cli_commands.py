@@ -41,7 +41,7 @@ from patkit.initialise import initialise_logger_and_config, initialise_patkit
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
-from patkit.simulation.simulate import setup_simulation
+from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
 
 
 @click.command(name="open")
@@ -153,32 +153,28 @@ def publish(path: Path, config_file: Path | None, output_dir: Path | None):
         path=path, config_file=config_file
     )
 
-# TODO 0.15: either directory or config_file should be removed or made optional
+
 @click.command()
 @click.argument(
-    "directory",
-    type=click.Path(dir_okay=True, file_okay=False), )
-@click.argument(
-    "config_file",
-    type=click.Path(exists=True, dir_okay=False, file_okay=True),
-    required=False,
+    "path",
+    type=click.Path(dir_okay=False, file_okay=True, path_type=Path),
 )
-def simulate(directory: Path, config_file: Path | None):
+def simulate(path: Path):
     """
     Run a simulation experiment.
 
     \b
-    DIRECTORY to save results in. Will be created if it does not exist.
-    CONFIG_FILE configuration .yaml file specifying the simulation to run.
+    PATH to a ỳaml file which contains the parameters for running the
+    simulation.
     """
     config, exclusion_file, logger = initialise_logger_and_config(
-        config_file=config_file,
+        config_file=path,
     )
-    comparisons, contours, sound_pairs = setup_simulation(config)
-    run_simulations(configuration=config,
-                    save_directory=directory,
-                    comparisons=comparisons,
-                    contours=contours,
-                    sound_pairs=sound_pairs)
-
-
+    contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(
+        sim_configuration=config.simulation_config)
+    run_simulations(
+        sim_configuration=config.simulation_config,
+        contours=contours,
+        comparisons=comparisons,
+        sound_pairs=sound_pairs
+    )

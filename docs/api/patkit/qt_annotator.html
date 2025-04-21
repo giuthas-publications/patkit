@@ -313,22 +313,22 @@
 </span><span id="L-54"><a href="#L-54"><span class="linenos">  54</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6.QtGui</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos">  55</span></a>    <span class="n">QGuiApplication</span><span class="p">,</span> <span class="n">QIntValidator</span><span class="p">,</span> <span class="n">QKeySequence</span><span class="p">,</span> <span class="n">QShortcut</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos">  56</span></a><span class="p">)</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">  57</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6.QtWidgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">QFileDialog</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">  58</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6.uic</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadUiType</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">  59</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">qbstyles</span><span class="w"> </span><span class="kn">import</span> <span class="n">mpl_style</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">  60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">  61</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">GuiColorScheme</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">  62</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">  63</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">Configuration</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">  64</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.export</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">  65</span></a>    <span class="n">export_aggregate_image_and_meta</span><span class="p">,</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">  66</span></a>    <span class="n">export_distance_matrix_and_meta</span><span class="p">,</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">  67</span></a>    <span class="n">export_session_and_recording_meta</span><span class="p">,</span> <span class="n">export_ultrasound_frame_and_meta</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">  68</span></a><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">  69</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.gui</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">  70</span></a>    <span class="n">BoundaryAnimator</span><span class="p">,</span> <span class="n">ImageSaveDialog</span><span class="p">,</span> <span class="n">ListSaveDialog</span><span class="p">,</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">  71</span></a>    <span class="n">ReplaceDialog</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">  72</span></a><span class="p">)</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">  57</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">PyQt6.QtWidgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">QFileDialog</span><span class="p">,</span> <span class="n">QMainWindow</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">  58</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">qbstyles</span><span class="w"> </span><span class="kn">import</span> <span class="n">mpl_style</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">  59</span></a>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">  60</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">GuiColorScheme</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">  61</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Session</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">  62</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">Configuration</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">  63</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.export</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">  64</span></a>    <span class="n">export_aggregate_image_and_meta</span><span class="p">,</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">  65</span></a>    <span class="n">export_distance_matrix_and_meta</span><span class="p">,</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">  66</span></a>    <span class="n">export_session_and_recording_meta</span><span class="p">,</span> <span class="n">export_ultrasound_frame_and_meta</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">  67</span></a><span class="p">)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">  68</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.gui</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">  69</span></a>    <span class="n">BoundaryAnimator</span><span class="p">,</span> <span class="n">ImageSaveDialog</span><span class="p">,</span> <span class="n">ListSaveDialog</span><span class="p">,</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">  70</span></a>    <span class="n">ReplaceDialog</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">  71</span></a><span class="p">)</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">  72</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.gui.annotator_window</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ui_MainWindow</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos">  73</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.plot_and_publish</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos">  74</span></a>    <span class="n">format_legend</span><span class="p">,</span> <span class="n">get_colors_in_sequence</span><span class="p">,</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos">  75</span></a>    <span class="n">mark_peaks</span><span class="p">,</span> <span class="n">plot_spline</span><span class="p">,</span> <span class="n">plot_satgrid_tier</span><span class="p">,</span> <span class="n">plot_spectrogram</span><span class="p">,</span>
@@ -341,7 +341,7 @@
 </span><span id="L-82"><a href="#L-82"><span class="linenos">  82</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.ui_callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">UiCallbacks</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos">  83</span></a>
 </span><span id="L-84"><a href="#L-84"><span class="linenos">  84</span></a><span class="c1"># Load the GUI layout generated with QtDesigner.</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos">  85</span></a><span class="n">Ui_MainWindow</span><span class="p">,</span> <span class="n">QMainWindow</span> <span class="o">=</span> <span class="n">loadUiType</span><span class="p">(</span><span class="s1">&#39;src/patkit/gui/qt_annotator.ui&#39;</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">  85</span></a><span class="c1"># Ui_MainWindow, QMainWindow = loadUiType(&#39;src/patkit/gui/qt_annotator.ui&#39;)</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos">  86</span></a>
 </span><span id="L-87"><a href="#L-87"><span class="linenos">  87</span></a><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;patkit.qt_annotator&#39;</span><span class="p">)</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos">  88</span></a>
@@ -1583,7 +1583,7 @@
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">PdQtAnnotator</span><wbr>(<span class="base">PyQt6.QtWidgets.QMainWindow</span>, <span class="base">builtins.Ui_MainWindow</span>):
+    <span class="name">PdQtAnnotator</span><wbr>(<span class="base">PyQt6.QtWidgets.QMainWindow</span>, <span class="base"><a href="gui/annotator_window.html#Ui_MainWindow">patkit.gui.annotator_window.Ui_MainWindow</a></span>):
 
                 <label class="view-source-button" for="PdQtAnnotator-view-source"><span>View Source</span></label>
 
@@ -4869,6 +4869,16 @@ the PD curve.</p>
 </div>
 
 
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="gui/annotator_window.html#Ui_MainWindow">patkit.gui.annotator_window.Ui_MainWindow</a></dt>
+                                <dd id="PdQtAnnotator.setupUi" class="function"><a href="gui/annotator_window.html#Ui_MainWindow.setupUi">setupUi</a></dd>
+                <dd id="PdQtAnnotator.retranslateUi" class="function"><a href="gui/annotator_window.html#Ui_MainWindow.retranslateUi">retranslateUi</a></dd>
+
+            </div>
+                                </dl>
                             </div>
                 </section>
                 <section id="run_annotator">

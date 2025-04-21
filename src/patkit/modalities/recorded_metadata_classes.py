@@ -55,8 +55,8 @@ class RawUltrasoundMeta(ModalityMetaData):
     frames_per_sec : float
         frame rate of ultrasound recording
     kind : int
-        type of probe used. 0 = radial, -1 = unknown (usually from older data
-        where AAA did not save this information)
+        maker of probe used. 0 = Telemed, 1 = Ultrasonix, -1 = unknown (usually
+        from older data where AAA did not save this information)
     meta_file : Path
         Path of the `US.txt` or `.param` file
     num_vectors : int
