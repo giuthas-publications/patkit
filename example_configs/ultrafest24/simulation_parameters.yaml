@@ -5,6 +5,8 @@
 
 # This is where PATKIT will save results of data processing. 
 output_directory: "ultrafest2024/"
+# If a plot exists, should it be overwritten. If omitted, overwriting will
+# be confirmed for each file.
 overwrite_plots: True
 
 # Used in logging messages.
