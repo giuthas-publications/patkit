@@ -41,7 +41,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   testing, documentation and finally a 1.0 release.
 
 
-## [0.15.1]
+## [0.15.1] 2025-04-22
 
 ### Highlights
 
@@ -54,7 +54,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - raw or interpolated - gets displayed in the image panel.
 
 
-## [0.15.0]
+## [0.15.0] 2025-04-21
 
 ### Highlights
 
