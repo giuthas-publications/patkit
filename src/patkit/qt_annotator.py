@@ -213,9 +213,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.image_updater)
         self.image_type = GuiImageType.MEAN_IMAGE
 
-        self.action_select_kymography_line = QAction(
-            text="Select kymography sample line", parent=self.menu_plot)
-        self.menu_plot.addAction(self.action_select_kymography_line)
+        # self.action_select_kymography_line = QAction(
+        #     text="Select kymography sample line", parent=self.menu_plot)
+        # self.menu_plot.addAction(self.action_select_kymography_line)
 
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
@@ -442,10 +442,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.goLineEdit.setText(str(self.index + 1))
 
-        if self.image_type == GuiImageType.FRAME:
-            self.action_select_kymography_line.setEnabled(True)
-        else:
-            self.action_select_kymography_line.setEnabled(False)
+        # if self.image_type == GuiImageType.FRAME:
+        #     self.action_select_kymography_line.setEnabled(True)
+        # else:
+        #     self.action_select_kymography_line.setEnabled(False)
 
     def plot_modality_axes(
         self,
@@ -750,14 +750,14 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
-            if self.image_type == GuiImageType.FRAME:
-                self.kymography_clicker = clicker(
-                    ax=self.ultra_axes,
-                    classes=["event"],
-                    markers=["x"],
-                    linestyle="--")
-                self.kymography_clicker.on_point_added(self.point_added_cb)
-                self.kymography_clicker.on_point_removed(self.point_removed_cb)
+            # if self.image_type == GuiImageType.FRAME:
+            #     self.kymography_clicker = clicker(
+            #         ax=self.ultra_axes,
+            #         classes=["event"],
+            #         markers=["x"],
+            #         linestyle="--")
+            #     self.kymography_clicker.on_point_added(self.point_added_cb)
+            #     self.kymography_clicker.on_point_removed(self.point_removed_cb)
 
             if (self.image_type == GuiImageType.FRAME
                     and 'Splines' in self.current.modalities):
