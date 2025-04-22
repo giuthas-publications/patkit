@@ -310,9 +310,9 @@ def load_recording_session(
     Session
         The loaded Session object.
     """
-    # TODO: deal with `directory` being the satkit meta file
+    # TODO: deal with `directory` being the patkit meta file
 
-    # TODO: load_or_import and this function should have clearer split of
+    # TODO: data_loader and this function should have clearer split of
     # responsibilities
     if isinstance(directory, str):
         directory = Path(directory)
@@ -337,7 +337,7 @@ def load_recording_session(
 
     recordings = load_recordings(directory, meta.recordings)
 
-    # TODO: don't really know if the current FileInformation handles the
+    # TODO 0.16: don't really know if the current FileInformation handles the
     # duality of config from user and saved meta too well.
     file_info = FileInformation(
         patkit_meta_file=filename,
