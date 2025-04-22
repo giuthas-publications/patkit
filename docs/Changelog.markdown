@@ -27,28 +27,186 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- SATKIT will soon be available on pypi, probably under the long name:
-  speech_analysis_toolkit.
-- See [Roadmap](Roadmap.markdown) for an overview of what to expect in 1.0.
+- 0.16 is planned to be a general configuration update moving from central to
+  local (stored with data) configuration.
+- 0.17 is planned to update the GUI with full TextGrid editing.
+- 0.18 is planned to be a release of automated segmentation exercises.
+- 0.19 is planned to be a data structure update giving support for multiple data
+  sources per trial.
+- 0.20 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.20.
+- After 0.20 there are planned updates to CLI, GUI, ultrasound frame
+  interpolation, processing speed by implementing multiprocessing, new algorithms
+  (optic flow, LPC for tongues, kymography, ...), new data sources, code
+  testing, documentation and finally a 1.0 release.
 
-## [0.13.0] 2025-01-
 
-## Highlights
+## [0.15.2] - 2025-04-22
 
-## Added
+### Highlights
 
-- Introduced the concept of Scenarios: These are analysis results (i.e. derived 
-  data) that each have their own configuration. This makes it possible to run 
-  a given metric on the same data with conflicting parameters and save all 
-  results for later use.
-- Statistics are now saved along with Modalities and the rest on 'Save all'.
+- Fixed changelog parsing.
 
-## Changed
+### Fixed
 
-## Removed
+- Only change is that changelog headers now all conform to Keep a Changelog and
+  should parse correctly in automated release not generation.
 
-## Fixed
 
+## [0.15.1] - 2025-04-22
+
+### Highlights
+
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
+
+### Added
+
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
+
+### Fixed
+
+- Attempting to fix the GitHub automated release, which failed previously due to
+  a parsing error.
+
+
+## [0.15.0] 2025-04-21
+
+### Highlights
+
+- Re-implementation of the simulation code that was originally released for
+  Ultrafest 2024.
+
+### Added
+
+- `patkit simulate` command for simulating different metrics on spline data. It
+  uses the simulation_parameters.yaml file.
+
+### Changed
+
+- Release notes are going to be automatically populated from the Changelog for
+  better readability.
+- Planned release schedule has changed.
+
+### Fixed
+
+- GitHub actions should now run a bit smoother and not attempt to run in forks.
+- Hopefully fixed an older error complaining that `\i` is not a valid escape
+  sequence in `\infty`.
+
+
+## [0.14.2] 2025-04-11
+
+### Highlights
+
+- PATKIT is available on pypi under the name patkit.
+- Fixed the build and distribution / installation issue: PATKIT should now run
+  on linux, mac, and windows.
+- Alpha/beta/rc releases will be made on test-pypi for those interested in
+  running bleeding edge versions.
+  - Also, pre-releases now work on GitHub.
+
+### Added
+
+- Conditional import of readline or pyreadline3 so that the interpreter mode
+  should work also on windows.
+
+### Fixed 
+
+- Installation problems resulting in an empty package that would not run.
+
+
+## [0.14.1] 2025-02-18
+
+### Added 
+
+- Automated releases on testpypi, pypi and github. Testpypi will in the future
+  be used for pre-releases (alpha, beta, release candidate/rc) and pypi for
+  regular releases. 
+- Technically the software is still in alpha status as a whole but will get
+  occasional alpha/beta/rc releases of the 0.x releases.
+
+
+## [0.14.0] 2025-01-31
+
+### Highlights
+
+- New name! This program and library are now called PATKIT for Phonetic Analysis
+  ToolKIT.
+- PyPi package will be available very shortly after release of 0.14.
+- There's a new and shiny command line interface. With the new installation
+  procedure, PATKIT can be run as any regular command line tool.
+- There's a new installation procedure with uv. Fast, neat, gives us the
+  previous easily.
+
+### Added
+
+- Dark/Light mode support. See bugs below, though.
+
+### Changed and Refactored
+
+- Moved the project directory to src layout. Updated pyproject.toml to reflect
+  this. 
+- Moved to installation with uv and updated pyproject.toml to work with
+  this too. 
+- Command line is now implemented with `click` rather than `argparse`.
+  Neater look, easier maintenance and with the new installation also working
+  command line tool with subcommands.
+- PATKIT now uses PyQt6 instead of 5 for the GUI.
+
+### Docs
+
+- Docs are now again correctly generated.
+- Some preliminary docs on configuration. Expect these to update in the next
+  two-three releases.
+
+### Deprecated
+
+- One of the next updates - probably 0.16 - will move from centralised
+  single config system to per-dataset config system.
+- Another soon to happen change is the expansion of the classes derived from 
+  DataAggregator. Recording will be split to Source and Trial, and DataSet added
+  as a class that contains Sessions.
+- There maybe references to the old name (SATKIT) in documentation and source
+  code. These will be updated as they are found. Please let us know if you spot
+  one.
+
+### Bugs
+
+- Switching the operating system between dark/light mode while the annotator is
+  running may or may not update the plots, and may even break them. However,
+  restarting the annotator will update the plots.
+- Implementing the subcommand `patkit simulate` is still underway. Expected to
+  be available in 0.15.
+- Errors like these can show up at startup, but can be safely ignored:
+```shell
+/home/jpalo/.local/share/uv/tools/patkit/lib/python3.13/site-packages/patkit/annotations/peaks.py:293: SyntaxWarning: invalid escape sequence '\i'
+  categories = ["l$\infty$" if metric ==
+/home/jpalo/.local/share/uv/tools/patkit/lib/python3.13/site-packages/patkit/plot_and_publish/publish.py:188: SyntaxWarning: invalid escape sequence '\i'
+  plot_categories = ["l$\infty$" if metric ==
+```
+
+## [0.13.0] 2025-01-07
+
+### Highlights
+
+- Production version of downsampling functionality based on paper published at
+  ISSP 2024.
+
+### Added
+
+- Downsampling of derived modalities.
+- Modality legend names and formatting from config.
+
+### Bugs
+
+- Docs are not necessarily fully generated due to some naming issues. This
+  should be fixed in 0.14.
+- SatPoint in SatGrid references the old config_dict global variable. This will
+  make any calls to `SatPoint.contains` crash. This will be fixed in 0.14.
+- Not specifying ylim in GUI configuration crashes. This has already been fixed
+  in the branch that will become 0.14.
 
 ## [0.12.0] 2024-12-29
 
@@ -57,28 +215,29 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Experimental interactive workflow. 
   - Supported by interface and data initialisation being collected into some
     simple-to-use functions.
-  - Also supported by temporary script file `satkit_interactive.py`.
-    - Runs like `satkit.py` but instead of starting the GUI annotator, starts an 
+  - Also supported by temporary script file `patkit_interactive.py`.
+    - Runs like `patkit.py` but instead of starting the GUI annotator, starts an 
       interactive Python session.
 - Exporting data from Modalities into DataFrames for external analysis.
 
-## Added
+### Added
 
 - Exporting data from modalities into DataFrames for external analysis.
   - Includes an option of exporting with label info from TextGrids.
   - Experimentally enabled export of several derived modalities into the same csv
     file.
-- A script to run SATKIT as an interactive interpreter. 
+- A script to run PATKIT as an interactive interpreter. 
   - The same commands can obviously be copy-pasted into an interpreter to get some
     data loaded and processable in interactive mode.
 - Some helpful progress indicators to show how the data loading is going.
 - Y limits of modality axes and spectrograms can be controlled from the gui
   parameter file.
 
-## Changed
+### Changed
 
-- A lot of functionality that lived in `satkit.py` is now in regular satkit
-  library functions and in the new `satkit/satkit.py` module.
+- A lot of functionality that lived in `patkit.py` is now in regular patkit
+  library functions and in the new `patkit/patkit.py` module.
+- Undefined fields are no longer allowed in config files.
 
 ### Removed
 
@@ -91,8 +250,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Bugs
 
 - Same as previous versions.
-- Command history does not yet work when running SATKIT as an interactive
-  interpreter with `satkit_interactive.py`.
+- Command history does not yet work when running PATKIT as an interactive
+  interpreter with `patkit_interactive.py`.
+- Undefined fields in config files should have a clearer error message. And so
+  should errors in config files in general.
 
 
 ## [0.11.0] 2024-11-20
@@ -152,9 +313,9 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Deprecated
 
-- satkit.py will eventually be removed when running SATKIT will be moved to
-  access points. This means SATKIT -- when correctly installed -- will run with
-  from the command line with: `satkit [command] [arguments]`.
+- patkit.py will eventually be removed when running PATKIT will be moved to
+  access points. This means PATKIT -- when correctly installed -- will run with
+  from the command line with: `patkit [command] [arguments]`.
 
 ### Fixed
 
@@ -162,7 +323,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   `%Y-%m-%d %I:%M:%S %p`.
 - Parsing yaml exclusion lists should now work also when some of the headings
   are empty.
-- Added the seaborn package to conda environment satkit-devel to make it work
+- Added the seaborn package to conda environment patkit-devel to make it work
   properly.
 
 ### Known issues
@@ -171,7 +332,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   since new data structures like FileInformation etc. are not saved at all, the
   saved files will be unloadable.
 
-## Version 0.9.0
+## [0.9.0]
 
 - Simulated data and sensitivity analysis for metrics
   - Two contours for running sensitivity simulations for contour metrics.
@@ -185,7 +346,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Some perturbation related plotting functions have hard-coded subplot
   divisions because Comparison is not yet sortable.
 
-## Version 0.8.0
+## [0.8.0]
 
 - Splines
   - Spline loading from AAA export files.
@@ -202,7 +363,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   for the future. This may eventually be solved just by matching splines with
   ultrasound frames and reporting when that becomes too unreliable.
 
-## Version 0.7.0
+## [0.7.0]
 
 - Saving and loading to/from native formats for derived Modalities.
   - Saved data can be loaded on startup or opened afterwards. This means
