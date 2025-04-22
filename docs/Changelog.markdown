@@ -41,6 +41,18 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   testing, documentation and finally a 1.0 release.
 
 
+## [0.15.2] - 2025-04-22
+
+### Highlights
+
+- Fixed changelog parsing.
+
+### Fixed
+
+- Only change is that changelog headers now all conform to Keep a Changelog and
+  should parse correctly in automated release not generation.
+
+
 ## [0.15.1] - 2025-04-22
 
 ### Highlights
@@ -95,12 +107,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   running bleeding edge versions.
   - Also, pre-releases now work on GitHub.
 
-## Added
+### Added
 
 - Conditional import of readline or pyreadline3 so that the interpreter mode
   should work also on windows.
 
-## Fixed 
+### Fixed 
 
 - Installation problems resulting in an empty package that would not run.
 
@@ -208,7 +220,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
       interactive Python session.
 - Exporting data from Modalities into DataFrames for external analysis.
 
-## Added
+### Added
 
 - Exporting data from modalities into DataFrames for external analysis.
   - Includes an option of exporting with label info from TextGrids.
@@ -221,7 +233,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Y limits of modality axes and spectrograms can be controlled from the gui
   parameter file.
 
-## Changed
+### Changed
 
 - A lot of functionality that lived in `patkit.py` is now in regular patkit
   library functions and in the new `patkit/patkit.py` module.
@@ -320,7 +332,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   since new data structures like FileInformation etc. are not saved at all, the
   saved files will be unloadable.
 
-## Version 0.9.0
+## [0.9.0]
 
 - Simulated data and sensitivity analysis for metrics
   - Two contours for running sensitivity simulations for contour metrics.
@@ -334,7 +346,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Some perturbation related plotting functions have hard-coded subplot
   divisions because Comparison is not yet sortable.
 
-## Version 0.8.0
+## [0.8.0]
 
 - Splines
   - Spline loading from AAA export files.
@@ -351,7 +363,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   for the future. This may eventually be solved just by matching splines with
   ultrasound frames and reporting when that becomes too unreliable.
 
-## Version 0.7.0
+## [0.7.0]
 
 - Saving and loading to/from native formats for derived Modalities.
   - Saved data can be loaded on startup or opened afterwards. This means
