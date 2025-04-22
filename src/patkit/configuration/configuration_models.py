@@ -52,7 +52,6 @@ from pydantic import conlist, PositiveInt
 from patkit.constants import (
     AxesType,
     CoordinateSystems,
-    Datasource,
     GuiColorScheme,
     IntervalBoundary,
     IntervalCategory,

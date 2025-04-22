@@ -90,8 +90,6 @@ class CoordinateSystems(Enum):
     POLAR = 'polar'
 
 
-# TODO 0.16: Datasource should not be used anywhere. Instead DatasourceNames
-# should be used.
 class DatasourceNames(Enum):
     """
     Names of data sources SATKIT can handle.
@@ -99,19 +97,6 @@ class DatasourceNames(Enum):
     Used in saving and loading to identify the data source in config, as well
     as in meta. Used to skip the step of trying to figure the data source out
     from the type of files present.
-    """
-    AAA = "AAA"
-    # EVA = "EVA"
-    RASL = "RASL"
-
-
-class Datasource(Enum):
-    """
-    Data sources patkit can handle.
-
-    Used in saving and loading to identify the data source in config, as well
-    as in meta and skip the step of trying to figure the data source out from
-    the type of files present.
     """
     AAA = "AAA"
     # EVA = "EVA"
