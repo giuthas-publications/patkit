@@ -86,9 +86,15 @@ def load_data(path: Path, configuration: Configuration) -> Session:
         case Patkitsuffix.META:
             session = load_recording_session(path)
         case "" if path.is_dir():
-            # TODO: This needs to somehow split into recorded path and satkit
+            # TODO: This needs to somehow split into recorded path and patkit
             # path
-            session = read_recording_session_from_dir(path)
+            meta_files = path.glob("*" + Patkitsuffix.META)
+            match len(list(meta_files)):
+                case 1:
+                    session = load_recording_session(path)
+                case _:
+                    session = read_recording_session_from_dir(path)
+
         case _:
             # TODO 1.0: consider giving guesses with the error if there are near
             # misses in file names and such

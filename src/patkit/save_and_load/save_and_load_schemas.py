@@ -109,7 +109,7 @@ class SessionParameterLoadSchema(BaseModel):
     Session is defined in the data_structures module.
     """
     path: DirectoryPath
-    datasource: DatasourceNames
+    datasource_name: DatasourceNames
 
 
 class SessionLoadSchema(BaseModel):

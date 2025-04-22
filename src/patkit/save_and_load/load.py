@@ -323,6 +323,7 @@ def load_recording_session(
     filename = f"{directory.parts[-1]}{'.Session'}{Patkitsuffix.META}"
     filepath = directory / filename
 
+    print(filepath)
     raw_input = nestedtext.load(filepath)
     meta = SessionLoadSchema.model_validate(raw_input)
 
@@ -331,7 +332,8 @@ def load_recording_session(
             directory, session_config_path)
     else:
         paths = PathStructure(root=directory)
-        session_config = SessionConfig(data_source=meta.parameters.datasource)
+        session_config = SessionConfig(
+            data_source_name=meta.parameters.datasource_name)
 
     recordings = load_recordings(directory, meta.recordings)
 
