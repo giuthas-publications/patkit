@@ -460,8 +460,8 @@ class SimulationConfig(UpdatableBaseModel):
 
 
 class HeightRatios(UpdatableBaseModel):
-    data: int
-    tier: int
+    data_axes: int
+    tier_axes: int
 
 
 class AxesParams(UpdatableBaseModel):
@@ -518,6 +518,7 @@ class GeneralAxesParams(UpdatableBaseModel):
 class GuiConfig(UpdatableBaseModel):
     data_and_tier_height_ratios: HeightRatios
     general_axes_params: dict[AxesType, AxesParams]
+    general_axes_params: GeneralAxesParams
     data_axes: dict[str, AxesDefinition]
     pervasive_tiers: list[str]
     xlim: FloatPair | str | None = None

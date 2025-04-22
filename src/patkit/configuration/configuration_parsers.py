@@ -482,12 +482,12 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
                 "data_and_tier_height_ratios": Map({
-                    AxesType.DATA: Int(),
-                    AxesType.TIER: Int()
+                    AxesType.DATA.value: Int(),
+                    AxesType.TIER.value: Int()
                 }),
                 "general_axes_params": Map({
-                    AxesType.DATA: Map(axes_params_dict),
-                    AxesType.TIER: Map(axes_params_dict),
+                    AxesType.DATA.value: Map(axes_params_dict),
+                    AxesType.TIER.value: Map(axes_params_dict),
                 }),
                 "data_axes": MapPattern(
                     Str(), Map(axes_definition_dict)

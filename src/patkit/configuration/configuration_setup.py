@@ -83,6 +83,7 @@ class Configuration:
                 **self._simulation_yaml.data)
 
         self._gui_yaml = load_gui_params(self._main_config.gui_parameter_file)
+        print(self._gui_yaml.data)
         self._gui_config = GuiConfig(**self._gui_yaml.data)
 
         if self._main_config.data_run_parameter_file is not None:

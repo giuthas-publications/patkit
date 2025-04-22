@@ -37,86 +37,57 @@ import logging
 import sys
 from pathlib import Path
 
-<<<<<<<< HEAD:src/patkit/load_or_import.py
-from satkit.configuration import PathStructure
-from satkit.constants import (
-    DatasourceNames, SourceSuffix, SatkitSuffix, SatkitConfigFile)
-from satkit.data_import import (
-========
 from patkit.audio_processing import MainsFilter
 from patkit.configuration import Configuration, PathStructure
 from patkit.constants import (
-    Datasource, SourceSuffix, Patkitsuffix, Patkitconfigfile)
+    DatasourceNames, SourceSuffix, Patkitsuffix, Patkitconfigfile)
 from patkit.data_import import (
->>>>>>>> devel:src/patkit/data_loader.py
     generate_aaa_recording_list, load_session_config)
 from patkit.data_structures import (
     FileInformation, Session, SessionConfig)
 from patkit.save_and_load import load_recording_session
 
-<<<<<<<< HEAD:src/patkit/load_or_import.py
-_logger = logging.getLogger('satkit.load_or_import')
-========
-logger = logging.getLogger('patkit.scripting')
+_logger = logging.getLogger('patkit.scripting')
 
 # TODO 1.0: change the name of this file to data_importer and move it to a more
 # appropriate submodule.
->>>>>>>> devel:src/patkit/data_loader.py
 
 
-def load_or_import_data(path: Path) -> Session:
+def load_data(path: Path, configuration: Configuration) -> Session:
     """
-    Import data from individual files or load a previously saved session.
+    Handle loading data from individual files or a previously saved session.
 
     Parameters
     ----------
     path : Path
-<<<<<<<< HEAD:src/patkit/load_or_import.py
-        Directory or SATKIT metafile to read the Session from.
-
-========
         Directory or patkit metafile to read the Session from.
     configuration : Configuration
         patkit configuration.
->>>>>>>> devel:src/patkit/data_loader.py
     Returns
     -------
     Session
         The generated Session object with the exclusion list applied.
     """
-    if not path.exists():
-        _logger.critical(
-            'File or directory does not exist: %s.', path)
-<<<<<<<< HEAD:src/patkit/load_or_import.py
-        _logger.critical('Exiting.')
-========
-        logger.critical('Exiting.')
-        sys.exit()
-    elif path.is_dir():
-        session = read_recording_session_from_dir(
-            recorded_data_path=path,
-            detect_beep=configuration.data_run_config.flags.detect_beep
-        )
-    elif path.suffix == '.patkit_meta':
-        session = load_recording_session(path)
+    if configuration.main_config.mains_frequency:
+        MainsFilter.generate_mains_filter(
+            44100,
+            configuration.main_config.mains_frequency)
     else:
-        logger.error(
-            'Unsupported filetype: %s.', path)
->>>>>>>> devel:src/patkit/data_loader.py
-        sys.exit()
+        MainsFilter.generate_mains_filter(44100, 50)
 
     session = None
     match path.suffix:
         case SourceSuffix.AAA_ULTRA:
             session = load_recording_session(path)
-        case SatkitSuffix.CONFIG if path.name == SatkitConfigFile.SATKIT:
+        case Patkitsuffix.CONFIG if path.name == Patkitconfigfile.SESSION:
             session = load_recording_session(path)
-        case SatkitSuffix.CONFIG if path.name == SatkitConfigFile.MANIFEST:
+        case Patkitsuffix.CONFIG if path.name == Patkitconfigfile.MANIFEST:
             session = load_recording_session(path)
-        case SatkitSuffix.META:
+        case Patkitsuffix.META:
             session = load_recording_session(path)
         case "" if path.is_dir():
-            #TODO This needs to somewow split into recorded path and satkit path
+            # TODO: This needs to somehow split into recorded path and satkit
+            # path
             session = read_recording_session_from_dir(path)
         case _:
             # TODO 1.0: consider giving guesses with the error if there are near
@@ -146,12 +117,7 @@ def read_recording_session_from_dir(
     instance variable is left for the caller to handle.
     """
     containing_dir = recorded_data_path.parts[-1]
-
-<<<<<<<< HEAD:src/patkit/load_or_import.py
-    session_config_path = recorded_data_path / SatkitConfigFile.SATKIT
-========
     session_config_path = recorded_data_path / Patkitconfigfile.SESSION
->>>>>>>> devel:src/patkit/data_loader.py
     session_meta_path = recorded_data_path / (containing_dir + '.Session' +
                                               Patkitsuffix.META)
     if session_meta_path.is_file():
@@ -189,7 +155,7 @@ def read_recording_session_from_dir(
         )
 
         paths = PathStructure(root=recorded_data_path)
-        session_config = SessionConfig(data_source=DatasourceNames.AAA)
+        session_config = SessionConfig(data_source_name=DatasourceNames.AAA)
 
         session = Session(
             name=containing_dir, paths=paths, config=session_config,

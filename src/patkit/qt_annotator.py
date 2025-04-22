@@ -295,8 +295,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.xlim = xlim
 
-        height_ratios = [self.gui_config.data_and_tier_height_ratios.data,
-                         self.gui_config.data_and_tier_height_ratios.tier]
+        height_ratios = [self.gui_config.data_and_tier_height_ratios.data_axes,
+                         self.gui_config.data_and_tier_height_ratios.tier_axes]
         self.main_grid_spec = self.figure.add_gridspec(
             nrows=2,
             ncols=1,
