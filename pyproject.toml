@@ -1,7 +1,7 @@
 
 [project]
 name = "patkit"
-version = "0.15.0"
+version = "0.15.1"
 description = "Phonetic Analysis ToolKit: Tools for processing phonetic data"
 authors = [
   {email = "giuthas@gmail.com"},
@@ -28,6 +28,7 @@ dependencies = [
   "licenseheaders>=0.8.8",
   "matplotlib>=3.10.0",
   "more-itertools>=10.5.0",
+  "mpl-point-clicker>=0.4.1",
   "nestedtext>=3.7",
   "numpy>=2.2.1",
   "pdoc>=15.0.1",

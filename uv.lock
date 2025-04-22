@@ -615,6 +615,19 @@ wheels = [
 ]
 
 [[package]]
+name = "mpl-point-clicker"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "matplotlib" },
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/98/6f2fd273aef6bc7509542986ffd6df73ecff476b31393d4ed2a1f9597cfb/mpl_point_clicker-0.4.1.tar.gz", hash = "sha256:61c65491968a28c2197e181848d5a4ec99281901b7ca73b6a573d91cebb3eb52", size = 8011855 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a6/8b/f55c54984a4cd6d391326e23b3adbe20e3ad5c78cf94a384ce6e0a6ae0fe/mpl_point_clicker-0.4.1-py3-none-any.whl", hash = "sha256:13c43bf4ae50c94cea2999f4e3d4a17a222702aa27e9f7264847e0b0146d3e6c", size = 6250 },
+]
+
+[[package]]
 name = "nestedtext"
 version = "3.7"
 source = { registry = "https://pypi.org/simple" }
@@ -771,7 +784,7 @@ wheels = [
 
 [[package]]
 name = "patkit"
-version = "0.15.0"
+version = "0.15.1"
 source = { editable = "." }
 dependencies = [
     { name = "build" },
@@ -782,6 +795,7 @@ dependencies = [
     { name = "licenseheaders" },
     { name = "matplotlib" },
     { name = "more-itertools" },
+    { name = "mpl-point-clicker" },
     { name = "nestedtext" },
     { name = "numpy" },
     { name = "pdoc" },
@@ -810,6 +824,7 @@ requires-dist = [
     { name = "licenseheaders", specifier = ">=0.8.8" },
     { name = "matplotlib", specifier = ">=3.10.0" },
     { name = "more-itertools", specifier = ">=10.5.0" },
+    { name = "mpl-point-clicker", specifier = ">=0.4.1" },
     { name = "nestedtext", specifier = ">=3.7" },
     { name = "numpy", specifier = ">=2.2.1" },
     { name = "pdoc", specifier = ">=15.0.1" },

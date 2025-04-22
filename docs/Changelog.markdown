@@ -40,7 +40,26 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   (optic flow, LPC for tongues, kymography, ...), new data sources, code
   testing, documentation and finally a 1.0 release.
 
-## [0.15.0]
+
+## [0.15.1] - 2025-04-22
+
+### Highlights
+
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
+
+### Added
+
+- A menu option for selecting if the mean image, the frame at selection cursor
+  - raw or interpolated - gets displayed in the image panel.
+
+### Fixed
+
+- Attempting to fix the GitHub automated release, which failed previously due to
+  a parsing error.
+
+
+## [0.15.0] 2025-04-21
 
 ### Highlights
 
@@ -84,7 +103,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ## Fixed 
 
 - Installation problems resulting in an empty package that would not run.
-
 
 
 ## [0.14.1] 2025-02-18

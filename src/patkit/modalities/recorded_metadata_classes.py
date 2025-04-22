@@ -34,6 +34,7 @@ Metadata for recorded (external) data.
 """
 from pathlib import Path
 
+from patkit.constants import AaaProbeType
 from patkit.data_structures import ModalityMetaData
 
 
@@ -54,7 +55,8 @@ class RawUltrasoundMeta(ModalityMetaData):
     frames_per_sec : float
         frame rate of ultrasound recording
     kind : int
-        maker of probe used. 0 = Telemed, 1 = Ultrasonix
+        maker of probe used. 0 = Telemed, 1 = Ultrasonix, -1 = unknown (usually
+        from older data where AAA did not save this information)
     meta_file : Path
         Path of the `US.txt` or `.param` file
     num_vectors : int
@@ -69,7 +71,7 @@ class RawUltrasoundMeta(ModalityMetaData):
     angle: float
     bits_per_pixel: int
     frames_per_sec: float
-    kind: int
+    kind: AaaProbeType
     meta_file: Path
     num_vectors: int
     pix_per_vector: int

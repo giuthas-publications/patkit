@@ -40,49 +40,55 @@ from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
 
-import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qtagg import \
-    FigureCanvasQTAgg as FigureCanvas
+import numpy as np
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+
 # Plotting functions and hooks for GUI
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
+from mpl_point_clicker import clicker
 from PyQt6 import QtWidgets
+
 # GUI functionality
 from PyQt6.QtCore import QCoreApplication, Qt
 from PyQt6.QtGui import (
-    QGuiApplication, QIntValidator, QKeySequence, QShortcut
+    QAction,
+    QActionGroup,
+    QGuiApplication,
+    QIntValidator,
+    QKeySequence,
+    QShortcut,
 )
 from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
-from patkit.constants import GuiColorScheme
-from patkit.data_structures import Session
 from patkit.configuration import Configuration
+from patkit.constants import GuiColorScheme, GuiImageType
+from patkit.data_structures import Session
 from patkit.export import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
-    export_session_and_recording_meta, export_ultrasound_frame_and_meta
+    export_session_and_recording_meta,
+    export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
-    ReplaceDialog
-)
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog)
 from patkit.gui.annotator_window import Ui_MainWindow
 from patkit.plot_and_publish import (
-    format_legend, get_colors_in_sequence,
-    mark_peaks, plot_spline, plot_satgrid_tier, plot_spectrogram,
-    plot_timeseries, plot_wav
+    format_legend,
+    get_colors_in_sequence,
+    mark_peaks,
+    plot_satgrid_tier,
+    plot_spectrogram,
+    plot_spline,
+    plot_timeseries,
+    plot_wav,
 )
 from patkit.plot_and_publish.plot import plot_spectrogram2
-from patkit.save_and_load import (
-    save_recording_session, load_recording_session
-)
+from patkit.save_and_load import load_recording_session, save_recording_session
 from patkit.ui_callbacks import UiCallbacks
-
-# Load the GUI layout generated with QtDesigner.
-# Ui_MainWindow, QMainWindow = loadUiType('src/patkit/gui/qt_annotator.ui')
 
 _logger = logging.getLogger('patkit.qt_annotator')
 
@@ -120,6 +126,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             pickle_filename: Path | str | None = None
     ):
         super().__init__()
+        self.kymography_clicker = None
         self.setupUi(self)
 
         setup_qtannotator_ui_callbacks()
@@ -180,6 +187,35 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         # self.export_figure_shortcut = QShortcut(QKeySequence(
         #     self.tr("Ctrl+E", "File|Export figure...")), self)
         # self.export_figure_shortcut.activated.connect(self.export_figure)
+
+        self.menu_select_image = self.menu_image.addMenu(
+            "Select image")
+        self.action_mean_image = QAction(
+            text="Mean image", parent=self.menu_select_image)
+        self.action_frame = QAction(
+            text="Frame at cursor", parent=self.menu_select_image)
+        self.action_raw_frame = QAction(
+            text="Raw frame at cursor", parent=self.menu_select_image)
+        self.action_mean_image.setCheckable(True)
+        self.action_mean_image.setChecked(True)
+        self.action_frame.setCheckable(True)
+        self.action_raw_frame.setCheckable(True)
+        self.menu_select_image.addAction(self.action_mean_image)
+        self.menu_select_image.addAction(self.action_frame)
+        self.menu_select_image.addAction(self.action_raw_frame)
+
+        self.menu_select_small_action_group = QActionGroup(
+            self.menu_select_image)
+        self.menu_select_small_action_group.addAction(self.action_mean_image)
+        self.menu_select_small_action_group.addAction(self.action_frame)
+        self.menu_select_small_action_group.addAction(self.action_raw_frame)
+        self.menu_select_small_action_group.triggered.connect(
+            self.image_updater)
+        self.image_type = GuiImageType.MEAN_IMAGE
+
+        # self.action_select_kymography_line = QAction(
+        #     text="Select kymography sample line", parent=self.menu_plot)
+        # self.menu_plot.addAction(self.action_select_kymography_line)
 
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
@@ -315,7 +351,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.multicursor = None
 
         self.show()
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
         self.update()
 
     def change_to_dark(self):
@@ -389,7 +425,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
-        self.figure.canvas.draw()
+        self.figure.canvas.draw_idle()
 
         if self.display_tongue:
             _logger.debug("Drawing ultra frame in update")
@@ -406,12 +442,17 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.goLineEdit.setText(str(self.index + 1))
 
+        # if self.image_type == GuiImageType.FRAME:
+        #     self.action_select_kymography_line.setEnabled(True)
+        # else:
+        #     self.action_select_kymography_line.setEnabled(False)
+
     def plot_modality_axes(
-            self,
-            axes_number: int,
-            axes_name: str,
-            zero_offset: float = 0,
-            ylim: list[float, float] | None = None
+        self,
+        axes_number: int,
+        axes_name: str,
+        zero_offset: float = 0,
+        ylim: list[float, float] | None = None,
     ) -> None:
         """
         Plot modalities on a data_axes.
@@ -679,7 +720,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Display an already interpolated ultrasound frame.
         """
-        if self.current.annotations['selection_index'] == -1:
+        # Display mean image if asked or if there is no selection cursor.
+        if (self.current.annotations['selection_index'] == -1
+                or self.image_type == GuiImageType.MEAN_IMAGE):
             self.action_export_ultrasound_frame.setEnabled(False)
             self.ultra_axes.clear()
             image_name = 'AggregateImage mean on RawUltrasound'
@@ -690,20 +733,34 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                     image, interpolation='nearest', cmap='gray',
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
+        # Display either raw or interpolated ultrasound if asked
         elif self.current.annotations['selection_index'] >= 0:
             self.action_export_ultrasound_frame.setEnabled(True)
             self.ultra_axes.clear()
             index = self.current.annotations['selection_index']
 
             ultrasound = self.current.modalities['RawUltrasound']
-            image = ultrasound.interpolated_image(index)
+            if self.image_type == GuiImageType.FRAME:
+                image = ultrasound.interpolated_image(index)
+            elif self.image_type == GuiImageType.RAW_FRAME:
+                image = ultrasound.raw_image(index)
 
             self.ultra_axes.imshow(
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
-            if 'Splines' in self.current.modalities:
+            # if self.image_type == GuiImageType.FRAME:
+            #     self.kymography_clicker = clicker(
+            #         ax=self.ultra_axes,
+            #         classes=["event"],
+            #         markers=["x"],
+            #         linestyle="--")
+            #     self.kymography_clicker.on_point_added(self.point_added_cb)
+            #     self.kymography_clicker.on_point_removed(self.point_removed_cb)
+
+            if (self.image_type == GuiImageType.FRAME
+                    and 'Splines' in self.current.modalities):
                 splines = self.current.modalities['Splines']
                 index = self.current.annotations['selection_index']
                 ultra = self.current.modalities['RawUltrasound']
@@ -723,7 +780,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 # ic(np.diff(time_diff, n=1))
                 # ic(np.max(np.abs(np.diff(time_diff, n=1))))
 
-                epsilon = max((self.main_config.epsilon, splines.time_precision))
+                epsilon = max((self.main_config.epsilon,
+                               splines.time_precision))
                 min_difference = abs(
                     splines.timevector[spline_index] - timestamp)
                 # maybe this instead when loading data
@@ -748,7 +806,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                                 splines.cartesian_spline(spline_index))
             else:
                 _logger.info("No splines")
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
 
     def draw_raw_ultra_frame(self):
         """
@@ -769,7 +827,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         array = np.flip(array, 0).copy()
         array = array.astype(np.int8)
         self.ultra_axes.imshow(array, interpolation='nearest', cmap='gray')
-        self.ultra_canvas.draw()
+        self.ultra_canvas.draw_idle()
 
     def next(self):
         """
@@ -849,6 +907,22 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.index = index_to_jump_to
             self.update()
             self.update_ui()
+
+    def image_updater(self) -> None:
+        """
+        Update which kind of image is shown in the small figure panel.
+        """
+        match self.menu_select_small_action_group.checkedAction():
+            case self.action_mean_image:
+                self.image_type = GuiImageType.MEAN_IMAGE
+            case self.action_frame:
+                self.image_type = GuiImageType.FRAME
+            case self.action_raw_frame:
+                self.image_type = GuiImageType.RAW_FRAME
+            case _:
+                _logger.warning("Somehow the small image type has been unset.")
+        self.update()
+        self.update_ui()
 
     def quit(self):
         """
@@ -1145,6 +1219,19 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 writer.writerow(annotations)
             _logger.info(
                 "Wrote onset data in file %s.", filename)
+
+    def point_added_cb(self, position: tuple[float, float], klass: str):
+        x, y = position
+        print(f"New point of class {klass} added at {x=}, {y=}.")
+
+    def point_removed_cb(position: tuple[float, float], klass: str, idx):
+        x, y = position
+
+        suffix = {"1": "st", "2": "nd", "3": "rd"}.get(str(idx)[-1], "th")
+        print(
+            f"The {idx}{suffix} point of class {klass} with "
+            f"position {x=:.2f}, {y=:.2f}  was removed."
+        )
 
     def pd_category_cb(self):
         """

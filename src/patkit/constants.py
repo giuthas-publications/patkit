@@ -57,6 +57,14 @@ PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
 
+class AaaProbeType(Enum):
+    """
+    Probe type codes saved by AAA.
+    """
+    UNKNOWN = -1
+    FAN = 0
+
+
 class AnnotationType(Enum):
     """
     Enum to differentiate Modality annotation types
@@ -99,11 +107,21 @@ class GuiColorScheme(Enum):
     """
     GUI styles.
 
-    FOLLOW_SYSTEM means patkit will
+    FOLLOW_SYSTEM means patkit will try to follow the dark/light theme setting
+    the systeme uses.
     """
     DARK = "dark"
     FOLLOW_SYSTEM = "follow_system"
     LIGHT = "light"
+
+
+class GuiImageType(Enum):
+    """
+    GUI image types for specifying the type of image to be shown in a panel.
+    """
+    MEAN_IMAGE = "mean_image"
+    FRAME = "frame"
+    RAW_FRAME = "raw_frame"
 
 
 class ImageMask(Enum):
