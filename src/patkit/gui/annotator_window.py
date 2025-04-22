@@ -167,13 +167,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.positionRB)
         self.horizontalLayout.addWidget(self.button_organiser)
         MainWindow.setCentralWidget(self.centralwidget)
+
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
+
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
         self.menu_image = QtWidgets.QMenu(self.menubar)
-        self.menu_image.setEnabled(False)
+
         self.menu_image.setObjectName("menu_image")
         self.menu_script = QtWidgets.QMenu(self.menubar)
         self.menu_script.setEnabled(False)
@@ -186,33 +188,41 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+
         self.actionNew = QtGui.QAction(MainWindow)
         self.actionNew.setObjectName("actionNew")
         self.action_open = QtGui.QAction(MainWindow)
         self.action_open.setObjectName("action_open")
         self.action_save_all = QtGui.QAction(MainWindow)
         self.action_save_all.setObjectName("action_save_all")
-        self.actionSaveToPickle = QtGui.QAction(MainWindow)
-        self.actionSaveToPickle.setObjectName("actionSaveToPickle")
         self.actionSave_as = QtGui.QAction(MainWindow)
         self.actionSave_as.setObjectName("actionSave_as")
-        self.actionSave_plot_as = QtGui.QAction(MainWindow)
-        self.actionSave_plot_as.setObjectName("actionSave_plot_as")
+        self.action_save_all_textgrids = QtGui.QAction(MainWindow)
+        self.action_save_all_textgrids.setObjectName(
+            "action_save_all_textgrids")
+        self.action_save_current_textgrid = QtGui.QAction(MainWindow)
+        self.action_save_current_textgrid.setObjectName(
+            "action_save_current_textgrid")
+        self.action_quit = QtGui.QAction(MainWindow)
+        self.action_quit.setObjectName("action_quit")
+
         self.actionShow_interpreter = QtGui.QAction(MainWindow)
         self.actionShow_interpreter.setObjectName("actionShow_interpreter")
         self.actionRun_file = QtGui.QAction(MainWindow)
         self.actionRun_file.setObjectName("actionRun_file")
+
         self.actionNext = QtGui.QAction(MainWindow)
         self.actionNext.setObjectName("actionNext")
         self.actionPrevious = QtGui.QAction(MainWindow)
         self.actionPrevious.setObjectName("actionPrevious")
-        self.action_export_analysis = QtGui.QAction(MainWindow)
-        self.action_export_analysis.setEnabled(False)
-        self.action_export_analysis.setObjectName("action_export_analysis")
         self.actionNext_Frame = QtGui.QAction(MainWindow)
         self.actionNext_Frame.setObjectName("actionNext_Frame")
         self.actionPrevious_Frame = QtGui.QAction(MainWindow)
         self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
+
+        self.action_export_analysis = QtGui.QAction(MainWindow)
+        self.action_export_analysis.setEnabled(False)
+        self.action_export_analysis.setObjectName("action_export_analysis")
         self.action_export_main_figure = QtGui.QAction(MainWindow)
         self.action_export_main_figure.setObjectName(
             "action_export_main_figure")
@@ -226,46 +236,39 @@ class Ui_MainWindow(object):
         self.action_export_annotations_and_metadata.setObjectName(
             "action_export_annotations_and_metadata"
         )
-        self.actionfoobar = QtGui.QAction(MainWindow)
-        self.actionfoobar.setObjectName("actionfoobar")
         self.action_export_aggregate_images = QtGui.QAction(
             MainWindow)
         self.action_export_aggregate_images.setObjectName(
             "action_export_aggregate_images"
         )
-        self.action_save_all_textgrids = QtGui.QAction(MainWindow)
-        self.action_save_all_textgrids.setObjectName(
-            "action_save_all_textgrids")
-        self.action_save_current_textgrid = QtGui.QAction(MainWindow)
-        self.action_save_current_textgrid.setObjectName(
-            "action_save_current_textgrid")
-        self.action_quit = QtGui.QAction(MainWindow)
-        self.action_quit.setObjectName("action_quit")
         self.action_export_distance_matrices = QtGui.QAction(
             MainWindow)
         self.action_export_distance_matrices.setObjectName(
             "action_export_distance_matrices"
         )
+
         self.menu_file.addAction(self.action_open)
         self.menu_file.addAction(self.action_save_current_textgrid)
         self.menu_file.addAction(self.action_save_all_textgrids)
         self.menu_file.addAction(self.action_save_all)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_quit)
-        self.menu_image.addAction(self.actionSave_plot_as)
-        self.menu_image.addAction(self.actionSave_as)
-        self.menu_script.addAction(self.actionShow_interpreter)
-        self.menu_script.addAction(self.actionRun_file)
+
+        # self.menu_script.addAction(self.actionShow_interpreter)
+        # self.menu_script.addAction(self.actionRun_file)
+
         self.menu_navigation.addAction(self.actionNext)
         self.menu_navigation.addAction(self.actionPrevious)
         self.menu_navigation.addSeparator()
         self.menu_navigation.addAction(self.actionNext_Frame)
         self.menu_navigation.addAction(self.actionPrevious_Frame)
+
         self.menu_export.addAction(self.action_export_aggregate_images)
         self.menu_export.addAction(self.action_export_annotations_and_metadata)
         self.menu_export.addAction(self.action_export_distance_matrices)
         self.menu_export.addAction(self.action_export_main_figure)
         self.menu_export.addAction(self.action_export_ultrasound_frame)
+
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
@@ -300,10 +303,6 @@ class Ui_MainWindow(object):
         self.action_open.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.action_save_all.setText(_translate("MainWindow", "Save all"))
         self.action_save_all.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
-        self.actionSaveToPickle.setText(_translate("MainWindow", "Save to Pickle"))
-        self.actionSaveToPickle.setShortcut(_translate("MainWindow", "Ctrl+S"))
-        self.actionSave_as.setText(_translate("MainWindow", "Save subplot as..."))
-        self.actionSave_plot_as.setText(_translate("MainWindow", "Save plot as..."))
         self.actionShow_interpreter.setText(
             _translate("MainWindow", "Show interpreter")
         )
@@ -329,7 +328,6 @@ class Ui_MainWindow(object):
         self.action_export_annotations_and_metadata.setText(
             _translate("MainWindow", "Export annotations and metadata...")
         )
-        self.actionfoobar.setText(_translate("MainWindow", "foobar"))
         self.action_export_aggregate_images.setText(
             _translate("MainWindow", "Export aggregate images...")
         )
