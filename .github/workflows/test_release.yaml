@@ -144,4 +144,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo ${{env.title_string}}
-          gh release create ${{ needs.details.outputs.tag_name }} dist/* --title "${{steps.query-release-info.outputs.version}} - ${{steps.query-release-info.outputs.release-date }}" --notes "{{steps.query-release-info.outputs.release-notes}}" --prerelease
+          gh release create ${{ needs.details.outputs.tag_name }} dist/* --title "${{steps.query-release-info.outputs.version}} - ${{steps.query-release-info.outputs.release-date }}" --notes "${{steps.query-release-info.outputs.release-notes}}" --prerelease
