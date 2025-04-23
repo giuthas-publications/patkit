@@ -75,6 +75,17 @@ def initialise_patkit(
     logger, and loads the recorded and saved data into a Session. To initialise
     derived data run `add_derived_data`.
 
+    Parameters
+    ----------
+    path : Path | str | None
+        Path to load data from, by default None.
+    config_file : Path | str | None
+        Path to load configuration from, by default None.
+    exclusion_file : Path | str | None
+        Path to exclusion list, by default None.
+    logging_level : int | None
+        Logging level, by default None.
+
     Returns
     -------
     tuple[config, logger, session] where
@@ -84,11 +95,11 @@ def initialise_patkit(
     """
     path = path_from_name(path)
     # TODO 0.16: Move this call to cli_commands like with simulate.
-    config, exclusion_file, logger = initialise_logger_and_config(
+    config, exclusion_file = initialise_config(
         config_file=config_file,
         exclusion_file=exclusion_file,
-        logging_level=logging_level,
     )
+    logger = set_logging_level(logging_level)
 
     exclusion_list = None
     if exclusion_file is not None:
@@ -103,13 +114,12 @@ def initialise_patkit(
     return config, logger, session
 
 
-def initialise_logger_and_config(
+def initialise_config(
     config_file: Path | str | None = None,
     exclusion_file: Path | str | None = None,
-    logging_level: int | None = None,
-) -> tuple[Configuration, Path, Logger]:
+) -> tuple[Configuration, Path]:
     """
-    Initialise logger and configuration.
+    Initialise configuration.
 
     Parameters
     ----------
@@ -118,14 +128,11 @@ def initialise_logger_and_config(
         `~/.patkit/`.
     exclusion_file : Path | str | None
         Main exclusion file, by default None.
-    logging_level : int | None
-        Logging level, by default None. Which sets the logging level to DEBUG.
 
     Returns
     -------
-    tuple[Configuration, Path, Logger]
-        These are the main Configuration, exclusion file as Path, and the
-        logger.
+    tuple[Configuration, Path]
+        These are the main Configuration, and exclusion file as Path.
     """
     if config_file is None:
         default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
@@ -143,11 +150,9 @@ def initialise_logger_and_config(
         config_file = path_from_name(config_file)
 
     config = Configuration(config_file)
-
     exclusion_file = path_from_name(exclusion_file)
-    logger = set_logging_level(logging_level)
 
-    return config, exclusion_file, logger
+    return config, exclusion_file
 
 
 def add_derived_data(
@@ -205,7 +210,8 @@ def add_derived_data(
             spline_metric_args.model_dump(),
         )
 
-    process_modalities(recordings=session, processing_functions=modality_operation_dict)
+    process_modalities(
+        recordings=session, processing_functions=modality_operation_dict)
 
     statistic_operation_dict = {}
     if data_run_config.distance_matrix_arguments:
@@ -229,7 +235,9 @@ def add_derived_data(
         modality_pattern = data_run_config.peaks.modality_pattern
         for recording in session:
             if recording.excluded:
-                logger.info("Recording excluded from peak finding: %s", recording.name)
+                logger.info(
+                    "Recording excluded from peak finding: %s",
+                    recording.name)
                 continue
             for modality_name in recording:
                 if modality_pattern.search(modality_name):
