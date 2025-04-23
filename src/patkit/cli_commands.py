@@ -37,7 +37,7 @@ from pathlib import Path
 
 import click
 
-from patkit.initialise import initialise_logger_and_config, initialise_patkit
+from patkit.initialise import initialise_config, initialise_patkit
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
@@ -167,9 +167,7 @@ def simulate(path: Path):
     PATH to a ỳaml file which contains the parameters for running the
     simulation.
     """
-    config, exclusion_file, logger = initialise_logger_and_config(
-        config_file=path,
-    )
+    config, exclusion_file = initialise_config(config_file=path,)
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(
         sim_configuration=config.simulation_config)
     run_simulations(
