@@ -169,4 +169,4 @@ def read_recording_session_from_dir(
         return session
 
     _logger.error(
-        'Could not find a suitable importer: %s.', recorded_data_path)
+        'Could not find a suitable importer: %s', recorded_data_path)
