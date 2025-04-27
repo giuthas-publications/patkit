@@ -163,17 +163,18 @@ class IntervalCategory(Enum):
 
 
 @dataclass(frozen=True)
-class Patkitconfigfile:
+class PatkitConfigFile:
     """
     Human written yaml files to control importing data.
     """
+    MAIN = "patkit.yaml"
     MANIFEST = "patkit_manifest.yaml"
     SESSION = 'session_config.yaml'
     SPLINE = 'spline_config.yaml'
 
 
 @dataclass(frozen=True)
-class Patkitsuffix:
+class PatkitSuffix:
     """
     Suffixes for files saved by patkit.
 

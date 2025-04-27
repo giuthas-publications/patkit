@@ -43,7 +43,7 @@ import dateutil.parser
 import numpy as np
 
 from patkit.constants import (
-    CoordinateSystems, Patkitconfigfile,
+    CoordinateSystems, PatkitConfigFile,
     SplineDataColumn, SplineMetaColumn)
 from patkit.data_structures import ModalityData, Recording
 from patkit.errors import patkitError
@@ -294,7 +294,7 @@ def add_splines(
         Path to the directory where the splines (and most likely other
         Recording files) are.
     """
-    spline_config_path = directory / Patkitconfigfile.SPLINE
+    spline_config_path = directory / PatkitConfigFile.SPLINE
     if spline_config_path.is_file():
         spline_config = load_spline_config(spline_config_path)
         if spline_config.import_config.single_spline_file:

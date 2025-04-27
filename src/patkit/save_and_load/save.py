@@ -40,7 +40,7 @@ from pathlib import Path
 import nestedtext
 import numpy as np
 
-from patkit.constants import OverwriteConfirmation, PATKIT_FILE_VERSION, Patkitsuffix
+from patkit.constants import OverwriteConfirmation, PATKIT_FILE_VERSION, PatkitSuffix
 from patkit.data_structures import Modality, Recording, Session, Statistic
 from patkit.ui_callbacks import UiCallbacks
 
@@ -77,7 +77,7 @@ def save_modality_data(
     """
     _logger.debug("Saving data for %s.", modality.name)
     suffix = modality.name_underscored
-    filename = f"{modality.recording.basename}.{suffix}{Patkitsuffix.DATA}"
+    filename = f"{modality.recording.basename}.{suffix}{PatkitSuffix.DATA}"
     filepath = modality.recording.path/filename
 
     if filepath.exists():
@@ -112,7 +112,7 @@ def save_modality_meta(
     _logger.debug("Saving meta for %s.", modality.name)
     suffix = modality.name_underscored
     filename = f"{modality.recording.basename}.{suffix}"
-    filename += Patkitsuffix.META
+    filename += PatkitSuffix.META
     filepath = modality.recording.path/filename
 
     if filepath.exists():
@@ -158,7 +158,7 @@ def save_recording_meta(
     """
     _logger.debug(
         "Saving meta for recording %s.", recording.basename)
-    filename = f"{recording.basename}{'.Recording'}{Patkitsuffix.META}"
+    filename = f"{recording.basename}{'.Recording'}{PatkitSuffix.META}"
     filepath = recording.path/filename
 
     if filepath.exists():
@@ -225,7 +225,7 @@ def save_statistic_data(
     _logger.debug("Saving data for %s.", statistic.name)
     if not statistic.patkit_data_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{Patkitsuffix.DATA}"
+        filename = f"{statistic.owner.name}.{suffix}{PatkitSuffix.DATA}"
         statistic.patkit_data_name = filename
 
     filepath = statistic.patkit_data_path
@@ -259,7 +259,7 @@ def save_statistic_meta(
     _logger.debug("Saving meta for %s.", statistic.name)
     if not statistic.patkit_meta_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{Patkitsuffix.META}"
+        filename = f"{statistic.owner.name}.{suffix}{PatkitSuffix.META}"
         statistic.patkit_meta_name = filename
 
     filepath = statistic.patkit_meta_path
@@ -360,7 +360,7 @@ def save_session_meta(
     """
     _logger.debug(
         "Saving meta for session %s.", session.name)
-    filename = f"{session.name}{'.Session'}{Patkitsuffix.META}"
+    filename = f"{session.name}{'.Session'}{PatkitSuffix.META}"
     filepath = session.paths.root/filename
 
     if filepath.exists():

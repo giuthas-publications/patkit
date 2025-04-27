@@ -40,7 +40,7 @@ from pathlib import Path
 from patkit.audio_processing import MainsFilter
 from patkit.configuration import Configuration, PathStructure
 from patkit.constants import (
-    DatasourceNames, SourceSuffix, Patkitsuffix, Patkitconfigfile)
+    DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
     generate_aaa_recording_list, load_session_config)
 from patkit.data_structures import (
@@ -79,16 +79,19 @@ def load_data(path: Path, configuration: Configuration) -> Session:
     match path.suffix:
         case SourceSuffix.AAA_ULTRA:
             session = load_recording_session(path)
-        case Patkitsuffix.CONFIG if path.name == Patkitconfigfile.SESSION:
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
             session = load_recording_session(path)
-        case Patkitsuffix.CONFIG if path.name == Patkitconfigfile.MANIFEST:
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
             session = load_recording_session(path)
-        case Patkitsuffix.META:
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
+            session = load_recording_session(path)
+        case PatkitSuffix.META:
             session = load_recording_session(path)
         case "" if path.is_dir():
             # TODO: This needs to somehow split into recorded path and patkit
             # path
-            meta_files = path.glob("*" + Patkitsuffix.META)
+            # if
+            meta_files = path.glob("*" + PatkitSuffix.META)
             match len(list(meta_files)):
                 case 1:
                     session = load_recording_session(path)
@@ -123,9 +126,9 @@ def read_recording_session_from_dir(
     instance variable is left for the caller to handle.
     """
     containing_dir = recorded_data_path.parts[-1]
-    session_config_path = recorded_data_path / Patkitconfigfile.SESSION
+    session_config_path = recorded_data_path / PatkitConfigFile.SESSION
     session_meta_path = recorded_data_path / (containing_dir + '.Session' +
-                                              Patkitsuffix.META)
+                                              PatkitSuffix.META)
     if session_meta_path.is_file():
         return load_recording_session(recorded_data_path, session_config_path)
 
