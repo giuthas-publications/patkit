@@ -83,7 +83,7 @@ def load_data(path: Path, configuration: Configuration) -> Session:
             session = load_recording_session(path)
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
             session = load_recording_session(path)
-        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MAIN:
             session = load_recording_session(path)
         case PatkitSuffix.META:
             session = load_recording_session(path)
