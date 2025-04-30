@@ -38,7 +38,7 @@ interface provided by Configuration.
 """
 
 from .configuration_parsers import (
-    parse_config, PathValidator
+    PathValidator
 )
 from .configuration_models import (
     ExclusionList, DataRunConfig, DownsampleParams, FindPeaksScipyArguments,
@@ -50,3 +50,12 @@ from .configuration_setup import Configuration
 from .exclusion_list_functions import (
     apply_exclusion_list, load_exclusion_list, remove_excluded_recordings
 )
+
+__all__ = [
+    "PathValidator", "ExclusionList", "DataRunConfig", "DownsampleParams",
+    "FindPeaksScipyArguments", "GuiConfig", "MainConfig", "PathStructure",
+    "PeakDetectionParams", "PointAnnotationParams", "SearchPattern",
+    "SimulationConfig", "SplineConfig", "SplineDataConfig",
+    "SplineImportConfig", "TimeseriesNormalisation", "Configuration",
+    "apply_exclusion_list", "load_exclusion_list", "remove_excluded_recordings",
+]

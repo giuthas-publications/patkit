@@ -172,22 +172,23 @@ _time_limit_schema = Map({
     Optional("offset"): Float(),
 })
 
-
-def parse_config(filepath: Path | str | None = None) -> None:
-    """
-    Read the config file from filepath and recursively the other config files.
-
-    If filepath is None, read from the default file
-    'configuration/configuration.yaml'. In both cases if the file does not
-    exist, report this and exit.
-    """
-    load_main_config(filepath)
-    load_gui_params(config_dict['gui_parameter_file'])
-
-    if 'data_run_parameters' in config_dict:
-        load_data_params(config_dict['data_run_parameters'])
-    if 'publish_parameters' in config_dict:
-        load_publish_params(config_dict['publish_parameters'])
+# TODO 0.16 REMOVE IF USELESS
+# def parse_config(filepath: Path | str | None = None) -> None:
+#     """
+#     Read the config file from filepath and recursively the other config files.
+#
+#     If filepath is None, read from the default file
+#     'configuration/configuration.yaml'. In both cases if the file does not
+#     exist, report this and exit.
+#     """
+#     load_main_config(filepath)
+#
+#     if 'gui_config' in config_dict:
+#         load_gui_params(config_dict['gui_config'])
+#     if 'data_config' in config_dict:
+#         load_data_params(config_dict['data_config'])
+#     if 'publish_config' in config_dict:
+#         load_publish_params(config_dict['publish_config'])
 
 
 def load_main_config(filepath: Path | str | None = None) -> YAML:
@@ -210,12 +211,10 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
         with closing(
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
-                "epsilon": Float(),
-                "mains_frequency": Float(),
-                "gui_parameter_file": config_path_validator,
-                Optional("data_run_parameter_file"): config_path_validator,
-                Optional("simulation_parameter_file"): config_path_validator,
-                Optional("publish_parameter_file"): config_path_validator,
+                Optional("gui_config"): config_path_validator,
+                Optional("data_config"): config_path_validator,
+                Optional("simulation_config"): config_path_validator,
+                Optional("publish_config"): config_path_validator,
             })
             try:
                 _raw_config_dict = load(yaml_file.read(), schema)
@@ -254,6 +253,8 @@ def load_data_params(filepath: Path | str | None = None) -> YAML:
         with closing(
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
+                "epsilon": Float(),
+                "mains_frequency": Float(),
                 Optional("output_directory"): PathValidator(),
                 "flags": Map({
                     "detect_beep": Bool(),
