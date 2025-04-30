@@ -34,6 +34,12 @@
 # available and represented by None. If you want to specify current working
 # directory, use '.'
 
+# What precision is treated as equal when comparing annotation boundaries.
+epsilon: 0.00001
+
+# Used in filtering sound signals before beep detection.
+mains_frequency: 50
+
 # Path to the recorded data
 recorded_data_path: "../../recorded_data/tongue_data_1"
 
