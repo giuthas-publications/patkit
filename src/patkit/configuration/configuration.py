@@ -36,7 +36,7 @@ from pathlib import Path
 
 from .configuration_parsers import (
     load_main_config, load_gui_params, load_publish_params,
-    load_data_params, load_simulation_params  # , load_plot_params
+    load_data_params, load_simulation_params
 )
 from .configuration_models import (
     GuiConfig, MainConfigPaths, DataConfig, PublishConfig, SimulationConfig

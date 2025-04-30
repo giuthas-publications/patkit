@@ -46,7 +46,7 @@ from .configuration_models import (
     PointAnnotationParams, SearchPattern, SimulationConfig, SplineConfig,
     SplineDataConfig, SplineImportConfig, TimeseriesNormalisation
 )
-from .configuration_setup import Configuration
+from .configuration import Configuration
 from .exclusion_list_functions import (
     apply_exclusion_list, load_exclusion_list, remove_excluded_recordings
 )
