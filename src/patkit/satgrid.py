@@ -44,7 +44,8 @@ from typing_extensions import Self
 
 from patkit.constants import IntervalCategory, PATKIT_EPSILON
 
-
+# TODO 1.0: clean up the way epsilon is used and how it's type hinted and
+# documented.
 class SatAnnotation(ABC):
     """Base class for Textgrid Point and Interval to enable editing with GUI."""
 
