@@ -39,7 +39,7 @@ from .configuration_parsers import (
     load_data_params, load_simulation_params  # , load_plot_params
 )
 from .configuration_models import (
-    GuiConfig, MainConfig, DataRunConfig, PublishConfig, SimulationConfig
+    GuiConfig, MainConfigPaths, DataRunConfig, PublishConfig, SimulationConfig
 )
 
 _logger = logging.getLogger('patkit.configuration_setup')
@@ -66,38 +66,40 @@ class Configuration:
         configuration_file : Union[Path, str, None]
             Path to the main configuration file.
         """
-        # TODO: deal with the option that configuration_file is None
+        # TODO 0.16: deal with the option that configuration_file is None by
+        # loading from default and/or asking user, latter needs to be bounced by
+        # failing to load config
 
         self._main_config_yaml = load_main_config(configuration_file)
-        self._main_config = MainConfig(**self._main_config_yaml.data)
+        self._main_config = MainConfigPaths(**self._main_config_yaml.data)
 
-        if self._main_config.data_run_parameter_file is not None:
-            self._data_run_yaml = load_data_params(
-                self._main_config.data_run_parameter_file)
-            self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
-
-        if self._main_config.simulation_parameter_file is not None:
-            self._simulation_yaml = load_simulation_params(
-                self._main_config.simulation_parameter_file)
-            self._simulation_config = SimulationConfig(
-                **self._simulation_yaml.data)
-
-        self._gui_yaml = load_gui_params(self._main_config.gui_parameter_file)
-        self._gui_config = GuiConfig(**self._gui_yaml.data)
-
-        if self._main_config.data_run_parameter_file is not None:
-            self._data_run_yaml = load_data_params(
-                self._main_config.data_run_parameter_file)
-            self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
+        if self._main_config.data_config is not None:
+            self._data_yaml = load_data_params(
+                self._main_config.data_config)
+            self._data_run_config = DataRunConfig(**self._data_yaml.data)
         else:
             self._data_run_config = None
 
-        if self._main_config.publish_parameter_file is not None:
+        if self._main_config.gui_config is not None:
+            self._gui_yaml = load_gui_params(self._main_config.gui_config)
+            self._gui_config = GuiConfig(**self._gui_yaml.data)
+        else:
+            self._gui_config = None
+
+        if self._main_config.publish_config is not None:
             self._publish_yaml = load_publish_params(
-                self._main_config.publish_parameter_file)
+                self._main_config.publish_config)
             self._publish_config = PublishConfig(**self._publish_yaml.data)
         else:
             self._publish_config = None
+
+        if self._main_config.simulation_config is not None:
+            self._simulation_yaml = load_simulation_params(
+                self._main_config.simulation_config)
+            self._simulation_config = SimulationConfig(
+                **self._simulation_yaml.data)
+        else:
+            self._simulation_config = None
 
         # self._plot_yaml = load_plot_params(config['plotting_parameter_file'])
         # self._plot_config = PlotConfig(**self._plot_yaml.data)
@@ -111,7 +113,7 @@ class Configuration:
         )
 
     @property
-    def main_config(self) -> MainConfig:
+    def main_config(self) -> MainConfigPaths:
         """Main config options."""
         return self._main_config
 
@@ -205,11 +207,11 @@ class Configuration:
         configuration_file : Path | str
             File to read the new options from.
         """
-        self._data_run_yaml = load_data_params(filepath=configuration_file)
+        self._data_yaml = load_data_params(filepath=configuration_file)
         if self._data_run_config is None:
-            self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
+            self._data_run_config = DataRunConfig(**self._data_yaml.data)
         else:
-            self._data_run_config.update(self._data_run_yaml.data)
+            self._data_run_config.update(self._data_yaml.data)
 
     def update_publish_from_file(self, configuration_file: Path | str) -> None:
         """
@@ -279,12 +281,12 @@ class Configuration:
             File to read the new options from.
         """
         self.update_main_from_file(configuration_file)
-        self.update_gui_from_file(self._main_config.gui_parameter_file)
-        if self.main_config.data_run_parameter_file is not None:
+        self.update_gui_from_file(self._main_config.gui_config)
+        if self.main_config.data_config is not None:
             self.update_data_run_from_file(
-                self.main_config.data_run_parameter_file
+                self.main_config.data_config
             )
-        if self.main_config.publish_parameter_file is not None:
+        if self.main_config.publish_config is not None:
             self.update_publish_from_file(
-                self._main_config.publish_parameter_file
+                self._main_config.publish_config
             )

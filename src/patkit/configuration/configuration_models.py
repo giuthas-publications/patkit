@@ -130,16 +130,16 @@ class PathStructure(UpdatableBaseModel):
     spline_config: Path | None = None
 
 
-class MainConfig(UpdatableBaseModel):
+class MainConfigPaths(UpdatableBaseModel):
     """
-    Main configuration data of patkit.
+    Main configuration paths of patkit.
     """
     epsilon: float
     mains_frequency: float
-    gui_parameter_file: Path
-    data_run_parameter_file: Path | None = None
-    simulation_parameter_file: Path | None = None
-    publish_parameter_file: Path | None = None
+    gui_config: Path | None = None
+    data_config: Path | None = None
+    simulation_config: Path | None = None
+    publish_config: Path | None = None
 
 
 class SearchPattern(UpdatableBaseModel):
