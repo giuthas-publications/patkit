@@ -183,7 +183,7 @@ def add_derived_data(
     -------
     None
     """
-    data_run_config = config.data_run_config
+    data_run_config = config.data_config
 
     modality_operation_dict = {}
     if data_run_config.pd_arguments:
@@ -243,5 +243,5 @@ def add_derived_data(
                 if modality_pattern.search(modality_name):
                     add_peaks(
                         recording[modality_name],
-                        config.data_run_config.peaks,
+                        config.data_config.peaks,
                     )

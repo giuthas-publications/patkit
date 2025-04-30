@@ -70,32 +70,33 @@ class Configuration:
         # loading from default and/or asking user, latter needs to be bounced by
         # failing to load config
 
-        self._main_config_yaml = load_main_config(configuration_file)
-        self._main_config = MainConfigPaths(**self._main_config_yaml.data)
+        self._main_config_paths_yaml = load_main_config(configuration_file)
+        self._main_config_paths = MainConfigPaths(
+            **self._main_config_paths_yaml.data)
 
-        if self._main_config.data_config is not None:
+        if self._main_config_paths.data_config is not None:
             self._data_yaml = load_data_params(
-                self._main_config.data_config)
+                self._main_config_paths.data_config)
             self._data_run_config = DataConfig(**self._data_yaml.data)
         else:
             self._data_run_config = None
 
-        if self._main_config.gui_config is not None:
-            self._gui_yaml = load_gui_params(self._main_config.gui_config)
+        if self._main_config_paths.gui_config is not None:
+            self._gui_yaml = load_gui_params(self._main_config_paths.gui_config)
             self._gui_config = GuiConfig(**self._gui_yaml.data)
         else:
             self._gui_config = None
 
-        if self._main_config.publish_config is not None:
+        if self._main_config_paths.publish_config is not None:
             self._publish_yaml = load_publish_params(
-                self._main_config.publish_config)
+                self._main_config_paths.publish_config)
             self._publish_config = PublishConfig(**self._publish_yaml.data)
         else:
             self._publish_config = None
 
-        if self._main_config.simulation_config is not None:
+        if self._main_config_paths.simulation_config is not None:
             self._simulation_yaml = load_simulation_params(
-                self._main_config.simulation_config)
+                self._main_config_paths.simulation_config)
             self._simulation_config = SimulationConfig(
                 **self._simulation_yaml.data)
         else:
@@ -106,24 +107,24 @@ class Configuration:
 
     def __repr__(self) -> str:
         return (
-            f"Configuration(\nmain_config={self._main_config.model_dump()})"
+            f"Configuration(\nmain_config={self._main_config_paths.model_dump()})"
             f"\ndata_run={self._data_run_config.model_dump()}"
             f"\ngui={self._gui_config.model_dump()}"
             f"\npublish={self._publish_config.model_dump()})"
         )
 
     @property
-    def main_config(self) -> MainConfigPaths:
+    def main_config_paths(self) -> MainConfigPaths:
         """Main config options."""
-        return self._main_config
+        return self._main_config_paths
 
     @property
-    def data_run_config(self) -> DataConfig | None:
+    def data_config(self) -> DataConfig | None:
         """Config options for a data run."""
         return self._data_run_config
 
-    @data_run_config.setter
-    def data_run_config(self, new_config: DataConfig) -> None:
+    @data_config.setter
+    def data_config(self, new_config: DataConfig) -> None:
         if isinstance(new_config, DataConfig):
             self._data_run_config = new_config
         else:
@@ -198,7 +199,9 @@ class Configuration:
         raise NotImplementedError(
             "Saving configuration to a file has not yet been implemented.")
 
-    def update_data_run_from_file(self, configuration_file: Path | str) -> None:
+    def update_data_config_from_file(
+            self, configuration_file: Path | str
+    ) -> None:
         """
         Update the data run configuration from a file.
 
@@ -256,13 +259,16 @@ class Configuration:
         configuration_file : Path | str
             File to read the new options from.
         """
-        self._main_config_yaml = load_publish_params(
+        self._main_config_paths_yaml = load_publish_params(
             filepath=configuration_file)
-        if self._main_config is None:
-            self._main_config = DataConfig(**self._main_config_yaml.data)
+        if self._main_config_paths is None:
+            self._main_config_paths = DataConfig(
+                **self._main_config_paths_yaml.data)
         else:
-            self._main_config.update(self._main_config_yaml.data)
+            self._main_config_paths.update(self._main_config_paths_yaml.data)
 
+    # TODO 0.16 updating needs some attention or disabling. simulation missing
+    # at least
     def update_all_from_file(
             self, configuration_file: Path | str
     ) -> None:
@@ -281,12 +287,13 @@ class Configuration:
             File to read the new options from.
         """
         self.update_main_from_file(configuration_file)
-        self.update_gui_from_file(self._main_config.gui_config)
-        if self.main_config.data_config is not None:
-            self.update_data_run_from_file(
-                self.main_config.data_config
+        if self.main_config_paths.data_config is not None:
+            self.update_data_config_from_file(
+                self.main_config_paths.data_config
             )
-        if self.main_config.publish_config is not None:
+        if self.main_config_paths.gui_config is not None:
+            self.update_gui_from_file(self._main_config_paths.gui_config)
+        if self.main_config_paths.publish_config is not None:
             self.update_publish_from_file(
-                self._main_config.publish_config
+                self._main_config_paths.publish_config
             )

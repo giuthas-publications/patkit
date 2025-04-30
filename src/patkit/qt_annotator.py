@@ -138,7 +138,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.display_tongue = display_tongue
 
-        self.main_config = config.main_config
+        self.data_config = config.data_config
         self.gui_config = config.gui_config
 
         if categories is None:
@@ -698,7 +698,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                     main_window=self,
                     boundaries=boundaries,
                     segment=interval,
-                    epsilon=self.main_config.epsilon,
+                    epsilon=self.data_config.epsilon,
                     time_offset=stimulus_onset)
                 animator.connect()
                 self.animators.append(animator)
@@ -782,7 +782,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 # ic(np.diff(time_diff, n=1))
                 # ic(np.max(np.abs(np.diff(time_diff, n=1))))
 
-                epsilon = max((self.main_config.epsilon,
+                epsilon = max((self.data_config.epsilon,
                                splines.time_precision))
                 min_difference = abs(
                     splines.timevector[spline_index] - timestamp)
