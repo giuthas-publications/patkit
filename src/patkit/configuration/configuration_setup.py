@@ -39,7 +39,7 @@ from .configuration_parsers import (
     load_data_params, load_simulation_params  # , load_plot_params
 )
 from .configuration_models import (
-    GuiConfig, MainConfigPaths, DataRunConfig, PublishConfig, SimulationConfig
+    GuiConfig, MainConfigPaths, DataConfig, PublishConfig, SimulationConfig
 )
 
 _logger = logging.getLogger('patkit.configuration_setup')
@@ -76,7 +76,7 @@ class Configuration:
         if self._main_config.data_config is not None:
             self._data_yaml = load_data_params(
                 self._main_config.data_config)
-            self._data_run_config = DataRunConfig(**self._data_yaml.data)
+            self._data_run_config = DataConfig(**self._data_yaml.data)
         else:
             self._data_run_config = None
 
@@ -118,13 +118,13 @@ class Configuration:
         return self._main_config
 
     @property
-    def data_run_config(self) -> DataRunConfig | None:
+    def data_run_config(self) -> DataConfig | None:
         """Config options for a data run."""
         return self._data_run_config
 
     @data_run_config.setter
-    def data_run_config(self, new_config: DataRunConfig) -> None:
-        if isinstance(new_config, DataRunConfig):
+    def data_run_config(self, new_config: DataConfig) -> None:
+        if isinstance(new_config, DataConfig):
             self._data_run_config = new_config
         else:
             raise ValueError(f"Expected a DataRunConfig instance. "
@@ -209,7 +209,7 @@ class Configuration:
         """
         self._data_yaml = load_data_params(filepath=configuration_file)
         if self._data_run_config is None:
-            self._data_run_config = DataRunConfig(**self._data_yaml.data)
+            self._data_run_config = DataConfig(**self._data_yaml.data)
         else:
             self._data_run_config.update(self._data_yaml.data)
 
@@ -224,7 +224,7 @@ class Configuration:
         """
         self._publish_yaml = load_publish_params(filepath=configuration_file)
         if self._publish_config is None:
-            self._publish_config = DataRunConfig(**self._publish_yaml.data)
+            self._publish_config = DataConfig(**self._publish_yaml.data)
         else:
             self._publish_config.update(self._publish_yaml.data)
 
@@ -239,7 +239,7 @@ class Configuration:
         """
         self._gui_yaml = load_publish_params(filepath=configuration_file)
         if self._gui_config is None:
-            self._gui_config = DataRunConfig(**self._gui_yaml.data)
+            self._gui_config = DataConfig(**self._gui_yaml.data)
         else:
             self._gui_config.update(self._gui_yaml.data)
 
@@ -259,7 +259,7 @@ class Configuration:
         self._main_config_yaml = load_publish_params(
             filepath=configuration_file)
         if self._main_config is None:
-            self._main_config = DataRunConfig(**self._main_config_yaml.data)
+            self._main_config = DataConfig(**self._main_config_yaml.data)
         else:
             self._main_config.update(self._main_config_yaml.data)
 

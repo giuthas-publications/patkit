@@ -134,8 +134,6 @@ class MainConfigPaths(UpdatableBaseModel):
     """
     Main configuration paths of patkit.
     """
-    epsilon: float
-    mains_frequency: float
     gui_config: Path | None = None
     data_config: Path | None = None
     simulation_config: Path | None = None
@@ -345,7 +343,7 @@ class PeakDetectionParams(PointAnnotationParams):
     find_peaks_args: FindPeaksScipyArguments | None = None
 
 
-class DataRunFlags(UpdatableBaseModel):
+class DataFlags(UpdatableBaseModel):
     detect_beep: bool = False
     test: bool = False
 
@@ -382,8 +380,10 @@ class CastParams(UpdatableBaseModel):
     cast_flags: CastFlags
 
 
-class DataRunConfig(UpdatableBaseModel):
-    flags: DataRunFlags
+class DataConfig(UpdatableBaseModel):
+    epsilon: float
+    mains_frequency: float
+    flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None
     pd_arguments: PdArguments | None = None

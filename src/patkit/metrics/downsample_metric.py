@@ -37,7 +37,7 @@ Downsampling of metrics and possibly other timeseries data.
 import re
 import dataclasses
 
-from patkit.configuration import DataRunConfig, DownsampleParams
+from patkit.configuration import DataConfig, DownsampleParams
 from patkit.data_structures import (
     Modality, ModalityData, ModalityMetaData, Recording, Session
 )
@@ -151,7 +151,7 @@ def downsample_metrics(
 
 def downsample_metrics_in_session(
         recording_session: Session,
-        data_run_config: DataRunConfig
+        data_run_config: DataConfig
 ) -> None:
     """
     Downsample metrics in the session.
@@ -160,7 +160,7 @@ def downsample_metrics_in_session(
     ----------
     recording_session : Session
         _description_
-    data_run_config : DataRunConfig
+    data_run_config : DataConfig
         _description_
     """
     for recording in recording_session:

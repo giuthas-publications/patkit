@@ -41,7 +41,7 @@ from .configuration_parsers import (
     PathValidator
 )
 from .configuration_models import (
-    ExclusionList, DataRunConfig, DownsampleParams, FindPeaksScipyArguments,
+    ExclusionList, DataConfig, DownsampleParams, FindPeaksScipyArguments,
     GuiConfig, MainConfigPaths, PathStructure, PeakDetectionParams,
     PointAnnotationParams, SearchPattern, SimulationConfig, SplineConfig,
     SplineDataConfig, SplineImportConfig, TimeseriesNormalisation
@@ -52,7 +52,7 @@ from .exclusion_list_functions import (
 )
 
 __all__ = [
-    "PathValidator", "ExclusionList", "DataRunConfig", "DownsampleParams",
+    "PathValidator", "ExclusionList", "DataConfig", "DownsampleParams",
     "FindPeaksScipyArguments", "GuiConfig", "MainConfigPaths", "PathStructure",
     "PeakDetectionParams", "PointAnnotationParams", "SearchPattern",
     "SimulationConfig", "SplineConfig", "SplineDataConfig",
