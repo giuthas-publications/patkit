@@ -185,7 +185,7 @@ def parse_config(filepath: Path | str | None = None) -> None:
     load_gui_params(config_dict['gui_parameter_file'])
 
     if 'data_run_parameters' in config_dict:
-        load_run_params(config_dict['data_run_parameters'])
+        load_data_params(config_dict['data_run_parameters'])
     if 'publish_parameters' in config_dict:
         load_publish_params(config_dict['publish_parameters'])
 
@@ -234,7 +234,7 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
     return _raw_config_dict
 
 
-def load_run_params(filepath: Path | str | None = None) -> YAML:
+def load_data_params(filepath: Path | str | None = None) -> YAML:
     """
     Read the config file from filepath.
 

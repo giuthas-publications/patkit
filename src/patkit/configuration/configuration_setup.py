@@ -36,7 +36,7 @@ from pathlib import Path
 
 from .configuration_parsers import (
     load_main_config, load_gui_params, load_publish_params,
-    load_run_params, load_simulation_params  # , load_plot_params
+    load_data_params, load_simulation_params  # , load_plot_params
 )
 from .configuration_models import (
     GuiConfig, MainConfig, DataRunConfig, PublishConfig, SimulationConfig
@@ -72,7 +72,7 @@ class Configuration:
         self._main_config = MainConfig(**self._main_config_yaml.data)
 
         if self._main_config.data_run_parameter_file is not None:
-            self._data_run_yaml = load_run_params(
+            self._data_run_yaml = load_data_params(
                 self._main_config.data_run_parameter_file)
             self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
 
@@ -86,7 +86,7 @@ class Configuration:
         self._gui_config = GuiConfig(**self._gui_yaml.data)
 
         if self._main_config.data_run_parameter_file is not None:
-            self._data_run_yaml = load_run_params(
+            self._data_run_yaml = load_data_params(
                 self._main_config.data_run_parameter_file)
             self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
         else:
@@ -205,7 +205,7 @@ class Configuration:
         configuration_file : Path | str
             File to read the new options from.
         """
-        self._data_run_yaml = load_run_params(filepath=configuration_file)
+        self._data_run_yaml = load_data_params(filepath=configuration_file)
         if self._data_run_config is None:
             self._data_run_config = DataRunConfig(**self._data_run_yaml.data)
         else:
