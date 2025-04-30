@@ -391,7 +391,9 @@ class SatTier(list):
                 if interval.label == label:
                     return interval
 
-    def get_labels(self, time_vector: np.ndarray) -> np.ndarray:
+    def get_labels(
+            self, time_vector: np.ndarray, epsilon: float | None = None,
+    ) -> np.ndarray:
         """
         Get the labels at the times in the `time_vector`.
 
@@ -399,6 +401,11 @@ class SatTier(list):
         ----------
         time_vector : np.ndarray
             Time stamps to retrieve the labels for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -411,10 +418,10 @@ class SatTier(list):
         )
         labels = np.empty(len(time_vector), dtype=f"<U{max_label}")
         for (i, time) in enumerate(time_vector):
-            labels[i] = self.label_at(time)
+            labels[i] = self.label_at(time, epsilon)
         return labels
 
-    def label_at(self, time: float) -> str:
+    def label_at(self, time: float, epsilon: float | None = None) -> str:
         """
         Get the label at the given time.
 
@@ -422,6 +429,11 @@ class SatTier(list):
         ----------
         time : float
             Time in seconds to retrieve the label for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -432,7 +444,7 @@ class SatTier(list):
             return ""
 
         for element in self:
-            if element.contains(time):
+            if element.contains(time=time, epsilon=epsilon):
                 return element.label
 
 
@@ -518,7 +530,9 @@ class SatGrid(OrderedDict):
                     pass
         return out
 
-    def get_labels(self, time_vector: np.ndarray) -> dict[str, np.ndarray]:
+    def get_labels(
+            self, time_vector: np.ndarray, epsilon: float | None = None
+    ) -> dict[str, np.ndarray]:
         """
         Get the labels at the times in the `time_vector`.
 
@@ -526,6 +540,11 @@ class SatGrid(OrderedDict):
         ----------
         time_vector : np.ndarray
             Time values to get the labels for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -534,6 +553,7 @@ class SatGrid(OrderedDict):
         """
         labels = {}
         for tier_name in self:
-            labels[tier_name] = self[tier_name].get_labels(time_vector)
+            labels[tier_name] = self[tier_name].get_labels(
+                time_vector, epsilon=epsilon)
 
         return labels
