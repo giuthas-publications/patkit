@@ -3,18 +3,12 @@
 # available and represented by None. If you want to specify current working
 # directory, use '.'
 
-# What precision is treated as equal when comparing annotation boundaries.
-epsilon: 0.00001
-
-# Used in filtering sound signals before beep detection.
-mains_frequency: 50
-
 # Default parameters for a data run. Unless you happen to be running example
 # tongue data, you should probably change these.
-# Plain filename without a directory path will be interpreted as
-# [homedir]/.patkit/filename
-data_run_parameter_file: data_run_parameters.yaml
+# Plain filename without a directory path will be interpreted as being in
+#  the directory of this file.
+data_run_parameter_file: patkit-data.yaml
 
-gui_parameter_file: gui_parameters.yaml
+gui_parameter_file: patkit-gui.yaml
 
-publish_parameter_file: publish_parameters.yaml
+publish_parameter_file: patkit-publish.yaml
