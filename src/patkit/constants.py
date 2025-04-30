@@ -56,6 +56,9 @@ DEFAULT_ENCODING = 'utf-8'
 PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
+# TODO 0.16 still not happy with this and how it meshes with satgrid.
+PATKIT_EPSILON = 0.00001
+
 
 class AaaProbeType(Enum):
     """

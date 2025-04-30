@@ -42,7 +42,7 @@ from textgrids.templates import (long_header, long_interval, long_point,
                                  long_tier)
 from typing_extensions import Self
 
-from patkit.constants import IntervalCategory
+from patkit.constants import IntervalCategory, PATKIT_EPSILON
 
 
 class SatAnnotation(ABC):
@@ -57,7 +57,7 @@ class SatAnnotation(ABC):
         self.label = label
 
     @abstractmethod
-    def contains(self, time: float) -> bool:
+    def contains(self, time: float, epsilon: float | None) -> bool:
         """
         Does this Interval contain `time` or is this Point at `time`.
 
@@ -67,6 +67,11 @@ class SatAnnotation(ABC):
         ----------
         time : float
             The time in seconds to test against this Annotation.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour, `configuration.data_config.epsilon` should be passed
+            here.
 
         Returns
         -------
@@ -116,9 +121,9 @@ class SatPoint(SatAnnotation):
     def time(self, time: float) -> None:
         self._time = time
 
-    def contains(self, time: float) -> bool:
-        # TODO 0.16: Fix this.
-        epsilon = config_dict['epsilon']
+    def contains(self, time: float, epsilon: float | None) -> bool:
+        if epsilon is None:
+            epsilon = PATKIT_EPSILON
         if self._time - epsilon < time < self._time + epsilon:
             return True
         return False
@@ -260,7 +265,7 @@ class SatInterval(SatAnnotation):
         return (time + epsilon < self._next_interval.begin and
                 time > epsilon + self.prev.begin)
 
-    def contains(self, time: float) -> bool:
+    def contains(self, time: float, epsilon: float | None) -> bool:
         if self.begin < time < self.end:
             return True
         return False
