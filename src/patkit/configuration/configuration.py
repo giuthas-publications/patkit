@@ -42,7 +42,7 @@ from .configuration_models import (
     GuiConfig, MainConfigPaths, DataConfig, PublishConfig, SimulationConfig
 )
 
-_logger = logging.getLogger('patkit.configuration_setup')
+_logger = logging.getLogger('patkit.configuration')
 
 
 class Configuration:
