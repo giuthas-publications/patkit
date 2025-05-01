@@ -169,6 +169,14 @@ class IntervalCategory(Enum):
 class PatkitConfigFile:
     """
     Human written yaml files to control importing data.
+
+    Please note, that while MAIN corresponds to `patkit.yaml` which is the
+    conventional name for the file containing paths/names of other config files
+    such as data, gui, publish, and simulation config, and those files have
+    conventional names (`patkit_data.yaml` etc.), these filenames are only a
+    convention. The MAIN here is more of a guess of what we should look for than
+    a hard rule, and the rest should be specified in `patkit.yaml` instead of
+    PATKIT trying to guess their names.
     """
     MAIN = "patkit.yaml"
     MANIFEST = "patkit_manifest.yaml"
@@ -192,7 +200,7 @@ class PatkitSuffix:
 
 class SavedObjectTypes(Enum):
     """
-    Represent type of a saved patkit object in .patkit_meta.
+    Represent type of a saved patkit object in .meta.
     """
     # TODO 1.0: Check if this is actually in use.
     SESSION = "Session"
