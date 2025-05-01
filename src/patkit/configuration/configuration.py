@@ -107,7 +107,8 @@ class Configuration:
 
     def __repr__(self) -> str:
         return (
-            f"Configuration(\nmain_config={self._main_config_paths.model_dump()})"
+            f"Configuration(\nmain_config="
+            f"{self._main_config_paths.model_dump()})"
             f"\ndata_run={self._data_run_config.model_dump()}"
             f"\ngui={self._gui_config.model_dump()}"
             f"\npublish={self._publish_config.model_dump()})"
