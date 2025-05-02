@@ -47,7 +47,9 @@ def path_from_name(filename: str | Path | None) -> Path:
         current directory.
     Returns
     -------
-        Output is always a Path instance.
+    Path
+        Output is always a Path instance. If None is passed as filename the
+        return value will be `Path('.')`.
     """
     if filename is None:
         return Path(".")
