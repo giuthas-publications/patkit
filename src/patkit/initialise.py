@@ -88,23 +88,20 @@ def initialise_patkit(
 
     Returns
     -------
-    tuple[config, logger, session] where
-        config is an instance of Configuration,
-        logger is an instance of logging.Logger, and
-        session is an instance of Session.
+    tuple[Configuration, logging.Logger, Session]
+        Main Configuration, Logger, and data in a Session.
     """
     path = path_from_name(path)
-    # TODO 0.16: Move this call to cli_commands like with simulate.
-    config, exclusion_file = initialise_config(
-        config_file=config_file,
-        exclusion_file=exclusion_file,
-    )
+    config, exclusion_file = initialise_config(config_file=config_file,)
     logger = set_logging_level(logging_level)
+
+    session = load_data(path, config)
+    log_elapsed_time(logger)
 
     exclusion_list = None
     if exclusion_file is not None:
+        exclusion_file = path_from_name(exclusion_file)
         exclusion_list = load_exclusion_list(exclusion_file)
-    session = load_data(path, config)
     apply_exclusion_list(session, exclusion_list=exclusion_list)
     log_elapsed_time(logger)
 
@@ -116,8 +113,7 @@ def initialise_patkit(
 
 def initialise_config(
     config_file: Path | str | None = None,
-    exclusion_file: Path | str | None = None,
-) -> tuple[Configuration, Path]:
+) -> Configuration:
     """
     Initialise configuration.
 
@@ -126,13 +122,11 @@ def initialise_config(
     config_file : Path | str | None
         Main configuration file, by default None. This leads to loading
         `~/.patkit/`.
-    exclusion_file : Path | str | None
-        Main exclusion file, by default None.
 
     Returns
     -------
-    tuple[Configuration, Path]
-        These are the main Configuration, and exclusion file as Path.
+    Configuration
+        The main Configuration.
     """
     if config_file is None:
         default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
@@ -150,9 +144,8 @@ def initialise_config(
         config_file = path_from_name(config_file)
 
     config = Configuration(config_file)
-    exclusion_file = path_from_name(exclusion_file)
 
-    return config, exclusion_file
+    return config
 
 
 def add_derived_data(
