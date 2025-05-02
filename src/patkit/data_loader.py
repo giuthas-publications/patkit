@@ -73,6 +73,7 @@ def load_data(path: Path, configuration: Configuration) -> Session:
             44100,
             configuration.data_config.mains_frequency)
     else:
+        # TODO 1.0 warn of using blind sampling frequency and mains frequency
         MainsFilter.generate_mains_filter(44100, 60)
 
     session = None
