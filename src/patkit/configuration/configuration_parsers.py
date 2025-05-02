@@ -199,6 +199,10 @@ def load_main_config(filepath: Path | str | None = None) -> YAML:
     'configuration/configuration.yaml'. In both cases if the file does not
     exist, report this and exit.
     """
+    # TODO 0.16 turn this into reporting and logging.
+    # this or similar for reporting
+    # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
+    print(filepath)
     if isinstance(filepath, str):
         filepath = Path(filepath)
     elif not isinstance(filepath, Path):
