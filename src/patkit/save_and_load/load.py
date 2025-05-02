@@ -310,8 +310,6 @@ def load_recording_session(
     Session
         The loaded Session object.
     """
-    # TODO: deal with `directory` being the patkit meta file
-
     # TODO: data_loader and this function should have clearer split of
     # responsibilities
     if isinstance(directory, str):
@@ -323,7 +321,6 @@ def load_recording_session(
     filename = f"{directory.parts[-1]}{'.Session'}{PatkitSuffix.META}"
     filepath = directory / filename
 
-    print(filepath)
     raw_input = nestedtext.load(filepath)
     meta = SessionLoadSchema.model_validate(raw_input)
 
