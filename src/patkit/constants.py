@@ -230,6 +230,8 @@ class SourceSuffix:
     AAA_SPLINES = ".spl"
     AVI = ".avi"
     CSV = ".csv"
+    TEXTGRID = ".TextGrid"
+    WAV = ".wav"
 
 
 # def patkit_suffix(
