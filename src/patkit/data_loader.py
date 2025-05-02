@@ -76,34 +76,12 @@ def load_data(path: Path, configuration: Configuration) -> Session:
         # TODO 1.0 warn of using blind sampling frequency and mains frequency
         MainsFilter.generate_mains_filter(44100, 60)
 
-    session = None
-    match path.suffix:
-        case SourceSuffix.AAA_ULTRA:
+    meta_files = path.glob("*" + PatkitSuffix.META)
+    match len(list(meta_files)):
+        case 1:
             session = load_recording_session(path)
-        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
-            session = load_recording_session(path)
-        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
-            session = load_recording_session(path)
-        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MAIN:
-            session = load_recording_session(path)
-        case PatkitSuffix.META:
-            session = load_recording_session(path)
-        case "" if path.is_dir():
-            # TODO: This needs to somehow split into recorded path and patkit
-            # path
-            meta_files = path.glob("*" + PatkitSuffix.META)
-            match len(list(meta_files)):
-                case 1:
-                    session = load_recording_session(path)
-                case _:
-                    session = read_recording_session_from_dir(path)
-
         case _:
-            # TODO 1.0: consider giving guesses with the error if there are near
-            # misses in file names and such
-            _logger.error(
-                'Unsupported filetype: %s.', path)
-            sys.exit()
+            session = read_recording_session_from_dir(path)
 
     for recording in session:
         recording.after_modalities_init()

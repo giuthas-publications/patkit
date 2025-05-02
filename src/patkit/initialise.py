@@ -35,6 +35,7 @@ Initialisation routines for PATKIT.
 """
 
 import shutil
+import sys
 from importlib.resources import path as resource_path
 from logging import Logger
 from pathlib import Path
@@ -45,7 +46,12 @@ from patkit.configuration import (
     apply_exclusion_list,
     load_exclusion_list,
 )
-from patkit.constants import PATKIT_CONFIG_DIR
+from patkit.constants import (
+    PATKIT_CONFIG_DIR,
+    PatkitConfigFile,
+    PatkitSuffix,
+    SourceSuffix,
+)
 from patkit.data_loader import load_data
 from patkit.data_processor import (
     process_modalities, process_statistics_in_recordings)
@@ -58,12 +64,13 @@ from patkit.metrics import (
     downsample_metrics_in_session,
 )
 from patkit.modalities import RawUltrasound, Splines
+from patkit.save_and_load import load_recording_session
 from patkit.utility_functions import (
     log_elapsed_time, path_from_name, set_logging_level)
 
 
 def initialise_patkit(
-    path: Path | str | None = None,
+    path: Path,
     config_file: Path | str | None = None,
     exclusion_file: Path | str | None = None,
     logging_level: int | None = None,
@@ -77,8 +84,8 @@ def initialise_patkit(
 
     Parameters
     ----------
-    path : Path | str | None
-        Path to load data from, by default None.
+    path : Path
+        Path to load data from.
     config_file : Path | str | None
         Path to load configuration from, by default None.
     exclusion_file : Path | str | None
@@ -91,6 +98,50 @@ def initialise_patkit(
     tuple[Configuration, logging.Logger, Session]
         Main Configuration, Logger, and data in a Session.
     """
+    if path.is_file():
+        match path.suffix:
+            case SourceSuffix.TEXTGRID:
+                print("Direct TextGrid loading planned for "
+                      "implementation in 0.18.")
+                sys.exit()
+            case SourceSuffix.WAV:
+                print("Direct wav loading planned for "
+                      "implementation in 0.18.")
+                sys.exit()
+            case SourceSuffix.AAA_ULTRA:
+                print("Direct AAA ultrasound data loading planned for "
+                      "implementation by 1.0.")
+                sys.exit()
+            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
+                print("Loading based on a manifest file planned for "
+                      "implementation in 0.18.")
+                sys.exit()
+            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
+                path = path.parent
+            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MAIN:
+                if config_file is None:
+                    config_file = path
+                    path = path.parent
+                else:
+                    path = path.parent
+                    print(
+                        "Warning, path argument and configuration file option "
+                        "both appear to be configuration files.\n"
+                        "Reading configuration from the latter.")
+            case PatkitSuffix.META:
+                print("Loading based of a single saved trial planned for "
+                      "a later release. For now loading the whole directory.")
+                path = path.parent
+            case _:
+                message = (
+                    f"Unrecognised file type {path.suffix}.\n"    
+                    f"Don't know how to load data from {path}."
+                )
+                print(message)
+                sys.exit()
+    elif path.is_dir():
+        print(path)
+
     path = path_from_name(path)
     config, exclusion_file = initialise_config(config_file=config_file,)
     logger = set_logging_level(logging_level)
