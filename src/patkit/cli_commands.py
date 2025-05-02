@@ -47,7 +47,8 @@ from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
 @click.command(name="open")
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
+    type=click.Path(exists=True, dir_okay=True, file_okay=True, path_type=Path),
+)
 @click.option(
     "-config_file", "-c",
     type=click.Path(
