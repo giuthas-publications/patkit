@@ -73,7 +73,7 @@ def load_data(path: Path, configuration: Configuration) -> Session:
             44100,
             configuration.data_config.mains_frequency)
     else:
-        MainsFilter.generate_mains_filter(44100, 50)
+        MainsFilter.generate_mains_filter(44100, 60)
 
     session = None
     match path.suffix:
@@ -90,7 +90,6 @@ def load_data(path: Path, configuration: Configuration) -> Session:
         case "" if path.is_dir():
             # TODO: This needs to somehow split into recorded path and patkit
             # path
-            # if
             meta_files = path.glob("*" + PatkitSuffix.META)
             match len(list(meta_files)):
                 case 1:
