@@ -74,6 +74,7 @@ def open_in_annotator(
     PATH to the data - maybe be a file or a directory.
     CONFIG_FILE configuration .yaml file.
     """
+    # TODO 0.16 this option should be probably removed
     if exclusion_file:
         if exclusion_file.suffix not in {".csv", ".yaml"}:
             raise click.ClickException(
