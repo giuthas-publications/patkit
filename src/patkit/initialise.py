@@ -64,7 +64,6 @@ from patkit.metrics import (
     downsample_metrics_in_session,
 )
 from patkit.modalities import RawUltrasound, Splines
-from patkit.save_and_load import load_recording_session
 from patkit.utility_functions import (
     log_elapsed_time, path_from_name, set_logging_level)
 
@@ -98,6 +97,7 @@ def initialise_patkit(
     tuple[Configuration, logging.Logger, Session]
         Main Configuration, Logger, and data in a Session.
     """
+    logger = set_logging_level(logging_level)
     if path.is_file():
         match path.suffix:
             case SourceSuffix.TEXTGRID:
@@ -138,13 +138,22 @@ def initialise_patkit(
                     f"Don't know how to load data from {path}."
                 )
                 print(message)
+                logger.error(message)
                 sys.exit()
     elif path.is_dir():
-        print(path)
+        if config_file is None:
+            config_file = path/PatkitConfigFile.MAIN
+            if not config_file.exists():
+                message = (
+                    f"No configuration file found in {path}.\n"    
+                    f"Looked at {config_file} but it does not exist."
+                )
+                print(message)
+                logger.error(message)
+                sys.exit()
 
     path = path_from_name(path)
-    config, exclusion_file = initialise_config(config_file=config_file,)
-    logger = set_logging_level(logging_level)
+    config = initialise_config(config_file=config_file,)
 
     session = load_data(path, config)
     log_elapsed_time(logger)
