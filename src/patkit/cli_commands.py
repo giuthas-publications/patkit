@@ -49,81 +49,33 @@ from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True, path_type=Path),
 )
-@click.option(
-    "-config_file", "-c",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
-@click.option(
-    "-exclusion_file", "-e",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
 def open_in_annotator(
-        path: Path, config_file: Path | None, exclusion_file: Path | None
+        path: Path
 ) -> None:
     """
     Open the PATH in the annotator GUI.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
     """
-    # TODO 0.16 this option should be probably removed
-    if exclusion_file:
-        if exclusion_file.suffix not in {".csv", ".yaml"}:
-            raise click.ClickException(
-                f"Unexpected exclusion file extension: {exclusion_file.suffix}."
-            )
-    configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file, exclusion_file=exclusion_file)
-    run_annotator(session, configuration)
+    configuration, logger, session = initialise_patkit(path=path)
+    run_annotator(session=session, config=configuration)
 
 
 @click.command()
 @click.argument(
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.option(
-    "-config_file", "-c",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
-@click.option(
-    "-exclusion_file", "-e",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
 def interact(
-        path: Path, config_file: Path | None, exclusion_file: Path | None
+        path: Path
 ):
     """
     Open the PATH in interactive commandline mode.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
     """
-    if exclusion_file:
-        if exclusion_file.suffix not in {".csv", ".yaml"}:
-            raise click.ClickException(
-                f"Unexpected exclusion file extension: {exclusion_file.suffix}."
-            )
-    configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file, exclusion_file=exclusion_file
-    )
+    configuration, logger, session = initialise_patkit(path=path)
     run_interpreter(session=session, configuration=configuration)
 
 
@@ -131,11 +83,6 @@ def interact(
 @click.argument(
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.argument(
-    "config_file",
-    type=click.Path(exists=True, dir_okay=False, file_okay=True),
-    required=False,
-)
 @click.argument(
     "output_dir",
     type=click.Path(dir_okay=True, file_okay=False),
