@@ -42,6 +42,7 @@ from pathlib import Path
 
 from patkit.annotations import add_peaks
 from patkit.configuration import (
+    ConfigPaths,
     Configuration,
     apply_exclusion_list,
     load_exclusion_list,
@@ -203,7 +204,10 @@ def initialise_config(
     else:
         config_file = path_from_name(config_file)
 
-    config = Configuration(config_file)
+    # TODO 0.16: this should not be a file, and necessary config should be
+    # asserted
+    config_paths = ConfigPaths(config_file)
+    config = Configuration(config_paths)
 
     return config
 
