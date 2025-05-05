@@ -83,23 +83,17 @@ def interact(
 @click.argument(
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.argument(
-    "output_dir",
-    type=click.Path(dir_okay=True, file_okay=False),
-    required=False,
-)
-def publish(path: Path, config_file: Path | None, output_dir: Path | None):
+def publish(path: Path):
     """
     Publish plots from the data in PATH.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
 
     NOT IMPLEMENTED YET.
     """
     configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file
+        path=path
     )
 
 
