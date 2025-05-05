@@ -42,20 +42,21 @@ from .configuration_parsers import (
 )
 from .configuration_models import (
     ExclusionList, DataConfig, DownsampleParams, FindPeaksScipyArguments,
-    GuiConfig, MainConfigPaths, PathStructure, PeakDetectionParams,
+    GuiConfig, PathStructure, PeakDetectionParams,
     PointAnnotationParams, SearchPattern, SimulationConfig, SplineConfig,
     SplineDataConfig, SplineImportConfig, TimeseriesNormalisation
 )
-from .configuration import Configuration
+from .configuration import ConfigPaths, Configuration
 from .exclusion_list_functions import (
     apply_exclusion_list, load_exclusion_list, remove_excluded_recordings
 )
 
 __all__ = [
     "PathValidator", "ExclusionList", "DataConfig", "DownsampleParams",
-    "FindPeaksScipyArguments", "GuiConfig", "MainConfigPaths", "PathStructure",
+    "FindPeaksScipyArguments", "GuiConfig", "PathStructure",
     "PeakDetectionParams", "PointAnnotationParams", "SearchPattern",
     "SimulationConfig", "SplineConfig", "SplineDataConfig",
     "SplineImportConfig", "TimeseriesNormalisation", "Configuration",
-    "apply_exclusion_list", "load_exclusion_list", "remove_excluded_recordings",
+    "ConfigPaths", "apply_exclusion_list", "load_exclusion_list",
+    "remove_excluded_recordings",
 ]

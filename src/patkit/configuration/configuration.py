@@ -35,14 +35,51 @@ import logging
 from pathlib import Path
 
 from .configuration_parsers import (
-    load_main_config, load_gui_params, load_publish_params,
+    load_gui_params, load_publish_params,
     load_data_params, load_simulation_params
 )
 from .configuration_models import (
-    GuiConfig, MainConfigPaths, DataConfig, PublishConfig, SimulationConfig
+    GuiConfig, DataConfig, PublishConfig, SimulationConfig
 )
+from patkit.constants import PatkitConfigFile
 
 _logger = logging.getLogger('patkit.configuration')
+
+
+class ConfigPaths:
+    """
+    Configuration paths of patkit.
+    """
+    def __init__(self, path: Path):
+        self.path = path
+
+    @property
+    def data_config(self) -> Path | None:
+        config_path = self.path/PatkitConfigFile.DATA
+        if config_path.exists():
+            return config_path
+        return None
+
+    @property
+    def gui_config(self) -> Path | None:
+        config_path = self.path/PatkitConfigFile.GUI
+        if config_path.exists():
+            return config_path
+        return None
+
+    @property
+    def publish_config(self) -> Path | None:
+        config_path = self.path/PatkitConfigFile.PUBLISH
+        if config_path.exists():
+            return config_path
+        return None
+
+    @property
+    def simulation_config(self) -> Path | None:
+        config_path = self.path/PatkitConfigFile.SIMULATION
+        if config_path.exists():
+            return config_path
+        return None
 
 
 class Configuration:
@@ -54,7 +91,7 @@ class Configuration:
 
     def __init__(
             self,
-            configuration_file: Path | str | None = None
+            configuration_paths: ConfigPaths
     ) -> None:
         """
         Init the main configuration object. 
@@ -63,43 +100,37 @@ class Configuration:
 
         Parameters
         -------
-        configuration_file : Union[Path, str, None]
-            Path to the main configuration file.
+        configuration_paths : ConfigPaths
+            Paths to load the configuration from.
         """
-        # TODO 0.16: deal with the option that configuration_file is None by
-        # loading from default and/or asking user, latter needs to be bounced by
-        # failing to load config
-
         # TODO 0.16 do reporting and logging on what gets loaded and where from.
         # this or similar for reporting
         # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
-        self._main_config_paths_yaml = load_main_config(configuration_file)
-        self._main_config_paths = MainConfigPaths(
-            **self._main_config_paths_yaml.data)
+        self._config_paths = configuration_paths
 
-        if self._main_config_paths.data_config is not None:
+        if self._config_paths.data_config is not None:
             self._data_yaml = load_data_params(
-                self._main_config_paths.data_config)
+                self._config_paths.data_config)
             self._data_run_config = DataConfig(**self._data_yaml.data)
         else:
             self._data_run_config = None
 
-        if self._main_config_paths.gui_config is not None:
-            self._gui_yaml = load_gui_params(self._main_config_paths.gui_config)
+        if self._config_paths.gui_config is not None:
+            self._gui_yaml = load_gui_params(self._config_paths.gui_config)
             self._gui_config = GuiConfig(**self._gui_yaml.data)
         else:
             self._gui_config = None
 
-        if self._main_config_paths.publish_config is not None:
+        if self._config_paths.publish_config is not None:
             self._publish_yaml = load_publish_params(
-                self._main_config_paths.publish_config)
+                self._config_paths.publish_config)
             self._publish_config = PublishConfig(**self._publish_yaml.data)
         else:
             self._publish_config = None
 
-        if self._main_config_paths.simulation_config is not None:
+        if self._config_paths.simulation_config is not None:
             self._simulation_yaml = load_simulation_params(
-                self._main_config_paths.simulation_config)
+                self._config_paths.simulation_config)
             self._simulation_config = SimulationConfig(
                 **self._simulation_yaml.data)
         else:
@@ -111,16 +142,16 @@ class Configuration:
     def __repr__(self) -> str:
         return (
             f"Configuration("
-            f"\nmain_config={self._main_config_paths.model_dump()})"
+            f"\nmain_config={self._config_paths.model_dump()})"
             f"\ndata_run={self._data_run_config.model_dump()}"
             f"\ngui={self._gui_config.model_dump()}"
             f"\npublish={self._publish_config.model_dump()})"
         )
 
     @property
-    def main_config_paths(self) -> MainConfigPaths:
+    def main_config_paths(self) -> ConfigPaths:
         """Main config options."""
-        return self._main_config_paths
+        return self._config_paths
 
     @property
     def data_config(self) -> DataConfig | None:
@@ -157,26 +188,6 @@ class Configuration:
     def simulation_config(self) -> SimulationConfig:
         """Simulation configuration options."""
         return self._simulation_config
-
-    def update_from_file(
-            self, configuration_file: Path | str
-    ) -> None:
-        """
-        Update the configuration from a file.
-
-        Parameters
-        ----------
-        configuration_file : Union[Path, str]
-            File to read the new options from.
-
-        Raises
-        ------
-        NotImplementedError
-            This hasn't been implemented yet.
-        """
-        raise NotImplementedError(
-            "Updating configuration from a file has not yet been implemented.")
-        # main_config.update(**config_dict)
 
     def save_to_file(
             self, filename: Path | str
@@ -250,31 +261,10 @@ class Configuration:
         else:
             self._gui_config.update(self._gui_yaml.data)
 
-    def update_main_from_file(self, configuration_file: Path | str) -> None:
-        """
-        Update the main configuration from a file.
-
-        This does not update the other configuration members. To do that either
-        call the individual update methods or run
-        `Configuration.update_all_from_file`.
-
-        Parameters
-        ----------
-        configuration_file : Path | str
-            File to read the new options from.
-        """
-        self._main_config_paths_yaml = load_publish_params(
-            filepath=configuration_file)
-        if self._main_config_paths is None:
-            self._main_config_paths = DataConfig(
-                **self._main_config_paths_yaml.data)
-        else:
-            self._main_config_paths.update(self._main_config_paths_yaml.data)
-
     # TODO 0.16 updating needs some attention or disabling. simulation missing
     # at least
-    def update_all_from_file(
-            self, configuration_file: Path | str
+    def update_all_from_files(
+            self, configuration_paths: ConfigPaths
     ) -> None:
         """
         Update the configuration from a file.
@@ -282,22 +272,22 @@ class Configuration:
         This first updates the main configuration and then recursively updates
         the other configuration members.
         
-        NOTE: comment round tripping maybe/will be broken by running any of the
+        NOTE: comment round tripping may/will be broken by running any of the
         update methods.
 
         Parameters
         ----------
-        configuration_file : Path | str
-            File to read the new options from.
+        configuration_paths : ConfigPaths
+            Paths to load the configuration from.
         """
-        self.update_main_from_file(configuration_file)
+        self._config_paths = configuration_paths
         if self.main_config_paths.data_config is not None:
             self.update_data_config_from_file(
                 self.main_config_paths.data_config
             )
         if self.main_config_paths.gui_config is not None:
-            self.update_gui_from_file(self._main_config_paths.gui_config)
+            self.update_gui_from_file(self._config_paths.gui_config)
         if self.main_config_paths.publish_config is not None:
             self.update_publish_from_file(
-                self._main_config_paths.publish_config
+                self._config_paths.publish_config
             )

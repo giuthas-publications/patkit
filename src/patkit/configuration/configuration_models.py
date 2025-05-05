@@ -130,16 +130,6 @@ class PathStructure(UpdatableBaseModel):
     spline_config: Path | None = None
 
 
-class MainConfigPaths(UpdatableBaseModel):
-    """
-    Main configuration paths of patkit.
-    """
-    gui_config: Path | None = None
-    data_config: Path | None = None
-    simulation_config: Path | None = None
-    publish_config: Path | None = None
-
-
 class SearchPattern(UpdatableBaseModel):
     """
     Representation for simple and regexp search patterns.

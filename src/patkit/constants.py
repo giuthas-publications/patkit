@@ -178,11 +178,13 @@ class PatkitConfigFile:
     a hard rule, and the rest should be specified in `patkit.yaml` instead of
     PATKIT trying to guess their names.
 
-    MAIN = main configuration file.
     MANIFEST = list of Scenarios relating to a set of recorded data
     """
-    # TODO 0.16: what is session config. add docstring for spline config
-    MAIN = "patkit.yaml"
+    # TODO 0.16: what is session config? add docstring for spline config
+    DATA = "patkit_data.yaml"
+    GUI = "patkit_gui.yaml"
+    PUBLISH = "patkit_publish.yaml"
+    SIMULATION = "patkit_simulation.yaml"
     MANIFEST = "patkit_manifest.yaml"
     SESSION = 'session_config.yaml'
     SPLINE = 'spline_config.yaml'
