@@ -172,69 +172,47 @@ _time_limit_schema = Map({
     Optional("offset"): Float(),
 })
 
-# TODO 0.16 REMOVE IF USELESS
-# def parse_config(filepath: Path | str | None = None) -> None:
+# def load_main_config(filepath: Path | str | None = None) -> YAML:
 #     """
-#     Read the config file from filepath and recursively the other config files.
+#     Read the config file from filepath.
 #
 #     If filepath is None, read from the default file
 #     'configuration/configuration.yaml'. In both cases if the file does not
 #     exist, report this and exit.
 #     """
-#     load_main_config(filepath)
+#     print(filepath)
+#     if isinstance(filepath, str):
+#         filepath = Path(filepath)
+#     elif not isinstance(filepath, Path):
+#         filepath = Path('configuration/configuration.yaml')
 #
-#     if 'gui_config' in config_dict:
-#         load_gui_params(config_dict['gui_config'])
-#     if 'data_config' in config_dict:
-#         load_data_params(config_dict['data_config'])
-#     if 'publish_config' in config_dict:
-#         load_publish_params(config_dict['publish_config'])
-
-
-def load_main_config(filepath: Path | str | None = None) -> YAML:
-    """
-    Read the config file from filepath.
-
-    If filepath is None, read from the default file
-    'configuration/configuration.yaml'. In both cases if the file does not
-    exist, report this and exit.
-    """
-    # TODO 0.16 turn this into reporting and logging.
-    # this or similar for reporting
-    # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
-    print(filepath)
-    if isinstance(filepath, str):
-        filepath = Path(filepath)
-    elif not isinstance(filepath, Path):
-        filepath = Path('configuration/configuration.yaml')
-
-    _logger.info("Loading main configuration from %s", str(filepath))
-
-    config_path_validator = ConfigPathValidator(filepath.parent)
-    if filepath.is_file():
-        with closing(
-                open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
-            schema = Map({
-                Optional("gui_config"): config_path_validator,
-                Optional("data_config"): config_path_validator,
-                Optional("simulation_config"): config_path_validator,
-                Optional("publish_config"): config_path_validator,
-            })
-            try:
-                _raw_config_dict = load(yaml_file.read(), schema)
-            except YAMLError as error:
-                _logger.fatal("Fatal error in reading %s.",
-                              str(filepath))
-                _logger.fatal(str(error))
-                raise
-    else:
-        message = ("Didn't find main config file at %s.", str(filepath))
-        _logger.fatal(message)
-        print(message)
-        sys.exit()
-
-    config_dict.update(_raw_config_dict.data)
-    return _raw_config_dict
+#     _logger.info("Loading main configuration from %s", str(filepath))
+#
+#     config_path_validator = ConfigPathValidator(filepath.parent)
+#     if filepath.is_file():
+#         with closing(
+#                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
+#             schema = Map({
+#                 Optional("gui_config"): config_path_validator,
+#                 Optional("data_config"): config_path_validator,
+#                 Optional("simulation_config"): config_path_validator,
+#                 Optional("publish_config"): config_path_validator,
+#             })
+#             try:
+#                 _raw_config_dict = load(yaml_file.read(), schema)
+#             except YAMLError as error:
+#                 _logger.fatal("Fatal error in reading %s.",
+#                               str(filepath))
+#                 _logger.fatal(str(error))
+#                 raise
+#     else:
+#         message = ("Didn't find main config file at %s.", str(filepath))
+#         _logger.fatal(message)
+#         print(message)
+#         sys.exit()
+#
+#     config_dict.update(_raw_config_dict.data)
+#     return _raw_config_dict
 
 
 def load_data_params(filepath: Path | str | None = None) -> YAML:

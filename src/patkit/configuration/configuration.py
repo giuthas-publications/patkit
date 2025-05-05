@@ -70,6 +70,9 @@ class Configuration:
         # loading from default and/or asking user, latter needs to be bounced by
         # failing to load config
 
+        # TODO 0.16 do reporting and logging on what gets loaded and where from.
+        # this or similar for reporting
+        # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
         self._main_config_paths_yaml = load_main_config(configuration_file)
         self._main_config_paths = MainConfigPaths(
             **self._main_config_paths_yaml.data)
