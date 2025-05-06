@@ -110,7 +110,7 @@ def simulate(path: Path):
     PATH to a ỳaml file which contains the parameters for running the
     simulation.
     """
-    config = initialise_config(config_file=path,)
+    config = initialise_config(config_dir_or_file=path, )
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(
         sim_configuration=config.simulation_config)
     run_simulations(

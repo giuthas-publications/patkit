@@ -154,7 +154,7 @@ def initialise_patkit(
                 sys.exit()
 
     path = path_from_name(path)
-    config = initialise_config(config_file=config_file,)
+    config = initialise_config(config_dir_or_file=config_file, )
 
     session = load_data(path, config)
     log_elapsed_time(logger)
@@ -173,14 +173,14 @@ def initialise_patkit(
 
 
 def initialise_config(
-    config_file: Path | str | None = None,
+    config_dir_or_file: Path | str | None = None,
 ) -> Configuration:
     """
     Initialise configuration.
 
     Parameters
     ----------
-    config_file : Path | str | None
+    config_dir_or_file : Path | str | None
         Main configuration file, by default None. This leads to loading
         `~/.patkit/`.
 
@@ -189,24 +189,36 @@ def initialise_config(
     Configuration
         The main Configuration.
     """
-    if config_file is None:
-        default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
-        config_file = default_config_dir/"configuration.yaml"
-        if not config_file.exists():
-            if not default_config_dir.exists():
-                default_config_dir.mkdir()
-            with resource_path(
-                    "patkit", "default_configuration"
-            ) as fspath:
-                shutil.copytree(
-                    fspath, default_config_dir, dirs_exist_ok=True)
-
+    if config_dir_or_file is None:
+        # TODO 0.16: deal with this
+        print("trying to pass None to initialise_config. not implemented")
+        sys.exit()
+        # default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
+        # config_dir_or_file = default_config_dir / "configuration.yaml"
+        # if not config_dir_or_file.exists():
+        #     if not default_config_dir.exists():
+        #         default_config_dir.mkdir()
+        #     with resource_path(
+        #             "patkit", "default_configuration"
+        #     ) as fspath:
+        #         shutil.copytree(
+        #             fspath, default_config_dir, dirs_exist_ok=True)
+        #
     else:
-        config_file = path_from_name(config_file)
+        config_dir_or_file = path_from_name(config_dir_or_file)
 
-    # TODO 0.16: this should not be a file, and necessary config should be
-    # asserted
-    config_paths = ConfigPaths(config_file)
+    if config_dir_or_file.is_file():
+        config_dir = config_dir_or_file.parent
+    elif config_dir_or_file.is_dir():
+        config_dir = config_dir_or_file
+    else:
+        # TODO 0.16 deal with exceptions like symlinks
+        print("found something exotic. don't know what to do.")
+        sys.exit()
+
+    # TODO 0.16: necessary config should be asserted either here or by the
+    # caller
+    config_paths = ConfigPaths(config_dir)
     config = Configuration(config_paths)
 
     return config
