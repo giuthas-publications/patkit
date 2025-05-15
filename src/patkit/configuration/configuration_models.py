@@ -373,6 +373,7 @@ class CastParams(UpdatableBaseModel):
 class DataConfig(UpdatableBaseModel):
     epsilon: float
     mains_frequency: float
+    recorded_data_path: Path
     flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None

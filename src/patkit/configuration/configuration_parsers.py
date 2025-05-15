@@ -237,6 +237,7 @@ def load_data_params(filepath: Path | str | None = None) -> YAML:
             schema = Map({
                 "epsilon": Float(),
                 "mains_frequency": Float(),
+                "recorded_data_path": PathValidator(),
                 Optional("output_directory"): PathValidator(),
                 "flags": Map({
                     "detect_beep": Bool(),
