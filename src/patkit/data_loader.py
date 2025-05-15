@@ -34,7 +34,6 @@ Import or load a Session from a directory.
 """
 
 import logging
-import sys
 from pathlib import Path
 
 from patkit.audio_processing import MainsFilter
@@ -53,27 +52,30 @@ _logger = logging.getLogger('patkit.scripting')
 # appropriate submodule.
 
 
-def load_data(path: Path, configuration: Configuration) -> Session:
+def load_data(configuration: Configuration) -> Session:
     """
     Handle loading data from individual files or a previously saved session.
 
     Parameters
     ----------
-    path : Path
-        Directory or patkit metafile to read the Session from.
     configuration : Configuration
         patkit configuration.
+
     Returns
     -------
     Session
         The generated Session object with the exclusion list applied.
     """
+    # TODO 0.18 Should not blindly assume that sampling frequency is 44100!
+    path = configuration.data_config.recorded_data_path
     if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
             configuration.data_config.mains_frequency)
     else:
-        # TODO 1.0 warn of using blind sampling frequency and mains frequency
+        print(
+            "No mains frequency specified. Guessing 60 Hz. Please "
+            "check if this is correct where the data was recorded.")
         MainsFilter.generate_mains_filter(44100, 60)
 
     meta_files = path.glob("*" + PatkitSuffix.META)
@@ -108,7 +110,10 @@ def read_recording_session_from_dir(
     session_meta_path = recorded_data_path / (containing_dir + '.Session' +
                                               PatkitSuffix.META)
     if session_meta_path.is_file():
-        return load_recording_session(recorded_data_path, session_config_path)
+        session = load_recording_session(
+            recorded_data_path, session_config_path
+        )
+        return session
 
     file_info = FileInformation(
         recorded_path=recorded_data_path,
