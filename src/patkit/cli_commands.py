@@ -30,7 +30,7 @@
 # citations.bib in BibTeX format.
 #
 """
-patkit command line commands.
+PATKIT command line commands.
 """
 
 from pathlib import Path
@@ -47,7 +47,9 @@ from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
 @click.command(name="open")
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True, path_type=Path),
+    type=click.Path(
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
+    ),
 )
 def open_in_annotator(
         path: Path
@@ -58,8 +60,10 @@ def open_in_annotator(
     \b
     PATH to the data - maybe be a file or a directory.
     """
-    configuration, logger, session = initialise_patkit(path=path)
-    run_annotator(session=session, config=configuration)
+    config, logger = initialise_config(
+        path=path, require_gui=True, require_data=True)
+    session = initialise_patkit(config=config, logger=logger)
+    run_annotator(session=session, config=config)
 
 
 @click.command()
@@ -75,7 +79,11 @@ def interact(
     \b
     PATH to the data - maybe be a file or a directory.
     """
-    configuration, logger, session = initialise_patkit(path=path)
+    config, logger = initialise_config(path=path, require_data=True)
+    configuration, session = initialise_patkit(
+        config=config,
+        logger=logger
+    )
     run_interpreter(session=session, configuration=configuration)
 
 
@@ -92,8 +100,13 @@ def publish(path: Path):
 
     NOT IMPLEMENTED YET.
     """
-    configuration, logger, session = initialise_patkit(
-        path=path
+    config, logger = initialise_config(path=path, require_publish=True)
+    session = initialise_patkit(
+        config=config, logger=logger
+    )
+    print(
+        f"Loaded {session} but rest of publish is scheduled for "
+        f"implementation in a later version."
     )
 
 
@@ -107,10 +120,10 @@ def simulate(path: Path):
     Run a simulation experiment.
 
     \b
-    PATH to a ỳaml file which contains the parameters for running the
+    PATH to a `.yaml` file which contains the parameters for running the
     simulation.
     """
-    config = initialise_config(config_dir_or_file=path, )
+    config, _ = initialise_config(path=path, require_simulation=True)
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(
         sim_configuration=config.simulation_config)
     run_simulations(

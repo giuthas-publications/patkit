@@ -34,9 +34,7 @@
 Initialisation routines for PATKIT.
 """
 
-import shutil
 import sys
-from importlib.resources import path as resource_path
 from logging import Logger
 from pathlib import Path
 
@@ -48,7 +46,6 @@ from patkit.configuration import (
     load_exclusion_list,
 )
 from patkit.constants import (
-    PATKIT_CONFIG_DIR,
     PatkitConfigFile,
     PatkitSuffix,
     SourceSuffix,
@@ -69,18 +66,155 @@ from patkit.utility_functions import (
     log_elapsed_time, path_from_name, set_logging_level)
 
 
-def initialise_patkit(
+def get_config_dir(path: Path) -> Path:
+    """
+    Get configuration directory from a Path which is a file.
+
+    As a side effect will exit the program if the file type can not be handled.
+
+    Parameters
+    ----------
+    path : Path
+        Path to a file.
+
+    Returns
+    -------
+    Path
+        Path of the configuration directory.
+    """
+    match path.suffix:
+        case SourceSuffix.TEXTGRID:
+            print("Direct TextGrid loading planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case SourceSuffix.WAV:
+            print("Direct wav loading planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case SourceSuffix.AAA_ULTRA:
+            print("Direct AAA ultrasound data loading planned for "
+                    "implementation by 1.0.")
+            sys.exit()
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
+            print("Loading based on a manifest file planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
+            path = path.parent
+        case PatkitSuffix.META:
+            print("Loading based of a single saved trial planned for "
+                    "a later release. For now loading the whole directory.")
+            path = path.parent
+        case _:
+            message = (
+                f"Unrecognised file type {path.suffix}.\n"
+                f"Don't know how to load data from {path}."
+            )
+            print(message)
+            sys.exit()
+    return path
+
+
+def initialise_config(
     path: Path,
-    config_file: Path | str | None = None,
-    exclusion_file: Path | str | None = None,
+    require_data: bool = False,
+    require_gui: bool = False,
+    require_publish: bool = False,
+    require_simulation: bool = False,
     logging_level: int | None = None,
-) -> tuple[Configuration, Logger, Session]:
+) -> tuple[Configuration, Logger]:
+    """
+    Initialise PATKIT configuration and set logging level.
+
+    Configuration file's existence will be checked according to the flag
+    arguments.
+
+    Parameters
+    ----------
+    path : Path
+        Path to the configuration directory or a file that PATKIT can handle.
+    require_data : bool, optional
+        Do we need data configuration, by default False. This can come in the
+        form of either a `patkit_data.yaml` file or a manifest or a session
+        `.meta`. The PATKIT will try to back track the latter two to the
+        `patkit_data.yaml`. 
+    require_gui : bool, optional
+        If the annotator GUI is going to be opened, we should have
+        `patkit_gui.yaml`, by default False
+    require_publish : bool, optional
+        If we are running a publish script, `patkit_publish.yaml`, by default
+        False
+    require_simulation : bool, optional
+        If this is a simulation run, we need `patkit_simulation.yaml`, by
+        default False
+    logging_level : int | None, optional
+        Logging level, by default None
+
+    Returns
+    -------
+    [Configuration, Logger]
+        Configuration for PATKIT and the logger for use with other functions in
+        `initialise.py`.
+    """
+    logger = set_logging_level(logging_level)
+
+    if path.is_file():
+        path = get_config_dir(path)
+    elif not path.is_dir():
+        # TODO 0.16 deal with exceptions like symlinks
+        message = (
+            f"Unknown path type {path}."
+        )
+        print(message)
+        logger.error(message)
+        sys.exit()
+
+    config_paths = ConfigPaths(path)
+    fail = False
+
+    if require_data and config_paths.data_config is None:
+        print(
+            f"Data configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.DATA}."
+        )
+        fail = True
+    if require_gui and config_paths.gui_config is None:
+        print(
+            f"GUI configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.GUI}."
+        )
+        fail = True
+    if require_publish and config_paths.publish_config is None:
+        print(
+            f"Publish configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.PUBLISH}."
+        )
+        fail = True
+
+    if require_simulation and config_paths.simulation_config is None:
+        print(
+            f"Simulation configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.SIMULATION}."
+        )
+        fail = True
+
+    if fail:
+        sys.exit()
+
+    config = Configuration(config_paths)
+    return config, logger
+
+
+def initialise_patkit(
+    config: Configuration,
+    logger: Logger,
+) -> Session:
     """
     Initialise the basic structures for running patkit.
 
-    This sets up the argument parser, reads the basic configuration, sets up the
-    logger, and loads the recorded and saved data into a Session. To initialise
-    derived data run `add_derived_data`.
+    This sets up the argument parser, reads the basic configuration, and loads
+    the recorded and saved data into a Session. To initialise derived data run
+    `add_derived_data`.
 
     Parameters
     ----------
@@ -95,133 +229,26 @@ def initialise_patkit(
 
     Returns
     -------
-    tuple[Configuration, logging.Logger, Session]
-        Main Configuration, Logger, and data in a Session.
+    Session
+        Data in a Session.
     """
-    logger = set_logging_level(logging_level)
-    if path.is_file():
-        match path.suffix:
-            case SourceSuffix.TEXTGRID:
-                print("Direct TextGrid loading planned for "
-                      "implementation in 0.18.")
-                sys.exit()
-            case SourceSuffix.WAV:
-                print("Direct wav loading planned for "
-                      "implementation in 0.18.")
-                sys.exit()
-            case SourceSuffix.AAA_ULTRA:
-                print("Direct AAA ultrasound data loading planned for "
-                      "implementation by 1.0.")
-                sys.exit()
-            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
-                print("Loading based on a manifest file planned for "
-                      "implementation in 0.18.")
-                sys.exit()
-            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
-                path = path.parent
-            case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MAIN:
-                if config_file is None:
-                    config_file = path
-                    path = path.parent
-                else:
-                    path = path.parent
-                    print(
-                        "Warning, path argument and configuration file option "
-                        "both appear to be configuration files.\n"
-                        "Reading configuration from the latter.")
-            case PatkitSuffix.META:
-                print("Loading based of a single saved trial planned for "
-                      "a later release. For now loading the whole directory.")
-                path = path.parent
-            case _:
-                message = (
-                    f"Unrecognised file type {path.suffix}.\n"    
-                    f"Don't know how to load data from {path}."
-                )
-                print(message)
-                logger.error(message)
-                sys.exit()
-    elif path.is_dir():
-        if config_file is None:
-            config_file = path/PatkitConfigFile.MAIN
-            if not config_file.exists():
-                message = (
-                    f"No configuration file found in {path}.\n"    
-                    f"Looked at {config_file} but it does not exist."
-                )
-                print(message)
-                logger.error(message)
-                sys.exit()
+    session = None
+    if config.data_config:
+        logger.info("Loading data.")
+        session = load_data(config)
+        log_elapsed_time(logger)
 
-    path = path_from_name(path)
-    config = initialise_config(config_dir_or_file=config_file, )
+        exclusion_list = None
+        if exclusion_file is not None:
+            exclusion_file = path_from_name(exclusion_file)
+            exclusion_list = load_exclusion_list(exclusion_file)
+        apply_exclusion_list(session, exclusion_list=exclusion_list)
+        log_elapsed_time(logger)
 
-    session = load_data(path, config)
-    log_elapsed_time(logger)
+        add_derived_data(session=session, config=config, logger=logger)
+        log_elapsed_time(logger)
 
-    exclusion_list = None
-    if exclusion_file is not None:
-        exclusion_file = path_from_name(exclusion_file)
-        exclusion_list = load_exclusion_list(exclusion_file)
-    apply_exclusion_list(session, exclusion_list=exclusion_list)
-    log_elapsed_time(logger)
-
-    add_derived_data(session=session, config=config, logger=logger)
-    log_elapsed_time(logger)
-
-    return config, logger, session
-
-
-def initialise_config(
-    config_dir_or_file: Path | str | None = None,
-) -> Configuration:
-    """
-    Initialise configuration.
-
-    Parameters
-    ----------
-    config_dir_or_file : Path | str | None
-        Main configuration file, by default None. This leads to loading
-        `~/.patkit/`.
-
-    Returns
-    -------
-    Configuration
-        The main Configuration.
-    """
-    if config_dir_or_file is None:
-        # TODO 0.16: deal with this
-        print("trying to pass None to initialise_config. not implemented")
-        sys.exit()
-        # default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
-        # config_dir_or_file = default_config_dir / "configuration.yaml"
-        # if not config_dir_or_file.exists():
-        #     if not default_config_dir.exists():
-        #         default_config_dir.mkdir()
-        #     with resource_path(
-        #             "patkit", "default_configuration"
-        #     ) as fspath:
-        #         shutil.copytree(
-        #             fspath, default_config_dir, dirs_exist_ok=True)
-        #
-    else:
-        config_dir_or_file = path_from_name(config_dir_or_file)
-
-    if config_dir_or_file.is_file():
-        config_dir = config_dir_or_file.parent
-    elif config_dir_or_file.is_dir():
-        config_dir = config_dir_or_file
-    else:
-        # TODO 0.16 deal with exceptions like symlinks
-        print("found something exotic. don't know what to do.")
-        sys.exit()
-
-    # TODO 0.16: necessary config should be asserted either here or by the
-    # caller
-    config_paths = ConfigPaths(config_dir)
-    config = Configuration(config_paths)
-
-    return config
+    return session
 
 
 def add_derived_data(
