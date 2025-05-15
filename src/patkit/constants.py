@@ -95,7 +95,7 @@ class CoordinateSystems(Enum):
 
 class DatasourceNames(Enum):
     """
-    Names of data sources SATKIT can handle.
+    Names of data sources PATKIT can handle.
 
     Used in saving and loading to identify the data source in config, as well
     as in meta. Used to skip the step of trying to figure the data source out
@@ -174,20 +174,22 @@ class PatkitConfigFile:
     conventional name for the file containing paths/names of other config files
     such as data, gui, publish, and simulation config, and those files have
     conventional names (`patkit_data.yaml` etc.), these filenames are only a
-    convention. The MAIN here is more of a guess of what we should look for than
-    a hard rule, and the rest should be specified in `patkit.yaml` instead of
-    PATKIT trying to guess their names.
+    convention. The MAIN here is more of a guess of what we should look for
+    than a hard rule, and the rest should be specified in `patkit.yaml` instead
+    of PATKIT trying to guess their names.
 
     MANIFEST = list of Scenarios relating to a set of recorded data
     """
-    # TODO 0.16: what is session config? add docstring for spline config
-    DATA = "patkit_data.yaml"
-    GUI = "patkit_gui.yaml"
-    PUBLISH = "patkit_publish.yaml"
-    SIMULATION = "patkit_simulation.yaml"
-    MANIFEST = "patkit_manifest.yaml"
-    SESSION = 'session_config.yaml'
-    SPLINE = 'spline_config.yaml'
+    # TODO 0.16: what is session config? solve by seeing if it is in use, if
+    # not delete. 
+    # TODO 0.16: add docstring for all config files
+    DATA = "patkit-data.yaml"
+    GUI = "patkit-gui.yaml"
+    PUBLISH = "patkit-publish.yaml"
+    SIMULATION = "patkit-simulation.yaml"
+    MANIFEST = "patkit-manifest.yaml"
+    SESSION = 'session-config.yaml'
+    SPLINE = 'spline-config.yaml'
 
 
 @dataclass(frozen=True)
