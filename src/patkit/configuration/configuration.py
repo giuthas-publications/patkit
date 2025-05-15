@@ -149,8 +149,8 @@ class Configuration:
         )
 
     @property
-    def main_config_paths(self) -> ConfigPaths:
-        """Main config options."""
+    def config_paths(self) -> ConfigPaths:
+        """Main config Paths."""
         return self._config_paths
 
     @property
@@ -281,13 +281,13 @@ class Configuration:
             Paths to load the configuration from.
         """
         self._config_paths = configuration_paths
-        if self.main_config_paths.data_config is not None:
+        if self.config_paths.data_config is not None:
             self.update_data_config_from_file(
-                self.main_config_paths.data_config
+                self.config_paths.data_config
             )
-        if self.main_config_paths.gui_config is not None:
+        if self.config_paths.gui_config is not None:
             self.update_gui_from_file(self._config_paths.gui_config)
-        if self.main_config_paths.publish_config is not None:
+        if self.config_paths.publish_config is not None:
             self.update_publish_from_file(
                 self._config_paths.publish_config
             )
