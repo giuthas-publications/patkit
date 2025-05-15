@@ -34,6 +34,7 @@ Import or load a Session from a directory.
 """
 
 import logging
+import sys
 from pathlib import Path
 
 from patkit.audio_processing import MainsFilter
@@ -81,9 +82,11 @@ def load_data(configuration: Configuration) -> Session:
     meta_files = path.glob("*" + PatkitSuffix.META)
     match len(list(meta_files)):
         case 1:
+            _logger.debug("Loading session from %s.", path)
             session = load_recording_session(path)
         case _:
-            session = read_recording_session_from_dir(path)
+            _logger.debug("Reading session from %s.", path)
+            session = read_recorded_session_from_dir(path)
 
     for recording in session:
         recording.after_modalities_init()
@@ -91,20 +94,39 @@ def load_data(configuration: Configuration) -> Session:
     return session
 
 
-def read_recording_session_from_dir(
+def read_recorded_session_from_dir(
         recorded_data_path: Path,
         detect_beep: bool = False
 ) -> Session:
     """
-    Wrapper for reading data from a directory full of files.
+    Read recorded data from a directory.
 
-    Having this as a separate method allows subclasses to change
-    arguments or even the parser.
+    This function tries to guess which importer to use.
 
-    Note that to make data loading work in a consistent way,
-    this method just returns the data and saving it in an
-    instance variable is left for the caller to handle.
+    Parameters
+    ----------
+    recorded_data_path : Path
+        Path to the recorded data.
+    detect_beep : bool, optional
+        Should the 1kHz beep detection be run on audio data, by default False
+
+    Returns
+    -------
+    Session
+        The Session object containing the recorded data. Derived data should be
+        added with a separate function call.
+
+    Raises
+    ------
+    NotImplementedError
+        RASL data is not yet loadable.
+    NotImplementedError
+        Unrecognised data sources will raise an error.
     """
+    if not recorded_data_path.exists():
+        print(f"Recorded data directory not found: {recorded_data_path}.")
+        sys.exit()
+
     containing_dir = recorded_data_path.parts[-1]
     session_config_path = recorded_data_path / PatkitConfigFile.SESSION
     session_meta_path = recorded_data_path / (containing_dir + '.Session' +
