@@ -103,17 +103,19 @@ class Configuration:
         configuration_paths : ConfigPaths
             Paths to load the configuration from.
         """
-        # TODO 0.16 do reporting and logging on what gets loaded and where from.
-        # this or similar for reporting
+        # TODO 0.16 do reporting and logging on what gets loaded and where
+        # from. this or similar for reporting
         # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
         self._config_paths = configuration_paths
 
         if self._config_paths.data_config is not None:
             self._data_yaml = load_data_params(
                 self._config_paths.data_config)
-            self._data_run_config = DataConfig(**self._data_yaml.data)
+            self._data_config = DataConfig(**self._data_yaml.data)
+            recorded = self._config_paths.path/self._data_config.recorded_data_path
+            self._data_config.recorded_data_path = recorded.resolve()
         else:
-            self._data_run_config = None
+            self._data_config = None
 
         if self._config_paths.gui_config is not None:
             self._gui_yaml = load_gui_params(self._config_paths.gui_config)
@@ -143,7 +145,7 @@ class Configuration:
         return (
             f"Configuration("
             f"\nmain_config={self._config_paths.model_dump()})"
-            f"\ndata_run={self._data_run_config.model_dump()}"
+            f"\ndata_run={self._data_config.model_dump()}"
             f"\ngui={self._gui_config.model_dump()}"
             f"\npublish={self._publish_config.model_dump()})"
         )
@@ -156,12 +158,12 @@ class Configuration:
     @property
     def data_config(self) -> DataConfig | None:
         """Config options for a data run."""
-        return self._data_run_config
+        return self._data_config
 
     @data_config.setter
     def data_config(self, new_config: DataConfig) -> None:
         if isinstance(new_config, DataConfig):
-            self._data_run_config = new_config
+            self._data_config = new_config
         else:
             raise ValueError(f"Expected a DataRunConfig instance. "
                              f"Found {new_config.__class__} instead.")
@@ -179,7 +181,7 @@ class Configuration:
     @publish_config.setter
     def publish_config(self, new_config: PublishConfig) -> None:
         if isinstance(new_config, PublishConfig):
-            self._data_run_config = new_config
+            self._data_config = new_config
         else:
             raise ValueError(f"Expected a PublishConfig instance. "
                              f"Found {new_config.__class__} instead.")
@@ -226,10 +228,10 @@ class Configuration:
             File to read the new options from.
         """
         self._data_yaml = load_data_params(filepath=configuration_file)
-        if self._data_run_config is None:
-            self._data_run_config = DataConfig(**self._data_yaml.data)
+        if self._data_config is None:
+            self._data_config = DataConfig(**self._data_yaml.data)
         else:
-            self._data_run_config.update(self._data_yaml.data)
+            self._data_config.update(self._data_yaml.data)
 
     def update_publish_from_file(self, configuration_file: Path | str) -> None:
         """

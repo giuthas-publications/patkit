@@ -373,7 +373,7 @@ class CastParams(UpdatableBaseModel):
 class DataConfig(UpdatableBaseModel):
     epsilon: float
     mains_frequency: float
-    recorded_data_path: Path
+    recorded_data_path: Path # TODO 0.16 this should be relative to where the config lives
     flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None

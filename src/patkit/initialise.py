@@ -238,12 +238,13 @@ def initialise_patkit(
         session = load_data(config)
         log_elapsed_time(logger)
 
-        exclusion_list = None
-        if exclusion_file is not None:
-            exclusion_file = path_from_name(exclusion_file)
-            exclusion_list = load_exclusion_list(exclusion_file)
-        apply_exclusion_list(session, exclusion_list=exclusion_list)
-        log_elapsed_time(logger)
+        # TODO 0.16: resolve this
+        # exclusion_list = None
+        # if exclusion_file is not None:
+        #     exclusion_file = path_from_name(exclusion_file)
+        #     exclusion_list = load_exclusion_list(exclusion_file)
+        # apply_exclusion_list(session, exclusion_list=exclusion_list)
+        # log_elapsed_time(logger)
 
         add_derived_data(session=session, config=config, logger=logger)
         log_elapsed_time(logger)
