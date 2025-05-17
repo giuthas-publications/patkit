@@ -363,7 +363,7 @@ def save_session_meta(
     _logger.debug(
         "Saving meta for session %s.", session.name)
     filename = f"{session.name}{'.Session'}{PatkitSuffix.META}"
-    filepath = session.paths.root/filename
+    filepath = session.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -379,7 +379,7 @@ def save_session_meta(
     meta['format_version'] = PATKIT_FILE_VERSION
 
     parameters = OrderedDict()
-    parameters['path'] = str(session.paths.root)
+    parameters['path'] = str(session.patkit_path)
     parameters['datasource'] = session.metadata.data_source_name.value
 
     meta['parameters'] = parameters
