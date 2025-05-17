@@ -238,7 +238,7 @@ def initialise_patkit(
         session = load_data(config)
         log_elapsed_time(logger)
 
-        # TODO 0.16: resolve this
+        # TODO 0.20: resolve this
         # exclusion_list = None
         # if exclusion_file is not None:
         #     exclusion_file = path_from_name(exclusion_file)

@@ -40,7 +40,9 @@ from pathlib import Path
 import nestedtext
 import numpy as np
 
-from patkit.constants import OverwriteConfirmation, PATKIT_FILE_VERSION, PatkitSuffix
+from patkit.constants import (
+    OverwriteConfirmation, PATKIT_FILE_VERSION, PatkitSuffix
+)
 from patkit.data_structures import Modality, Recording, Session, Statistic
 from patkit.ui_callbacks import UiCallbacks
 
@@ -378,7 +380,7 @@ def save_session_meta(
 
     parameters = OrderedDict()
     parameters['path'] = str(session.paths.root)
-    parameters['datasource'] = session.metadata.data_source.value
+    parameters['datasource'] = session.metadata.data_source_name.value
 
     meta['parameters'] = parameters
     meta['recordings'] = recording_meta_files
@@ -397,8 +399,10 @@ def save_recording_session(
     """
     _logger.debug(
         "Saving recording session %s.", session.name)
-    if session.patkit_path is None:
-        session.patkit_path = session.recorded_path
+    # if session.patkit_path is None:
+    #     print("patkit path is none")
+    #     sys.exit()
+    #     session.patkit_path = session.recorded_path
     recording_meta_files, confirmation = save_recordings(
         recordings=session.recordings, confirmation=None)
     statistics_saves, confirmation = save_statistics(

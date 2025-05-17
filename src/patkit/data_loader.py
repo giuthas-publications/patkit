@@ -87,6 +87,7 @@ def load_data(configuration: Configuration) -> Session:
         case _:
             _logger.debug("Reading session from %s.", path)
             session = read_recorded_session_from_dir(path)
+            session.patkit_path = configuration.config_paths.path
 
     for recording in session:
         recording.after_modalities_init()
