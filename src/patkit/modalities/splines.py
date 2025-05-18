@@ -42,7 +42,7 @@ from patkit.constants import CoordinateSystems
 from patkit.data_structures import (
     Modality, ModalityData, ModalityMetaData, Recording)
 from patkit.data_structures.metadata_classes import FileInformation
-from patkit.utility_functions.computational import (
+from patkit.computational import (
     cartesian_to_polar, polar_to_cartesian)
 from patkit.import_formats import read_splines
 

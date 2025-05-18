@@ -40,7 +40,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 
-from patkit.utility_functions import polar_to_cartesian, cartesian_to_polar
+from patkit.computational import polar_to_cartesian, cartesian_to_polar
 from .contour_tools import contour_point_perturbations
 
 

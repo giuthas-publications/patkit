@@ -56,3 +56,23 @@ def path_from_name(filename: str | Path | None) -> Path:
     if not isinstance(filename, Path):
         return Path(filename)
     return filename
+
+
+def stem_path(path: Path) -> Path:
+    """
+    Return the path without suffixes.
+
+    Parameters
+    ----------
+    path : Path
+        A filepath.
+
+    Returns
+    -------
+    Path
+        The filepath with suffixes removed.
+    """
+    name = path.name
+    path = path.parent
+    name = name.split('.')[0]
+    return path/name

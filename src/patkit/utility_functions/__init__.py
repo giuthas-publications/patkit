@@ -33,12 +33,8 @@
 General purpose utility functions.
 """
 
-from .computational import (
-    cartesian_to_polar, polar_to_cartesian, mean_squared_error,
-    normalise_timeseries)
-from .path import path_from_name
 from .logging_helpers import log_elapsed_time, set_logging_level
-from .path import path_from_name
+from .path import path_from_name, stem_path
 from .processing_helpers import camel_to_snake, product_dict
 from .string_formatters import split_by
 from .types import is_sequence_form

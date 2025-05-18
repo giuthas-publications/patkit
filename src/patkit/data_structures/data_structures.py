@@ -46,6 +46,7 @@ from patkit.constants import AnnotationType, SourceSuffix
 from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
 )
+from patkit.utility_functions import stem_path
 from patkit.satgrid import SatGrid
 from .base_classes import DataAggregator, DataContainer, Statistic
 from .metadata_classes import (
@@ -297,10 +298,14 @@ class Recording(DataAggregator, UserDict):
             )
 
         if not textgrid_path or not textgrid_path.exists():
-            if self.patkit_data_path:
-                textgrid_path = self.patkit_data_path.with_suffix(
+            if self.file_info.patkit_meta_file:
+                textgrid_path = self.recorded_path
+                name = Path(self.file_info.patkit_meta_file)
+                textgrid_path = stem_path(textgrid_path/name)
+                textgrid_path = textgrid_path.with_suffix(
                     SourceSuffix.TEXTGRID
                 )
+        print(textgrid_path)
 
         if textgrid_path is not None and textgrid_path.exists():
             self.textgrid_path = textgrid_path

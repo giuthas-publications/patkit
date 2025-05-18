@@ -49,7 +49,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from scipy import signal as scipy_signal
 
-from patkit.utility_functions import normalise_timeseries
+from patkit.computational import normalise_timeseries
 from patkit.configuration import (
     PeakDetectionParams, TimeseriesNormalisation)
 from patkit.data_structures import Modality, PointAnnotations, Recording

@@ -41,9 +41,10 @@ from pathlib import Path
 from strictyaml import (Map, Optional, Seq, Str,
                         YAMLError, load)
 
-from .configuration_models import ExclusionList
 from patkit.constants import PatkitSuffix, SourceSuffix
 from patkit.data_structures import Recording, Session
+
+from .configuration_models import ExclusionList
 
 _logger = logging.getLogger('patkit.configuration')
 

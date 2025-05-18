@@ -34,6 +34,7 @@
 import logging
 from pathlib import Path
 
+from patkit.constants import PatkitConfigFile
 from .configuration_parsers import (
     load_gui_params, load_publish_params,
     load_data_params, load_simulation_params
@@ -41,7 +42,6 @@ from .configuration_parsers import (
 from .configuration_models import (
     GuiConfig, DataConfig, PublishConfig, SimulationConfig
 )
-from patkit.constants import PatkitConfigFile
 
 _logger = logging.getLogger('patkit.configuration')
 
