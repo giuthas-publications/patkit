@@ -245,7 +245,7 @@ def load_recording(
         patkit_path=meta_path.parent,
         patkit_meta_file=meta_path.name)
     recording = Recording(
-        metadata=recording_meta.parameters, 
+        metadata=recording_meta.parameters,
         file_info=file_info,
         owner=container
     )
@@ -352,7 +352,7 @@ def load_recording_session(
 
     file_info = FileInformation(
         patkit_meta_file=filename,
-        patkit_path=directory,
+        patkit_path=meta.parameters.patkit_path,
         recorded_path=meta.parameters.recorded_path,
         recorded_meta_file=session_config_path.name
     )
@@ -363,7 +363,7 @@ def load_recording_session(
     )
 
     recordings = load_recordings(
-        patkit_path=directory,
+        patkit_path=meta.parameters.patkit_path,
         recorded_path=meta.parameters.recorded_path,
         container=session,
         recording_metafiles=meta.recordings,
