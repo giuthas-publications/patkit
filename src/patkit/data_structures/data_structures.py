@@ -315,6 +315,7 @@ class Recording(DataAggregator, UserDict):
                 )
                 tier.append(interval)
                 textgrid['Utterance'] = tier
+                self.textgrid = textgrid
             else:
                 _logger.warning("No audio found for %s.",
                                 self.basename)
