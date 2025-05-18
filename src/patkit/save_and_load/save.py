@@ -373,14 +373,17 @@ def save_session_meta(
             confirmation = UiCallbacks.get_overwrite_confirmation(
                 str(filepath))
 
+    # TODO This should really be a model dump not a dict.
     meta = OrderedDict()
     meta['object_type'] = type(session).__name__
     meta['name'] = session.name
     meta['format_version'] = PATKIT_FILE_VERSION
 
     parameters = OrderedDict()
-    parameters['path'] = str(session.patkit_path)
-    parameters['datasource'] = session.metadata.data_source_name.value
+    parameters['patkit_path'] = str(session.patkit_path.resolve())
+    parameters['recorded_path'] = str(session.recorded_path.resolve())
+    parameters['datasource_name'] = session.metadata.data_source_name.value
+    parameters['path_structure'] = session.config.path_structure.model_dump()
 
     meta['parameters'] = parameters
     meta['recordings'] = recording_meta_files

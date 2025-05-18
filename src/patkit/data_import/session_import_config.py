@@ -45,11 +45,9 @@ from strictyaml import (
 )
 
 from patkit.configuration import (
-    PathStructure, PathValidator, SessionConfig
+    PathValidator, SessionConfig
 )
 from patkit.constants import DatasourceNames
-
-from .spline_import_config import load_spline_config
 
 _logger = logging.getLogger('patkit.data_import')
 
@@ -96,8 +94,7 @@ class DatasourceValidator(ScalarValidator):
 #     raw_config['paths']['root'] = data_root
 
 #     paths = PathStructure(**raw_config['paths'])
-#     raw_config.pop('paths', None)
-    
+#     raw_config.pop('paths', None
 
 #     if paths.spline_config:
 #         raw_config['spline_config'] = load_spline_config(
@@ -109,7 +106,7 @@ class DatasourceValidator(ScalarValidator):
 def load_session_config(
         data_root: Path,
         filepath: Path | str,
-) -> tuple[PathStructure, SessionConfig]:
+) -> SessionConfig:
     """
     Read a Session config file from filepath.
 

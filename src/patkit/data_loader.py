@@ -69,8 +69,10 @@ def load_data(configuration: Configuration) -> Session:
     Session
         The generated Session object with the exclusion list applied.
     """
+    recorded_path = configuration.data_config.recorded_data_path
+    patkit_path = configuration.config_paths.path
+
     # TODO 0.18 Should not blindly assume that sampling frequency is 44100!
-    path = configuration.data_config.recorded_data_path
     if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
@@ -81,15 +83,18 @@ def load_data(configuration: Configuration) -> Session:
             "check if this is correct where the data was recorded.")
         MainsFilter.generate_mains_filter(44100, 60)
 
-    meta_files = path.glob("*" + PatkitSuffix.META)
-    match len(list(meta_files)):
-        case 1:
-            _logger.debug("Loading session from %s.", path)
-            session = load_recording_session(path)
-        case _:
-            _logger.debug("Reading session from %s.", path)
-            session = read_recorded_session_from_dir(path)
-            session.patkit_path = configuration.config_paths.path
+    if patkit_path is not None:
+        meta_files = patkit_path.glob("*" + PatkitSuffix.META)
+    else:
+        meta_files = recorded_path.glob("*" + PatkitSuffix.META)
+
+    if len(list(meta_files)) == 0:
+        _logger.debug("Reading session from %s.", recorded_path)
+        session = read_recorded_session_from_dir(recorded_path)
+        session.patkit_path = configuration.config_paths.path
+    else:
+        _logger.debug("Loading session from %s.", patkit_path)
+        session = load_recording_session(patkit_path)
 
     for recording in session:
         recording.after_modalities_init()

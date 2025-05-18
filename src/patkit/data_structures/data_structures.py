@@ -286,15 +286,23 @@ class Recording(DataAggregator, UserDict):
         Currently, this is only used to create placeholder TextGrids when
         needed.
         """
-        textgrid_path = self.recorded_meta_path.with_suffix(
-            SourceSuffix.TEXTGRID
-        )
-        if not textgrid_path.exists() and self.patkit_data_path:
-            textgrid_path = self.patkit_data_path.with_suffix(
+        textgrid_path  = None
+        if self.recorded_meta_path:
+            textgrid_path = self.recorded_meta_path.with_suffix(
+                SourceSuffix.TEXTGRID
+            )
+        elif self.recorded_meta_path:
+            textgrid_path = self.recorded_data_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
 
-        if textgrid_path.exists():
+        if not textgrid_path or not textgrid_path.exists():
+            if self.patkit_data_path:
+                textgrid_path = self.patkit_data_path.with_suffix(
+                    SourceSuffix.TEXTGRID
+                )
+
+        if textgrid_path is not None and textgrid_path.exists():
             self.textgrid_path = textgrid_path
             self.textgrid = self._read_textgrid()
 

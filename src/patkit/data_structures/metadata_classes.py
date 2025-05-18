@@ -102,13 +102,14 @@ class FileInformation:
         Path
             Data Path without suffix.
         """
+        basepath = None
         if self.recorded_path:
             if self.recorded_data_file:
                 basepath = self.recorded_path/self.recorded_data_file
-            else:
+            elif self.recorded_meta_file:
                 basepath = self.recorded_path/self.recorded_meta_file
-        else:
-            basepath = self.patkit_path/self.patkit_data_file
+        if basepath is None:
+            basepath = self.patkit_path/self.patkit_meta_file
         return basepath.with_suffix('')
 
 
