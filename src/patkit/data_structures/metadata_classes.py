@@ -75,6 +75,39 @@ class FileInformation:
     patkit_meta_file: str | None = None
     patkit_path: Path | None = None
 
+    @property
+    def basename(self) -> str:
+        """
+        Name of either the recorded or patkit data.
+
+        Recorded takes precedence if for some reason both exist.
+
+        Returns
+        -------
+        str
+            Name without suffix
+        """
+        return self.basepath.name
+
+    @property
+    def basepath(self) -> Path:
+        """
+        Path of the recorded or patkit data without the suffix.
+
+        This is a concatenation of the local path part (does not contain e.g. a
+        Modality's parent's path) and the name with the suffix dropped.
+
+        Returns
+        -------
+        Path
+            Data Path without suffix.
+        """
+        if self.recorded_path:
+            basepath = self.recorded_path/self.recorded_data_file
+        else:
+            basepath = self.patkit_path/self.recorded_data_file
+        return basepath.with_suffix('')
+
 
 @dataclass
 class ModalityData:
