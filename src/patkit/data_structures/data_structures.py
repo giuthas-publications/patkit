@@ -72,17 +72,18 @@ class Session(DataAggregator, UserList):
             name: str,
             config: SessionConfig,
             file_info: FileInformation,
-            recordings: list[Recording],
+            recordings: list[Recording] | None = None,
             statistics: dict[str, Statistic] | None = None
     ) -> None:
         super().__init__(
             owner=None, name=name, metadata=config,
             file_info=file_info, statistics=statistics)
 
-        for recording in recordings:
-            if not recording.owner:
-                recording.owner = self
-        self.extend(recordings)
+        if not recordings is None:
+            for recording in recordings:
+                if not recording.owner:
+                    recording.owner = self
+            self.extend(recordings)
 
         self.config = config
 
@@ -150,6 +151,7 @@ class Recording(DataAggregator, UserDict):
         super().__init__(
             owner=owner, name=name,
             metadata=metadata, file_info=file_info)
+        print(f'owner files {owner.file_info.recorded_path}')
 
         self.excluded = excluded
         self.textgrid_path = None
@@ -169,25 +171,10 @@ class Recording(DataAggregator, UserDict):
         """
         return self.data
 
-    # TODO 0.16: delete
-    # @property
-    # def path(self) -> Path:
-    #     """Path to this recording."""
-    #     return self.metadata.path
-
-    # @path.setter
-    # def path(self, path: Path) -> None:
-    #     self.metadata.path = path
-
     @property
     def basename(self) -> str:
         """Filename of this Recording without extensions."""
         return self.file_info.basename
-
-    # TODO 0.16 do we need this?
-    # @basename.setter
-    # def basename(self, basename: str) -> None:
-    #     self.metadata.basename = basename
 
     def _read_textgrid(self) -> textgrids.TextGrid | None:
         """

@@ -149,13 +149,15 @@ def read_recorded_session_from_dir(
 
         match session_config.data_source_name:
             case DatasourceNames.AAA:
-                recordings = generate_aaa_recording_list(
-                    directory=recorded_data_path,
-                    import_config=session_config)
-
                 session = Session(
                     name=containing_dir, config=session_config,
-                    file_info=file_info, recordings=recordings)
+                    file_info=file_info)
+                recordings = generate_aaa_recording_list(
+                    directory=recorded_data_path,
+                    owner=session,
+                    import_config=session_config)
+                session.extend(recordings)
+
                 return session
             case DatasourceNames.RASL:
                 raise NotImplementedError(
@@ -171,15 +173,18 @@ def read_recorded_session_from_dir(
             data_source_name=DatasourceNames.AAA,
             path_structure=paths)
 
-        recordings = generate_aaa_recording_list(
-            directory=recorded_data_path,
-            import_config=session_config,
-            detect_beep=detect_beep
-        )
-
         session = Session(
             name=containing_dir, config=session_config,
-            file_info=file_info, recordings=recordings)
+            file_info=file_info)
+
+        recordings = generate_aaa_recording_list(
+            directory=recorded_data_path,
+            owner=session,
+            import_config=session_config,
+            detect_beep=detect_beep,
+        )
+        session.extend(recordings)
+
         return session
 
     _logger.error(

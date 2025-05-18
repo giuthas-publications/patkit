@@ -180,8 +180,6 @@ class PatkitConfigFile:
 
     MANIFEST = list of Scenarios relating to a set of recorded data
     """
-    # TODO 0.16: what is session config? solve by seeing if it is in use, if
-    # not delete. 
     # TODO 0.16: add docstring for all config files
     DATA = "patkit-data.yaml"
     GUI = "patkit-gui.yaml"

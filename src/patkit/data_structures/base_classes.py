@@ -230,7 +230,7 @@ class DataObject(abc.ABC):
         """
         if not self._file_info.recorded_path:
             return None
-        if self.owner:
+        if not self.owner is None:
             return self.owner.recorded_path / self._file_info.recorded_path
         return self._file_info.recorded_path
 

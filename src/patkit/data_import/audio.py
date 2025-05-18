@@ -104,7 +104,7 @@ def add_audio(
             recording.add_modality(waveform)
         _generic_io_logger.debug(
             "Added MonoAudio to Recording representing %s.",
-            recording.path.name)
+            recording.recorded_data_name)
     else:
         notice = 'Note: ' + str(ult_wav_file) + " does not exist. Excluding."
         _generic_io_logger.warning(notice)
