@@ -516,7 +516,6 @@ class DataContainer(DataObject):
         """
         The data contained in this DataContainer as a numpy ndarray.
         """
-        pass
 
 
 class Statistic(DataContainer):
@@ -552,9 +551,9 @@ class Statistic(DataContainer):
             contents this Statistic was calculated on. By default, None, to
             facilitate mass generation and setting the owner after wards.
         file_info : FileInformation
-            The patkit load path and names for this Statistic. Recorded path and
-            names should usually be empty. Defaults to None, when the Statistic
-            hasn't been saved yet.
+            The patkit load path and names for this Statistic. Recorded path
+            and names should usually be empty. Defaults to None, when the
+            Statistic hasn't been saved yet.
         parsed_data : Optional[np.ndarray], optional
             the actual statistic, by default None
         """
