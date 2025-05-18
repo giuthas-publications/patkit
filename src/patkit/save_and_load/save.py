@@ -80,7 +80,7 @@ def save_modality_data(
     _logger.debug("Saving data for %s.", modality.name)
     suffix = modality.name_underscored
     filename = f"{modality.recording.basename}.{suffix}{PatkitSuffix.DATA}"
-    filepath = modality.recording.path/filename
+    filepath = modality.recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -115,7 +115,7 @@ def save_modality_meta(
     suffix = modality.name_underscored
     filename = f"{modality.recording.basename}.{suffix}"
     filename += PatkitSuffix.META
-    filepath = modality.recording.path/filename
+    filepath = modality.recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -161,7 +161,7 @@ def save_recording_meta(
     _logger.debug(
         "Saving meta for recording %s.", recording.basename)
     filename = f"{recording.basename}{'.Recording'}{PatkitSuffix.META}"
-    filepath = recording.path/filename
+    filepath = recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:

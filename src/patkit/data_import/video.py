@@ -94,7 +94,7 @@ def add_video(recording: Recording, preload: bool = False,
         recording.addModality(video)
         _AAA_video_logger.debug(
             "Added RawUltrasound to Recording representing %s.",
-            recording.path.name)
+            recording.basename)
     else:
         notice = 'Note: ' + str(video_file) + " does not exist."
         _AAA_video_logger.debug(notice)

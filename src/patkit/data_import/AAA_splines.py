@@ -252,7 +252,7 @@ def add_splines_from_individual_files(
     spline_extension = spline_config.spline_file_extension
 
     for recording in recording_list:
-        spline_file = recording.path/(recording.basename + spline_extension)
+        spline_file = recording.recorded_path/(recording.basename + spline_extension)
         spline_dict = retrieve_splines(spline_file, spline_config)
         keys = list(spline_dict.keys())
         if len(keys) > 1:

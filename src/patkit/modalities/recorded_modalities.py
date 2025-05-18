@@ -191,8 +191,8 @@ class RawUltrasound(Modality):
         return read_ult(
             self.recorded_data_path, self.metadata, self._time_offset)
 
-    def get_meta(self) -> dict:
-        return self.meta
+    def get_meta(self) -> RawUltrasoundMeta:
+        return self.metadata
 
     @property
     def data(self) -> np.ndarray:
