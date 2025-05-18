@@ -282,7 +282,6 @@ def generate_3D_ultrasound_recording(
 
     # Candidates for filenames. Existence tested below.
     ult_wav_file = directories['wav_dir']/sound_name.with_suffix(".wav")
-    textgrid = directories['wav_dir']/sound_name.with_suffix(".TextGrid")
     ult_file = directories['dicom_dir']/dicom_name
     video_file = directories['avi_dir']/dicom_name
     video_file = video_file.with_suffix(".avi")
@@ -291,17 +290,10 @@ def generate_3D_ultrasound_recording(
         recorded_path=directories['root_dir'],
     )
 
-    if textgrid.is_file():
-        recording = Recording(
-            metadata=meta,
-            file_info=file_info,
-            textgrid_path=textgrid
-        )
-    else:
-        recording = Recording(
-            metadata=meta,
-            file_info=file_info,
-        )
+    recording = Recording(
+        metadata=meta,
+        file_info=file_info,
+    )
 
     return recording
 

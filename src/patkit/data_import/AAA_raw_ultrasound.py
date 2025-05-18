@@ -79,8 +79,11 @@ def parse_recording_meta_from_aaa_prompt_file(
 
         meta = RecordingMetaData(
             prompt=prompt, time_of_recording=time_of_recording,
-            participant_id=participant_id, basename=filepath.stem,
-            path=filepath.parent)
+            participant_id=participant_id,
+            # TODO 0.16 remove
+            # basename=filepath.stem,
+            # path=filepath.parent
+        )
         _logger.debug("Read prompt file %s.", filepath)
     return meta
 

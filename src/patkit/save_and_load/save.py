@@ -49,7 +49,7 @@ from patkit.ui_callbacks import UiCallbacks
 from .save_and_load_schemas import nested_text_converters
 from ..data_structures.base_classes import DataAggregator
 
-_logger = logging.getLogger('patkit._saver')
+_logger = logging.getLogger('patkit.save')
 
 
 def _save_aggregator_meta(

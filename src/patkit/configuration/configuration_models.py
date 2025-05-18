@@ -118,6 +118,7 @@ class SplineConfig(UpdatableBaseModel):
     data_config: SplineDataConfig
 
 
+# TODO 0.16 delete
 class PathStructure(UpdatableBaseModel):
     """
     Path structure of a Session for both loading and saving.

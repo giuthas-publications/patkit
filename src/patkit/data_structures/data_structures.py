@@ -42,7 +42,7 @@ import numpy as np
 import textgrids
 
 from patkit.configuration import PathStructure
-from patkit.constants import AnnotationType
+from patkit.constants import AnnotationType, SourceSuffix
 from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
 )
@@ -113,13 +113,13 @@ class Recording(DataAggregator, UserDict):
     iterate with the idiom `for modality_name in recording`.
 
     The recording also contains the non-modality-specific metadata
-    (participant, speech content, etc.) as a dictionary, as well as the textgrid
-    for the whole recording.
+    (participant, speech content, etc.) as a dictionary, as well as the
+    textgrid for the whole recording.
 
     In general, inheriting should not be necessary, but if it is, inheriting
-    classes should call `self._read_textgrid()` after calling `super.__init__()`
-    (with correct arguments) and doing any updates to `self.meta['textgrid']`
-    that are necessary.
+    classes should call `self._read_textgrid()` after calling
+    `super.__init__()` (with correct arguments) and doing any updates to
+    `self.meta['textgrid']` that are necessary.
     """
     owner: Session
 
@@ -129,7 +129,6 @@ class Recording(DataAggregator, UserDict):
             file_info: FileInformation,
             owner: Session | None = None,
             excluded: bool = False,
-            textgrid_path: str | Path = ""
     ) -> None:
         """
         Construct a mainly empty recording without modalities.
@@ -147,25 +146,17 @@ class Recording(DataAggregator, UserDict):
             Some of the contents of the meta data are available as properties.
         excluded : bool, optional
             _description_, by default False
-        textgrid_path : Union[str, Path], optional
-            _description_, by default ""
         """
+        if file_info.recorded_meta_file:
+            name = file_info.recorded_meta_file
+        else:
+            name = file_info.patkit_meta_file
         super().__init__(
-            owner=owner, name=metadata.basename,
+            owner=owner, name=name,
             metadata=metadata, file_info=file_info)
 
         self.excluded = excluded
-
-        self.textgrid_path = textgrid_path
-        if not self.textgrid_path:
-            self.textgrid_path = metadata.path.joinpath(
-                metadata.basename + ".TextGrid")
-        self.textgrid = self._read_textgrid()
-        if self.textgrid:
-            self.satgrid = SatGrid(self.textgrid)
-        else:
-            self.satgrid = None
-
+        self.textgrid_path = None
         self.annotations = {}
 
     @property
@@ -180,23 +171,25 @@ class Recording(DataAggregator, UserDict):
         """
         return self.data
 
-    @property
-    def path(self) -> Path:
-        """Path to this recording."""
-        return self.metadata.path
+    # TODO 0.16: delete
+    # @property
+    # def path(self) -> Path:
+    #     """Path to this recording."""
+    #     return self.metadata.path
 
-    @path.setter
-    def path(self, path: Path) -> None:
-        self.metadata.path = path
+    # @path.setter
+    # def path(self, path: Path) -> None:
+    #     self.metadata.path = path
 
     @property
     def basename(self) -> str:
         """Filename of this Recording without extensions."""
-        return self.metadata.basename
+        return self.file_info.basename
 
-    @basename.setter
-    def basename(self, basename: str) -> None:
-        self.metadata.basename = basename
+    # TODO 0.16 do we need this?
+    # @basename.setter
+    # def basename(self, basename: str) -> None:
+    #     self.metadata.basename = basename
 
     def _read_textgrid(self) -> textgrids.TextGrid | None:
         """
@@ -311,6 +304,18 @@ class Recording(DataAggregator, UserDict):
         Currently, this is only used to create placeholder TextGrids when
         needed.
         """
+        textgrid_path = self.recorded_data_path.with_suffix(
+            SourceSuffix.TEXTGRID
+        )
+        if not textgrid_path.exists():
+            textgrid_path = self.patkit_data_path.with_suffix(
+                SourceSuffix.TEXTGRID
+            )
+
+        if textgrid_path.exists():
+            self.textgrid_path = textgrid_path
+            self.textgrid = self._read_textgrid()
+
         if self.textgrid is None:
             if 'MonoAudio' in self.modalities:
                 _logger.warning(
@@ -328,13 +333,17 @@ class Recording(DataAggregator, UserDict):
                 )
                 tier.append(interval)
                 textgrid['Utterance'] = tier
-                self.textgrid = textgrid
-                self.satgrid = SatGrid(self.textgrid)
             else:
                 _logger.warning("No audio found for %s.",
                                 self.basename)
                 _logger.warning("Can't create a textgrid so GUI may not "
                                 "function correctly.")
+
+        if self.textgrid:
+            self.satgrid = SatGrid(self.textgrid)
+        else:
+            self.satgrid = None
+
 
     def __str__(self) -> str:
         """

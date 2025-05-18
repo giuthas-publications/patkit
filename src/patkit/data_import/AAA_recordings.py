@@ -38,15 +38,14 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from patkit.configuration import PathStructure
+from patkit.configuration import PathStructure, apply_exclusion_list
 from patkit.constants import DatasourceNames, SourceSuffix
 from patkit.data_structures import (
     FileInformation, Recording, Session, SessionConfig)
 
-
 from .AAA_raw_ultrasound import (
-    add_aaa_raw_ultrasound, parse_recording_meta_from_aaa_prompt_file)
-from patkit.configuration.exclusion_list_functions import apply_exclusion_list
+    add_aaa_raw_ultrasound, parse_recording_meta_from_aaa_prompt_file
+)
 from .AAA_splines import add_splines
 from .audio import add_audio
 from .video import add_video
@@ -145,29 +144,18 @@ def generate_ultrasound_recording(
     _AAA_logger.info(
         "Building Recording object for %s in %s.", basename, directory)
 
-    prompt_file = (directory / basename).with_suffix('.txt')
+    prompt_file = (directory / basename).with_suffix(SourceSuffix.AAA_PROMPT)
     meta = parse_recording_meta_from_aaa_prompt_file(prompt_file)
-
-    textgrid = directory/basename
-    textgrid = textgrid.with_suffix('.TextGrid')
 
     file_info = FileInformation(
         recorded_path=Path(""),
         recorded_meta_file=prompt_file.name)
 
-    if textgrid.is_file():
-        recording = Recording(
-            owner=owner,
-            metadata=meta,
-            file_info=file_info,
-            textgrid_path=textgrid
-        )
-    else:
-        recording = Recording(
-            owner=owner,
-            metadata=meta,
-            file_info=file_info,
-        )
+    recording = Recording(
+        owner=owner,
+        metadata=meta,
+        file_info=file_info,
+    )
 
     return recording
 

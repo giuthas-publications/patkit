@@ -234,7 +234,7 @@ def load_recording(filepath: Path) -> Recording:
         raise NotImplementedError(
             "Can't yet jump to a previously unloaded recording here.")
 
-    # TODO: new directory structure
+    # TODO 0.16: load recorded and patkit paths correctly
     file_info = FileInformation(
         recorded_path=Path(""),
         patkit_path=Path(""),
