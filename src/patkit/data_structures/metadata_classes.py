@@ -42,7 +42,7 @@ from pydantic import PositiveInt
 from patkit.configuration import (
     ExclusionList, PointAnnotationParams, SplineConfig
 )
-from patkit.constants import AnnotationType, DatasourceNames
+from patkit.constants import AnnotationType, DatasourceNames, SourceSuffix
 from patkit.external_class_extensions import PatkitBaseModel
 from patkit.utility_functions.types import is_sequence_form
 
@@ -60,16 +60,13 @@ class FileInformation:
         Name of the file containing the meta data of the recording.
     recorded_path : Path | None = None
         Path to the recorded data of this DataObject - if there is original
-        recorded data associated with this instance/type, defaults to None
+        recorded data associated with this instance/type. Defaults to None
     patkit_data_file : str | None
-        Name of the patkit data file, if it exists, defaults to None.
+        Name of the patkit data file, if it exists. Defaults to None.
     patkit_meta_file : str | None
-        Name of the patkit meta file, if it exists, defaults to None.
+        Name of the patkit meta file, if it exists. Defaults to None.
     patkit_path : Path | None
-        Path to the saved patkit data, if it exists, defaults to None.
-        Generally this will mostly be equivalent to the recorded_path, except
-        for the root level DataAggregator which contains the paths to the
-        patkit and recorded data root directories.
+        Path to the saved patkit data, if it exists. Defaults to None.
     """
     recorded_data_file: str | None = None
     recorded_meta_file: str | None = None
@@ -212,9 +209,6 @@ class RecordingMetaData(PatkitBaseModel):
     prompt: str
     time_of_recording: datetime
     participant_id: str
-    # TODO: These should be taken care of by FileInformation.
-    basename: str
-    path: Path
 
 
 class SessionConfig(PatkitBaseModel):
