@@ -38,10 +38,13 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from patkit.configuration import PathStructure, apply_exclusion_list
+from patkit.configuration import (
+    apply_exclusion_list, SessionConfig
+)
 from patkit.constants import DatasourceNames, SourceSuffix
 from patkit.data_structures import (
-    FileInformation, Recording, Session, SessionConfig)
+    FileInformation, Recording, Session
+)
 
 from .AAA_raw_ultrasound import (
     add_aaa_raw_ultrasound, parse_recording_meta_from_aaa_prompt_file
@@ -57,7 +60,6 @@ def generate_aaa_recording_list(
         directory: Path,
         owner: Session | None = None,
         import_config: SessionConfig | None = None,
-        paths: PathStructure | None = None,
         detect_beep: bool = False
 ) -> list[Recording]:
     """
@@ -69,8 +71,8 @@ def generate_aaa_recording_list(
 
     Each recording meta file (.txt, not US.txt) will be represented by a
     Recording object regardless of whether a complete set of files was found
-    for the recording. Exclusion is marked with `recording.excluded` rather than
-    not listing the recording. Log file will show reasons of exclusion.
+    for the recording. Exclusion is marked with `recording.excluded` rather
+    than not listing the recording. Log file will show reasons of exclusion.
 
     The processed files are recording meta: .txt, ultrasound meta: US.txt or
     .param, ultrasound: .ult, and audio waveform: .wav.
@@ -86,11 +88,6 @@ def generate_aaa_recording_list(
     Recording objects sorted by date and time
         of recording.
     """
-
-    # TODO 1.1.: Deal with directory structure specifications.
-    if paths and paths.wav:
-        raise NotImplementedError
-
     ult_meta_files = sorted(directory.glob(
         '*' + SourceSuffix.AAA_ULTRA_META_OLD))
     if len(ult_meta_files) == 0:
@@ -116,11 +113,15 @@ def generate_aaa_recording_list(
         for basename in tqdm(basenames, desc="Generating Recordings")
     ]
 
-    if import_config and import_config.exclusion_list:
-        apply_exclusion_list(recordings, import_config.exclusion_list)
+    # TODO 0.20 RESOLVE THIS
+    # if import_config and import_config.exclusion_list:
+    #     apply_exclusion_list(recordings, import_config.exclusion_list)
 
     add_modalities(
-        recording_list=recordings, directory=directory, detect_beep=detect_beep)
+        recording_list=recordings,
+        directory=directory,
+        detect_beep=detect_beep
+    )
 
     return sorted(recordings, key=lambda
                   token: token.metadata.time_of_recording)

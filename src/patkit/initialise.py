@@ -42,8 +42,6 @@ from patkit.annotations import add_peaks
 from patkit.configuration import (
     ConfigPaths,
     Configuration,
-    apply_exclusion_list,
-    load_exclusion_list,
 )
 from patkit.constants import (
     PatkitConfigFile,
@@ -63,7 +61,7 @@ from patkit.metrics import (
 )
 from patkit.modalities import RawUltrasound, Splines
 from patkit.utility_functions import (
-    log_elapsed_time, path_from_name, set_logging_level)
+    log_elapsed_time, set_logging_level)
 
 
 def get_config_dir(path: Path) -> Path:

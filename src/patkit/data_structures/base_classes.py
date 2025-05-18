@@ -157,10 +157,9 @@ class DataObject(abc.ABC):
         Path
             The path or None if no path was set.
         """
-        if not self._file_info.recorded_data_file:
-            return None
-        if self._file_info.recorded_data_file:
-            return self.recorded_path / self._file_info.recorded_data_file
+        if self._file_info.recorded_path:
+            if self._file_info.recorded_data_file:
+                return self.recorded_path / self._file_info.recorded_data_file
         return None
 
     @property

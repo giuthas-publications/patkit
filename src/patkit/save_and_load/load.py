@@ -40,13 +40,13 @@ from typing import Any, TextIO
 import numpy as np
 import nestedtext
 
-from patkit.configuration import PathStructure
+from patkit.configuration import PathStructure, SessionConfig
 from patkit.constants import PatkitConfigFile, PatkitSuffix
 from patkit.data_import import (
     modality_adders, add_splines, load_session_config
 )
 from patkit.data_structures import (
-    ModalityData, Recording, Session, SessionConfig
+    ModalityData, Recording, Session
 )
 from patkit.data_structures.metadata_classes import FileInformation
 from patkit.metrics import metrics, statistics
@@ -342,7 +342,7 @@ def load_recording_session(
         recorded_path=directory,
         recorded_meta_file=session_config_path.name)
     session = Session(
-        name=meta.name, paths=paths,
+        name=meta.name,
         config=session_config,
         file_info=file_info,
         recordings=recordings)

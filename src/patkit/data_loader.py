@@ -38,13 +38,15 @@ import sys
 from pathlib import Path
 
 from patkit.audio_processing import MainsFilter
-from patkit.configuration import Configuration, PathStructure
+from patkit.configuration import (
+    Configuration, PathStructure, SessionConfig
+)
 from patkit.constants import (
     DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
     generate_aaa_recording_list, load_session_config)
 from patkit.data_structures import (
-    FileInformation, Session, SessionConfig)
+    FileInformation, Session)
 from patkit.save_and_load import load_recording_session
 
 _logger = logging.getLogger('patkit.scripting')
@@ -142,7 +144,7 @@ def read_recorded_session_from_dir(
         recorded_path=recorded_data_path,
         recorded_meta_file=session_config_path.name)
     if session_config_path.is_file():
-        paths, session_config = load_session_config(
+        session_config = load_session_config(
             recorded_data_path, session_config_path)
 
         match session_config.data_source_name:
@@ -152,7 +154,7 @@ def read_recorded_session_from_dir(
                     import_config=session_config)
 
                 session = Session(
-                    name=containing_dir, paths=paths, config=session_config,
+                    name=containing_dir, config=session_config,
                     file_info=file_info, recordings=recordings)
                 return session
             case DatasourceNames.RASL:
@@ -164,16 +166,19 @@ def read_recorded_session_from_dir(
                     f"{session_config.data_source_name}")
 
     if list(recorded_data_path.glob('*' + SourceSuffix.AAA_ULTRA)):
+        paths = PathStructure(root=recorded_data_path)
+        session_config = SessionConfig(
+            data_source_name=DatasourceNames.AAA,
+            path_structure=paths)
+
         recordings = generate_aaa_recording_list(
             directory=recorded_data_path,
+            import_config=session_config,
             detect_beep=detect_beep
         )
 
-        paths = PathStructure(root=recorded_data_path)
-        session_config = SessionConfig(data_source_name=DatasourceNames.AAA)
-
         session = Session(
-            name=containing_dir, paths=paths, config=session_config,
+            name=containing_dir, config=session_config,
             file_info=file_info, recordings=recordings)
         return session
 

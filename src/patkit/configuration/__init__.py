@@ -43,8 +43,8 @@ from .configuration_parsers import (
 from .configuration_models import (
     ExclusionList, DataConfig, DownsampleParams, FindPeaksScipyArguments,
     GuiConfig, PathStructure, PeakDetectionParams,
-    PointAnnotationParams, SearchPattern, SimulationConfig, SplineConfig,
-    SplineDataConfig, SplineImportConfig, TimeseriesNormalisation
+    PointAnnotationParams, SearchPattern, SessionConfig, SimulationConfig,
+    SplineConfig, SplineDataConfig, SplineImportConfig, TimeseriesNormalisation
 )
 from .configuration import ConfigPaths, Configuration
 from .exclusion_list_functions import (
@@ -54,8 +54,8 @@ from .exclusion_list_functions import (
 __all__ = [
     "PathValidator", "ExclusionList", "DataConfig", "DownsampleParams",
     "FindPeaksScipyArguments", "GuiConfig", "PathStructure",
-    "PeakDetectionParams", "PointAnnotationParams", "SearchPattern",
-    "SimulationConfig", "SplineConfig", "SplineDataConfig",
+    "PeakDetectionParams", "PointAnnotationParams", "SearchPattern", 
+    "SessionConfig", "SimulationConfig", "SplineConfig", "SplineDataConfig",
     "SplineImportConfig", "TimeseriesNormalisation", "Configuration",
     "ConfigPaths", "apply_exclusion_list", "load_exclusion_list",
     "remove_excluded_recordings",

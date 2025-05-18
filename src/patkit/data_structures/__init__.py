@@ -41,5 +41,5 @@ from .data_structures import Modality, Recording, Session
 from .metadata_classes import (
     FileInformation,
     ModalityData, ModalityMetaData, PointAnnotations,
-    RecordingMetaData, SessionConfig, StatisticMetaData
+    RecordingMetaData, StatisticMetaData
 )

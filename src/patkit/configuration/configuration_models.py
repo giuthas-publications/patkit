@@ -52,6 +52,7 @@ from pydantic import conlist, PositiveInt
 from patkit.constants import (
     AxesType,
     CoordinateSystems,
+    DatasourceNames,
     GuiColorScheme,
     IntervalBoundary,
     IntervalCategory,
@@ -118,17 +119,29 @@ class SplineConfig(UpdatableBaseModel):
     data_config: SplineDataConfig
 
 
-# TODO 0.16 delete
+# TODO 1.0: Use this to load RASL data and others where the files are in
+# separate dirs by type.
 class PathStructure(UpdatableBaseModel):
     """
-    Path structure of a Session for both loading and saving.
+    Path structure of a Session for reading and only reading.
+
+    For saving and subsequent loading the structure should be saved in
+    individual DataObject's FileInformation fields.
     """
     root: Path
-    exclusion_list: Path | None = None
     wav: Path | None = None
     textgrid: Path | None = None
     ultrasound: Path | None = None
     spline_config: Path | None = None
+
+
+class SessionConfig(UpdatableBaseModel):
+    """
+    Description of a Session for import into patkit.
+    """
+    data_source_name: DatasourceNames
+    path_structure: PathStructure
+    spline_config: SplineConfig | None = None
 
 
 class SearchPattern(UpdatableBaseModel):

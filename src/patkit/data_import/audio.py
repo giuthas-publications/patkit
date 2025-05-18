@@ -36,6 +36,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+from patkit.constants import SourceSuffix
 from patkit.data_structures import Recording, FileInformation
 from patkit.import_formats import read_wav, read_wav_and_detect_beep
 from patkit.modalities import MonoAudio
@@ -63,7 +64,8 @@ def add_audio(
         _description_, by default None
     """
     if not path:
-        ult_wav_file = (recording.path/recording.basename).with_suffix(".wav")
+        ult_wav_file = recording.recorded_meta_path.with_suffix(
+            SourceSuffix.WAV)
     else:
         ult_wav_file = path
 

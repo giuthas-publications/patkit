@@ -37,7 +37,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from patkit.constants import DatasourceNames
+from patkit.constants import DatasourceNames, SourceSuffix
 from patkit.data_structures import Recording
 from patkit.modalities import Video
 
@@ -67,7 +67,8 @@ def add_video(recording: Recording, preload: bool = False,
         really want to, this is the function where to do that.
     """
     if not path:
-        video_file = (recording.path/recording.basename).with_suffix(".avi")
+        video_file = (recording.recorded_path/recording.basename)
+        video_file = video_file.with_suffix(SourceSuffix.AVI)
     else:
         video_file = path
 

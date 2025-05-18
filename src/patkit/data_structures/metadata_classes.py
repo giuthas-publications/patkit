@@ -40,9 +40,9 @@ import numpy as np
 from pydantic import PositiveInt
 
 from patkit.configuration import (
-    ExclusionList, PointAnnotationParams, SplineConfig
+    PointAnnotationParams
 )
-from patkit.constants import AnnotationType, DatasourceNames
+from patkit.constants import AnnotationType
 from patkit.external_class_extensions import PatkitBaseModel
 from patkit.utility_functions.types import is_sequence_form
 
@@ -103,9 +103,12 @@ class FileInformation:
             Data Path without suffix.
         """
         if self.recorded_path:
-            basepath = self.recorded_path/self.recorded_data_file
+            if self.recorded_data_file:
+                basepath = self.recorded_path/self.recorded_data_file
+            else:
+                basepath = self.recorded_path/self.recorded_meta_file
         else:
-            basepath = self.patkit_path/self.recorded_data_file
+            basepath = self.patkit_path/self.patkit_data_file
         return basepath.with_suffix('')
 
 
@@ -242,15 +245,6 @@ class RecordingMetaData(PatkitBaseModel):
     prompt: str
     time_of_recording: datetime
     participant_id: str
-
-
-class SessionConfig(PatkitBaseModel):
-    """
-    Description of a Session for import into patkit.
-    """
-    data_source_name: DatasourceNames
-    exclusion_list: ExclusionList | None = None
-    spline_config: SplineConfig | None = None
 
 
 class StatisticMetaData(PatkitBaseModel):

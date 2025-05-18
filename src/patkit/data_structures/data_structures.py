@@ -41,7 +41,7 @@ from pathlib import Path
 import numpy as np
 import textgrids
 
-from patkit.configuration import PathStructure
+from patkit.configuration import SessionConfig
 from patkit.constants import AnnotationType, SourceSuffix
 from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
@@ -50,7 +50,7 @@ from patkit.satgrid import SatGrid
 from .base_classes import DataAggregator, DataContainer, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
-    RecordingMetaData, SessionConfig
+    RecordingMetaData
 )
 
 _logger = logging.getLogger('patkit.data_structures')
@@ -70,7 +70,6 @@ class Session(DataAggregator, UserList):
     def __init__(
             self,
             name: str,
-            paths: PathStructure,
             config: SessionConfig,
             file_info: FileInformation,
             recordings: list[Recording],
@@ -85,10 +84,7 @@ class Session(DataAggregator, UserList):
                 recording.owner = self
         self.extend(recordings)
 
-        self.paths = paths
-        # This was commented out in data structures 4.0, and left here to
-        # explain what session.config was. Remove if nothing broke.
-        # self.config = config
+        self.config = config
 
     @property
     def recordings(self) -> list[Recording]:
@@ -157,6 +153,8 @@ class Recording(DataAggregator, UserDict):
 
         self.excluded = excluded
         self.textgrid_path = None
+        self.textgrid = None
+        self.satgrid = None
         self.annotations = {}
 
     @property
@@ -284,8 +282,6 @@ class Recording(DataAggregator, UserDict):
         name = modality.name
 
         if name in self.modalities and not replace:
-            # ic(modality.metadata)
-            # ic(self[modality.name].metadata)
             raise OverwriteError(
                 "A modality named " + name +
                 " already exists and replace flag was False.")
@@ -304,10 +300,10 @@ class Recording(DataAggregator, UserDict):
         Currently, this is only used to create placeholder TextGrids when
         needed.
         """
-        textgrid_path = self.recorded_data_path.with_suffix(
+        textgrid_path = self.recorded_meta_path.with_suffix(
             SourceSuffix.TEXTGRID
         )
-        if not textgrid_path.exists():
+        if not textgrid_path.exists() and self.patkit_data_path:
             textgrid_path = self.patkit_data_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
