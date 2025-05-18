@@ -204,7 +204,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_meta_name(self) -> str | None:
         """
-        Name the recorded raw data file of this DataObject.
+        Name the recorded meta data file of this DataObject.
 
         May not be overwritten.
 
@@ -220,7 +220,7 @@ class DataObject(abc.ABC):
         """
         Path to the recorded raw data files of this DataObject.
 
-        This file will exist only for recorded data.
+        This path will exist only for recorded data.
 
         May not be overwritten.
 
