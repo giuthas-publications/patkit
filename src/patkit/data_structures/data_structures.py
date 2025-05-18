@@ -47,7 +47,7 @@ from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
 )
 from patkit.utility_functions import stem_path
-from patkit.satgrid import SatGrid
+from patkit.satgrid import PatGrid
 from .base_classes import DataAggregator, DataContainer, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
@@ -336,7 +336,7 @@ class Recording(DataAggregator, UserDict):
                                 "function correctly.")
 
         if self.textgrid:
-            self.satgrid = SatGrid(self.textgrid)
+            self.satgrid = PatGrid(self.textgrid)
         else:
             self.satgrid = None
 

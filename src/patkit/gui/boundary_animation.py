@@ -37,7 +37,7 @@ from typing import List, Optional
 from matplotlib.axes import Axes
 from matplotlib.lines import Line2D as mpl_line_2d
 from matplotlib.text import Text as mpl_text
-from patkit.satgrid import SatInterval
+from patkit.satgrid import PatInterval
 
 
 @dataclass
@@ -69,7 +69,7 @@ class BoundaryAnimator:
             self,
             main_window,
             boundaries: List[AnimatableBoundary],
-            segment: SatInterval,
+            segment: PatInterval,
             epsilon: float,
             time_offset=0
     ):

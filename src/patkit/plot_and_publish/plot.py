@@ -50,7 +50,7 @@ from patkit.configuration import TimeseriesNormalisation
 from patkit.constants import AnnotationType, GuiColorScheme
 from patkit.data_structures import Modality
 from patkit.gui.boundary_animation import AnimatableBoundary
-from patkit.satgrid import SatTier
+from patkit.satgrid import PatTier
 
 _logger = logging.getLogger('patkit.plot')
 
@@ -266,7 +266,7 @@ def mark_peaks(
 
 
 def plot_satgrid_tier(axes: Axes,
-                      tier: SatTier,
+                      tier: PatTier,
                       time_offset: float = 0,
                       draw_text: bool = True,
                       text_y: float = 500
