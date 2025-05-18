@@ -42,7 +42,7 @@ from pydantic import PositiveInt
 from patkit.configuration import (
     ExclusionList, PointAnnotationParams, SplineConfig
 )
-from patkit.constants import AnnotationType, DatasourceNames, SourceSuffix
+from patkit.constants import AnnotationType, DatasourceNames
 from patkit.external_class_extensions import PatkitBaseModel
 from patkit.utility_functions.types import is_sequence_form
 
