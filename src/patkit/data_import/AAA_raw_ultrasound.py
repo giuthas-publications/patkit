@@ -156,7 +156,6 @@ def add_aaa_raw_ultrasound(
             SourceSuffix.AAA_ULTRA)
         meta_name = recording.basename+SourceSuffix.AAA_ULTRA_META_OLD
         meta_path = recording.recorded_path/meta_name
-        print(recording.owner.recorded_path, recording.recorded_path)
     else:
         ult_path = path
         meta_path = path.parent/(path.stem+SourceSuffix.AAA_ULTRA_META_OLD)

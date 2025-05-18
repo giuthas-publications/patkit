@@ -151,7 +151,6 @@ class Recording(DataAggregator, UserDict):
         super().__init__(
             owner=owner, name=name,
             metadata=metadata, file_info=file_info)
-        print(f'owner files {owner.file_info.recorded_path}')
 
         self.excluded = excluded
         self.textgrid_path = None
