@@ -44,7 +44,9 @@ from patkit.configuration import (
 )
 from patkit.constants import AnnotationType
 from patkit.external_class_extensions import PatkitBaseModel
-from patkit.utility_functions.types import is_sequence_form
+from patkit.utility_functions import (
+    is_sequence_form, stem_path
+)
 
 _datastructures_logger = logging.getLogger('patkit.data_structures')
 
@@ -95,7 +97,7 @@ class FileInformation:
         Path of the recorded or patkit data without the suffix.
 
         This is a concatenation of the local path part (does not contain e.g. a
-        Modality's parent's path) and the name with the suffix dropped.
+        Modality's parent's path) and the name with the suffix(es) dropped.
 
         Returns
         -------
@@ -110,7 +112,7 @@ class FileInformation:
                 basepath = self.recorded_path/self.recorded_meta_file
         if basepath is None:
             basepath = self.patkit_path/self.patkit_meta_file
-        return basepath.with_suffix('')
+        return stem_path(basepath)
 
 
 @dataclass
