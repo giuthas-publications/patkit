@@ -47,7 +47,7 @@ from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
 )
 from patkit.utility_functions import stem_path
-from patkit.satgrid import PatGrid
+from patkit.patgrid import PatGrid
 from .base_classes import DataAggregator, DataContainer, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
@@ -305,7 +305,6 @@ class Recording(DataAggregator, UserDict):
                 textgrid_path = textgrid_path.with_suffix(
                     SourceSuffix.TEXTGRID
                 )
-        print(textgrid_path)
 
         if textgrid_path is not None and textgrid_path.exists():
             self.textgrid_path = textgrid_path

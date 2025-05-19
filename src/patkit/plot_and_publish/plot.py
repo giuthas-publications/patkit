@@ -50,7 +50,7 @@ from patkit.configuration import TimeseriesNormalisation
 from patkit.constants import AnnotationType, GuiColorScheme
 from patkit.data_structures import Modality
 from patkit.gui.boundary_animation import AnimatableBoundary
-from patkit.satgrid import PatTier
+from patkit.patgrid import PatTier
 
 _logger = logging.getLogger('patkit.plot')
 
