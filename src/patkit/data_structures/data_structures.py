@@ -57,6 +57,38 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
+class Manifest(UserList):
+    @staticmethod
+    def read_manifest(path: Path) -> list[str] | None:
+        if not path.exists():
+            return None
+        with open(path, 'r', encoding='UTF-8') as file:
+            lines = [line.rstrip() for line in file]
+            return lines
+        return None
+
+    def __init__(self, path: Path | None = None):
+        super().__init__()
+        path = path.resolve()
+        self.path = path
+        if path is not None:
+            scenario_paths = Manifest.read_manifest(path)
+            if scenario_paths is not None:
+                self.extend(scenario_paths)
+
+    @property
+    def scenarios(self) -> list[str]:
+        return list(self)
+
+    def save(self):
+        if self.path is not None:
+            with open(self.path, 'w', encoding='UTF-8') as file:
+                for scenario_path in self:
+                    file.write(f"{scenario_path}\n")
+
+
+
+
 class Session(DataAggregator, UserList):
     """
     The metadata and Recordings of a recording session.

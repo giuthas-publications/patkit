@@ -37,7 +37,7 @@ patkit's datastructures and are not meant to be directly inherited from.
 """
 
 from .base_classes import Statistic
-from .data_structures import Modality, Recording, Session
+from .data_structures import Manifest, Modality, Recording, Session
 from .metadata_classes import (
     FileInformation,
     ModalityData, ModalityMetaData, PointAnnotations,

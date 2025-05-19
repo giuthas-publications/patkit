@@ -56,7 +56,7 @@ DEFAULT_ENCODING = 'utf-8'
 PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
-# TODO 0.16 still not happy with this and how it meshes with satgrid.
+# TODO 0.17 still not happy with this and how it meshes with patgrid.
 PATKIT_EPSILON = 0.00001
 
 
