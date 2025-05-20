@@ -245,7 +245,8 @@ def load_data_params(filepath: Path | str | None = None) -> YAML:
                 }),
                 Optional("aggregate_image_arguments"): Map({
                     "metrics": Seq(Str()),
-                    Optional("run_on_interpolated_data", default=False): Bool(),
+                    Optional(
+                        "run_on_interpolated_data", default=False): Bool(),
                     Optional("preload", default=True): Bool(),
                     Optional("release_data_memory", default=True): Bool(),
                 }),
@@ -442,8 +443,6 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
 
     _logger.info("Loading GUI configuration from %s", str(filepath))
 
-    # TODO 0.16: make sure that normalise gets included here and in config
-    # models.
     axes_params_dict = {
         Optional(
             "colors_in_sequence", default=True): Bool(),

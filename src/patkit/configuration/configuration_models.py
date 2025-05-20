@@ -51,6 +51,7 @@ from pydantic import conlist, PositiveInt
 
 from patkit.constants import (
     AxesType,
+    ComparisonMember,
     CoordinateSystems,
     DatasourceNames,
     GuiColorScheme,
@@ -62,7 +63,6 @@ from patkit.constants import (
     SplineShapesEnum,
 )
 from patkit.external_class_extensions import UpdatableBaseModel
-from patkit.constants import ComparisonMember
 
 _logger = logging.getLogger('patkit.configuration_models')
 
@@ -387,7 +387,7 @@ class CastParams(UpdatableBaseModel):
 class DataConfig(UpdatableBaseModel):
     epsilon: float
     mains_frequency: float
-    recorded_data_path: Path # TODO 0.16 this should be relative to where the config lives
+    recorded_data_path: Path
     flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None
