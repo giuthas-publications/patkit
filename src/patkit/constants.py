@@ -178,9 +178,18 @@ class PatkitConfigFile:
     than a hard rule, and the rest should be specified in `patkit.yaml` instead
     of PATKIT trying to guess their names.
 
-    MANIFEST = list of Scenarios relating to a set of recorded data
+    DATA: specifications for processing data and deriving new Modalities and
+        Statistics. 
+    GUI: specifications for gui elements - which graphs to display, color
+        scheme etc.
+    PUBLISH: specifications for publishing graphs
+    SIMULATION: specifications for simulating data and running analysis on the
+        simulated data
+    MANIFEST: list of Scenarios relating to a set of recorded data saved with
+        recorded data
+    SESSION: how PATKIT should read a session based on recorded data
+    SPLINE: spline formatting
     """
-    # TODO 0.16: add docstring for all config files
     DATA = "patkit-data.yaml"
     GUI = "patkit-gui.yaml"
     PUBLISH = "patkit-publish.yaml"
