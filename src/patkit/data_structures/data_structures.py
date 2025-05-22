@@ -29,7 +29,7 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
-"""patkit's main datastructures."""
+"""PATKIT's main datastructures."""
 
 from __future__ import annotations
 
@@ -57,10 +57,25 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
-# TODO 0.16: docstrings
 class Manifest(UserList):
+    """
+    Manifest is a list of Scenario paths as strings.
+    """
     @staticmethod
     def read_manifest(path: Path) -> list[str] | None:
+        """
+        Static method for reading a Manifest files contents.
+
+        Parameters
+        ----------
+        path : Path
+            Path of the file.
+
+        Returns
+        -------
+        list[str] | None
+            Either the contents of the file or None if the file was empty.
+        """
         if not path.exists():
             return None
         with open(path, 'r', encoding='UTF-8') as file:
@@ -79,9 +94,20 @@ class Manifest(UserList):
 
     @property
     def scenarios(self) -> list[str]:
+        """
+        The contents of this Manifest as a list.
+
+        Returns
+        -------
+        list[str]
+            The contents.
+        """
         return list(self)
 
     def save(self):
+        """
+        Write this manifest into its file. 
+        """
         if self.path is not None:
             with open(self.path, 'w', encoding='UTF-8') as file:
                 for scenario_path in self:
