@@ -50,7 +50,7 @@ from patkit.data_structures import (
 from patkit.ui_callbacks import UiCallbacks
 
 from .save_and_load_schemas import nested_text_converters
-from ..data_structures.base_classes import DataAggregator
+from ..data_structures.base_classes import AbstractDataContainer
 
 _logger = logging.getLogger('patkit.save')
 
@@ -300,7 +300,7 @@ def save_statistic_meta(
 
 
 def save_statistics(
-        aggregator: DataAggregator, confirmation: OverwriteConfirmation | None
+        aggregator: AbstractDataContainer, confirmation: OverwriteConfirmation | None
 ) -> tuple[dict, OverwriteConfirmation]:
     """
     Save Statistics and gather meta for all Statistics.

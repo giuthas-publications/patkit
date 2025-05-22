@@ -47,20 +47,20 @@ from .metadata_classes import FileInformation, StatisticMetaData
 _datastructures_logger = logging.getLogger('patkit.data_structures')
 
 
-class DataObject(abc.ABC):
+class AbstractDataObject(abc.ABC):
     """
     Abstract base class for patkit data objects.
 
     Almost no class should directly inherit from this class. Exceptions are
-    DataAggregator and DataContainer. The latter is the abstract baseclass for
+    AbstractDataContainer and Data. The latter is the abstract baseclass for
     Modality and Statistic and the former for all data base classes: Recording,
     Session, DataSet and any others that contain either DataContainers and/or
-    DataAggregators.
+    AbstractDataContainers.
     """
 
     def __init__(self,
                  metadata: PatkitBaseModel,
-                 owner: DataAggregator | None = None,
+                 owner: AbstractDataContainer | None = None,
                  file_info: FileInformation | None = None,
                  ) -> None:
         # The super().__init__() call below is needed to make sure that
@@ -74,7 +74,7 @@ class DataObject(abc.ABC):
 
     def __getstate__(self) -> dict:
         """
-        Return this DataContainer's pickle compatible state.
+        Return this Data's pickle compatible state.
 
         To achieve pickle compatibility, subclasses should take care to delete
         any cyclical references, like is done with `self.owner` here.
@@ -116,7 +116,7 @@ class DataObject(abc.ABC):
     @property
     def file_info(self) -> FileInformation:
         """
-        The paths and filenames of this DataObject as a FileInformation object.
+        The paths and filenames of this AbstractDataObject as a FileInformation object.
 
         NOTE: Regularly you should not need to access this directly. Instead,
         use the `[recorded|patkit]_path`, `[recorded|patkit]_data_file`, and
@@ -132,7 +132,7 @@ class DataObject(abc.ABC):
     @property
     def metadata(self) -> PatkitBaseModel:
         """
-        Metadata of this DataObject.
+        Metadata of this AbstractDataObject.
 
         This will be of appropriate type for the subclasses and has been hidden
         behind a property to make it possible to change the internal
@@ -148,7 +148,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_data_path(self) -> Path | None:
         """
-        Path of the recorded raw data file of this DataObject.
+        Path of the recorded raw data file of this AbstractDataObject.
 
         May not be overwritten.
 
@@ -165,7 +165,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_data_name(self) -> str | None:
         """
-        Name the recorded raw data file of this DataObject.
+        Name the recorded raw data file of this AbstractDataObject.
 
         May not be overwritten.
 
@@ -179,7 +179,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_meta_path(self) -> Path | None:
         """
-        Path to the recorded meta data file of this DataObject.
+        Path to the recorded meta data file of this AbstractDataObject.
 
         This file will exist only for some recorded data. For example, wav
         files do not have a corresponding recorded meta data file. 
@@ -203,7 +203,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_meta_name(self) -> str | None:
         """
-        Name the recorded meta data file of this DataObject.
+        Name the recorded meta data file of this AbstractDataObject.
 
         May not be overwritten.
 
@@ -217,7 +217,7 @@ class DataObject(abc.ABC):
     @property
     def recorded_path(self) -> Path | None:
         """
-        Path to the recorded raw data files of this DataObject.
+        Path to the recorded raw data files of this AbstractDataObject.
 
         This path will exist only for recorded data.
 
@@ -237,7 +237,7 @@ class DataObject(abc.ABC):
     @property
     def patkit_data_path(self) -> Path | None:
         """
-        Path to the patkit (derived) data file of this DataObject.
+        Path to the patkit (derived) data file of this AbstractDataObject.
 
         This file will exist only for saved derived data.
 
@@ -262,7 +262,7 @@ class DataObject(abc.ABC):
     @property
     def patkit_data_name(self) -> str | None:
         """
-        Name the patkit data file of this DataObject.
+        Name the patkit data file of this AbstractDataObject.
 
         May be overwritten.
 
@@ -280,7 +280,7 @@ class DataObject(abc.ABC):
     @property
     def patkit_meta_path(self) -> Path | None:
         """
-        Path to the patkit meta data file of this DataObject.
+        Path to the patkit meta data file of this AbstractDataObject.
 
         After saving this file will exist even for recorded data.
 
@@ -305,7 +305,7 @@ class DataObject(abc.ABC):
     @property
     def patkit_meta_name(self) -> str | None:
         """
-        Name the patkit meta data file of this DataObject.
+        Name the patkit meta data file of this AbstractDataObject.
 
         May be overwritten.
 
@@ -323,7 +323,7 @@ class DataObject(abc.ABC):
     @property
     def patkit_path(self) -> Path | None:
         """
-        Path to the patkit files of this DataObject.
+        Path to the patkit files of this AbstractDataObject.
 
         May be overwritten.
 
@@ -348,15 +348,15 @@ class DataObject(abc.ABC):
     @property
     def is_fully_initialised(self) -> bool:
         """
-        Check if this DataContainer has been fully initialised.
+        Check if this Data has been fully initialised.
 
         This property will be false, if any required fields of the
-        DataContainer are None.
+        Data are None.
 
         Returns
         -------
         bool
-            True if this DataContainer is fully initialised.
+            True if this Data is fully initialised.
         """
         if self.owner:
             return True
@@ -381,18 +381,18 @@ class DataObject(abc.ABC):
         return self.metadata.model_dump()
 
 
-class DataAggregator(DataObject):
+class AbstractDataContainer(AbstractDataObject):
     """
     Abstract baseclass for Recording, Session, and DataSet. 
 
     This class collects behaviors that are shared by the data base classes i.e.
-    classes which collect DataContainers and/or DataAggregators.
+    classes which collect DataContainers and/or AbstractDataContainers.
     """
 
     def __init__(self,
                  name: str,
                  metadata: PatkitBaseModel,
-                 owner: DataObject | None = None,
+                 owner: AbstractDataObject | None = None,
                  file_info: FileInformation | None = None,
                  statistics: dict[str, 'Statistic'] | None = None
                  ) -> None:
@@ -409,7 +409,7 @@ class DataAggregator(DataObject):
         """
         Name of this instance.
 
-        DataAggregators get their names mainly from the file system. DataSets
+        AbstractDataContainers get their names mainly from the file system. DataSets
         are named after the root directory name, Sessions for the session
         directories and Trials for the trial file names. 
 
@@ -454,7 +454,7 @@ class DataAggregator(DataObject):
             _datastructures_logger.debug("Added new statistic %s.", name)
 
 
-class DataContainer(DataObject):
+class Data(AbstractDataObject):
     """
     Abstract baseclass for Modality and Statistic. 
 
@@ -469,7 +469,7 @@ class DataContainer(DataObject):
 
     def __init__(self,
                  metadata: PatkitBaseModel,
-                 owner: DataObject | None = None,
+                 owner: AbstractDataObject | None = None,
                  file_info: FileInformation | None = None,
                  ) -> None:
         super().__init__(
@@ -513,11 +513,11 @@ class DataContainer(DataObject):
     @abc.abstractmethod
     def data(self) -> np.ndarray:
         """
-        The data contained in this DataContainer as a numpy ndarray.
+        The data contained in this Data as a numpy ndarray.
         """
 
 
-class Statistic(DataContainer):
+class Statistic(Data):
     """
     Abstract baseclass for statistics generated from members of a container. 
 
@@ -534,7 +534,7 @@ class Statistic(DataContainer):
     def __init__(
             self,
             metadata: PatkitBaseModel,
-            owner: DataAggregator | None = None,
+            owner: AbstractDataContainer | None = None,
             file_info: FileInformation | None = None,
             parsed_data: np.ndarray | None = None,
     ) -> None:
@@ -545,7 +545,7 @@ class Statistic(DataContainer):
         ----------
         metadata : PatkitBaseModel
             Parameters used in calculating this Statistic.
-        owner : DataAggregator
+        owner : AbstractDataContainer
             The owner of this Statistic. Usually this will be the object whose
             contents this Statistic was calculated on. By default, None, to
             facilitate mass generation and setting the owner after wards.

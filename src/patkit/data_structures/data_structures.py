@@ -48,7 +48,7 @@ from patkit.errors import (
 )
 from patkit.utility_functions import stem_path
 from patkit.patgrid import PatGrid
-from .base_classes import DataAggregator, DataContainer, Statistic
+from .base_classes import AbstractDataContainer, Data, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
     RecordingMetaData
@@ -89,7 +89,7 @@ class Manifest(UserList):
 
 
 
-class Session(DataAggregator, UserList):
+class Session(AbstractDataContainer, UserList):
     """
     The metadata and Recordings of a recording session.
 
@@ -133,7 +133,7 @@ class Session(DataAggregator, UserList):
         return self.data
 
 
-class Recording(DataAggregator, UserDict):
+class Recording(AbstractDataContainer, UserDict):
     """
     A Recording is a dictionary of 0-n synchronised Modalities.
 
@@ -401,7 +401,7 @@ class Recording(DataAggregator, UserDict):
         return NotImplemented
 
 
-class Modality(DataContainer, OrderedDict):
+class Modality(Data, OrderedDict):
     """
     Abstract superclass for all data Modality classes.
 
