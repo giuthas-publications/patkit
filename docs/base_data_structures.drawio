@@ -4,7 +4,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="EM2CB-ThnirYC3_ZTbwj-1" value="DataObject" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
+        <mxCell id="EM2CB-ThnirYC3_ZTbwj-1" value="AbstractDataObject" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
           <mxGeometry x="240" y="40" width="220" height="178" as="geometry" />
         </mxCell>
         <mxCell id="L_zfph454XQwIDP2ku9E-4" value="- file_info: FileInformation" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBorderColor=none;fontColor=#CC6600;" vertex="1" parent="EM2CB-ThnirYC3_ZTbwj-1">
@@ -37,7 +37,7 @@
             <mxPoint x="680" y="230" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="EM2CB-ThnirYC3_ZTbwj-19" value="DataContainer" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
+        <mxCell id="EM2CB-ThnirYC3_ZTbwj-19" value="AbstractData" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
           <mxGeometry x="710" y="280" width="220" height="104" as="geometry" />
         </mxCell>
         <mxCell id="EM2CB-ThnirYC3_ZTbwj-20" value="# generate_name(params): str" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBorderColor=none;fontColor=#CC6600;fontStyle=6" parent="EM2CB-ThnirYC3_ZTbwj-19" vertex="1">
@@ -52,7 +52,7 @@
         <mxCell id="EM2CB-ThnirYC3_ZTbwj-22" value="- data: np.ndarray" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBorderColor=none;fontColor=#CC6600;" parent="EM2CB-ThnirYC3_ZTbwj-19" vertex="1">
           <mxGeometry y="80" width="220" height="24" as="geometry" />
         </mxCell>
-        <mxCell id="EM2CB-ThnirYC3_ZTbwj-24" value="DataAggregator" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
+        <mxCell id="EM2CB-ThnirYC3_ZTbwj-24" value="AbstractDataContainer" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBorderColor=none;fontColor=#CC6600;strokeColor=#999999;" parent="1" vertex="1">
           <mxGeometry x="240" y="280" width="220" height="80" as="geometry" />
         </mxCell>
         <mxCell id="EM2CB-ThnirYC3_ZTbwj-25" value="- statistics: dict[str, Statistic] " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBorderColor=none;fontColor=#CC6600;" parent="EM2CB-ThnirYC3_ZTbwj-24" vertex="1">
