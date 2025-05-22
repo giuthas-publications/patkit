@@ -48,7 +48,7 @@ from patkit.errors import (
 )
 from patkit.utility_functions import stem_path
 from patkit.patgrid import PatGrid
-from .base_classes import AbstractDataContainer, Data, Statistic
+from .base_classes import AbstractDataContainer, AbstractData, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
     RecordingMetaData
@@ -57,6 +57,7 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
+# TODO 0.16: docstrings
 class Manifest(UserList):
     @staticmethod
     def read_manifest(path: Path) -> list[str] | None:
@@ -109,13 +110,13 @@ class Session(AbstractDataContainer, UserList):
             statistics: dict[str, Statistic] | None = None
     ) -> None:
         super().__init__(
-            owner=None, name=name, metadata=config,
+            container=None, name=name, metadata=config,
             file_info=file_info, statistics=statistics)
 
         if not recordings is None:
             for recording in recordings:
-                if not recording.owner:
-                    recording.owner = self
+                if not recording.container:
+                    recording.container = self
             self.extend(recordings)
 
         self.config = config
@@ -157,7 +158,7 @@ class Recording(AbstractDataContainer, UserDict):
             self,
             metadata: RecordingMetaData,
             file_info: FileInformation,
-            owner: Session | None = None,
+            container: Session | None = None,
             excluded: bool = False,
     ) -> None:
         """
@@ -182,7 +183,7 @@ class Recording(AbstractDataContainer, UserDict):
         else:
             name = file_info.patkit_meta_file
         super().__init__(
-            owner=owner, name=name,
+            container=container, name=name,
             metadata=metadata, file_info=file_info)
 
         self.excluded = excluded
@@ -401,7 +402,7 @@ class Recording(AbstractDataContainer, UserDict):
         return NotImplemented
 
 
-class Modality(Data, OrderedDict):
+class Modality(AbstractData, OrderedDict):
     """
     Abstract superclass for all data Modality classes.
 
@@ -418,7 +419,7 @@ class Modality(Data, OrderedDict):
 
     def __init__(
             self,
-            owner: Recording,
+            container: Recording,
             file_info: FileInformation,
             parsed_data: ModalityData | None = None,
             metadata: ModalityMetaData | None = None,
@@ -452,7 +453,7 @@ class Modality(Data, OrderedDict):
             parsed_data.timevector.
         """
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info)
 

@@ -230,7 +230,7 @@ def save_statistic_data(
     _logger.debug("Saving data for %s.", statistic.name)
     if not statistic.patkit_data_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{PatkitSuffix.DATA}"
+        filename = f"{statistic.container.name}.{suffix}{PatkitSuffix.DATA}"
         statistic.patkit_data_name = filename
 
     filepath = statistic.patkit_data_path
@@ -264,7 +264,7 @@ def save_statistic_meta(
     _logger.debug("Saving meta for %s.", statistic.name)
     if not statistic.patkit_meta_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{PatkitSuffix.META}"
+        filename = f"{statistic.container.name}.{suffix}{PatkitSuffix.META}"
         statistic.patkit_meta_name = filename
 
     filepath = statistic.patkit_meta_path

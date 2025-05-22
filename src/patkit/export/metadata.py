@@ -181,7 +181,7 @@ def export_modality_meta(
             object_name=description,
             filename=filename)
         _write_session_and_recording_meta(
-            file=file, session=modality.owner.owner, recording=modality.owner)
+            file=file, session=modality.owner.container, recording=modality.owner)
         file.write("\n")
         nestedtext.dump(
             obj=dict(sorted(modality.metadata.model_dump().items())),
@@ -218,7 +218,7 @@ def export_derived_modalities_meta(
             object_name=description,
             filename=filename)
         _write_session_and_recording_meta(
-            file=file, session=recording.owner, recording=recording)
+            file=file, session=recording.container, recording=recording)
         file.write("\n")
 
         modality_params = {

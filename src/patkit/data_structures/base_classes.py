@@ -52,7 +52,7 @@ class AbstractDataObject(abc.ABC):
     Abstract base class for patkit data objects.
 
     Almost no class should directly inherit from this class. Exceptions are
-    AbstractDataContainer and Data. The latter is the abstract baseclass for
+    AbstractDataContainer and AbstractData. The latter is the abstract baseclass for
     Modality and Statistic and the former for all data base classes: Recording,
     Session, DataSet and any others that contain either DataContainers and/or
     AbstractDataContainers.
@@ -60,7 +60,7 @@ class AbstractDataObject(abc.ABC):
 
     def __init__(self,
                  metadata: PatkitBaseModel,
-                 owner: AbstractDataContainer | None = None,
+                 container: AbstractDataContainer | None = None,
                  file_info: FileInformation | None = None,
                  ) -> None:
         # The super().__init__() call below is needed to make sure that
@@ -69,17 +69,17 @@ class AbstractDataObject(abc.ABC):
         super().__init__()
 
         self._metadata = metadata
-        self.owner = owner
+        self.container = container
         self._file_info = file_info
 
     def __getstate__(self) -> dict:
         """
-        Return this Data's pickle compatible state.
+        Return this AbstractData's pickle compatible state.
 
         To achieve pickle compatibility, subclasses should take care to delete
-        any cyclical references, like is done with `self.owner` here.
+        any cyclical references, like is done with `self.container` here.
 
-        NOTE! This also requires owner to be reset after unpickling by the
+        NOTE! This also requires container to be reset after unpickling by the
         owners, because the unpickled class can not know who owns it.
 
         Returns
@@ -88,7 +88,7 @@ class AbstractDataObject(abc.ABC):
             The state without cyclical references.
         """
         state = self.__dict__.copy()
-        del state['owner']
+        del state['container']
         return state
 
     @property
@@ -230,8 +230,8 @@ class AbstractDataObject(abc.ABC):
         """
         if not self._file_info.recorded_path:
             return None
-        if not self.owner is None:
-            return self.owner.recorded_path / self._file_info.recorded_path
+        if not self.container is None:
+            return self.container.recorded_path / self._file_info.recorded_path
         return self._file_info.recorded_path
 
     @property
@@ -334,8 +334,8 @@ class AbstractDataObject(abc.ABC):
         """
         if not self._file_info.patkit_path:
             return None
-        if self.owner:
-            return self.owner.patkit_path / self._file_info.patkit_path
+        if self.container:
+            return self.container.patkit_path / self._file_info.patkit_path
         return self._file_info.patkit_path
 
     @patkit_path.setter
@@ -348,17 +348,17 @@ class AbstractDataObject(abc.ABC):
     @property
     def is_fully_initialised(self) -> bool:
         """
-        Check if this Data has been fully initialised.
+        Check if this AbstractData has been fully initialised.
 
         This property will be false, if any required fields of the
-        Data are None.
+        AbstractData are None.
 
         Returns
         -------
         bool
-            True if this Data is fully initialised.
+            True if this AbstractData is fully initialised.
         """
-        if self.owner:
+        if self.container:
             return True
         return False
 
@@ -392,12 +392,12 @@ class AbstractDataContainer(AbstractDataObject):
     def __init__(self,
                  name: str,
                  metadata: PatkitBaseModel,
-                 owner: AbstractDataObject | None = None,
+                 container: AbstractDataContainer | None = None,
                  file_info: FileInformation | None = None,
                  statistics: dict[str, 'Statistic'] | None = None
                  ) -> None:
         super().__init__(
-            owner=owner, metadata=metadata, file_info=file_info)
+            container=container, metadata=metadata, file_info=file_info)
 
         self._name = name
         self.statistics = {}
@@ -454,7 +454,7 @@ class AbstractDataContainer(AbstractDataObject):
             _datastructures_logger.debug("Added new statistic %s.", name)
 
 
-class Data(AbstractDataObject):
+class AbstractData(AbstractDataObject):
     """
     Abstract baseclass for Modality and Statistic. 
 
@@ -469,11 +469,11 @@ class Data(AbstractDataObject):
 
     def __init__(self,
                  metadata: PatkitBaseModel,
-                 owner: AbstractDataObject | None = None,
+                 container: AbstractDataContainer | None = None,
                  file_info: FileInformation | None = None,
                  ) -> None:
         super().__init__(
-            owner=owner, metadata=metadata, file_info=file_info)
+            container=container, metadata=metadata, file_info=file_info)
 
     @property
     def name(self) -> str:
@@ -513,11 +513,11 @@ class Data(AbstractDataObject):
     @abc.abstractmethod
     def data(self) -> np.ndarray:
         """
-        The data contained in this Data as a numpy ndarray.
+        The data contained in this AbstractData as a numpy ndarray.
         """
 
 
-class Statistic(Data):
+class Statistic(AbstractData):
     """
     Abstract baseclass for statistics generated from members of a container. 
 
@@ -534,7 +534,7 @@ class Statistic(Data):
     def __init__(
             self,
             metadata: PatkitBaseModel,
-            owner: AbstractDataContainer | None = None,
+            container: AbstractDataContainer | None = None,
             file_info: FileInformation | None = None,
             parsed_data: np.ndarray | None = None,
     ) -> None:
@@ -545,10 +545,10 @@ class Statistic(Data):
         ----------
         metadata : PatkitBaseModel
             Parameters used in calculating this Statistic.
-        owner : AbstractDataContainer
-            The owner of this Statistic. Usually this will be the object whose
+        container : AbstractDataContainer
+            The container of this Statistic. Usually this will be the object whose
             contents this Statistic was calculated on. By default, None, to
-            facilitate mass generation and setting the owner after wards.
+            facilitate mass generation and setting the container after wards.
         file_info : FileInformation
             The patkit load path and names for this Statistic. Recorded path
             and names should usually be empty. Defaults to None, when the
@@ -557,7 +557,7 @@ class Statistic(Data):
             the actual statistic, by default None
         """
         super().__init__(
-            owner=owner, metadata=metadata, file_info=file_info)
+            container=container, metadata=metadata, file_info=file_info)
         self._data = parsed_data
 
     @property

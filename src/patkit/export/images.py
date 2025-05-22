@@ -40,8 +40,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from patkit.data_structures import Recording, Session
-from patkit.data_structures.base_classes import AbstractDataContainer, Data
+from patkit.data_structures import (
+    AbstractData, AbstractDataContainer, Recording, Session 
+)
 from patkit.interpolate_raw_uti import to_fan_2d
 from patkit.metrics import (
     AggregateImage, DistanceMatrix
@@ -58,20 +59,21 @@ _logger = logging.getLogger('patkit.export')
 
 
 def _export_data_as_image(
-        data: Data | np.ndarray,
+        data: AbstractData | np.ndarray,
         path: Path,
         image_format: str = ".png",
         interpolation_params: dict | None = None,
 ) -> Path:
-    if path.is_dir() and not isinstance(data, Data):
-        raise ValueError("Data must be DataContainer if path is a directory.")
-    elif path.is_dir():
+    if path.is_dir() and not isinstance(data, AbstractData):
+        raise ValueError("Data must be AbstractData if path is a directory.")
+    
+    if path.is_dir():
         filename = data.name.replace(" ", "_")
         filepath = path / filename
     else:
         filepath = path
 
-    if isinstance(data, Data):
+    if isinstance(data, AbstractData):
         raw_data = data.data
     else:
         raw_data = data
