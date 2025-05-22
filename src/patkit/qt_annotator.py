@@ -197,8 +197,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.action_raw_frame = QAction(
             text="Raw frame at cursor", parent=self.menu_select_image)
         self.action_mean_image.setCheckable(True)
-        self.action_mean_image.setChecked(True)
         self.action_frame.setCheckable(True)
+        self.action_frame.setChecked(True)
         self.action_raw_frame.setCheckable(True)
         self.menu_select_image.addAction(self.action_mean_image)
         self.menu_select_image.addAction(self.action_frame)
@@ -350,6 +350,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.multicursor = None
 
+        self.image_updater()
         self.show()
         self.ultra_canvas.draw_idle()
         self.update()
