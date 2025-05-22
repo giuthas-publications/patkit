@@ -61,8 +61,8 @@ class AggregateImageParameters(StatisticMetaData):
         really can only be used on 2D ultrasound data.
     release_data_memory : bool, optional
         Whether to assign None to `parent.data` after deriving this Metric from
-        the data. Currently, has no effect as deriving AggregateImage at runtime
-        is not yet supported.
+        the data. Currently, has no effect as deriving AggregateImage at
+        runtime is not yet supported.
     """
     parent_name: str
     metric: str = 'mean'
@@ -84,9 +84,9 @@ class AggregateImage(Statistic):
         Generate a name to be used as this  AggregateImage's unique identifier.
 
         This static method **defines** what the names are. This implementation
-        pattern (AggregateImage.name calls this and anywhere that needs to guess
-        what a name would be calls this) is how all derived Modalities should
-        work.
+        pattern (AggregateImage.name calls this and anywhere that needs to
+        guess what a name would be calls this) is how all derived Modalities
+        should work.
 
         Parameters
         ----------
@@ -166,7 +166,7 @@ class AggregateImage(Statistic):
 
     def __init__(
             self,
-            owner: Recording | Session,
+            container: Recording | Session,
             metadata: AggregateImageParameters,
             file_info: FileInformation,
             parsed_data: np.ndarray | None = None,
@@ -177,7 +177,8 @@ class AggregateImage(Statistic):
         Parameters
         ----------
         owner : Recording | Session
-            the Recording or Session that this AggregateImage was calculated on.
+            the Recording or Session that this AggregateImage was calculated
+            on.
         metadata : AggregateImageParameters
             Parameters used in calculating this instance of AggregateImage.
         file_info : FileInformation
@@ -186,7 +187,7 @@ class AggregateImage(Statistic):
             the actual aggregate image, by default None
         """
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info,
             parsed_data=parsed_data,)

@@ -199,7 +199,7 @@ def add_aaa_raw_ultrasound(
         recorded_meta_file=meta_path.name)
 
     ultrasound = RawUltrasound(
-        owner=recording,
+        container=recording,
         file_info=file_info,
         time_offset=ult_time_offset,
         metadata=meta

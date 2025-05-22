@@ -73,7 +73,7 @@ class MonoAudio(Modality):
 
     def __init__(
             self,
-            owner: Recording,
+            container: Recording,
             file_info: FileInformation,
             parsed_data: ModalityData | None = None,
             time_offset: float | None = None,
@@ -102,7 +102,7 @@ class MonoAudio(Modality):
             audio in the sample.
         """
         super().__init__(
-            owner=owner,
+            container=container,
             file_info=file_info,
             parsed_data=parsed_data,
             time_offset=time_offset)
@@ -147,7 +147,7 @@ class RawUltrasound(Modality):
         return cls.__name__
 
     def __init__(self,
-                 owner: Recording,
+                 container: Recording,
                  file_info: FileInformation,
                  parsed_data: ModalityData | None = None,
                  time_offset: float | None = None,
@@ -172,7 +172,7 @@ class RawUltrasound(Modality):
             Default is None.
         """
         super().__init__(
-            owner=owner,
+            container=container,
             file_info=file_info,
             parsed_data=parsed_data,
             time_offset=time_offset,
@@ -300,7 +300,7 @@ class Video(Modality):
         return cls.__name__
 
     def __init__(self,
-                 owner: Recording,
+                 container: Recording,
                  file_info: FileInformation,
                  parsed_data: ModalityData | None = None,
                  time_offset: float | None = None,
@@ -347,7 +347,7 @@ class Video(Modality):
                 sys.exit()
 
         super().__init__(
-            owner=owner,
+            container=container,
             file_info=file_info,
             parsed_data=parsed_data,
             time_offset=time_offset)
@@ -381,7 +381,7 @@ class ThreeD_Ultrasound(Modality):
         return cls.__name__
 
     def __init__(self,
-                 owner: Recording,
+                 container: Recording,
                  file_info: FileInformation,
                  parsed_data: ModalityData | None = None,
                  time_offset: float | None = None,
@@ -410,13 +410,13 @@ class ThreeD_Ultrasound(Modality):
         if meta is not None:
             try:
                 wanted_meta = {key: meta[key]
-                               for key in RawUltrasound.requiredMetaKeys}
+                               for key in ThreeD_Ultrasound.requiredMetaKeys}
                 self.meta = deepcopy(wanted_meta)
             except KeyError:
                 # Missing metadata for one recording may be ok and this could
                 # be handled with just a call to _recording_logger.critical and
                 # setting self.excluded = True
-                not_found = set(RawUltrasound.requiredMetaKeys) - set(meta)
+                not_found = set(ThreeD_Ultrasound.requiredMetaKeys) - set(meta)
                 _logger.critical(
                     "Part of metadata missing when processing %s.",
                     meta['filename'])
@@ -428,7 +428,7 @@ class ThreeD_Ultrasound(Modality):
         # Initialise super only after ensuring meta is correct,
         # because latter may already end the run.
         super().__init__(
-            owner=owner,
+            container=container,
             file_info=file_info,
             parsed_data=parsed_data,
             time_offset=time_offset)

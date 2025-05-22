@@ -43,7 +43,7 @@ import nestedtext
 from patkit.configuration import SessionConfig
 from patkit.constants import PatkitConfigFile, PatkitSuffix
 from patkit.data_import import (
-    modality_adders, add_splines, load_session_config
+    modality_adders, add_splines
 )
 from patkit.data_structures import (
     ModalityData, Recording, Session
@@ -131,7 +131,7 @@ def load_derived_modality(
 
 
 def load_statistic(
-        owner: Recording | Session,
+        container: Recording | Session,
         path: Path,
         statistic_schema: DataContainerListingLoadSchema
 ) -> None:
@@ -166,12 +166,12 @@ def load_statistic(
             meta.parameters[key] = None
     parameters = parameter_schema(**meta.parameters)
     statistic = statistic_constructor(
-        owner=owner,
+        container=container,
         file_info=file_info,
         parsed_data=statistic_data,
         metadata=parameters)
 
-    owner.add_statistic(statistic=statistic)
+    container.add_statistic(statistic=statistic)
 
 
 def read_recording_meta(
@@ -247,7 +247,7 @@ def load_recording(
     recording = Recording(
         metadata=recording_meta.parameters,
         file_info=file_info,
-        owner=container
+        container=container
     )
 
     for modality in recording_meta.modalities:
