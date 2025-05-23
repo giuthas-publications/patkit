@@ -263,7 +263,7 @@ class Configuration:
         else:
             self._gui_config.update(self._gui_yaml.data)
 
-    # TODO 0.16 updating needs some attention or disabling. simulation missing
+    # TODO 0.20 updating needs some attention or disabling. simulation missing
     # at least
     def update_all_from_files(
             self, configuration_paths: ConfigPaths
