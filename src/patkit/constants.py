@@ -218,9 +218,13 @@ class SavedObjectTypes(Enum):
     Represent type of a saved patkit object in .meta.
     """
     # TODO 1.0: Check if this is actually in use.
-    SESSION = "Session"
-    RECORDING = "Recording"
+    DATASET = "Dataset"
     MODALITY = "Modality"
+    RECORDING = "Recording"
+    SESSION = "Session"
+    SOURCE = "Source"
+    STATISTIC = "Statistic"
+    TRIAL = "Trial"
 
 
 @dataclass(frozen=True)
