@@ -113,7 +113,7 @@ def publish(path: Path):
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(dir_okay=False, file_okay=True, path_type=Path),
+    type=click.Path(dir_okay=True, file_okay=True, path_type=Path),
 )
 def simulate(path: Path):
     """
