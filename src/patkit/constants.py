@@ -63,9 +63,12 @@ PATKIT_EPSILON = 0.00001
 class AaaProbeType(Enum):
     """
     Probe type codes saved by AAA.
+
+    These are probe models, not 'fan' vs 'linear' or some such thing.
     """
     UNKNOWN = -1
-    FAN = 0
+    ZERO = 0
+    ONE = 1
 
 
 class AnnotationType(Enum):
