@@ -49,7 +49,9 @@ from patkit.constants import IntervalCategory, PATKIT_EPSILON
 
 
 class PatAnnotation(ABC):
-    """Base class for Textgrid Point and Interval to enable editing with GUI."""
+    """
+    Base class for Textgrid Point and Interval to enable editing with GUI.
+    """
 
     def __init__(
             self,
