@@ -7,7 +7,8 @@ is a philosophical choice that stems from the fact that even GUI settings (such
 as which frequencies are shown on a spectrogram and with which color map)
 potentially affect analysis results. The idea is that standardising analysis
 and annotation settings across a project or research group should be easy. If
-you find that the current way PATKIT attempts to do this, does not work for you, please get in touch and we'll see how things can be improved.
+you find that the current way PATKIT attempts to do this, does not work for
+you, please get in touch and we'll see how things can be improved.
 
 There are some very simple ways of circumventing this system and PATKIT will
 not try to prevent that. However, things might not work quite as intended if
@@ -15,10 +16,11 @@ the assumptions about where files are stored are broken. Please refer to [Data
 Management](DataManagement.markdown) for how PATKIT assumes recorded/imported
 data is separated from PATKIT/derived/saved data and configuration files.
 
-There are examples of configuration files in the GitHub repository in the
-`example_configs` folder. 
+At time of releasing v0.16.0, there is an example of configuration files in the
+GitHub repository in the `scenarios` folder and an example of a simulation
+configuration file in `example_configs/ultrafest2024`. 
 
-TODO: 1.0 Make full examples of data and configuration of various complexity.
+TODO: 0.20 Make full examples of data and configuration of various complexity.
 
 ## Default settings and user preferences
 
