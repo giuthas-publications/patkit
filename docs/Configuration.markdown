@@ -79,6 +79,103 @@ epsilon: 0.00001
 mains_frequency: 50
 ```
 
+Path to recorded data. This should be relative to the ´patkit_data.yaml` file. 
+
+```yaml
+recorded_data_path: "../../recorded_data/tongue_data_1_1"
+```
+
+Various flags are gathered in one group. 
+
+- `detect_beep` specifies if PATKIT should attempt to detect a 1 kiloHertz beep
+at the beginning of recordings. 
+- If `test` is set to `True` PATKIT will process only first 10 recordings. This
+  is handy when testing out settings.
+
+```yaml
+flags:
+  detect_beep: True # Should onset beep detection be run?
+  test: False # Run on only the first 10 recordings.
+```
+
+Aggregate images can be generated with different metrics from ultrasound
+images. Default is to generate the image from raw data, but this can be
+overridden. 
+
+Also by default the images will be preloaded - that is they will be generated
+when PATKIT is started rather than when a recording is opened in the annotator. 
+
+Finally, it is generally a good idea to release data memory. This means that
+ultrasound videos are not kept in the computers memory after a recording has
+been processed unless that recording is being displayed. Only set this option
+to `False` if you know that you have very very much RAM at your disposal. This
+option repeats in many other contexts below.
+
+```yaml
+aggregate_image_arguments:
+  metrics:
+    - 'mean'
+  run_on_interpolated_data: False
+  preload: True
+  release_data_memory: True
+```
+
+Pixel difference can be generated with many different norms and these can be
+specified in parallel. Same is true of timesteps used in the calculations.
+`mask_images` is used to optionally mask either top or bottom of the image from
+analysis. If `pd_on_interpolated_data` is `True` then PD will be calculated on
+the interpolated, human readable fanned images. See above what preload and releasing data memory do. 
+
+```yaml
+pd_arguments:
+  'norms':
+    - 'l1'
+    - 'l2'
+  'timesteps':
+    - 1
+  mask_images: False
+  pd_on_interpolated_data: False
+  preload: True
+  release_data_memory: True
+```
+
+Spline metric arguments are very similar to PD arguments in syntax and meaning
+except they specify the metrics calculated on tongue splines, so the choice of
+metrics includes now `annd` for Average Nearest Neighbour Distance, `mpbpd` for
+Median Point-by-Point Distance, `modified_curvature` for the Modified Curvature Index, and `fourier` for the Fourier coefficients.
+
+```yaml
+spline_metric_arguments:
+ 'metrics':
+   - 'annd'
+   - 'mpbpd'
+   - 'modified_curvature'
+   - 'fourier'
+ 'timesteps':
+   - 3
+ 'release_data_memory': False
+ 'preload': True
+```
+
+Distance matrices are used for evaluating ultrasound probe alignment.
+TODO 0.16: continue here.
+
+```yaml
+distance_matrix_arguments:
+ exclusion_list: "alignment/data/patkit_exclusion_list.yaml"
+ metrics:
+   - 'mean_squared_error'
+ preload: True
+ release_data_memory: False
+#  slice_max_step: 6
+ slice_step_to: 6
+ sort: True
+ sort_criteria:
+   - 'i'
+   - 'o'
+```
+
+
 ### `patkit_gui.yaml`
 
 Most of these parameters deal with data display.
@@ -96,13 +193,13 @@ data_and_tier_height_ratios:
   tier: 1
 ```
 
+Shared configuration for data axes and tier axes.
+
 ```yaml
-# Which data axes to display. Currently used only to decide the number to
-# create. Number of lines gives the number of axis, modalities on the same line
-# will be drawn on the same axes.
 general_axes_params:
   data_axes:
     sharex: True
+    auto_ylim: True
   tier_axes:
     sharex: True
 ```
@@ -147,7 +244,7 @@ data_axes:
 #### TextGrid display parameters
 
 ```yaml
-# Tiers drawn on the data axes. Ignored if not found.  
+# Tiers drawn on the data axes. Ignored if the tiers are not found in the TextGrid.  
 pervasive_tiers:
   - Segment
   - Segments
@@ -156,7 +253,11 @@ pervasive_tiers:
   - phoneme
 ```
 
-#### X (time) axis parameters
+#### x (time) axis parameters
+
+You can either set the limits or set `auto_xlim` to True which means that the
+whole recording will be displayed. This is implemented as a greedy 'all' in
+case some modalities extend further in time than others.
 
 ```yaml
 # Initial limits for x-axis
@@ -174,36 +275,28 @@ default_font_size: 10
 ```
 
 Dark vs light mode. Accepted values are `dark`, `follow_system`, and `light`.
+
 ```yaml
 color_scheme: dark
 ```
 
 
-## Local configuration
+### `patkit-publish.yaml`
 
-All of the global parameters can be set locally by using the same file names
-within the data directories. In addition, [Data processing
-parameters](#data-processing-parameters) are only set locally with the data.
-They may -- however -- be overridden for parts of the data.
+This file will be documented in a later release.
 
-### GUI parameters
-
-It is especially useful to override global GUI parameters at the data to
-guarantee a given set of display settings is used for segmentation or other
-analysis.
-
-### Data processing parameters
+TODO 1.0: Document this.
 
 
-### Simulation parameters
+### `patkit-simulation.yaml`
 
 Simulations are run on mock up tongue splines/contours extracted manually from
 Peter Ladefoged's Vowels and Consonants. A commented version of the
-configuration walked through below can be found on PATKIT's GitHub repository in
-the `example_configs` folder.
+configuration walked through below can be found on PATKIT's GitHub repository
+in the `example_configs` folder.
 
-The first parameters define where to save the resulting plots, if existing files
-should be overwritten, and what message prefix should be used in logging
+The first parameters define where to save the resulting plots, if existing
+files should be overwritten, and what message prefix should be used in logging
 messages. If the `overwrite_plots` parameter is omitted, overwriting will be
 confirmed individually for each existing plot file.
 
@@ -246,7 +339,7 @@ contour_distance:
     perturbed:
       - 'second'
       - 'first'
-    combinations: full_cartesian # only_cross, only_self
+    combinations: full_cartesian # also accepted: only_cross, only_self
 ```
 
 This (rather simple) parameter group defines the spline shape metric simulation.
@@ -294,9 +387,10 @@ demonstration_contour_plot:
     - 'i'
 ```
 
-### `patkit-publish.yaml`
 
-### `patkit-simulation.yaml`
 ###  `patkit-manifest.yaml`
+
 ###  `session-config.yaml`
+
 ###  `spline-config.yaml`
+

@@ -12,8 +12,6 @@ flags:
   detect_beep: True # Should onset beep detection be run?
   test: False # Run on only the first 10 recordings.
 
-# exclusion_list:
-
 aggregate_image_arguments:
   metrics:
     - 'mean'
