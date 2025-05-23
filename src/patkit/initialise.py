@@ -156,7 +156,7 @@ def initialise_config(
     """
     logger = set_logging_level(logging_level)
 
-    # TODO 0.16 check if this deals correctly with symlinks
+    # TODO 0.20 check if this deals correctly with symlinks
     path = path.resolve()
     if path.is_file():
         path = get_config_dir(path)
