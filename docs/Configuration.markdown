@@ -157,8 +157,20 @@ spline_metric_arguments:
  'preload': True
 ```
 
-Distance matrices are used for evaluating ultrasound probe alignment.
-TODO 0.16: continue here.
+TODO 0.20: Verify that all these work. Especially the exclusion list.
+
+Distance matrices are used for evaluating ultrasound probe alignment. They have
+their own exclusion list (give it as a relative path) and metrics (currently
+only `mean_squared_error`). 
+
+TODO 0.16: describe `slice_max_step` and `slice_step_to`.
+
+Setting `sort` to `True` sorts the recordings by their prompts. Additionally
+setting `sort_criteria` will match the prompts in the order given and then sort
+alphabetically in each match group. Non-matching recordings will be added to a last
+group which also will be sorted within group.
+
+`preload` and  `release_data_memory` work as above.
 
 ```yaml
 distance_matrix_arguments:
