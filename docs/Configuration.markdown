@@ -62,9 +62,10 @@ PATKIT has a number of configuration files. Briefly they are
 - `spline-config.yaml` tells PATKIT - under `import_config` - how to import a
   given set of splines and - under `data_config` how to trim the splines before analysis.
 
-Below you can find what is intended to be a comprehensive list of 
+Below you can find what is intended to be a comprehensive list of configuration
+fields available in the different config files. 
 
-### General parameters
+### `patkit_data.yaml`
 
 These are set globally so that they may be omitted locally. They can be
 overridden locally though and should be when, for example, different parts of
@@ -78,7 +79,7 @@ epsilon: 0.00001
 mains_frequency: 50
 ```
 
-### GUI parameters
+### `patkit_gui.yaml`
 
 Most of these parameters deal with data display.
 
@@ -293,5 +294,9 @@ demonstration_contour_plot:
     - 'i'
 ```
 
+### `patkit-publish.yaml`
 
-
+### `patkit-simulation.yaml`
+###  `patkit-manifest.yaml`
+###  `session-config.yaml`
+###  `spline-config.yaml`
