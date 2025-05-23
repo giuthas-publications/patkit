@@ -365,7 +365,7 @@ def save_session_meta(
     """
     _logger.debug(
         "Saving meta for session %s.", session.name)
-    filename = f"{session.name}{'.Session'}{PatkitSuffix.META}"
+    filename = f"Session{PatkitSuffix.META}"
     filepath = session.patkit_path/filename
 
     if filepath.exists():
