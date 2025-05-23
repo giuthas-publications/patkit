@@ -170,7 +170,7 @@ class SplineMetric(Modality):
                 for params in spline_metric_params}
 
     def __init__(self,
-                 owner: Recording,
+                 container: Recording,
                  metadata: SplineMetricParameters,
                  file_info: FileInformation,
                  parsed_data: Optional[ModalityData] = None,
@@ -203,7 +203,7 @@ class SplineMetric(Modality):
                 time_offset = parsed_data.timevector[0]
 
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info,
             parsed_data=parsed_data,

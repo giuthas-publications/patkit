@@ -159,7 +159,7 @@ def read_recorded_session_from_dir(
                     file_info=file_info)
                 recordings = generate_aaa_recording_list(
                     directory=recorded_data_path,
-                    owner=session,
+                    container=session,
                     import_config=session_config)
                 session.extend(recordings)
 
@@ -184,7 +184,7 @@ def read_recorded_session_from_dir(
 
         recordings = generate_aaa_recording_list(
             directory=recorded_data_path,
-            owner=session,
+            container=session,
             import_config=session_config,
             detect_beep=detect_beep,
         )

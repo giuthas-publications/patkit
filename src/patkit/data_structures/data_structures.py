@@ -178,7 +178,7 @@ class Recording(AbstractDataContainer, UserDict):
     `super.__init__()` (with correct arguments) and doing any updates to
     `self.meta['textgrid']` that are necessary.
     """
-    owner: Session
+    container: Session
 
     def __init__(
             self,
@@ -436,7 +436,7 @@ class Modality(AbstractData, OrderedDict):
     by `modality[annotation_type]`, because a Modality is also a OrderedDict of
     its Annotations.
     """
-    owner: Recording
+    container: Recording
 
     @classmethod
     @abc.abstractmethod
@@ -519,14 +519,14 @@ class Modality(AbstractData, OrderedDict):
     @property
     def recording(self) -> Recording | None:
         """
-        This modality's owner available also with this alias for ease of use.
+        This modality's container available also with this alias for ease of use.
 
         Returns
         -------
         Recording
             The Recording which contains this Modality.
         """
-        return self.owner
+        return self.container
 
     def _get_data(self) -> ModalityData:
         # TODO: Provide a way to force the data to be derived or loaded. this

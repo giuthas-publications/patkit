@@ -206,7 +206,7 @@ def calculate_distance_matrix(
 
 
     return DistanceMatrix(
-        owner=session,
+        container=session,
         metadata=params,
         file_info=FileInformation(),
         parsed_data=matrix, )

@@ -58,7 +58,7 @@ _AAA_logger = logging.getLogger('patkit.AAA')
 
 def generate_aaa_recording_list(
         directory: Path,
-        owner: Session | None = None,
+        container: Session | None = None,
         import_config: SessionConfig | None = None,
         detect_beep: bool = False
 ) -> list[Recording]:
@@ -109,7 +109,7 @@ def generate_aaa_recording_list(
     basenames = [Path(path).name for path in base_paths]
     recordings = [
         generate_ultrasound_recording(
-            basename=basename, directory=Path(directory), owner=owner)
+            basename=basename, directory=Path(directory), container=container)
         for basename in tqdm(basenames, desc="Generating Recordings")
     ]
 
@@ -128,7 +128,7 @@ def generate_aaa_recording_list(
 
 
 def generate_ultrasound_recording(
-        basename: str, directory: Path, owner: Session | None = None):
+        basename: str, directory: Path, container: Session | None = None):
     """
     Generate an UltrasoundRecording without Modalities.
 
@@ -153,7 +153,7 @@ def generate_ultrasound_recording(
         recorded_meta_file=prompt_file.name)
 
     recording = Recording(
-        owner=owner,
+        container=container,
         metadata=meta,
         file_info=file_info,
     )

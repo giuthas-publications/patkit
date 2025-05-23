@@ -212,7 +212,7 @@ class PD(Modality):
 
     def __init__(
             self,
-            owner: Recording,
+            container: Recording,
             metadata: PdParameters,
             file_info: FileInformation,
             parsed_data: Optional[ModalityData] = None,
@@ -245,7 +245,7 @@ class PD(Modality):
                 time_offset = parsed_data.timevector[0]
 
         super().__init__(
-            owner,
+            container=container,
             metadata=metadata,
             file_info=file_info,
             parsed_data=parsed_data,
