@@ -104,6 +104,7 @@ class DatasourceNames(Enum):
     AAA = "AAA"
     # EVA = "EVA"
     RASL = "RASL"
+    WAV = "WAV"
 
 
 class GuiColorScheme(Enum):
