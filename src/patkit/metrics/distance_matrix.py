@@ -143,7 +143,7 @@ class DistanceMatrix(Statistic):
                     name_string + f" sort {params.sort}")
             if params.sort_criteria:
                 name_string = (
-                        name_string + f" sort_criteria specified")
+                        name_string + " sort_criteria specified")
 
         return name_string
 
