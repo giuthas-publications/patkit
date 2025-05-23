@@ -122,7 +122,7 @@ def load_derived_modality(
             meta.parameters[key] = None
     parameters = parameter_schema(**meta.parameters)
     modality = modality_constructor(
-        owner=recording,
+        container=recording,
         file_info=file_info,
         parsed_data=modality_data,
         metadata=parameters)
@@ -335,7 +335,10 @@ def load_recording_session(
     if not session_config_path:
         session_config_path = directory / PatkitConfigFile.SESSION
 
-    filename = f"{directory.parts[-1]}{'.Session'}{PatkitSuffix.META}"
+    # filename = f"{directory.parts[-1]}{'.Session'}{PatkitSuffix.META}"
+    # filepath = directory / filename
+
+    filename = f"Session{PatkitSuffix.META}"
     filepath = directory / filename
 
     raw_input = nestedtext.load(filepath)
