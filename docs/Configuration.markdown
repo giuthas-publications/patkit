@@ -163,7 +163,11 @@ Distance matrices are used for evaluating ultrasound probe alignment. They have
 their own exclusion list (give it as a relative path) and metrics (currently
 only `mean_squared_error`). 
 
-TODO 0.16: describe `slice_max_step` and `slice_step_to`.
+`slice_max_step` simulates rotating the probe by slicing incrementally so that
+the sector is always the same size. This parameter determines how many steps of
+size one to take. `slice_max_step` is exclusive with `slice_step_to` which
+generates a pair of maximally distant sectors for each step size ranging from
+one to `slice_step_to`.
 
 Setting `sort` to `True` sorts the recordings by their prompts. Additionally
 setting `sort_criteria` will match the prompts in the order given and then sort
