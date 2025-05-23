@@ -19,7 +19,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 [//]: # (Security in case of vulnerabilities.)
 [//]: # (New contributors for first contributions.)
 
-[//]: # (And ofcourse if a version needs to be YANKED:)
+[//]: # (And of course if a version needs to be YANKED:)
 [//]: # (## [version number] [data] [YANKED])
 
 
