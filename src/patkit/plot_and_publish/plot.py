@@ -265,7 +265,7 @@ def mark_peaks(
     return line_collection
 
 
-def plot_satgrid_tier(axes: Axes,
+def plot_patgrid_tier(axes: Axes,
                       tier: PatTier,
                       time_offset: float = 0,
                       draw_text: bool = True,

@@ -215,7 +215,7 @@ class Recording(AbstractDataContainer, UserDict):
         self.excluded = excluded
         self.textgrid_path = None
         self.textgrid = None
-        self.satgrid = None
+        self.patgrid = None
         self.annotations = {}
 
     @property
@@ -394,9 +394,9 @@ class Recording(AbstractDataContainer, UserDict):
                                 "function correctly.")
 
         if self.textgrid:
-            self.satgrid = PatGrid(self.textgrid)
+            self.patgrid = PatGrid(self.textgrid)
         else:
-            self.satgrid = None
+            self.patgrid = None
 
 
     def __str__(self) -> str:
