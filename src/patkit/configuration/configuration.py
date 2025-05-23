@@ -103,7 +103,7 @@ class Configuration:
         configuration_paths : ConfigPaths
             Paths to load the configuration from.
         """
-        # TODO 0.16 do reporting and logging on what gets loaded and where
+        # TODO 0.20 do reporting and logging on what gets loaded and where
         # from. this or similar for reporting
         # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
         self._config_paths = configuration_paths
