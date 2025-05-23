@@ -314,7 +314,7 @@ class SplineMetricArguments(UpdatableBaseModel):
 
 class DistanceMatrixArguments(UpdatableBaseModel):
     metrics: list[str]
-    exclusion_list: Path
+    exclusion_list: Path | None = None
     preload: bool = True
     release_data_memory: bool = False
     slice_max_step: int | None = None
