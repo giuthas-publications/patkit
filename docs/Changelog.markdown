@@ -62,6 +62,11 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - The main config file has been removed.
 
+### Bugs
+
+- Exclusion lists are disabled until reimplementation in most likely version
+  0.20.
+
 
 ## [0.15.2] - 2025-04-22
 
