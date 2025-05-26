@@ -80,7 +80,7 @@ from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
     mark_peaks,
-    plot_satgrid_tier,
+    plot_patgrid_tier,
     plot_spectrogram,
     plot_spline,
     plot_timeseries,
@@ -138,7 +138,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.display_tongue = display_tongue
 
-        self.main_config = config.main_config
+        self.data_config = config.data_config
         self.gui_config = config.gui_config
 
         if categories is None:
@@ -197,8 +197,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.action_raw_frame = QAction(
             text="Raw frame at cursor", parent=self.menu_select_image)
         self.action_mean_image.setCheckable(True)
-        self.action_mean_image.setChecked(True)
         self.action_frame.setCheckable(True)
+        self.action_frame.setChecked(True)
         self.action_raw_frame.setCheckable(True)
         self.menu_select_image.addAction(self.action_mean_image)
         self.menu_select_image.addAction(self.action_frame)
@@ -295,8 +295,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.xlim = xlim
 
-        height_ratios = [self.gui_config.data_and_tier_height_ratios.data,
-                         self.gui_config.data_and_tier_height_ratios.tier]
+        height_ratios = [self.gui_config.data_and_tier_height_ratios.data_axes,
+                         self.gui_config.data_and_tier_height_ratios.tier_axes]
         self.main_grid_spec = self.figure.add_gridspec(
             nrows=2,
             ncols=1,
@@ -350,6 +350,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.multicursor = None
 
+        self.image_updater()
         self.show()
         self.ultra_canvas.draw_idle()
         self.update()
@@ -485,6 +486,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             else:
                 ylim = axes_params.ylim
 
+        # TODO: this needs to work together with normalisation, maybe this
+        # should in fact live inside of plot_timeseries instead of here?
         y_offset = 0
         if axes_params.y_offset is not None:
             y_offset = axes_params.y_offset
@@ -553,8 +556,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         for axes in self.tier_axes:
             axes.remove()
         self.tier_axes = []
-        if self.current.satgrid:
-            nro_tiers = len(self.current.satgrid)
+        if self.current.patgrid:
+            nro_tiers = len(self.current.patgrid)
             self.tier_grid_spec = self.main_grid_spec[1].subgridspec(
                 nro_tiers, 1, hspace=0, wspace=0)
             for axes_counter, tier in enumerate(self.current.textgrid):
@@ -665,13 +668,13 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         # segment_line = None
         self.animators = []
-        iterator = zip(self.current.satgrid.items(),
+        iterator = zip(self.current.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
             boundaries_by_axis = []
 
-            # boundary_set, segment_line = plot_satgrid_tier(
-            boundary_set, _ = plot_satgrid_tier(
+            # boundary_set, segment_line = plot_patgrid_tier(
+            boundary_set, _ = plot_patgrid_tier(
                 axis, tier, time_offset=stimulus_onset, text_y=.5)
             boundaries_by_axis.append(boundary_set)
             axis.set_ylabel(
@@ -680,7 +683,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             axis.set_xlim(self.xlim)
             if name in self.gui_config.pervasive_tiers:
                 for data_axis in self.data_axes:
-                    boundary_set = plot_satgrid_tier(
+                    boundary_set = plot_patgrid_tier(
                         data_axis, tier, time_offset=stimulus_onset,
                         draw_text=False)[0]
                     boundaries_by_axis.append(boundary_set)
@@ -696,7 +699,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                     main_window=self,
                     boundaries=boundaries,
                     segment=interval,
-                    epsilon=self.main_config.epsilon,
+                    epsilon=self.data_config.epsilon,
                     time_offset=stimulus_onset)
                 animator.connect()
                 self.animators.append(animator)
@@ -780,7 +783,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 # ic(np.diff(time_diff, n=1))
                 # ic(np.max(np.abs(np.diff(time_diff, n=1))))
 
-                epsilon = max((self.main_config.epsilon,
+                epsilon = max((self.data_config.epsilon,
                                splines.time_precision))
                 min_difference = abs(
                     splines.timevector[spline_index] - timestamp)
@@ -990,10 +993,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             (self.current.textgrid_path, _) = QFileDialog.getSaveFileName(
                 self, 'Save TextGrid', directory='.',
                 filter="TextGrid files (*.TextGrid)")
-        if self.current.textgrid_path and self.current.satgrid:
+        if self.current.textgrid_path and self.current.patgrid:
             file = self.current.textgrid_path
             with open(file, 'w', encoding='utf-8') as outfile:
-                outfile.write(self.current.satgrid.format_long())
+                outfile.write(self.current.patgrid.format_long())
             _logger.info(
                 "Wrote TextGrid to file %s.",
                 str(self.current.textgrid_path))
@@ -1012,10 +1015,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 (recording.textgrid_path, _) = QFileDialog.getSaveFileName(
                     self, 'Save TextGrid', directory='.',
                     filter="TextGrid files (*.TextGrid)")
-            if recording.textgrid_path and recording.satgrid:
+            if recording.textgrid_path and recording.patgrid:
                 file = recording.textgrid_path
                 with open(file, 'w', encoding='utf-8') as outfile:
-                    outfile.write(recording.satgrid.format_long())
+                    outfile.write(recording.patgrid.format_long())
                 _logger.info(
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))

@@ -29,7 +29,7 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
-"""patkit's main datastructures."""
+"""PATKIT's main datastructures."""
 
 from __future__ import annotations
 
@@ -41,22 +41,82 @@ from pathlib import Path
 import numpy as np
 import textgrids
 
-from patkit.configuration import PathStructure
-from patkit.constants import AnnotationType
+from patkit.configuration import SessionConfig
+from patkit.constants import AnnotationType, SourceSuffix
 from patkit.errors import (
     DimensionMismatchError, MissingDataError, OverwriteError
 )
-from patkit.satgrid import SatGrid
-from .base_classes import DataAggregator, DataContainer, Statistic
+from patkit.utility_functions import stem_path
+from patkit.patgrid import PatGrid
+from .base_classes import AbstractDataContainer, AbstractData, Statistic
 from .metadata_classes import (
     FileInformation, ModalityData, ModalityMetaData, PointAnnotations,
-    RecordingMetaData, SessionConfig
+    RecordingMetaData
 )
 
 _logger = logging.getLogger('patkit.data_structures')
 
 
-class Session(DataAggregator, UserList):
+class Manifest(UserList):
+    """
+    Manifest is a list of Scenario paths as strings.
+    """
+    @staticmethod
+    def read_manifest(path: Path) -> list[str] | None:
+        """
+        Static method for reading a Manifest files contents.
+
+        Parameters
+        ----------
+        path : Path
+            Path of the file.
+
+        Returns
+        -------
+        list[str] | None
+            Either the contents of the file or None if the file was empty.
+        """
+        if not path.exists():
+            return None
+        with open(path, 'r', encoding='UTF-8') as file:
+            lines = [line.rstrip() for line in file]
+            return lines
+        return None
+
+    def __init__(self, path: Path | None = None):
+        super().__init__()
+        path = path.resolve()
+        self.path = path
+        if path is not None:
+            scenario_paths = Manifest.read_manifest(path)
+            if scenario_paths is not None:
+                self.extend(scenario_paths)
+
+    @property
+    def scenarios(self) -> list[str]:
+        """
+        The contents of this Manifest as a list.
+
+        Returns
+        -------
+        list[str]
+            The contents.
+        """
+        return list(self)
+
+    def save(self):
+        """
+        Write this manifest into its file. 
+        """
+        if self.path is not None:
+            with open(self.path, 'w', encoding='UTF-8') as file:
+                for scenario_path in self:
+                    file.write(f"{scenario_path}\n")
+
+
+
+
+class Session(AbstractDataContainer, UserList):
     """
     The metadata and Recordings of a recording session.
 
@@ -70,25 +130,22 @@ class Session(DataAggregator, UserList):
     def __init__(
             self,
             name: str,
-            paths: PathStructure,
             config: SessionConfig,
             file_info: FileInformation,
-            recordings: list[Recording],
+            recordings: list[Recording] | None = None,
             statistics: dict[str, Statistic] | None = None
     ) -> None:
         super().__init__(
-            owner=None, name=name, metadata=config,
+            container=None, name=name, metadata=config,
             file_info=file_info, statistics=statistics)
 
-        for recording in recordings:
-            if not recording.owner:
-                recording.owner = self
-        self.extend(recordings)
+        if not recordings is None:
+            for recording in recordings:
+                if not recording.container:
+                    recording.container = self
+            self.extend(recordings)
 
-        self.paths = paths
-        # This was commented out in data structures 4.0, and left here to
-        # explain what session.config was. Remove if nothing broke.
-        # self.config = config
+        self.config = config
 
     @property
     def recordings(self) -> list[Recording]:
@@ -103,7 +160,7 @@ class Session(DataAggregator, UserList):
         return self.data
 
 
-class Recording(DataAggregator, UserDict):
+class Recording(AbstractDataContainer, UserDict):
     """
     A Recording is a dictionary of 0-n synchronised Modalities.
 
@@ -113,23 +170,22 @@ class Recording(DataAggregator, UserDict):
     iterate with the idiom `for modality_name in recording`.
 
     The recording also contains the non-modality-specific metadata
-    (participant, speech content, etc.) as a dictionary, as well as the textgrid
-    for the whole recording.
+    (participant, speech content, etc.) as a dictionary, as well as the
+    textgrid for the whole recording.
 
     In general, inheriting should not be necessary, but if it is, inheriting
-    classes should call `self._read_textgrid()` after calling `super.__init__()`
-    (with correct arguments) and doing any updates to `self.meta['textgrid']`
-    that are necessary.
+    classes should call `self._read_textgrid()` after calling
+    `super.__init__()` (with correct arguments) and doing any updates to
+    `self.meta['textgrid']` that are necessary.
     """
-    owner: Session
+    container: Session
 
     def __init__(
             self,
             metadata: RecordingMetaData,
             file_info: FileInformation,
-            owner: Session | None = None,
+            container: Session | None = None,
             excluded: bool = False,
-            textgrid_path: str | Path = ""
     ) -> None:
         """
         Construct a mainly empty recording without modalities.
@@ -147,25 +203,19 @@ class Recording(DataAggregator, UserDict):
             Some of the contents of the meta data are available as properties.
         excluded : bool, optional
             _description_, by default False
-        textgrid_path : Union[str, Path], optional
-            _description_, by default ""
         """
+        if file_info.recorded_meta_file:
+            name = file_info.recorded_meta_file
+        else:
+            name = file_info.patkit_meta_file
         super().__init__(
-            owner=owner, name=metadata.basename,
+            container=container, name=name,
             metadata=metadata, file_info=file_info)
 
         self.excluded = excluded
-
-        self.textgrid_path = textgrid_path
-        if not self.textgrid_path:
-            self.textgrid_path = metadata.path.joinpath(
-                metadata.basename + ".TextGrid")
-        self.textgrid = self._read_textgrid()
-        if self.textgrid:
-            self.satgrid = SatGrid(self.textgrid)
-        else:
-            self.satgrid = None
-
+        self.textgrid_path = None
+        self.textgrid = None
+        self.patgrid = None
         self.annotations = {}
 
     @property
@@ -181,22 +231,9 @@ class Recording(DataAggregator, UserDict):
         return self.data
 
     @property
-    def path(self) -> Path:
-        """Path to this recording."""
-        return self.metadata.path
-
-    @path.setter
-    def path(self, path: Path) -> None:
-        self.metadata.path = path
-
-    @property
     def basename(self) -> str:
         """Filename of this Recording without extensions."""
-        return self.metadata.basename
-
-    @basename.setter
-    def basename(self, basename: str) -> None:
-        self.metadata.basename = basename
+        return self.file_info.basename
 
     def _read_textgrid(self) -> textgrids.TextGrid | None:
         """
@@ -291,8 +328,6 @@ class Recording(DataAggregator, UserDict):
         name = modality.name
 
         if name in self.modalities and not replace:
-            # ic(modality.metadata)
-            # ic(self[modality.name].metadata)
             raise OverwriteError(
                 "A modality named " + name +
                 " already exists and replace flag was False.")
@@ -311,6 +346,29 @@ class Recording(DataAggregator, UserDict):
         Currently, this is only used to create placeholder TextGrids when
         needed.
         """
+        textgrid_path  = None
+        if self.recorded_meta_path:
+            textgrid_path = self.recorded_meta_path.with_suffix(
+                SourceSuffix.TEXTGRID
+            )
+        elif self.recorded_meta_path:
+            textgrid_path = self.recorded_data_path.with_suffix(
+                SourceSuffix.TEXTGRID
+            )
+
+        if not textgrid_path or not textgrid_path.exists():
+            if self.file_info.patkit_meta_file:
+                textgrid_path = self.recorded_path
+                name = Path(self.file_info.patkit_meta_file)
+                textgrid_path = stem_path(textgrid_path/name)
+                textgrid_path = textgrid_path.with_suffix(
+                    SourceSuffix.TEXTGRID
+                )
+
+        if textgrid_path is not None and textgrid_path.exists():
+            self.textgrid_path = textgrid_path
+            self.textgrid = self._read_textgrid()
+
         if self.textgrid is None:
             if 'MonoAudio' in self.modalities:
                 _logger.warning(
@@ -329,12 +387,17 @@ class Recording(DataAggregator, UserDict):
                 tier.append(interval)
                 textgrid['Utterance'] = tier
                 self.textgrid = textgrid
-                self.satgrid = SatGrid(self.textgrid)
             else:
                 _logger.warning("No audio found for %s.",
                                 self.basename)
                 _logger.warning("Can't create a textgrid so GUI may not "
                                 "function correctly.")
+
+        if self.textgrid:
+            self.patgrid = PatGrid(self.textgrid)
+        else:
+            self.patgrid = None
+
 
     def __str__(self) -> str:
         """
@@ -365,7 +428,7 @@ class Recording(DataAggregator, UserDict):
         return NotImplemented
 
 
-class Modality(DataContainer, OrderedDict):
+class Modality(AbstractData, OrderedDict):
     """
     Abstract superclass for all data Modality classes.
 
@@ -373,7 +436,7 @@ class Modality(DataContainer, OrderedDict):
     by `modality[annotation_type]`, because a Modality is also a OrderedDict of
     its Annotations.
     """
-    owner: Recording
+    container: Recording
 
     @classmethod
     @abc.abstractmethod
@@ -382,7 +445,7 @@ class Modality(DataContainer, OrderedDict):
 
     def __init__(
             self,
-            owner: Recording,
+            container: Recording,
             file_info: FileInformation,
             parsed_data: ModalityData | None = None,
             metadata: ModalityMetaData | None = None,
@@ -416,7 +479,7 @@ class Modality(DataContainer, OrderedDict):
             parsed_data.timevector.
         """
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info)
 
@@ -456,14 +519,14 @@ class Modality(DataContainer, OrderedDict):
     @property
     def recording(self) -> Recording | None:
         """
-        This modality's owner available also with this alias for ease of use.
+        This modality's container available also with this alias for ease of use.
 
         Returns
         -------
         Recording
             The Recording which contains this Modality.
         """
-        return self.owner
+        return self.container
 
     def _get_data(self) -> ModalityData:
         # TODO: Provide a way to force the data to be derived or loaded. this

@@ -50,8 +50,10 @@ import numpy as np
 from pydantic import conlist, PositiveInt
 
 from patkit.constants import (
+    AxesType,
+    ComparisonMember,
     CoordinateSystems,
-    Datasource,
+    DatasourceNames,
     GuiColorScheme,
     IntervalBoundary,
     IntervalCategory,
@@ -61,7 +63,6 @@ from patkit.constants import (
     SplineShapesEnum,
 )
 from patkit.external_class_extensions import UpdatableBaseModel
-from patkit.constants import ComparisonMember
 
 _logger = logging.getLogger('patkit.configuration_models')
 
@@ -118,28 +119,29 @@ class SplineConfig(UpdatableBaseModel):
     data_config: SplineDataConfig
 
 
+# TODO 1.0: Use this to load RASL data and others where the files are in
+# separate dirs by type.
 class PathStructure(UpdatableBaseModel):
     """
-    Path structure of a Session for both loading and saving.
+    Path structure of a Session for reading and only reading.
+
+    For saving and subsequent loading the structure should be saved in
+    individual DataObject's FileInformation fields.
     """
     root: Path
-    exclusion_list: Path | None = None
     wav: Path | None = None
     textgrid: Path | None = None
     ultrasound: Path | None = None
     spline_config: Path | None = None
 
 
-class MainConfig(UpdatableBaseModel):
+class SessionConfig(UpdatableBaseModel):
     """
-    Main configuration data of patkit.
+    Description of a Session for import into patkit.
     """
-    epsilon: float
-    mains_frequency: float
-    gui_parameter_file: Path
-    data_run_parameter_file: Path | None = None
-    simulation_parameter_file: Path | None = None
-    publish_parameter_file: Path | None = None
+    data_source_name: DatasourceNames
+    path_structure: PathStructure
+    spline_config: SplineConfig | None = None
 
 
 class SearchPattern(UpdatableBaseModel):
@@ -312,7 +314,7 @@ class SplineMetricArguments(UpdatableBaseModel):
 
 class DistanceMatrixArguments(UpdatableBaseModel):
     metrics: list[str]
-    exclusion_list: Path
+    exclusion_list: Path | None = None
     preload: bool = True
     release_data_memory: bool = False
     slice_max_step: int | None = None
@@ -345,7 +347,7 @@ class PeakDetectionParams(PointAnnotationParams):
     find_peaks_args: FindPeaksScipyArguments | None = None
 
 
-class DataRunFlags(UpdatableBaseModel):
+class DataFlags(UpdatableBaseModel):
     detect_beep: bool = False
     test: bool = False
 
@@ -382,8 +384,11 @@ class CastParams(UpdatableBaseModel):
     cast_flags: CastFlags
 
 
-class DataRunConfig(UpdatableBaseModel):
-    flags: DataRunFlags
+class DataConfig(UpdatableBaseModel):
+    epsilon: float
+    mains_frequency: float
+    recorded_data_path: Path
+    flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None
     pd_arguments: PdArguments | None = None
@@ -459,8 +464,8 @@ class SimulationConfig(UpdatableBaseModel):
 
 
 class HeightRatios(UpdatableBaseModel):
-    data: int
-    tier: int
+    data_axes: int
+    tier_axes: int
 
 
 class AxesParams(UpdatableBaseModel):
@@ -516,6 +521,7 @@ class GeneralAxesParams(UpdatableBaseModel):
 
 class GuiConfig(UpdatableBaseModel):
     data_and_tier_height_ratios: HeightRatios
+    general_axes_params: dict[AxesType, AxesParams]
     general_axes_params: GeneralAxesParams
     data_axes: dict[str, AxesDefinition]
     pervasive_tiers: list[str]

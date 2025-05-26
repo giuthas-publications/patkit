@@ -38,7 +38,7 @@ from contextlib import closing
 from datetime import datetime
 from pathlib import Path
 
-from patkit.constants import AaaProbeType
+from patkit.constants import AaaProbeType, SourceSuffix
 from patkit.data_structures import (
     FileInformation, Recording, RecordingMetaData)
 from patkit.modalities import RawUltrasound, RawUltrasoundMeta
@@ -78,9 +78,10 @@ def parse_recording_meta_from_aaa_prompt_file(
             participant_id = ""
 
         meta = RecordingMetaData(
-            prompt=prompt, time_of_recording=time_of_recording,
-            participant_id=participant_id, basename=filepath.stem,
-            path=filepath.parent)
+            prompt=prompt,
+            time_of_recording=time_of_recording,
+            participant_id=participant_id,
+        )
         _logger.debug("Read prompt file %s.", filepath)
     return meta
 
@@ -151,17 +152,20 @@ def add_aaa_raw_ultrasound(
         recording.basename)
 
     if not path:
-        ult_path = (recording.path/recording.basename).with_suffix(".ult")
-        meta_path = recording.path/(recording.basename+"US.txt")
+        ult_path = recording.recorded_meta_path.with_suffix(
+            SourceSuffix.AAA_ULTRA)
+        meta_name = recording.basename+SourceSuffix.AAA_ULTRA_META_OLD
+        meta_path = recording.recorded_path/meta_name
     else:
         ult_path = path
-        meta_path = path.parent/(path.stem+"US.txt")
+        meta_path = path.parent/(path.stem+SourceSuffix.AAA_ULTRA_META_OLD)
 
     if not meta_path.is_file():
         if not path:
-            meta_path = recording.path/(recording.basename+".param")
+            meta_path = recording.recorded_path/recording.basename
+            meta_path = meta_path.with_suffix(SourceSuffix.AAA_ULTRA_META_NEW)
         else:
-            meta_path = path.with_suffix(".param")
+            meta_path = path.with_suffix(SourceSuffix.AAA_ULTRA_META_NEW)
 
     if not meta_path.is_file():
         notice = 'Note: ' + str(meta_path) + " does not exist. Excluding."
@@ -195,7 +199,7 @@ def add_aaa_raw_ultrasound(
         recorded_meta_file=meta_path.name)
 
     ultrasound = RawUltrasound(
-        owner=recording,
+        container=recording,
         file_info=file_info,
         time_offset=ult_time_offset,
         metadata=meta

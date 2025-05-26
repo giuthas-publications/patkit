@@ -57,7 +57,7 @@ import seaborn as sns
 
 from patkit.data_structures import Recording, Session
 
-from .plot import (plot_1d_modality, plot_satgrid_tier)
+from .plot import (plot_1d_modality, plot_patgrid_tier)
 from ..configuration.configuration_models import TimeseriesPlotConfig
 
 _plot_logger = logging.getLogger('patkit.publish')
@@ -293,10 +293,10 @@ def recording_timeseries_figure(
                 handlelength=timeseries_params.legend.handlelength,
                 handletextpad=timeseries_params.legend.handletextpad)
 
-            if timeseries_params.plotted_tier in recording.satgrid:
-                tier = recording.satgrid[timeseries_params.plotted_tier]
+            if timeseries_params.plotted_tier in recording.patgrid:
+                tier = recording.patgrid[timeseries_params.plotted_tier]
 
-                plot_satgrid_tier(
+                plot_patgrid_tier(
                     ax, tier, time_offset=time_offset,
                     draw_text=False)
 
@@ -304,8 +304,8 @@ def recording_timeseries_figure(
                 ax.yaxis.set_label_position("right")
                 ax.yaxis.tick_right()
         else:
-            if timeseries_params.plotted_tier in recording.satgrid:
-                tier = recording.satgrid[timeseries_params.plotted_tier]
+            if timeseries_params.plotted_tier in recording.patgrid:
+                tier = recording.patgrid[timeseries_params.plotted_tier]
 
                 ax.set_xlim(timeseries_params.xlim)
                 ax.tick_params(
@@ -323,7 +323,7 @@ def recording_timeseries_figure(
                     ax.set_xticks(timeseries_params.xtick_values)
                     ax.set_xticklabels(timeseries_params.xtick_labels)
 
-                plot_satgrid_tier(
+                plot_patgrid_tier(
                     ax, tier, time_offset=time_offset,
                     draw_text=True, text_y=.45)
 

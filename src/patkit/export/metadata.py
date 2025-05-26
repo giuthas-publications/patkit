@@ -43,18 +43,13 @@ from patkit.constants import PATKIT_VERSION
 from patkit.data_structures import FileInformation, Modality, Recording, Session
 from patkit.metrics import AggregateImageParameters, DistanceMatrixParameters
 from patkit.save_and_load import nested_text_converters
+from patkit.utility_functions import path_from_name
 
 _logger = logging.getLogger('patkit.export')
 
 
-def _path_from_name(filename: str | Path) -> Path:
-    if not isinstance(filename, Path):
-        return Path(filename)
-    return filename
-
-
 def _paths_from_name(filename: str | Path) -> tuple[Path, Path]:
-    path = _path_from_name(filename)
+    path = path_from_name(filename)
     return path, path.with_suffix('.txt')
 
 
@@ -186,7 +181,7 @@ def export_modality_meta(
             object_name=description,
             filename=filename)
         _write_session_and_recording_meta(
-            file=file, session=modality.owner.owner, recording=modality.owner)
+            file=file, session=modality.owner.container, recording=modality.owner)
         file.write("\n")
         nestedtext.dump(
             obj=dict(sorted(modality.metadata.model_dump().items())),
@@ -223,7 +218,7 @@ def export_derived_modalities_meta(
             object_name=description,
             filename=filename)
         _write_session_and_recording_meta(
-            file=file, session=recording.owner, recording=recording)
+            file=file, session=recording.container, recording=recording)
         file.write("\n")
 
         modality_params = {

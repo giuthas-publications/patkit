@@ -30,14 +30,14 @@
 # citations.bib in BibTeX format.
 #
 """
-patkit command line commands.
+PATKIT command line commands.
 """
 
 from pathlib import Path
 
 import click
 
-from patkit.initialise import initialise_logger_and_config, initialise_patkit
+from patkit.initialise import initialise_config, initialise_patkit
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
@@ -47,80 +47,42 @@ from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
 @click.command(name="open")
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.option(
-    "-config_file", "-c",
     type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
     ),
-    required=False,
-)
-@click.option(
-    "-exclusion_file", "-e",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
 )
 def open_in_annotator(
-        path: Path, config_file: Path | None, exclusion_file: Path | None
+        path: Path
 ) -> None:
     """
     Open the PATH in the annotator GUI.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
     """
-    if exclusion_file:
-        if exclusion_file.suffix not in {".csv", ".yaml"}:
-            raise click.ClickException(
-                f"Unexpected exclusion file extension: {exclusion_file.suffix}."
-            )
-    configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file, exclusion_file=exclusion_file)
-    run_annotator(session, configuration)
+    config, logger = initialise_config(
+        path=path, require_gui=True, require_data=True)
+    session = initialise_patkit(config=config, logger=logger)
+    run_annotator(session=session, config=config)
 
 
 @click.command()
 @click.argument(
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.option(
-    "-config_file", "-c",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
-@click.option(
-    "-exclusion_file", "-e",
-    type=click.Path(
-        exists=True, dir_okay=False, file_okay=True, path_type=Path,
-        readable=True
-    ),
-    required=False,
-)
 def interact(
-        path: Path, config_file: Path | None, exclusion_file: Path | None
+        path: Path
 ):
     """
     Open the PATH in interactive commandline mode.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
     """
-    if exclusion_file:
-        if exclusion_file.suffix not in {".csv", ".yaml"}:
-            raise click.ClickException(
-                f"Unexpected exclusion file extension: {exclusion_file.suffix}."
-            )
-    configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file, exclusion_file=exclusion_file
+    config, logger = initialise_config(path=path, require_data=True)
+    configuration, session = initialise_patkit(
+        config=config,
+        logger=logger
     )
     run_interpreter(session=session, configuration=configuration)
 
@@ -129,47 +91,41 @@ def interact(
 @click.argument(
     "path",
     type=click.Path(exists=True, dir_okay=True, file_okay=True), )
-@click.argument(
-    "config_file",
-    type=click.Path(exists=True, dir_okay=False, file_okay=True),
-    required=False,
-)
-@click.argument(
-    "output_dir",
-    type=click.Path(dir_okay=True, file_okay=False),
-    required=False,
-)
-def publish(path: Path, config_file: Path | None, output_dir: Path | None):
+def publish(path: Path):
     """
     Publish plots from the data in PATH.
 
     \b
     PATH to the data - maybe be a file or a directory.
-    CONFIG_FILE configuration .yaml file.
 
     NOT IMPLEMENTED YET.
     """
-    configuration, logger, session = initialise_patkit(
-        path=path, config_file=config_file
+    config, logger = initialise_config(path=path, require_publish=True)
+    session = initialise_patkit(
+        config=config, logger=logger
+    )
+    print(
+        f"Loaded {session} but rest of publish is scheduled for "
+        f"implementation in a later version."
     )
 
 
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(dir_okay=False, file_okay=True, path_type=Path),
+    type=click.Path(dir_okay=True, file_okay=True, path_type=Path),
 )
 def simulate(path: Path):
     """
     Run a simulation experiment.
 
     \b
-    PATH to a ỳaml file which contains the parameters for running the
+    PATH to a `.yaml` file which contains the parameters for running the
     simulation.
     """
-    config, exclusion_file, logger = initialise_logger_and_config(
-        config_file=path,
-    )
+    # TODO 0.20: simulate command will not work if given the actual config file
+    # instead of containing dir
+    config, _ = initialise_config(path=path, require_simulation=True)
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(
         sim_configuration=config.simulation_config)
     run_simulations(

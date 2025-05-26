@@ -1,4 +1,11 @@
 
+# What precision is treated as equal when comparing annotation boundaries.
+epsilon: 0.00001
+
+# Used in filtering sound signals before beep detection.
+mains_frequency: 50
+
+
 # Please note that empty file or directory fields are interpreted as not
 # available and represented by None. If you want to specify current working
 # directory, use '.'

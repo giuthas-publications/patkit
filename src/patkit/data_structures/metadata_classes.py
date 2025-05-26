@@ -40,11 +40,13 @@ import numpy as np
 from pydantic import PositiveInt
 
 from patkit.configuration import (
-    ExclusionList, PointAnnotationParams, SplineConfig
+    PointAnnotationParams
 )
-from patkit.constants import AnnotationType, Datasource
-from patkit.external_class_extensions import patkitBaseModel
-from patkit.utility_functions.types import is_sequence_form
+from patkit.constants import AnnotationType
+from patkit.external_class_extensions import PatkitBaseModel
+from patkit.utility_functions import (
+    is_sequence_form, stem_path
+)
 
 _datastructures_logger = logging.getLogger('patkit.data_structures')
 
@@ -60,16 +62,13 @@ class FileInformation:
         Name of the file containing the meta data of the recording.
     recorded_path : Path | None = None
         Path to the recorded data of this DataObject - if there is original
-        recorded data associated with this instance/type, defaults to None
+        recorded data associated with this instance/type. Defaults to None
     patkit_data_file : str | None
-        Name of the patkit data file, if it exists, defaults to None.
+        Name of the patkit data file, if it exists. Defaults to None.
     patkit_meta_file : str | None
-        Name of the patkit meta file, if it exists, defaults to None.
+        Name of the patkit meta file, if it exists. Defaults to None.
     patkit_path : Path | None
-        Path to the saved patkit data, if it exists, defaults to None.
-        Generally this will mostly be equivalent to the recorded_path, except
-        for the root level DataAggregator which contains the paths to the
-        patkit and recorded data root directories.
+        Path to the saved patkit data, if it exists. Defaults to None.
     """
     recorded_data_file: str | None = None
     recorded_meta_file: str | None = None
@@ -77,6 +76,43 @@ class FileInformation:
     patkit_data_file: str | None = None
     patkit_meta_file: str | None = None
     patkit_path: Path | None = None
+
+    @property
+    def basename(self) -> str:
+        """
+        Name of either the recorded or patkit data.
+
+        Recorded takes precedence if for some reason both exist.
+
+        Returns
+        -------
+        str
+            Name without suffix
+        """
+        return self.basepath.name
+
+    @property
+    def basepath(self) -> Path:
+        """
+        Path of the recorded or patkit data without the suffix.
+
+        This is a concatenation of the local path part (does not contain e.g. a
+        Modality's parent's path) and the name with the suffix(es) dropped.
+
+        Returns
+        -------
+        Path
+            Data Path without suffix.
+        """
+        basepath = None
+        if self.recorded_path:
+            if self.recorded_data_file:
+                basepath = self.recorded_path/self.recorded_data_file
+            elif self.recorded_meta_file:
+                basepath = self.recorded_path/self.recorded_meta_file
+        if basepath is None:
+            basepath = self.patkit_path/self.patkit_meta_file
+        return stem_path(basepath)
 
 
 @dataclass
@@ -97,7 +133,7 @@ class ModalityData:
     timevector: np.ndarray
 
 
-class ModalityMetaData(patkitBaseModel):
+class ModalityMetaData(PatkitBaseModel):
     """
     Baseclass of Modalities' metadata classes.
     """
@@ -207,26 +243,14 @@ class PointAnnotations:
                 self.properties[key] = self.properties[key][selected]
 
 
-class RecordingMetaData(patkitBaseModel):
+class RecordingMetaData(PatkitBaseModel):
     """Basic metadata that any Recording should reasonably have."""
     prompt: str
     time_of_recording: datetime
     participant_id: str
-    # TODO: These should be taken care of by FileInformation.
-    basename: str
-    path: Path
 
 
-class SessionConfig(patkitBaseModel):
-    """
-    Description of a Session for import into patkit.
-    """
-    data_source: Datasource
-    exclusion_list: ExclusionList | None = None
-    spline_config: SplineConfig | None = None
-
-
-class StatisticMetaData(patkitBaseModel):
+class StatisticMetaData(PatkitBaseModel):
     """
     Baseclass of Statistics' metadata classes.
     """

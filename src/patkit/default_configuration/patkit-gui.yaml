@@ -4,8 +4,8 @@
 # tier displays, but instead controls the ratio between the sum of data
 # displays vs sum of tier displays.
 data_and_tier_height_ratios: 
-  data: 2
-  tier: 1
+  data_axes: 2
+  tier_axes: 1
 
 # Which data axes to display. Currently used only to decide the number to
 # create. Number of lines gives the number of axis, modalities on the same line
@@ -33,7 +33,7 @@ data_axes:
     ylim:
       - 100
       - 2000
-  PD normalised:
+  "Normalised\nPD":
     modalities:
       - PD l1 on RawUltrasound
       - PD l2 on RawUltrasound
@@ -65,3 +65,6 @@ auto_xlim: True
 
 # Font parameters
 default_font_size: 10
+
+# Dark vs light mode
+color_scheme: follow_system

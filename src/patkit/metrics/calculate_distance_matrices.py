@@ -39,13 +39,14 @@ from typing import Optional
 
 import numpy as np
 
-from patkit.data_structures import FileInformation, Session
-from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
-from ..configuration import (
+from patkit.configuration import (
     ExclusionList, load_exclusion_list,
     remove_excluded_recordings
 )
-from ..utility_functions import mean_squared_error
+from patkit.data_structures import FileInformation, Session
+from patkit.computational import mean_squared_error
+
+from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
 
 _logger = logging.getLogger('patkit.session_mse')
 
@@ -205,7 +206,7 @@ def calculate_distance_matrix(
 
 
     return DistanceMatrix(
-        owner=session,
+        container=session,
         metadata=params,
         file_info=FileInformation(),
         parsed_data=matrix, )

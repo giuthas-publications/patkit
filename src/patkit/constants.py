@@ -56,13 +56,19 @@ DEFAULT_ENCODING = 'utf-8'
 PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
+# TODO 0.17 still not happy with this and how it meshes with patgrid.
+PATKIT_EPSILON = 0.00001
+
 
 class AaaProbeType(Enum):
     """
     Probe type codes saved by AAA.
+
+    These are probe models, not 'fan' vs 'linear' or some such thing.
     """
     UNKNOWN = -1
-    FAN = 0
+    ZERO = 0
+    ONE = 1
 
 
 class AnnotationType(Enum):
@@ -90,17 +96,18 @@ class CoordinateSystems(Enum):
     POLAR = 'polar'
 
 
-class Datasource(Enum):
+class DatasourceNames(Enum):
     """
-    Data sources patkit can handle.
+    Names of data sources PATKIT can handle.
 
     Used in saving and loading to identify the data source in config, as well
-    as in meta and skip the step of trying to figure the data source out from
-    the type of files present.
+    as in meta. Used to skip the step of trying to figure the data source out
+    from the type of files present.
     """
     AAA = "AAA"
     # EVA = "EVA"
     RASL = "RASL"
+    WAV = "WAV"
 
 
 class GuiColorScheme(Enum):
@@ -108,7 +115,7 @@ class GuiColorScheme(Enum):
     GUI styles.
 
     FOLLOW_SYSTEM means patkit will try to follow the dark/light theme setting
-    the systeme uses.
+    the system uses.
     """
     DARK = "dark"
     FOLLOW_SYSTEM = "follow_system"
@@ -122,6 +129,14 @@ class GuiImageType(Enum):
     MEAN_IMAGE = "mean_image"
     FRAME = "frame"
     RAW_FRAME = "raw_frame"
+
+
+class AxesType(Enum):
+    """
+    Axes types in plotting.
+    """
+    DATA = 'data_axes'
+    TIER = 'tier_axes'
 
 
 class ImageMask(Enum):
@@ -155,16 +170,41 @@ class IntervalCategory(Enum):
 
 
 @dataclass(frozen=True)
-class Patkitconfigfile:
+class PatkitConfigFile:
     """
     Human written yaml files to control importing data.
+
+    Please note, that while MAIN corresponds to `patkit.yaml` which is the
+    conventional name for the file containing paths/names of other config files
+    such as data, gui, publish, and simulation config, and those files have
+    conventional names (`patkit_data.yaml` etc.), these filenames are only a
+    convention. The MAIN here is more of a guess of what we should look for
+    than a hard rule, and the rest should be specified in `patkit.yaml` instead
+    of PATKIT trying to guess their names.
+
+    DATA: specifications for processing data and deriving new Modalities and
+        Statistics. 
+    GUI: specifications for gui elements - which graphs to display, color
+        scheme etc.
+    PUBLISH: specifications for publishing graphs
+    SIMULATION: specifications for simulating data and running analysis on the
+        simulated data
+    MANIFEST: list of Scenarios relating to a set of recorded data saved with
+        recorded data
+    SESSION: how PATKIT should read a session based on recorded data
+    SPLINE: spline formatting
     """
-    SESSION = 'session_config.yaml'
-    SPLINE = 'spline_config.yaml'
+    DATA = "patkit-data.yaml"
+    GUI = "patkit-gui.yaml"
+    PUBLISH = "patkit-publish.yaml"
+    SIMULATION = "patkit-simulation.yaml"
+    MANIFEST = "patkit-manifest.yaml"
+    SESSION = 'session-config.yaml'
+    SPLINE = 'spline-config.yaml'
 
 
 @dataclass(frozen=True)
-class Patkitsuffix:
+class PatkitSuffix:
     """
     Suffixes for files saved by patkit.
 
@@ -179,12 +219,16 @@ class Patkitsuffix:
 
 class SavedObjectTypes(Enum):
     """
-    Represent type of a saved patkit object in .patkit_meta.
+    Represent type of a saved patkit object in .meta.
     """
     # TODO 1.0: Check if this is actually in use.
-    SESSION = "Session"
-    RECORDING = "Recording"
+    DATASET = "Dataset"
     MODALITY = "Modality"
+    RECORDING = "Recording"
+    SESSION = "Session"
+    SOURCE = "Source"
+    STATISTIC = "Statistic"
+    TRIAL = "Trial"
 
 
 @dataclass(frozen=True)
@@ -209,6 +253,8 @@ class SourceSuffix:
     AAA_SPLINES = ".spl"
     AVI = ".avi"
     CSV = ".csv"
+    TEXTGRID = ".TextGrid"
+    WAV = ".wav"
 
 
 # def patkit_suffix(

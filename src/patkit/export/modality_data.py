@@ -82,8 +82,10 @@ def modality_data_to_dataframe(
         data_name: modality.modality_data.data,
     }
 
+    # TODO 1.0: check if this makes sense and if get_labels needs epsilon from
+    # data_config
     if save_segmentation:
-        label_dict = modality.owner.satgrid.get_labels(new_df_dict[time_name])
+        label_dict = modality.owner.patgrid.get_labels(new_df_dict[time_name])
         new_df_dict.update(label_dict)
 
     return pd.DataFrame(new_df_dict)

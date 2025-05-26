@@ -49,7 +49,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from scipy import signal as scipy_signal
 
-from patkit.utility_functions import normalise_timeseries
+from patkit.computational import normalise_timeseries
 from patkit.configuration import (
     PeakDetectionParams, TimeseriesNormalisation)
 from patkit.data_structures import Modality, PointAnnotations, Recording
@@ -106,9 +106,9 @@ def add_peaks(
         peak_parameters)
     modality.add_point_annotations(annotations)
 
-    if peak_parameters.time_min and recording.satgrid:
+    if peak_parameters.time_min and recording.patgrid:
         tier_name = peak_parameters.time_min.tier
-        tier = recording.satgrid[tier_name]
+        tier = recording.patgrid[tier_name]
 
         interval_category = peak_parameters.time_min.interval
         interval = tier.get_interval_by_category(
@@ -128,9 +128,9 @@ def add_peaks(
 
         annotations.apply_lower_time_limit(time_min)
 
-    if peak_parameters.time_max and recording.satgrid:
+    if peak_parameters.time_max and recording.patgrid:
         tier_name = peak_parameters.time_max.tier
-        tier = recording.satgrid[tier_name]
+        tier = recording.patgrid[tier_name]
 
         interval_category = peak_parameters.time_max.interval
         interval = tier.get_interval_by_category(
@@ -511,7 +511,7 @@ def save_peaks(
     whole_to_bottom_thresholded = None
     bottom_to_whole_thresholded = None
     for i, recording in enumerate(recordings):
-        if 'utterance' not in recording.satgrid:
+        if 'utterance' not in recording.patgrid:
             continue
         basename = recording.basename
         prompt = recording.metadata.prompt
@@ -527,7 +527,7 @@ def save_peaks(
         ultra_time = l1.timevector - stimulus_onset
 
         end_time = 0
-        for interval in recording.satgrid['utterance']:
+        for interval in recording.patgrid['utterance']:
             if interval.label:
                 end_time = interval.end
                 break

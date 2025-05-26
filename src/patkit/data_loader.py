@@ -30,7 +30,7 @@
 # citations.bib in BibTeX format.
 #
 """
-Import a Session from a directory or call the loader for previously saved data.
+Import or load a Session from a directory.
 """
 
 import logging
@@ -38,59 +38,63 @@ import sys
 from pathlib import Path
 
 from patkit.audio_processing import MainsFilter
-from patkit.configuration import Configuration, PathStructure
+from patkit.configuration import (
+    Configuration, PathStructure, SessionConfig
+)
 from patkit.constants import (
-    Datasource, SourceSuffix, Patkitsuffix, Patkitconfigfile)
+    DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
     generate_aaa_recording_list, load_session_config)
 from patkit.data_structures import (
-    FileInformation, Session, SessionConfig)
+    FileInformation, Session)
 from patkit.save_and_load import load_recording_session
 
-logger = logging.getLogger('patkit.scripting')
+_logger = logging.getLogger('patkit.scripting')
 
 # TODO 1.0: change the name of this file to data_importer and move it to a more
 # appropriate submodule.
 
 
-def load_data(path: Path, configuration: Configuration) -> Session:
+def load_data(configuration: Configuration) -> Session:
     """
     Handle loading data from individual files or a previously saved session.
 
     Parameters
     ----------
-    path : Path
-        Directory or patkit metafile to read the Session from.
     configuration : Configuration
         patkit configuration.
+
     Returns
     -------
     Session
         The generated Session object with the exclusion list applied.
     """
-    if configuration.main_config.mains_frequency:
+    recorded_path = configuration.data_config.recorded_data_path
+    patkit_path = configuration.config_paths.path
+
+    # TODO 0.18 Should not blindly assume that sampling frequency is 44100!
+    if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
-            configuration.main_config.mains_frequency)
+            configuration.data_config.mains_frequency)
     else:
-        MainsFilter.generate_mains_filter(44100, 50)
+        print(
+            "No mains frequency specified. Guessing 60 Hz. Please "
+            "check if this is correct where the data was recorded.")
+        MainsFilter.generate_mains_filter(44100, 60)
 
-    if not path.exists():
-        logger.critical(
-            'File or directory does not exist: %s.', path)
-        logger.critical('Exiting.')
-        sys.exit()
-    elif path.is_dir():
-        session = read_recording_session_from_dir(
-            recorded_data_path=path,
-            detect_beep=configuration.data_run_config.flags.detect_beep
-        )
-    elif path.suffix == '.patkit_meta':
-        session = load_recording_session(path)
+    if patkit_path is not None:
+        meta_files = patkit_path.glob("*" + PatkitSuffix.META)
     else:
-        logger.error(
-            'Unsupported filetype: %s.', path)
-        sys.exit()
+        meta_files = recorded_path.glob("*" + PatkitSuffix.META)
+
+    if len(list(meta_files)) == 0:
+        _logger.debug("Reading session from %s.", recorded_path)
+        session = read_recorded_session_from_dir(recorded_path)
+        session.patkit_path = configuration.config_paths.path
+    else:
+        _logger.debug("Loading session from %s.", patkit_path)
+        session = load_recording_session(patkit_path)
 
     for recording in session:
         recording.after_modalities_init()
@@ -98,64 +102,95 @@ def load_data(path: Path, configuration: Configuration) -> Session:
     return session
 
 
-def read_recording_session_from_dir(
+def read_recorded_session_from_dir(
         recorded_data_path: Path,
         detect_beep: bool = False
 ) -> Session:
     """
-    Wrapper for reading data from a directory full of files.
+    Read recorded data from a directory.
 
-    Having this as a separate method allows subclasses to change
-    arguments or even the parser.
+    This function tries to guess which importer to use.
 
-    Note that to make data loading work in a consistent way,
-    this method just returns the data and saving it in an
-    instance variable is left for the caller to handle.
+    Parameters
+    ----------
+    recorded_data_path : Path
+        Path to the recorded data.
+    detect_beep : bool, optional
+        Should the 1kHz beep detection be run on audio data, by default False
+
+    Returns
+    -------
+    Session
+        The Session object containing the recorded data. Derived data should be
+        added with a separate function call.
+
+    Raises
+    ------
+    NotImplementedError
+        RASL data is not yet loadable.
+    NotImplementedError
+        Unrecognised data sources will raise an error.
     """
-    containing_dir = recorded_data_path.parts[-1]
+    if not recorded_data_path.exists():
+        print(f"Recorded data directory not found: {recorded_data_path}.")
+        sys.exit()
 
-    session_config_path = recorded_data_path / Patkitconfigfile.SESSION
+    containing_dir = recorded_data_path.parts[-1]
+    session_config_path = recorded_data_path / PatkitConfigFile.SESSION
     session_meta_path = recorded_data_path / (containing_dir + '.Session' +
-                                              Patkitsuffix.META)
+                                              PatkitSuffix.META)
     if session_meta_path.is_file():
-        return load_recording_session(recorded_data_path, session_config_path)
+        session = load_recording_session(
+            recorded_data_path, session_config_path
+        )
+        return session
 
     file_info = FileInformation(
         recorded_path=recorded_data_path,
         recorded_meta_file=session_config_path.name)
     if session_config_path.is_file():
-        paths, session_config = load_session_config(
+        session_config = load_session_config(
             recorded_data_path, session_config_path)
 
-        if session_config.data_source == Datasource.AAA:
-            recordings = generate_aaa_recording_list(
-                directory=recorded_data_path,
-                import_config=session_config,
-                detect_beep=detect_beep
-            )
+        match session_config.data_source_name:
+            case DatasourceNames.AAA:
+                session = Session(
+                    name=containing_dir, config=session_config,
+                    file_info=file_info)
+                recordings = generate_aaa_recording_list(
+                    directory=recorded_data_path,
+                    container=session,
+                    import_config=session_config)
+                session.extend(recordings)
 
-            session = Session(
-                name=containing_dir, paths=paths, config=session_config,
-                file_info=file_info, recordings=recordings)
-            return session
-
-        if session_config.data_source == Datasource.RASL:
-            raise NotImplementedError(
-                "Loading RASL data hasn't been implemented yet.")
+                return session
+            case DatasourceNames.RASL:
+                raise NotImplementedError(
+                    "Loading RASL data hasn't been implemented yet.")
+            case _:
+                raise NotImplementedError(
+                    f"Unrecognised data source: "
+                    f"{session_config.data_source_name}")
 
     if list(recorded_data_path.glob('*' + SourceSuffix.AAA_ULTRA)):
-        recordings = generate_aaa_recording_list(
-            directory=recorded_data_path,
-            detect_beep=detect_beep
-        )
-
         paths = PathStructure(root=recorded_data_path)
-        session_config = SessionConfig(data_source=Datasource.AAA)
+        session_config = SessionConfig(
+            data_source_name=DatasourceNames.AAA,
+            path_structure=paths)
 
         session = Session(
-            name=containing_dir, paths=paths, config=session_config,
-            file_info=file_info, recordings=recordings)
+            name=containing_dir, config=session_config,
+            file_info=file_info)
+
+        recordings = generate_aaa_recording_list(
+            directory=recorded_data_path,
+            container=session,
+            import_config=session_config,
+            detect_beep=detect_beep,
+        )
+        session.extend(recordings)
+
         return session
 
-    logger.error(
-        'Could not find a suitable importer: %s.', recorded_data_path)
+    _logger.error(
+        'Could not find a suitable importer: %s', recorded_data_path)

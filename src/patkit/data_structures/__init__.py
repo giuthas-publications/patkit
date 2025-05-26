@@ -36,10 +36,12 @@ This module contains some abstract classes that are used as base classes for
 patkit's datastructures and are not meant to be directly inherited from.
 """
 
-from .base_classes import Statistic
-from .data_structures import Modality, Recording, Session
+from .base_classes import (
+    AbstractData, AbstractDataContainer, AbstractDataObject, Statistic
+)
+from .data_structures import Manifest, Modality, Recording, Session
 from .metadata_classes import (
     FileInformation,
     ModalityData, ModalityMetaData, PointAnnotations,
-    RecordingMetaData, SessionConfig, StatisticMetaData
+    RecordingMetaData, StatisticMetaData
 )

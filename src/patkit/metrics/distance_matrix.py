@@ -69,17 +69,17 @@ class DistanceMatrixParameters(StatisticMetaData):
         size one to take, by default None.
     slice_step_to: PositiveInt | None
         Instead of incrementally stepping with same size sectors, generate a
-        pair of maximally distant sectors for each step size ranging from one to
-        `slice_step_to`, by default None.
+        pair of maximally distant sectors for each step size ranging from one
+        to `slice_step_to`, by default None.
     sort: bool
         Sort the rows and columns of the matrix in order corresponding to the
         alphabetical order of the prompts or according to `sort_criteria` if it
         is defined. By default, False.
     sort_criteria: list[str] | None
-        List of substrings to sort the rows and columns by, by default None. The
-        result will consist of blocks where in first block `sort_criteria[0] in
-        prompt` is True, and so on. Final block will consist of any Recordings
-        left after the list has been exhausted.
+        List of substrings to sort the rows and columns by, by default None.
+        The result will consist of blocks where in first block
+        `sort_criteria[0] in prompt` is True, and so on. Final block will
+        consist of any Recordings left after the list has been exhausted.
     """
     parent_name: str
     metric: str = 'mean_squared_error'
@@ -143,7 +143,7 @@ class DistanceMatrix(Statistic):
                     name_string + f" sort {params.sort}")
             if params.sort_criteria:
                 name_string = (
-                        name_string + f" sort_criteria specified")
+                        name_string + " sort_criteria specified")
 
         return name_string
 
@@ -174,23 +174,23 @@ class DistanceMatrix(Statistic):
             list of the names of metrics to use in name generation, by default
             None which will result in 'mean_squared_error' being used.
         release_data_memory: bool
-            Should parent Modality's data be assigned to None after calculations
-            are complete, by default True.
+            Should parent Modality's data be assigned to None after
+            calculations are complete, by default True.
         slice_max_step: PositiveInt | None
             Simulate rotating the probe by slicing incrementally so that the
             sector is always the same size. This parameter determines how many
             steps of size one to take, by default None.
         slice_step_to: PositiveInt | None
-            Instead of incrementally stepping with same size sectors, generate a
-            pair of maximally distant sectors for each step size ranging from
+            Instead of incrementally stepping with same size sectors, generate
+            a pair of maximally distant sectors for each step size ranging from
             one to `slice_step_to`, by default None.
         sort: bool
             Sort the rows and columns of the matrix in order corresponding to
             the alphabetical order of the prompts or according to
             `sort_criteria` if it is defined. By default, False.
         sort_criteria: list[str] | None
-            List of substrings to sort the rows and columns by, by default None.
-            The result will consist of blocks where in first block
+            List of substrings to sort the rows and columns by, by default
+            None. The result will consist of blocks where in first block
             `sort_criteria[0] in prompt` is True, and so on. Final block will
             consist of any Recordings left after the list has been exhausted.
         exclusion_list : ExclusionList | None
@@ -200,7 +200,7 @@ class DistanceMatrix(Statistic):
         Returns
         -------
         dict[str: DistanceMatrixParameters]
-            Dictionary where the names of the DistanceMatrices index the 
+            Dictionary where the names of the DistanceMatrices index the
             DistanceMatrixParameter objects.
         """
         if isinstance(parent, str):
@@ -232,7 +232,7 @@ class DistanceMatrix(Statistic):
 
     def __init__(
             self,
-            owner: Session,
+            container: Session,
             metadata: DistanceMatrixParameters,
             file_info: FileInformation,
             parsed_data: np.ndarray | None = None,
@@ -252,7 +252,7 @@ class DistanceMatrix(Statistic):
             The distance matrix itself, by default None
         """
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info,
             parsed_data=parsed_data, )

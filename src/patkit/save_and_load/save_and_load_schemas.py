@@ -39,8 +39,11 @@ from typing import Union
 
 from pydantic import BaseModel, DirectoryPath
 
-from patkit.constants import Datasource, SavedObjectTypes, SplineDiffsEnum, \
+from patkit.configuration import PathStructure
+from patkit.constants import (
+    DatasourceNames, SavedObjectTypes, SplineDiffsEnum,
     SplineNNDsEnum, SplineShapesEnum
+)
 from patkit.data_structures import RecordingMetaData
 
 nested_text_converters = {
@@ -106,8 +109,10 @@ class SessionParameterLoadSchema(BaseModel):
 
     Session is defined in the data_structures module.
     """
-    path: DirectoryPath
-    datasource: Datasource
+    patkit_path: DirectoryPath
+    recorded_path: DirectoryPath
+    datasource_name: DatasourceNames
+    path_structure: PathStructure
 
 
 class SessionLoadSchema(BaseModel):

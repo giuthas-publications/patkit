@@ -34,18 +34,20 @@
 Initialisation routines for PATKIT.
 """
 
-import shutil
-from importlib.resources import path as resource_path
+import sys
 from logging import Logger
 from pathlib import Path
 
 from patkit.annotations import add_peaks
 from patkit.configuration import (
+    ConfigPaths,
     Configuration,
-    apply_exclusion_list,
-    load_exclusion_list,
 )
-from patkit.constants import PATKIT_CONFIG_DIR
+from patkit.constants import (
+    PatkitConfigFile,
+    PatkitSuffix,
+    SourceSuffix,
+)
 from patkit.data_loader import load_data
 from patkit.data_processor import (
     process_modalities, process_statistics_in_recordings)
@@ -59,95 +61,194 @@ from patkit.metrics import (
 )
 from patkit.modalities import RawUltrasound, Splines
 from patkit.utility_functions import (
-    log_elapsed_time, path_from_name, set_logging_level)
+    log_elapsed_time, set_logging_level)
 
 
-def initialise_patkit(
-    path: Path | str | None = None,
-    config_file: Path | str | None = None,
-    exclusion_file: Path | str | None = None,
-    logging_level: int | None = None,
-) -> tuple[Configuration, Logger, Session]:
+def get_config_dir(path: Path) -> Path:
     """
-    Initialise the basic structures for running patkit.
+    Get configuration directory from a Path which is a file.
 
-    This sets up the argument parser, reads the basic configuration, sets up the
-    logger, and loads the recorded and saved data into a Session. To initialise
-    derived data run `add_derived_data`.
-
-    Returns
-    -------
-    tuple[config, logger, session] where
-        config is an instance of Configuration,
-        logger is an instance of logging.Logger, and
-        session is an instance of Session.
-    """
-    path = path_from_name(path)
-    # TODO 0.16: Move this call to cli_commands like with simulate.
-    config, exclusion_file, logger = initialise_logger_and_config(
-        config_file=config_file,
-        exclusion_file=exclusion_file,
-        logging_level=logging_level,
-    )
-
-    exclusion_list = None
-    if exclusion_file is not None:
-        exclusion_list = load_exclusion_list(exclusion_file)
-    session = load_data(path, config)
-    apply_exclusion_list(session, exclusion_list=exclusion_list)
-    log_elapsed_time(logger)
-
-    add_derived_data(session=session, config=config, logger=logger)
-    log_elapsed_time(logger)
-
-    return config, logger, session
-
-
-def initialise_logger_and_config(
-    config_file: Path | str | None = None,
-    exclusion_file: Path | str | None = None,
-    logging_level: int | None = None,
-) -> tuple[Configuration, Path, Logger]:
-    """
-    Initialise logger and configuration.
+    As a side effect will exit the program if the file type can not be handled.
 
     Parameters
     ----------
-    config_file : Path | str | None
-        Main configuration file, by default None. This leads to loading
-        `~/.patkit/`.
-    exclusion_file : Path | str | None
-        Main exclusion file, by default None.
-    logging_level : int | None
-        Logging level, by default None. Which sets the logging level to DEBUG.
+    path : Path
+        Path to a file.
 
     Returns
     -------
-    tuple[Configuration, Path, Logger]
-        These are the main Configuration, exclusion file as Path, and the
-        logger.
+    Path
+        Path of the configuration directory.
     """
-    if config_file is None:
-        default_config_dir = Path(PATKIT_CONFIG_DIR).expanduser()
-        config_file = default_config_dir/"configuration.yaml"
-        if not config_file.exists():
-            if not default_config_dir.exists():
-                default_config_dir.mkdir()
-            with resource_path(
-                    "patkit", "default_configuration"
-            ) as fspath:
-                shutil.copytree(
-                    fspath, default_config_dir, dirs_exist_ok=True)
+    match path.suffix:
+        case SourceSuffix.TEXTGRID:
+            print("Direct TextGrid loading planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case SourceSuffix.WAV:
+            print("Direct wav loading planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case SourceSuffix.AAA_ULTRA:
+            print("Direct AAA ultrasound data loading planned for "
+                    "implementation by 1.0.")
+            sys.exit()
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
+            print("Loading based on a manifest file planned for "
+                    "implementation in 0.18.")
+            sys.exit()
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
+            path = path.parent
+        case PatkitSuffix.META:
+            print("Loading based of a single saved trial planned for "
+                    "a later release. For now loading the whole directory.")
+            path = path.parent
+        case _:
+            message = (
+                f"Unrecognised file type {path.suffix}.\n"
+                f"Don't know how to load data from {path}."
+            )
+            print(message)
+            sys.exit()
+    return path
 
-    else:
-        config_file = path_from_name(config_file)
 
-    config = Configuration(config_file)
+def initialise_config(
+    path: Path,
+    require_data: bool = False,
+    require_gui: bool = False,
+    require_publish: bool = False,
+    require_simulation: bool = False,
+    logging_level: int | None = None,
+) -> tuple[Configuration, Logger]:
+    """
+    Initialise PATKIT configuration and set logging level.
 
-    exclusion_file = path_from_name(exclusion_file)
+    Configuration file's existence will be checked according to the flag
+    arguments.
+
+    Parameters
+    ----------
+    path : Path
+        Path to the configuration directory or a file that PATKIT can handle.
+    require_data : bool, optional
+        Do we need data configuration, by default False. This can come in the
+        form of either a `patkit_data.yaml` file or a manifest or a session
+        `.meta`. The PATKIT will try to back track the latter two to the
+        `patkit_data.yaml`. 
+    require_gui : bool, optional
+        If the annotator GUI is going to be opened, we should have
+        `patkit_gui.yaml`, by default False
+    require_publish : bool, optional
+        If we are running a publish script, `patkit_publish.yaml`, by default
+        False
+    require_simulation : bool, optional
+        If this is a simulation run, we need `patkit_simulation.yaml`, by
+        default False
+    logging_level : int | None, optional
+        Logging level, by default None
+
+    Returns
+    -------
+    [Configuration, Logger]
+        Configuration for PATKIT and the logger for use with other functions in
+        `initialise.py`.
+    """
     logger = set_logging_level(logging_level)
 
-    return config, exclusion_file, logger
+    # TODO 0.20 check if this deals correctly with symlinks
+    path = path.resolve()
+    if path.is_file():
+        path = get_config_dir(path)
+    elif not path.is_dir():
+        message = (
+            f"Unknown path type {path}."
+        )
+        print(message)
+        logger.error(message)
+        sys.exit()
+
+    config_paths = ConfigPaths(path)
+    fail = False
+
+    if require_data and config_paths.data_config is None:
+        print(
+            f"Data configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.DATA}."
+        )
+        fail = True
+    if require_gui and config_paths.gui_config is None:
+        print(
+            f"GUI configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.GUI}."
+        )
+        fail = True
+    if require_publish and config_paths.publish_config is None:
+        print(
+            f"Publish configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.PUBLISH}."
+        )
+        fail = True
+
+    if require_simulation and config_paths.simulation_config is None:
+        print(
+            f"Simulation configuration file not found in {path}. "
+            f"Correct file name is {PatkitConfigFile.SIMULATION}."
+        )
+        fail = True
+
+    if fail:
+        sys.exit()
+
+    config = Configuration(config_paths)
+    return config, logger
+
+
+def initialise_patkit(
+    config: Configuration,
+    logger: Logger,
+) -> Session:
+    """
+    Initialise the basic structures for running patkit.
+
+    This sets up the argument parser, reads the basic configuration, and loads
+    the recorded and saved data into a Session. To initialise derived data run
+    `add_derived_data`.
+
+    Parameters
+    ----------
+    path : Path
+        Path to load data from.
+    config_file : Path | str | None
+        Path to load configuration from, by default None.
+    exclusion_file : Path | str | None
+        Path to exclusion list, by default None.
+    logging_level : int | None
+        Logging level, by default None.
+
+    Returns
+    -------
+    Session
+        Data in a Session.
+    """
+    session = None
+    if config.data_config:
+        logger.info("Loading data.")
+        session = load_data(config)
+        log_elapsed_time(logger)
+
+        # TODO 0.20: resolve this
+        # exclusion_list = None
+        # if exclusion_file is not None:
+        #     exclusion_file = path_from_name(exclusion_file)
+        #     exclusion_list = load_exclusion_list(exclusion_file)
+        # apply_exclusion_list(session, exclusion_list=exclusion_list)
+        # log_elapsed_time(logger)
+
+        add_derived_data(session=session, config=config, logger=logger)
+        log_elapsed_time(logger)
+
+    return session
 
 
 def add_derived_data(
@@ -178,7 +279,7 @@ def add_derived_data(
     -------
     None
     """
-    data_run_config = config.data_run_config
+    data_run_config = config.data_config
 
     modality_operation_dict = {}
     if data_run_config.pd_arguments:
@@ -205,7 +306,8 @@ def add_derived_data(
             spline_metric_args.model_dump(),
         )
 
-    process_modalities(recordings=session, processing_functions=modality_operation_dict)
+    process_modalities(
+        recordings=session, processing_functions=modality_operation_dict)
 
     statistic_operation_dict = {}
     if data_run_config.distance_matrix_arguments:
@@ -229,11 +331,13 @@ def add_derived_data(
         modality_pattern = data_run_config.peaks.modality_pattern
         for recording in session:
             if recording.excluded:
-                logger.info("Recording excluded from peak finding: %s", recording.name)
+                logger.info(
+                    "Recording excluded from peak finding: %s",
+                    recording.name)
                 continue
             for modality_name in recording:
                 if modality_pattern.search(modality_name):
                     add_peaks(
                         recording[modality_name],
-                        config.data_run_config.peaks,
+                        config.data_config.peaks,
                     )

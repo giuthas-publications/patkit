@@ -37,15 +37,19 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Dict, Optional
 
+from patkit.configuration import (
+    ExclusionList, SessionConfig, apply_exclusion_list
+)
 from patkit.data_structures import (
-    FileInformation, Recording, SessionConfig)
+    FileInformation, Recording
+)
 
-from .three_dim_ultrasound import (add_rasl_3D_ultrasound,
-                                   generateMeta,
-                                   read_3D_meta_from_mat_file)
+from .three_dim_ultrasound import (
+    add_rasl_3D_ultrasound, generateMeta,
+    read_3D_meta_from_mat_file
+)
 from .audio import add_audio
 from .video import add_video
-from ..configuration import ExclusionList, PathStructure, apply_exclusion_list
 
 _logger = logging.getLogger('patkit.ThreeD_ultrasound')
 
@@ -54,36 +58,31 @@ def generate_rasl_recording_list(
         directory: Path,
         config: SessionConfig | None = None,
         exclusion_list: ExclusionList | None = None,
-        paths: PathStructure | None = None,
         detect_beep: bool = False
 ):
     """
     Produce an array of Recordings from a 3D4D ultrasound directory.
 
-    Prepare a list of Recording objects from the files exported by AAA
-    into the named directory. File existence is tested for,
-    and if crucial files are missing from a given recording it will be
-    excluded.
+    Prepare a list of Recording objects from the files exported by AAA into the
+    named directory. File existence is tested for, and if crucial files are
+    missing from a given recording it will be excluded.
 
     If problems are found with a recording, exclusion is marked with
-    `recordingObjet.excluded` rather than not listing the recording. Log
-    file will show reasons of exclusion.
+    `recordingObject.excluded` rather than not listing the recording. Log file
+    will show reasons of exclusion.
 
-    The processed files are
-    ultrasound and corresponding meta: .DCM, and
-    audio waveform: .dat or .wav.
+    The processed files are ultrasound and corresponding meta: .DCM, and audio
+    waveform: .dat or .wav.
 
     Additionally, this will be added, but missing files are considered
-    non-fatal:
-    TextGrid: .textgrid.
+    non-fatal: TextGrid: .textgrid.
 
-    Positional argument:
-    directory -- the path to the directory to be processed.
-    Returns an array of Recording objects sorted by date and time
+    Positional argument: directory -- the path to the directory to be
+    processed. Returns an array of Recording objects sorted by date and time
         of recording.
     """
 
-    # TODO: put these in the session_config.paths
+    # TODO 0.28: put these in the session_config.paths
     dicom_dir = directory / "DICOM"
     note_dir = directory / "NOTES"
     wav_dir = directory / 'WAV'
@@ -282,7 +281,6 @@ def generate_3D_ultrasound_recording(
 
     # Candidates for filenames. Existence tested below.
     ult_wav_file = directories['wav_dir']/sound_name.with_suffix(".wav")
-    textgrid = directories['wav_dir']/sound_name.with_suffix(".TextGrid")
     ult_file = directories['dicom_dir']/dicom_name
     video_file = directories['avi_dir']/dicom_name
     video_file = video_file.with_suffix(".avi")
@@ -291,17 +289,10 @@ def generate_3D_ultrasound_recording(
         recorded_path=directories['root_dir'],
     )
 
-    if textgrid.is_file():
-        recording = Recording(
-            metadata=meta,
-            file_info=file_info,
-            textgrid_path=textgrid
-        )
-    else:
-        recording = Recording(
-            metadata=meta,
-            file_info=file_info,
-        )
+    recording = Recording(
+        metadata=meta,
+        file_info=file_info,
+    )
 
     return recording
 

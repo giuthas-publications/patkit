@@ -33,23 +33,22 @@
 Facilities for reading session import configuration.
 """
 
+# TODO 1.0: This whole file should probably be in patkit.configuration rather
+# than in data_import. 
+
 import logging
 from contextlib import closing
 from pathlib import Path
-from typing import Union
 
-from strictyaml import (Map, Optional,
-                        ScalarValidator,
-                        YAMLError, load)
+from strictyaml import (
+    Map, Optional, ScalarValidator, YAMLError, load
+)
 
 from patkit.configuration import (
-    PathStructure, PathValidator)
-from patkit.constants import Datasource
-from patkit.data_structures import SessionConfig
+    PathValidator, SessionConfig
+)
+from patkit.constants import DatasourceNames
 
-from .spline_import_config import load_spline_config
-
-from patkit.configuration.exclusion_list_functions import load_exclusion_list
 _logger = logging.getLogger('patkit.data_import')
 
 
@@ -61,9 +60,9 @@ class DatasourceValidator(ScalarValidator):
     def validate_scalar(self, chunk):
         if chunk.contents:
             try:
-                return Datasource(chunk.contents)
+                return DatasourceNames(chunk.contents)
             except ValueError:
-                values = [ds.value for ds in Datasource]
+                values = [ds.value for ds in DatasourceNames]
                 print(
                     f"Error. Only following values for data source are"
                     f"recognised: {str(values)}")
@@ -72,45 +71,42 @@ class DatasourceValidator(ScalarValidator):
             return None
 
 
-def make_session_config(
-        data_root: Path,
-        raw_config: dict) -> tuple[PathStructure, SessionConfig]:
-    """
-    Parse needed fields and create a new SessionImportConfig.
+# def make_session_config(
+#         data_root: Path,
+#         raw_config: dict) -> SessionConfig:
+#     """
+#     Parse needed fields and create a new SessionImportConfig.
 
-    Parameters
-    ----------
-    data_root : Path
-        Path to the root directory for the data. If all data is in the same
-        directory, this is that directory. Otherwise, this is the deepest common
-        path among data types.
-    raw_config : dict
-        The raw config read from a yaml file.
+#     Parameters
+#     ----------
+#     data_root : Path
+#         Path to the root directory for the data. If all data is in the same
+#         directory, this is that directory. Otherwise, this is the deepest
+#         common path among data types.
+#     raw_config : dict
+#         The raw config read from a yaml file.
 
-    Returns
-    -------
-    tuple[PathStructure, SessionConfig]
-        A tuple of PathStructure and SessionConfig
-    """
-    raw_config['paths']['root'] = data_root
+#     Returns
+#     -------
+#     SessionConfig
+#         The import configuration for a Session.
+#     """
+#     raw_config['paths']['root'] = data_root
 
-    paths = PathStructure(**raw_config['paths'])
-    raw_config.pop('paths', None)
+#     paths = PathStructure(**raw_config['paths'])
+#     raw_config.pop('paths', None
 
-    if paths.spline_config:
-        raw_config['spline_config'] = load_spline_config(
-            paths.root/paths.spline_config)
+#     if paths.spline_config:
+#         raw_config['spline_config'] = load_spline_config(
+#             paths.root/paths.spline_config)
 
-    if paths.exclusion_list:
-        raw_config['exclusion_list'] = load_exclusion_list(
-            paths.spline_config/paths.exclusion_list)
-
-    return paths, SessionConfig(**raw_config)
+#     return SessionConfig(**raw_config)
 
 
 def load_session_config(
         data_root: Path,
-        filepath: Union[Path, str]) -> tuple[PathStructure, SessionConfig]:
+        filepath: Path | str,
+) -> SessionConfig:
     """
     Read a Session config file from filepath.
 
@@ -118,9 +114,9 @@ def load_session_config(
     ----------
     data_root : Path
         Path to the root directory for the data. If all data is in the same
-        directory, this is that directory. Otherwise, this is the deepest common
-        path among data types.
-    filepath : Union[Path, str]
+        directory, this is that directory. Otherwise, this is the deepest
+        common path among data types.
+    filepath : Path | str
         Path or str to the Session import configuration file.
 
     Returns
@@ -135,7 +131,7 @@ def load_session_config(
         with closing(open(filepath, 'r', encoding='utf-8')) as yaml_file:
             schema = Map({
                 "data_source": DatasourceValidator(),
-                "paths": Map({
+                "path_structure": Map({
                     Optional("wav"): PathValidator(),
                     Optional("textgrid"): PathValidator(),
                     Optional("ultrasound"): PathValidator(),
@@ -154,5 +150,6 @@ def load_session_config(
     else:
         _logger.warning(
             "Didn't find Session import configuration at %s.", str(filepath))
+        raise FileNotFoundError()
 
-    return make_session_config(data_root, raw_session_import_config.data)
+    return SessionConfig(**raw_session_import_config)

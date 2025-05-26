@@ -29,22 +29,23 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
+"""
+Read and add a video Modality to Recordings.
+"""
 
-# Built in packages
 import logging
 from pathlib import Path
 from typing import Optional
 
-from patkit.constants import Datasource
+from patkit.constants import DatasourceNames, SourceSuffix
 from patkit.data_structures import Recording
-# Local packages
 from patkit.modalities import Video
 
 _AAA_video_logger = logging.getLogger('patkit.AAA_video')
 
 
 def add_video(recording: Recording, preload: bool = False,
-              datasource: Optional[Datasource] = None,
+              datasource: Optional[DatasourceNames] = None,
               path: Optional[Path] = None) -> None:
     """
     Create a RawUltrasound Modality and add it to the Recording.
@@ -66,14 +67,15 @@ def add_video(recording: Recording, preload: bool = False,
         really want to, this is the function where to do that.
     """
     if not path:
-        video_file = (recording.path/recording.basename).with_suffix(".avi")
+        video_file = (recording.recorded_path/recording.basename)
+        video_file = video_file.with_suffix(SourceSuffix.AVI)
     else:
         video_file = path
 
     # This is the correct value for fps for a de-interlaced
     # video according to Alan, and he should know having
     # written AAA.
-    if datasource is Datasource.AAA:
+    if datasource is DatasourceNames.AAA:
         meta = {
             'FramesPerSec': 59.94,
             'preload': preload,
@@ -85,14 +87,14 @@ def add_video(recording: Recording, preload: bool = False,
 
     if video_file.is_file():
         video = Video(
-            owner=recording,
+            container=recording,
             data_path=video_file,
             meta=meta
         )
         recording.addModality(video)
         _AAA_video_logger.debug(
             "Added RawUltrasound to Recording representing %s.",
-            recording.path.name)
+            recording.basename)
     else:
         notice = 'Note: ' + str(video_file) + " does not exist."
         _AAA_video_logger.debug(notice)

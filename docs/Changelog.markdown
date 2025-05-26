@@ -19,7 +19,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 [//]: # (Security in case of vulnerabilities.)
 [//]: # (New contributors for first contributions.)
 
-[//]: # (And ofcourse if a version needs to be YANKED:)
+[//]: # (And of course if a version needs to be YANKED:)
 [//]: # (## [version number] [data] [YANKED])
 
 
@@ -27,18 +27,45 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.16 is planned to be a general configuration update moving from central to
-  local (stored with data) configuration.
-- 0.17 is planned to update the GUI with full TextGrid editing.
+- 0.17 is planned to update the GUI with more complete TextGrid modification.
 - 0.18 is planned to be a release of automated segmentation exercises.
 - 0.19 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.20 is planned to be an implementation of kymography. This might get moved 
-  to a release after 0.20.
-- After 0.20 there are planned updates to CLI, GUI, ultrasound frame
-  interpolation, processing speed by implementing multiprocessing, new algorithms
-  (optic flow, LPC for tongues, kymography, ...), new data sources, code
-  testing, documentation and finally a 1.0 release.
+- 0.20 will update configuration handling.
+- 0.21 will add further GUI features
+- 0.22 is planned to be an implementation of kymography. This might get moved 
+  to a release after 0.23.
+- After 0.23 there are planned updates to CLI, GUI, ultrasound frame
+  interpolation, processing speed by implementing multiprocessing, new
+  algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
+  code testing, documentation and finally a 1.0 release.
+
+
+## [0.16.0] - 2025-05-23
+
+### Highlights
+
+- New configuration and data management model separates recorded and PATKIT
+  data into different directories.
+
+### Changed
+
+- Configuration now happens with files that are always named the same. Opening
+  a directory that contains the correct config files is equivalent to opening
+  the files.
+- Derived/saved data is stored in the same directory as the configuration files
+  or in subdirectories.
+- PATKIT files apart from `patkit_manifest.yaml` are no longer stored with
+  recorded/external data.
+
+### Removed
+
+- The main config file has been removed.
+
+### Bugs
+
+- Exclusion lists are disabled until reimplementation in most likely version
+  0.20.
 
 
 ## [0.15.2] - 2025-04-22

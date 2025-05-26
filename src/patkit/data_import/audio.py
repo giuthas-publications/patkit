@@ -36,6 +36,7 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+from patkit.constants import SourceSuffix
 from patkit.data_structures import Recording, FileInformation
 from patkit.import_formats import read_wav, read_wav_and_detect_beep
 from patkit.modalities import MonoAudio
@@ -63,7 +64,8 @@ def add_audio(
         _description_, by default None
     """
     if not path:
-        ult_wav_file = (recording.path/recording.basename).with_suffix(".wav")
+        ult_wav_file = recording.recorded_meta_path.with_suffix(
+            SourceSuffix.WAV)
     else:
         ult_wav_file = path
 
@@ -76,7 +78,7 @@ def add_audio(
             data, go_signal, has_speech = read_wav_and_detect_beep(
                 ult_wav_file)
             waveform = MonoAudio(
-                owner=recording,
+                container=recording,
                 file_info=file_info,
                 parsed_data=data,
                 detect_beep=detect_beep,
@@ -87,7 +89,7 @@ def add_audio(
         elif preload:
             data = read_wav(ult_wav_file)
             waveform = MonoAudio(
-                owner=recording,
+                container=recording,
                 file_info=file_info,
                 parsed_data=data,
                 detect_beep=detect_beep,
@@ -95,14 +97,14 @@ def add_audio(
             recording.add_modality(waveform)
         else:
             waveform = MonoAudio(
-                owner=recording,
+                container=recording,
                 file_info=file_info,
                 detect_beep=detect_beep,
             )
             recording.add_modality(waveform)
         _generic_io_logger.debug(
             "Added MonoAudio to Recording representing %s.",
-            recording.path.name)
+            recording.recorded_data_name)
     else:
         notice = 'Note: ' + str(ult_wav_file) + " does not exist. Excluding."
         _generic_io_logger.warning(notice)

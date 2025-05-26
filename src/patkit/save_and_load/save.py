@@ -40,14 +40,19 @@ from pathlib import Path
 import nestedtext
 import numpy as np
 
-from patkit.constants import OverwriteConfirmation, PATKIT_FILE_VERSION, Patkitsuffix
-from patkit.data_structures import Modality, Recording, Session, Statistic
+from patkit.constants import (
+    OverwriteConfirmation, PatkitConfigFile, PATKIT_FILE_VERSION,
+    PatkitSuffix,
+)
+from patkit.data_structures import (
+    Manifest, Modality, Recording, Session, Statistic
+)
 from patkit.ui_callbacks import UiCallbacks
 
 from .save_and_load_schemas import nested_text_converters
-from ..data_structures.base_classes import DataAggregator
+from ..data_structures.base_classes import AbstractDataContainer
 
-_logger = logging.getLogger('patkit._saver')
+_logger = logging.getLogger('patkit.save')
 
 
 def _save_aggregator_meta(
@@ -77,8 +82,8 @@ def save_modality_data(
     """
     _logger.debug("Saving data for %s.", modality.name)
     suffix = modality.name_underscored
-    filename = f"{modality.recording.basename}.{suffix}{Patkitsuffix.DATA}"
-    filepath = modality.recording.path/filename
+    filename = f"{modality.recording.basename}.{suffix}{PatkitSuffix.DATA}"
+    filepath = modality.recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -112,8 +117,8 @@ def save_modality_meta(
     _logger.debug("Saving meta for %s.", modality.name)
     suffix = modality.name_underscored
     filename = f"{modality.recording.basename}.{suffix}"
-    filename += Patkitsuffix.META
-    filepath = modality.recording.path/filename
+    filename += PatkitSuffix.META
+    filepath = modality.recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -158,8 +163,8 @@ def save_recording_meta(
     """
     _logger.debug(
         "Saving meta for recording %s.", recording.basename)
-    filename = f"{recording.basename}{'.Recording'}{Patkitsuffix.META}"
-    filepath = recording.path/filename
+    filename = f"{recording.basename}{'.Recording'}{PatkitSuffix.META}"
+    filepath = recording.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -225,7 +230,7 @@ def save_statistic_data(
     _logger.debug("Saving data for %s.", statistic.name)
     if not statistic.patkit_data_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{Patkitsuffix.DATA}"
+        filename = f"{statistic.container.name}.{suffix}{PatkitSuffix.DATA}"
         statistic.patkit_data_name = filename
 
     filepath = statistic.patkit_data_path
@@ -259,7 +264,7 @@ def save_statistic_meta(
     _logger.debug("Saving meta for %s.", statistic.name)
     if not statistic.patkit_meta_name:
         suffix = statistic.name_underscored
-        filename = f"{statistic.owner.name}.{suffix}{Patkitsuffix.META}"
+        filename = f"{statistic.container.name}.{suffix}{PatkitSuffix.META}"
         statistic.patkit_meta_name = filename
 
     filepath = statistic.patkit_meta_path
@@ -295,7 +300,7 @@ def save_statistic_meta(
 
 
 def save_statistics(
-        aggregator: DataAggregator, confirmation: OverwriteConfirmation | None
+        aggregator: AbstractDataContainer, confirmation: OverwriteConfirmation | None
 ) -> tuple[dict, OverwriteConfirmation]:
     """
     Save Statistics and gather meta for all Statistics.
@@ -360,8 +365,8 @@ def save_session_meta(
     """
     _logger.debug(
         "Saving meta for session %s.", session.name)
-    filename = f"{session.name}{'.Session'}{Patkitsuffix.META}"
-    filepath = session.paths.root/filename
+    filename = f"Session{PatkitSuffix.META}"
+    filepath = session.patkit_path/filename
 
     if filepath.exists():
         if confirmation is OverwriteConfirmation.NO_TO_ALL:
@@ -371,14 +376,17 @@ def save_session_meta(
             confirmation = UiCallbacks.get_overwrite_confirmation(
                 str(filepath))
 
+    # TODO This should really be a model dump not a dict.
     meta = OrderedDict()
     meta['object_type'] = type(session).__name__
     meta['name'] = session.name
     meta['format_version'] = PATKIT_FILE_VERSION
 
     parameters = OrderedDict()
-    parameters['path'] = str(session.paths.root)
-    parameters['datasource'] = session.metadata.data_source.value
+    parameters['patkit_path'] = str(session.patkit_path.resolve())
+    parameters['recorded_path'] = str(session.recorded_path.resolve())
+    parameters['datasource_name'] = session.metadata.data_source_name.value
+    parameters['path_structure'] = session.config.path_structure.model_dump()
 
     meta['parameters'] = parameters
     meta['recordings'] = recording_meta_files
@@ -390,6 +398,32 @@ def save_session_meta(
     return filename, confirmation
 
 
+def save_manifest(session: Session) -> None:
+    """
+    Save the manifest file.
+
+    The manifest file contains a list of PATKIT scenarios that refer to the
+    recorded data. These maybe used to backtrack to already calculated
+    Modalities and Statistics to save time.
+
+    This function will first read any existing manifest file and then append
+    the current Session's PATKIT meta to the file if it is not already
+    included.
+
+    Parameters
+    ----------
+    session : Session
+        The session to be added to the manifest.
+    """
+    manifest_path = session.recorded_path/PatkitConfigFile.MANIFEST
+
+    manifest = Manifest(manifest_path)
+    if session.patkit_meta_path not in manifest:
+        manifest.append(session.patkit_meta_path)
+    # Always write in case there is an update to the file format.
+    manifest.save()
+
+
 def save_recording_session(
         session: Session) -> tuple[str, OverwriteConfirmation]:
     """
@@ -397,8 +431,11 @@ def save_recording_session(
     """
     _logger.debug(
         "Saving recording session %s.", session.name)
-    if session.patkit_path is None:
-        session.patkit_path = session.recorded_path
+    # if session.patkit_path is None:
+    #     print("patkit path is none")
+    #     sys.exit()
+    #     session.patkit_path = session.recorded_path
+    save_manifest(session)
     recording_meta_files, confirmation = save_recordings(
         recordings=session.recordings, confirmation=None)
     statistics_saves, confirmation = save_statistics(

@@ -40,13 +40,13 @@ from typing import Any, TextIO
 import numpy as np
 import nestedtext
 
-from patkit.configuration import PathStructure
-from patkit.constants import Patkitconfigfile, Patkitsuffix
+from patkit.configuration import SessionConfig
+from patkit.constants import PatkitConfigFile, PatkitSuffix
 from patkit.data_import import (
-    modality_adders, add_splines, load_session_config
+    modality_adders, add_splines
 )
 from patkit.data_structures import (
-    ModalityData, Recording, Session, SessionConfig
+    ModalityData, Recording, Session
 )
 from patkit.data_structures.metadata_classes import FileInformation
 from patkit.metrics import metrics, statistics
@@ -111,7 +111,7 @@ def load_derived_modality(
 
     file_info, meta, saved_data = _load_data_container_data_and_meta(
         path, modality_schema)
-    
+
     modality_data = ModalityData(
         saved_data['data'], sampling_rate=saved_data['sampling_rate'],
         timevector=saved_data['timevector'])
@@ -122,7 +122,7 @@ def load_derived_modality(
             meta.parameters[key] = None
     parameters = parameter_schema(**meta.parameters)
     modality = modality_constructor(
-        owner=recording,
+        container=recording,
         file_info=file_info,
         parsed_data=modality_data,
         metadata=parameters)
@@ -131,7 +131,7 @@ def load_derived_modality(
 
 
 def load_statistic(
-        owner: Recording | Session,
+        container: Recording | Session,
         path: Path,
         statistic_schema: DataContainerListingLoadSchema
 ) -> None:
@@ -166,12 +166,12 @@ def load_statistic(
             meta.parameters[key] = None
     parameters = parameter_schema(**meta.parameters)
     statistic = statistic_constructor(
-        owner=owner,
+        container=container,
         file_info=file_info,
         parsed_data=statistic_data,
         metadata=parameters)
 
-    owner.add_statistic(statistic=statistic)
+    container.add_statistic(statistic=statistic)
 
 
 def read_recording_meta(
@@ -195,14 +195,20 @@ def read_recording_meta(
     return meta
 
 
-def load_recording(filepath: Path) -> Recording:
+def load_recording(
+    patkit_path: Path,
+    recorded_path: Path,
+    container: Session,
+) -> Recording:
     """
     Load a recording from given Path.
 
     Parameters
     ----------
-    filepath : Path
-        Path to Recording's saved metadata.
+    patkit_path : Path
+        Path to Recording's saved metadata file.
+    recorded_path : Path
+        Path to Recording's recorded data.
 
     Returns
     -------
@@ -225,43 +231,49 @@ def load_recording(filepath: Path) -> Recording:
     # based on what is present as the final fall back or as the option tried if
     # no meta and config has the wrong guess.
 
-    meta_path = filepath.with_suffix(Patkitsuffix.META)
+    meta_path = patkit_path.with_suffix(PatkitSuffix.META)
     if meta_path.is_file():
         # this is a list of Modalities, each with a data path and meta path
-        meta = read_recording_meta(filepath)
+        recording_meta = read_recording_meta(patkit_path)
     else:
         # TODO: need to hand to the right kind of importer here.
         raise NotImplementedError(
             "Can't yet jump to a previously unloaded recording here.")
 
-    # TODO: new directory structure
     file_info = FileInformation(
-        recorded_path=Path(""),
-        patkit_path=Path(""),
+        recorded_path=recorded_path,
+        patkit_path=meta_path.parent,
         patkit_meta_file=meta_path.name)
-    recording = Recording(meta.parameters, file_info=file_info)
+    recording = Recording(
+        metadata=recording_meta.parameters,
+        file_info=file_info,
+        container=container
+    )
 
-    for modality in meta.modalities:
+    for modality in recording_meta.modalities:
         if modality in modality_adders:
             adder = modality_adders[modality]
-            path = meta.parameters.path / meta.modalities[modality].data_name
+            path = recorded_path/recording_meta.modalities[modality].data_name
             adder(recording, path=path)
         else:
             load_derived_modality(
-                recording,
-                path=meta.parameters.path,
-                modality_schema=meta.modalities[modality])
-    for statistic in meta.statistics:
+                recording=recording,
+                path=patkit_path.parent,
+                modality_schema=recording_meta.modalities[modality])
+    for statistic in recording_meta.statistics:
         load_statistic(
             recording,
-            path=meta.parameters.path,
-            statistic_schema=meta.statistics[statistic])
+            path=patkit_path.parent,
+            statistic_schema=recording_meta.statistics[statistic])
 
     return recording
 
 
 def load_recordings(
-        directory: Path, recording_metafiles: list[str] | None = None
+        patkit_path: Path,
+        recorded_path: Path,
+        container: Session,
+        recording_metafiles: list[str] | None = None
 ) -> list[Recording]:
     """
     Load (specified) Recordings from directory.
@@ -280,13 +292,18 @@ def load_recordings(
         List of the loaded Recordings.
     """
     if not recording_metafiles:
-        recording_metafiles = directory.glob(
-            "*.Recording" + str(Patkitsuffix.META))
+        recording_metafiles = patkit_path.glob(
+            "*.Recording" + str(PatkitSuffix.META))
 
-    recordings = [load_recording(directory / name)
-                  for name in recording_metafiles]
+    recordings = [
+        load_recording(
+            patkit_path=patkit_path / name,
+            recorded_path=recorded_path,
+            container=container,
+        )
+        for name in recording_metafiles]
 
-    add_splines(recordings, directory)
+    add_splines(recordings, patkit_path)
 
     return recordings
 
@@ -310,38 +327,51 @@ def load_recording_session(
     Session
         The loaded Session object.
     """
+    # TODO: data_loader and this function should have clearer split of
+    # responsibilities
     if isinstance(directory, str):
         directory = Path(directory)
 
     if not session_config_path:
-        session_config_path = directory / Patkitconfigfile.SESSION
+        session_config_path = directory / PatkitConfigFile.SESSION
 
-    filename = f"{directory.parts[-1]}{'.Session'}{Patkitsuffix.META}"
+    # filename = f"{directory.parts[-1]}{'.Session'}{PatkitSuffix.META}"
+    # filepath = directory / filename
+
+    filename = f"Session{PatkitSuffix.META}"
     filepath = directory / filename
 
     raw_input = nestedtext.load(filepath)
     meta = SessionLoadSchema.model_validate(raw_input)
 
-    if session_config_path.is_file():
-        paths, session_config = load_session_config(
-            directory, session_config_path)
-    else:
-        paths = PathStructure(root=directory)
-        session_config = SessionConfig(data_source=meta.parameters.datasource)
+    # if session_config_path.is_file():
+    #     session_config = load_session_config(
+    #         directory, session_config_path)
+    # else:
+    session_config = SessionConfig(
+        data_source_name=meta.parameters.datasource_name,
+        path_structure=meta.parameters.path_structure
+    )
 
-    recordings = load_recordings(directory, meta.recordings)
-
-    # TODO: don't really know if the current FileInformation handles the
-    # duality of config from user and saved meta too well.
     file_info = FileInformation(
         patkit_meta_file=filename,
-        patkit_path=directory,
-        recorded_path=directory,
-        recorded_meta_file=session_config_path.name)
+        patkit_path=meta.parameters.patkit_path,
+        recorded_path=meta.parameters.recorded_path,
+        recorded_meta_file=session_config_path.name
+    )
     session = Session(
-        name=meta.name, paths=paths,
+        name=meta.name,
         config=session_config,
-        file_info=file_info,
-        recordings=recordings)
+        file_info=file_info
+    )
+
+    recordings = load_recordings(
+        patkit_path=meta.parameters.patkit_path,
+        recorded_path=meta.parameters.recorded_path,
+        container=session,
+        recording_metafiles=meta.recordings,
+    )
+
+    session.extend(recordings)
 
     return session

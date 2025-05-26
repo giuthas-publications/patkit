@@ -48,6 +48,7 @@ from strictyaml import (
 )
 
 from patkit.constants import (
+    AxesType,
     DEFAULT_ENCODING,
     IntervalBoundary,
     IntervalCategory,
@@ -171,69 +172,50 @@ _time_limit_schema = Map({
     Optional("offset"): Float(),
 })
 
-
-def parse_config(filepath: Path | str | None = None) -> None:
-    """
-    Read the config file from filepath and recursively the other config files.
-
-    If filepath is None, read from the default file
-    'configuration/configuration.yaml'. In both cases if the file does not
-    exist, report this and exit.
-    """
-    load_main_config(filepath)
-    load_gui_params(config_dict['gui_parameter_file'])
-
-    if 'data_run_parameters' in config_dict:
-        load_run_params(config_dict['data_run_parameters'])
-    if 'publish_parameters' in config_dict:
-        load_publish_params(config_dict['publish_parameters'])
-
-
-def load_main_config(filepath: Path | str | None = None) -> YAML:
-    """
-    Read the config file from filepath.
-
-    If filepath is None, read from the default file
-    'configuration/configuration.yaml'. In both cases if the file does not
-    exist, report this and exit.
-    """
-    if isinstance(filepath, str):
-        filepath = Path(filepath)
-    elif not isinstance(filepath, Path):
-        filepath = Path('configuration/configuration.yaml')
-
-    _logger.info("Loading main configuration from %s", str(filepath))
-
-    config_path_validator = ConfigPathValidator(filepath.parent)
-    if filepath.is_file():
-        with closing(
-                open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
-            schema = Map({
-                "epsilon": Float(),
-                "mains_frequency": Float(),
-                "gui_parameter_file": config_path_validator,
-                Optional("data_run_parameter_file"): config_path_validator,
-                Optional("simulation_parameter_file"): config_path_validator,
-                Optional("publish_parameter_file"): config_path_validator,
-            })
-            try:
-                _raw_config_dict = load(yaml_file.read(), schema)
-            except YAMLError as error:
-                _logger.fatal("Fatal error in reading %s.",
-                              str(filepath))
-                _logger.fatal(str(error))
-                raise
-    else:
-        message = ("Didn't find main config file at %s.", str(filepath))
-        _logger.fatal(message)
-        print(message)
-        sys.exit()
-
-    config_dict.update(_raw_config_dict.data)
-    return _raw_config_dict
+# def load_main_config(filepath: Path | str | None = None) -> YAML:
+#     """
+#     Read the config file from filepath.
+#
+#     If filepath is None, read from the default file
+#     'configuration/configuration.yaml'. In both cases if the file does not
+#     exist, report this and exit.
+#     """
+#     print(filepath)
+#     if isinstance(filepath, str):
+#         filepath = Path(filepath)
+#     elif not isinstance(filepath, Path):
+#         filepath = Path('configuration/configuration.yaml')
+#
+#     _logger.info("Loading main configuration from %s", str(filepath))
+#
+#     config_path_validator = ConfigPathValidator(filepath.parent)
+#     if filepath.is_file():
+#         with closing(
+#                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
+#             schema = Map({
+#                 Optional("gui_config"): config_path_validator,
+#                 Optional("data_config"): config_path_validator,
+#                 Optional("simulation_config"): config_path_validator,
+#                 Optional("publish_config"): config_path_validator,
+#             })
+#             try:
+#                 _raw_config_dict = load(yaml_file.read(), schema)
+#             except YAMLError as error:
+#                 _logger.fatal("Fatal error in reading %s.",
+#                               str(filepath))
+#                 _logger.fatal(str(error))
+#                 raise
+#     else:
+#         message = ("Didn't find main config file at %s.", str(filepath))
+#         _logger.fatal(message)
+#         print(message)
+#         sys.exit()
+#
+#     config_dict.update(_raw_config_dict.data)
+#     return _raw_config_dict
 
 
-def load_run_params(filepath: Path | str | None = None) -> YAML:
+def load_data_params(filepath: Path | str | None = None) -> YAML:
     """
     Read the config file from filepath.
 
@@ -253,6 +235,9 @@ def load_run_params(filepath: Path | str | None = None) -> YAML:
         with closing(
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
+                "epsilon": Float(),
+                "mains_frequency": Float(),
+                "recorded_data_path": PathValidator(),
                 Optional("output_directory"): PathValidator(),
                 "flags": Map({
                     "detect_beep": Bool(),
@@ -260,7 +245,8 @@ def load_run_params(filepath: Path | str | None = None) -> YAML:
                 }),
                 Optional("aggregate_image_arguments"): Map({
                     "metrics": Seq(Str()),
-                    Optional("run_on_interpolated_data", default=False): Bool(),
+                    Optional(
+                        "run_on_interpolated_data", default=False): Bool(),
                     Optional("preload", default=True): Bool(),
                     Optional("release_data_memory", default=True): Bool(),
                 }),
@@ -457,8 +443,6 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
 
     _logger.info("Loading GUI configuration from %s", str(filepath))
 
-    # TODO 0.16: make sure that normalise gets included here and in config
-    # models.
     axes_params_dict = {
         Optional(
             "colors_in_sequence", default=True): Bool(),
@@ -481,12 +465,12 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
                 open(filepath, 'r', encoding=DEFAULT_ENCODING)) as yaml_file:
             schema = Map({
                 "data_and_tier_height_ratios": Map({
-                    "data": Int(),
-                    "tier": Int()
+                    AxesType.DATA.value: Int(),
+                    AxesType.TIER.value: Int()
                 }),
                 "general_axes_params": Map({
-                    "data_axes": Map(axes_params_dict),
-                    "tier_axes": Map(axes_params_dict),
+                    AxesType.DATA.value: Map(axes_params_dict),
+                    AxesType.TIER.value: Map(axes_params_dict),
                 }),
                 "data_axes": MapPattern(
                     Str(), Map(axes_definition_dict)

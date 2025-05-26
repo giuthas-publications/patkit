@@ -45,12 +45,12 @@ from scipy import interpolate
 from scipy.signal import ShortTimeFFT
 from scipy.signal.windows import kaiser
 
+from patkit.computational import normalise_timeseries
 from patkit.configuration import TimeseriesNormalisation
 from patkit.constants import AnnotationType, GuiColorScheme
 from patkit.data_structures import Modality
 from patkit.gui.boundary_animation import AnimatableBoundary
-from patkit.satgrid import SatTier
-from patkit.utility_functions import normalise_timeseries
+from patkit.patgrid import PatTier
 
 _logger = logging.getLogger('patkit.plot')
 
@@ -265,8 +265,8 @@ def mark_peaks(
     return line_collection
 
 
-def plot_satgrid_tier(axes: Axes,
-                      tier: SatTier,
+def plot_patgrid_tier(axes: Axes,
+                      tier: PatTier,
                       time_offset: float = 0,
                       draw_text: bool = True,
                       text_y: float = 500

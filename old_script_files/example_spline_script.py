@@ -61,7 +61,7 @@ def main():
         path=path, config_file=config_file
     )
 
-    data_run_config = configuration.data_run_config
+    data_run_config = configuration.data_config
 
     pd_arguments = {
         # 'norms': ['l0', 'l0.01', 'l0.1', 'l0.5', 'l1', 'l2',
@@ -114,7 +114,7 @@ def main():
                 if modality_pattern in modality_name:
                     add_peaks(
                         recording[modality_name],
-                        configuration.data_run_config.peaks,
+                        configuration.data_config.peaks,
                     )
 
         metrics = data_run_config.pd_arguments.norms

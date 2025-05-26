@@ -30,7 +30,7 @@
 # citations.bib in BibTeX format.
 #
 """
-SatGrid and its components are a GUI friendly encapsulation of
+PatGrid and its components are a GUI friendly encapsulation of
 `textgrids.TextGrid`.
 """
 from abc import ABC, abstractmethod
@@ -42,11 +42,16 @@ from textgrids.templates import (long_header, long_interval, long_point,
                                  long_tier)
 from typing_extensions import Self
 
-from patkit.constants import IntervalCategory
+from patkit.constants import IntervalCategory, PATKIT_EPSILON
+
+# TODO 1.0: clean up the way epsilon is used and how it's type hinted and
+# documented.
 
 
-class SatAnnotation(ABC):
-    """Base class for Textgrid Point and Interval to enable editing with GUI."""
+class PatAnnotation(ABC):
+    """
+    Base class for Textgrid Point and Interval to enable editing with GUI.
+    """
 
     def __init__(
             self,
@@ -57,7 +62,7 @@ class SatAnnotation(ABC):
         self.label = label
 
     @abstractmethod
-    def contains(self, time: float) -> bool:
+    def contains(self, time: float, epsilon: float | None) -> bool:
         """
         Does this Interval contain `time` or is this Point at `time`.
 
@@ -67,6 +72,11 @@ class SatAnnotation(ABC):
         ----------
         time : float
             The time in seconds to test against this Annotation.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour, `configuration.data_config.epsilon` should be passed
+            here.
 
         Returns
         -------
@@ -75,7 +85,7 @@ class SatAnnotation(ABC):
         """
 
 
-class SatPoint(SatAnnotation):
+class PatPoint(PatAnnotation):
     """TextGrid Point representation to enable editing with GUI."""
 
     @classmethod
@@ -84,16 +94,16 @@ class SatPoint(SatAnnotation):
             point: Point,
     ) -> Self:
         """
-        Copy the info of a Python TextGrids Interval into a new SatInterval.
+        Copy the info of a Python TextGrids Interval into a new PatInterval.
 
         Only xmin and text are copied from the original Interval. xmax is
-        assumed to be handled by either the next SatInterval or the
+        assumed to be handled by either the next PatInterval or the
         constructing method if this is the last Interval.
 
-        Since SatIntervals are doubly linked, an attempt will be made to link
+        Since PatIntervals are doubly linked, an attempt will be made to link
         prev and next to this interval.
 
-        Returns the newly created SatInterval.
+        Returns the newly created PatInterval.
         """
         return cls(
             time=point.xpos,
@@ -116,15 +126,15 @@ class SatPoint(SatAnnotation):
     def time(self, time: float) -> None:
         self._time = time
 
-    def contains(self, time: float) -> bool:
-        # TODO 0.16: Fix this.
-        epsilon = config_dict['epsilon']
+    def contains(self, time: float, epsilon: float | None) -> bool:
+        if epsilon is None:
+            epsilon = PATKIT_EPSILON
         if self._time - epsilon < time < self._time + epsilon:
             return True
         return False
 
 
-class SatInterval(SatAnnotation):
+class PatInterval(PatAnnotation):
     """TextGrid Interval representation to enable editing with GUI."""
 
     @classmethod
@@ -135,16 +145,16 @@ class SatInterval(SatAnnotation):
         next_interval: None | Self = None
     ) -> Self:
         """
-        Copy the info of a Python TextGrids Interval into a new SatInterval.
+        Copy the info of a Python TextGrids Interval into a new PatInterval.
 
         Only xmin and text are copied from the original Interval. xmax is
-        assumed to be handled by either the next SatInterval or the
+        assumed to be handled by either the next PatInterval or the
         constructing method if this is the last Interval. 
 
-        Since SatIntervals are doubly linked, an attempt will be made to link
+        Since PatIntervals are doubly linked, an attempt will be made to link
         prev and next to this interval. 
 
-        Returns the newly created SatInterval.
+        Returns the newly created PatInterval.
         """
         return cls(
             begin=interval.xmin,
@@ -260,21 +270,21 @@ class SatInterval(SatAnnotation):
         return (time + epsilon < self._next_interval.begin and
                 time > epsilon + self.prev.begin)
 
-    def contains(self, time: float) -> bool:
+    def contains(self, time: float, epsilon: float | None) -> bool:
         if self.begin < time < self.end:
             return True
         return False
 
 
-class SatTier(list):
+class PatTier(list):
     """TextGrid Tier representation to enable editing with GUI."""
 
     @classmethod
     def from_textgrid_tier(cls, tier: Tier) -> Self:
         """
-        Copy a Python TextGrids Tier as a SatTier.
+        Copy a Python TextGrids Tier as a PatTier.
 
-        Returns the newly created SatTier.
+        Returns the newly created PatTier.
         """
         return cls(tier)
 
@@ -283,11 +293,11 @@ class SatTier(list):
         last_interval = None
         prev = None
         for interval in tier:
-            current = SatInterval.from_textgrid_interval(interval, prev)
+            current = PatInterval.from_textgrid_interval(interval, prev)
             self.append(current)
             prev = current
             last_interval = interval
-        self.append(SatInterval(last_interval.xmax, None, prev))
+        self.append(PatInterval(last_interval.xmax, None, prev))
 
     def __repr__(self) -> str:
         representation = f"{self.__class__.__name__}:\n"
@@ -303,7 +313,7 @@ class SatTier(list):
         Corresponds to a TextGrid Interval's xmin.
 
         This is a property and the actual value is generated from the first
-        SatInterval of this SatTier.
+        PatInterval of this PatTier.
         """
         return self[0].begin
 
@@ -315,7 +325,7 @@ class SatTier(list):
         Corresponds to a TextGrid Interval's xmin.
 
         This is a property and the actual value is generated from the last
-        SatInterval of this SatTier.
+        PatInterval of this PatTier.
         """
         # This is slightly counterintuitive, but the last interval is in fact
         # empty and only represents the final boundary. So its `begin` is the
@@ -328,7 +338,7 @@ class SatTier(list):
         return False
 
     def boundary_at_time(
-            self, time: float, epsilon: float) -> SatInterval | None:
+            self, time: float, epsilon: float) -> PatInterval | None:
         """
         If there is a boundary at time, return it.
 
@@ -346,7 +356,7 @@ class SatTier(list):
         self,
         interval_category: IntervalCategory,
         label: str | None = None
-    ) -> SatInterval:
+    ) -> PatInterval:
         """
         Return the Interval matching the category in this Tier.
 
@@ -363,8 +373,8 @@ class SatTier(list):
 
         Returns
         -------
-        SatInterval
-            _description_
+        PatInterval
+            The matching PatInterval
         """
         if interval_category is IntervalCategory.FIRST_NON_EMPTY:
             for interval in self:
@@ -386,7 +396,9 @@ class SatTier(list):
                 if interval.label == label:
                     return interval
 
-    def get_labels(self, time_vector: np.ndarray) -> np.ndarray:
+    def get_labels(
+            self, time_vector: np.ndarray, epsilon: float | None = None,
+    ) -> np.ndarray:
         """
         Get the labels at the times in the `time_vector`.
 
@@ -394,6 +406,11 @@ class SatTier(list):
         ----------
         time_vector : np.ndarray
             Time stamps to retrieve the labels for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -406,10 +423,10 @@ class SatTier(list):
         )
         labels = np.empty(len(time_vector), dtype=f"<U{max_label}")
         for (i, time) in enumerate(time_vector):
-            labels[i] = self.label_at(time)
+            labels[i] = self.label_at(time, epsilon)
         return labels
 
-    def label_at(self, time: float) -> str:
+    def label_at(self, time: float, epsilon: float | None = None) -> str:
         """
         Get the label at the given time.
 
@@ -417,6 +434,11 @@ class SatTier(list):
         ----------
         time : float
             Time in seconds to retrieve the label for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -427,16 +449,16 @@ class SatTier(list):
             return ""
 
         for element in self:
-            if element.contains(time):
+            if element.contains(time=time, epsilon=epsilon):
                 return element.label
 
 
-class SatGrid(OrderedDict):
+class PatGrid(OrderedDict):
     """
     TextGrid representation which makes editing easier.
 
-    SatGrid is a OrderedDict very similar to Python textgrids TextGrid, but
-    made up of SatTiers that in turn contain intervals or points as doubly
+    PatGrid is a OrderedDict very similar to Python textgrids TextGrid, but
+    made up of PatTiers that in turn contain intervals or points as doubly
     linked lists instead of just lists. See the relevant classes for more
     details.
     """
@@ -444,7 +466,7 @@ class SatGrid(OrderedDict):
     def __init__(self, textgrid: TextGrid) -> None:
         super().__init__()
         for tier_name in textgrid:
-            self[tier_name] = SatTier.from_textgrid_tier(textgrid[tier_name])
+            self[tier_name] = PatTier.from_textgrid_tier(textgrid[tier_name])
 
     # def as_textgrid(self):
     #     pass
@@ -457,7 +479,7 @@ class SatGrid(OrderedDict):
         Corresponds to a TextGrids xmin.
 
         This is a property and the actual value is generated from the first
-        SatTier of this SatGrid.
+        PatTier of this PatGrid.
         """
         key = list(self.keys())[0]
         return self[key].begin
@@ -470,7 +492,7 @@ class SatGrid(OrderedDict):
         Corresponds to a TextGrids xmax.
 
         This is a property and the actual value is generated from the first
-        SatTier of this SatGrid.
+        PatTier of this PatGrid.
         """
         # First Tier
         key = list(self.keys())[0]
@@ -513,7 +535,9 @@ class SatGrid(OrderedDict):
                     pass
         return out
 
-    def get_labels(self, time_vector: np.ndarray) -> dict[str, np.ndarray]:
+    def get_labels(
+            self, time_vector: np.ndarray, epsilon: float | None = None
+    ) -> dict[str, np.ndarray]:
         """
         Get the labels at the times in the `time_vector`.
 
@@ -521,6 +545,11 @@ class SatGrid(OrderedDict):
         ----------
         time_vector : np.ndarray
             Time values to get the labels for.
+        epsilon : float | None
+            The precision (in seconds) to use in comparisons. The default value
+            None will result in PATKIT_EPSILON, being used. For expected
+            behaviour for `PointTiers`, `configuration.data_config.epsilon`
+            should be passed here.
 
         Returns
         -------
@@ -529,6 +558,7 @@ class SatGrid(OrderedDict):
         """
         labels = {}
         for tier_name in self:
-            labels[tier_name] = self[tier_name].get_labels(time_vector)
+            labels[tier_name] = self[tier_name].get_labels(
+                time_vector, epsilon=epsilon)
 
         return labels

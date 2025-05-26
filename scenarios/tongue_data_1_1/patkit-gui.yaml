@@ -4,12 +4,9 @@
 # tier displays, but instead controls the ratio between the sum of data
 # displays vs sum of tier displays.
 data_and_tier_height_ratios: 
-  data: 2
-  tier: 1
+  data_axes: 2
+  tier_axes: 1
 
-# Which data axes to display. Currently used only to decide the number to
-# create. Number of lines gives the number of axis, modalities on the same line
-# will be drawn on the same axes.
 general_axes_params:
   data_axes:
     sharex: True
@@ -49,7 +46,7 @@ data_axes:
   # density:
   #   sharex: False
 
-# Tiers drawn on the data axes. Ignored if not found.  
+# Tiers drawn on the data axes. Ignored if the tier is not found.  
 pervasive_tiers:
   - Segment
   - Segments

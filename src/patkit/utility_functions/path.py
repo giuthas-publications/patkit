@@ -26,21 +26,53 @@
 # see <https://creativecommons.org/licenses/by-nc-sa/4.0/> for details.
 #
 # When using the toolkit for scientific publications, please cite the
-# articles listed in README.md. They can also be found in
+# articles listed in README.markdown. They can also be found in
 # citations.bib in BibTeX format.
 #
 """
-Path utilities.
+Path helper functions.
 """
-import logging
-from pathlib import Path
 
-_logger = logging.getLogger('patkit.utility_functions')
+from pathlib import Path
 
 
 def path_from_name(filename: str | Path | None) -> Path:
+    """
+    Ensure the output is a Path instance.
+
+    Parameters
+    ----------
+    filename : str | Path | None
+        The filename can be either string, Path or None. None is interpreted as
+        current directory.
+    Returns
+    -------
+    Path
+        Output is always a Path instance. If None is passed as filename the
+        return value will be `Path('.')`.
+    """
     if filename is None:
         return Path(".")
     if not isinstance(filename, Path):
         return Path(filename)
     return filename
+
+
+def stem_path(path: Path) -> Path:
+    """
+    Return the path without suffixes.
+
+    Parameters
+    ----------
+    path : Path
+        A filepath.
+
+    Returns
+    -------
+    Path
+        The filepath with suffixes removed.
+    """
+    name = path.name
+    path = path.parent
+    name = name.split('.')[0]
+    return path/name

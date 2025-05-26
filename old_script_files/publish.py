@@ -54,7 +54,7 @@ def main():
         path=path, config_file=config_file
     )
 
-    data_run_config = configuration.data_run_config
+    data_run_config = configuration.data_config
 
     if data_run_config.downsample:
         downsample_config = data_run_config.downsample

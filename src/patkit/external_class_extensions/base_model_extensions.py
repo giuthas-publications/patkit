@@ -46,7 +46,7 @@ _logger = logging.getLogger('patkit.base_model_extensions')
 # UpdatableBaseModel.
 
 
-class patkitBaseModel(BaseModel):
+class PatkitBaseModel(BaseModel):
     """
     A BaseModel which accepts empty strings for any field as None.
 
@@ -76,7 +76,7 @@ class patkitBaseModel(BaseModel):
         return input_string
 
 
-class UpdatableBaseModel(patkitBaseModel):
+class UpdatableBaseModel(PatkitBaseModel):
     """
     A BaseModel which can be updated with new data.
 

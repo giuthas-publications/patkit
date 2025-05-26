@@ -42,7 +42,7 @@ from patkit.constants import CoordinateSystems
 from patkit.data_structures import (
     Modality, ModalityData, ModalityMetaData, Recording)
 from patkit.data_structures.metadata_classes import FileInformation
-from patkit.utility_functions.computational import (
+from patkit.computational import (
     cartesian_to_polar, polar_to_cartesian)
 from patkit.import_formats import read_splines
 
@@ -69,7 +69,7 @@ class Splines(Modality):
         return cls.__name__
 
     def __init__(self,
-                 owner: Recording,
+                 container: Recording,
                  metadata: SplineMetadata,
                  file_info: FileInformation,
                  parsed_data: Optional[ModalityData] = None,
@@ -79,7 +79,7 @@ class Splines(Modality):
         # Initialise super only after ensuring meta is correct,
         # because latter may already end the run.
         super().__init__(
-            owner=owner,
+            container=container,
             metadata=metadata,
             file_info=file_info,
             parsed_data=parsed_data,
