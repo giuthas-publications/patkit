@@ -45,13 +45,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
-# Plotting functions and hooks for GUI
+from icecream import ic
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
 from mpl_point_clicker import clicker
-from PyQt6 import QtWidgets
 
-# GUI functionality
+from PyQt6 import QtWidgets
 from PyQt6.QtCore import QCoreApplication, Qt
 from PyQt6.QtGui import (
     QAction,
@@ -222,7 +221,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.action_save_current_textgrid.triggered.connect(self.save_textgrid)
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
-        # self.actionSaveToPickle.triggered.connect(self.save_to_pickle)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -284,6 +282,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.animators = []
 
         self.shift_is_held = False
+        self.ctrl_is_held = False
+        self.alt_is_held = False
+        self.alt_gr_is_held = False
         # self.cid_key_press = self.figure.canvas.mpl_connect(
         #     'key_press_event', self.on_key_press)
         # self.cid_key_release = self.figure.canvas.mpl_connect(
@@ -586,7 +587,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         wav = audio.data
         wav_time = audio.timevector - stimulus_onset
 
-        self.xlim = (-.25, 1.5)
         if self.gui_config.xlim is not None:
             self.xlim = self.gui_config.xlim
         elif self.gui_config.auto_xlim:
@@ -1061,7 +1061,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
     def export_aggregate_image(self) -> None:
         """
         Export AggregateImages connected with the current recording.
-        
+
         The metadata is written to a separate `.txt` file of the same name as
         the corresponding image file.
         """
@@ -1291,29 +1291,31 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         if event.key() == Qt.Key.Key_Shift:
             self.shift_is_held = True
-        if event.key() == Qt.Key.Key_I:
-            self.gui_config.auto_xlim = False
-            if self.current.annotations['selection_index'] >= 0:
-                center = self.current.annotations['selected_time']
-            else:
-                center = (self.xlim[0] + self.xlim[1]) / 2.0
-            length = (self.xlim[1] - self.xlim[0]) * .25
-            self.xlim = (center - length, center + length)
-            if self.gui_config.xlim is not None:
-                self.gui_config.xlim = self.xlim
-            self.update()
-        elif event.key() == Qt.Key.Key_O:
-            self.gui_config.auto_xlim = False
-            center = (self.xlim[0] + self.xlim[1]) / 2.0
-            length = self.xlim[1] - self.xlim[0]
-            self.xlim = (center - length, center + length)
-            if self.gui_config.xlim is not None:
-                self.gui_config.xlim = self.xlim
-            self.update()
-        elif event.key() == Qt.Key.Key_A:
-            self.gui_config.auto_xlim = True
-            self.gui_config.xlim = None
-            self.update()
+        if event.key() == Qt.Key.Key_Control:
+            self.ctrl_is_held = True
+        if event.key() == Qt.Key.Key_Alt:
+            self.alt_is_held = True
+        if event.key() == Qt.Key.Key_AltGr:
+            self.alt_gr_is_held = True
+
+        if self.alt_is_held or self.alt_gr_is_held:
+            # if event.key() in [Qt.Key.Key_Left, Qt.Key.Key_Right]:
+            #     ic("panning")
+            # else:
+            #     ic("zooming")
+            # ic(event.key())
+            if event.key() == Qt.Key.Key_I:
+                self.zoom_in()
+            elif event.key() == Qt.Key.Key_O:
+                self.zoom_out()
+            elif event.key() == Qt.Key.Key_A:
+                self.gui_config.auto_xlim = True
+                self.gui_config.xlim = None
+                self.update()
+            elif event.key() == Qt.Key.Key_Left:
+                self.pan(left=True)
+            elif event.key() == Qt.Key.Key_Right:
+                self.pan(left=False)
 
     # noinspection PyPep8Naming
     def keyReleaseEvent(self, event):
@@ -1324,6 +1326,12 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         if event.key() == Qt.Key.Key_Shift:
             self.shift_is_held = False
+        if event.key() == Qt.Key.Key_Control:
+            self.ctrl_is_held = False
+        if event.key() == Qt.Key.Key_Alt:
+            self.alt_is_held = False
+        if event.key() == Qt.Key.Key_AltGr:
+            self.alt_gr_is_held = False
 
     def on_color_scheme_changed(self, scheme: Qt.ColorScheme):
         """
@@ -1333,6 +1341,83 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.change_to_light()
         else:
             self.change_to_dark()
+
+    def zoom_in(self) -> None:
+        """
+        Zoom in to half the current viewed length in time.
+
+        Will center on current cursor if there is a selection, otherwise will
+        center on the current view.
+        """
+        self.gui_config.auto_xlim = False
+        if self.current.annotations['selection_index'] >= 0:
+            center = self.current.annotations['selected_time']
+        else:
+            center = (self.xlim[0] + self.xlim[1]) / 2.0
+        length = (self.xlim[1] - self.xlim[0]) * .25
+        self.xlim = (center - length, center + length)
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def zoom_out(self) -> None:
+        """
+        Zoom out to twice the current viewed length in time.
+
+        Will center on current cursor if there is a selection, otherwise will
+        center on the current view.
+        """
+        self.gui_config.auto_xlim = False
+        center = (self.xlim[0] + self.xlim[1]) / 2.0
+        length = self.xlim[1] - self.xlim[0]
+        self.xlim = (center - length, center + length)
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def pan(self, left: bool)-> None:
+        """
+        Pan left or right as instructed.
+
+        Parameters
+        ----------
+        left : bool
+            Pan left if True, right if False.
+        """
+        self.gui_config.auto_xlim = False
+        quarter_length = (self.xlim[1] - self.xlim[0])/4
+        if left:
+            self.xlim = (
+                self.xlim[0] - quarter_length,
+                self.xlim[1] - quarter_length
+            )
+        else:
+            self.xlim = (
+                self.xlim[0] + quarter_length,
+                self.xlim[1] + quarter_length
+            )
+
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    @property
+    def no_modifiers(self) -> bool:
+        """
+        True if no modifier keys are currently held down.
+
+        Returns
+        -------
+        bool
+            True if no modifier keys are currently held down.
+        """
+        modifiers_pressed = (
+            self.shift_is_held or
+            self.ctrl_is_held or
+            self.alt_is_held or
+            self.alt_gr_is_held
+        )
+        return not modifiers_pressed
 
 
 def run_annotator(
