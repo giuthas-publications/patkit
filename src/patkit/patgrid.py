@@ -454,9 +454,21 @@ class PatTier(list):
 
     def in_limits(self, xlim: [float, float]) -> list[PatAnnotation]:
         in_limits = []
-        for item in self:
-            if item.time < xlim[1] and xlim[0] < item.time:
-                in_limits.append(item)
+        if len(self) > 0:
+            if isinstance(self[0], PatInterval):
+                for item in self:
+                    if item.end is None: 
+                        if xlim[1] < item.begin:
+                            continue
+                        elif item.begin < xlim[0]:
+                            continue
+                    elif item.end < xlim[0] or xlim[1] < item.begin:
+                        continue
+                    in_limits.append(item)
+            else:
+                for item in self:
+                    if item.time < xlim[1] and xlim[0] < item.time:
+                        in_limits.append(item)
 
         return in_limits
 
