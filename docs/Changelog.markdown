@@ -67,6 +67,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - There is a minimal three recording example again.
 
+### Bugs
+
+- To start zooming you need to click on the main figure - also outside the
+  graph areas will do.
+- Zooming very far in makes the plotting behave strangely.
+
 
 ## [0.16.0] - 2025-05-26
 
