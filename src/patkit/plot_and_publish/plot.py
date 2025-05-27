@@ -303,7 +303,7 @@ def plot_patgrid_tier(
     boundaries = []
     for segment in tier:
         if xlim is not None:
-            if xlim[0] > segment.begin - time_offset:
+            if segment.end is not None and xlim[0] > segment.end-time_offset:
                 prev_text = text
                 text = None
                 continue
@@ -312,8 +312,9 @@ def plot_patgrid_tier(
                 text = None
                 continue
 
+        time = segment.begin - time_offset
         line = axes.axvline(
-            x=segment.begin - time_offset,
+            x=time,
             color="dimgrey",
             lw=1,
             linestyle='--')
@@ -322,18 +323,17 @@ def plot_patgrid_tier(
             if xlim is not None:
                 visible_x_min = max(xlim[0], segment.begin - time_offset)
                 visible_x_max = min(xlim[1], segment.end - time_offset)
-                print(visible_x_max, visible_x_min)
                 text_x = (visible_x_max + visible_x_min)/2
             else:
                 text_x = segment.mid - time_offset
             text = axes.text(text_x,
                              text_y, segment.label,
                              text_settings, color="dimgrey")
-            boundaries.append(AnimatableBoundary(axes, line, prev_text, text))
+            boundaries.append(AnimatableBoundary(axes, line, time, prev_text, text))
         else:
             prev_text = text
             text = None
-            boundaries.append(AnimatableBoundary(axes, line, prev_text, text))
+            boundaries.append(AnimatableBoundary(axes, line, time, prev_text, text))
     return boundaries, line
 
 

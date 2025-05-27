@@ -675,7 +675,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             # represented by multiple lines on different axes.
             boundaries_by_boundary = list(map(list, zip(*boundaries_by_axis)))
 
-            tier_in_limits = tier.in_limits(xlim=self.xlim)
+            tier_limits = [
+                self.xlim[0] + stimulus_onset, self.xlim[1] + stimulus_onset]
+            tier_in_limits = tier.intersects(xlim=tier_limits)
             for boundaries, interval in zip(
                     boundaries_by_boundary, tier_in_limits, strict=True):
                 animator = BoundaryAnimator(
