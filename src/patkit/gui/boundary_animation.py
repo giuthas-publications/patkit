@@ -85,26 +85,26 @@ class BoundaryAnimator:
         # We generate this dynamically every time a shift-drag occurs.
         self.coincident_boundaries = []
 
-        self.cidpress = None
-        self.cidmotion = None
-        self.cidrelease = None
+        self.connect_id_press = None
+        self.connect_id_motion = None
+        self.connect_id_release = None
 
     def connect(self):
         """Connect to all the events we need."""
         for boundary in self.boundaries:
-            self.cidpress = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_press = boundary.line.figure.canvas.mpl_connect(
                 'button_press_event', self.on_press)
-            self.cidrelease = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_release = boundary.line.figure.canvas.mpl_connect(
                 'button_release_event', self.on_release)
-            self.cidmotion = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_motion = boundary.line.figure.canvas.mpl_connect(
                 'motion_notify_event', self.on_motion)
 
     def disconnect(self):
         """Disconnect all callbacks."""
         for boundary in self.boundaries:
-            boundary.line.figure.canvas.mpl_disconnect(self.cidpress)
-            boundary.line.figure.canvas.mpl_disconnect(self.cidrelease)
-            boundary.line.figure.canvas.mpl_disconnect(self.cidmotion)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_press)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_release)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_motion)
 
     def on_press(self, event):
         """Check whether mouse is over us; if so, store some data."""
@@ -143,7 +143,7 @@ class BoundaryAnimator:
         BoundaryAnimator.lock = self
 
         # draw everything but the selected line and store the pixel buffer
-        # TODO: don't draw coinciding lines if shift was held
+        # TODO 0.23: don't draw coinciding lines if shift was held
         axes = None
         canvas = None
         for boundary in self.boundaries:
