@@ -35,8 +35,10 @@ patkit
 patkit --help
 
 # Run with the default configuration and show 3 recordings in the GUI.
-patkit recorded_data/minimal/
-patkit open recorded_data/minimal/
+patkit scenarios/tongue_data_1_1/
+patkit open scenarios/tongue_data_1_1/
+
+# TODO 0.20: Update the scenarios below and create a new minimal example.
 # The same but in interactive interpreter mode
 patkit interact recorded_data/minimal/
 
