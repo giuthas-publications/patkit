@@ -55,6 +55,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - Audio playback
 - Clickable list view of recordings
+- Documentation for keyboard shortcuts
 
 ### Changed
 
