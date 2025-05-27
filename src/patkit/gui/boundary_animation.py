@@ -185,8 +185,8 @@ class BoundaryAnimator:
         if not is_inaxes:
             return
 
-        x0, xpress = self.press
-        dx = event.xdata - xpress
+        x0, x_press = self.press
+        dx = event.xdata - x_press
         # Prevent boundary crossings.
         if self.segment.is_legal_value(
                 time=x0[0] + dx + self.time_offset, epsilon=self.epsilon
