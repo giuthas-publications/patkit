@@ -65,6 +65,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Fixed
 
+- Zoom commands no longer 'eat' the Ctrl+O for opening a directory. However,
+  see the bug below.
 - There is a minimal three recording example again.
 
 ### Bugs
@@ -72,6 +74,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - To start zooming you need to click on the main figure - also outside the
   graph areas will do.
 - Zooming very far in makes the plotting behave strangely.
+- Ctrl+O crashes PATKIT probably because the directory opening code pre-dates
+  the new directory structure.
 
 
 ## [0.16.0] - 2025-05-26
