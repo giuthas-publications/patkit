@@ -265,12 +265,14 @@ def mark_peaks(
     return line_collection
 
 
-def plot_patgrid_tier(axes: Axes,
-                      tier: PatTier,
-                      time_offset: float = 0,
-                      draw_text: bool = True,
-                      text_y: float = 500
-                      ) -> tuple[list[AnimatableBoundary], Line2D | None]:
+def plot_patgrid_tier(
+    axes: Axes,
+    tier: PatTier,
+    time_offset: float = 0,
+    draw_text: bool = True,
+    text_y: float = 500,
+    xlim: list[float, float] | None = None,
+) -> tuple[list[AnimatableBoundary], Line2D | None]:
     """
     Plot a textgrid tier on the axis and return animator objects.
 
@@ -300,6 +302,16 @@ def plot_patgrid_tier(axes: Axes,
     text = None
     boundaries = []
     for segment in tier:
+        if xlim is not None:
+            if xlim[0] > segment.begin - time_offset:
+                prev_text = text
+                text = None
+                continue
+            if segment.begin-time_offset > xlim[1]:
+                prev_text = text
+                text = None
+                continue
+
         line = axes.axvline(
             x=segment.begin - time_offset,
             color="dimgrey",
@@ -307,7 +319,14 @@ def plot_patgrid_tier(axes: Axes,
             linestyle='--')
         if draw_text and segment.label:
             prev_text = text
-            text = axes.text(segment.mid - time_offset,
+            if xlim is not None:
+                visible_x_min = max(xlim[0], segment.begin - time_offset)
+                visible_x_max = min(xlim[1], segment.end - time_offset)
+                print(visible_x_max, visible_x_min)
+                text_x = (visible_x_max + visible_x_min)/2
+            else:
+                text_x = segment.mid - time_offset
+            text = axes.text(text_x,
                              text_y, segment.label,
                              text_settings, color="dimgrey")
             boundaries.append(AnimatableBoundary(axes, line, prev_text, text))

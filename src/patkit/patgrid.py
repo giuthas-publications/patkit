@@ -44,7 +44,7 @@ from typing_extensions import Self
 
 from patkit.constants import IntervalCategory, PATKIT_EPSILON
 
-# TODO 1.0: clean up the way epsilon is used and how it's type hinted and
+# TODO 0.20: clean up the way epsilon is used and how it's type hinted and
 # documented.
 
 
@@ -60,6 +60,15 @@ class PatAnnotation(ABC):
     ) -> None:
         self._time = time
         self.label = label
+
+    @property
+    def time(self) -> float:
+        """Location of this Point."""
+        return self._time
+
+    @time.setter
+    def time(self, time: float) -> None:
+        self._time = time
 
     @abstractmethod
     def contains(self, time: float, epsilon: float | None) -> bool:
@@ -116,15 +125,6 @@ class PatPoint(PatAnnotation):
             label: None | Transcript
     ) -> None:
         super().__init__(time=time, label=label)
-
-    @property
-    def time(self) -> float:
-        """Location of this Point."""
-        return self._time
-
-    @time.setter
-    def time(self, time: float) -> None:
-        self._time = time
 
     def contains(self, time: float, epsilon: float | None) -> bool:
         if epsilon is None:
@@ -451,6 +451,14 @@ class PatTier(list):
         for element in self:
             if element.contains(time=time, epsilon=epsilon):
                 return element.label
+
+    def in_limits(self, xlim: [float, float]) -> list[PatAnnotation]:
+        in_limits = []
+        for item in self:
+            if item.time < xlim[1] and xlim[0] < item.time:
+                in_limits.append(item)
+
+        return in_limits
 
 
 class PatGrid(OrderedDict):

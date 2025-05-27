@@ -650,7 +650,12 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             boundaries_by_axis = []
 
             boundary_set, _ = plot_patgrid_tier(
-                axis, tier, time_offset=stimulus_onset, text_y=.5)
+                axes=axis, 
+                tier=tier, 
+                time_offset=stimulus_onset, 
+                text_y=.5,
+                xlim=self.xlim,
+            )
             boundaries_by_axis.append(boundary_set)
             axis.set_ylabel(
                 name, rotation=0, horizontalalignment="right",
@@ -659,7 +664,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             if name in self.gui_config.pervasive_tiers:
                 for data_axis in self.data_axes:
                     boundary_set = plot_patgrid_tier(
-                        data_axis, tier, time_offset=stimulus_onset,
+                        axes=data_axis,
+                        tier=tier,
+                        time_offset=stimulus_onset,
                         draw_text=False)[0]
                     boundaries_by_axis.append(boundary_set)
 
@@ -668,8 +675,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             # represented by multiple lines on different axes.
             boundaries_by_boundary = list(map(list, zip(*boundaries_by_axis)))
 
+            tier_in_limits = tier.in_limits(xlim=self.xlim)
             for boundaries, interval in zip(
-                    boundaries_by_boundary, tier, strict=True):
+                    boundaries_by_boundary, tier_in_limits, strict=True):
                 animator = BoundaryAnimator(
                     main_window=self,
                     boundaries=boundaries,
