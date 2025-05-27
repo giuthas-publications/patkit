@@ -41,7 +41,33 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-## [0.16.0] - 2025-05-23
+## [0.17.0] - 2025-05-28
+
+### Highlights
+
+- Improved zooming and panning:'
+  - Panning works
+  - Zooming has better short cut conformity
+- Audio playback
+- New list view of recordings.
+
+### Added
+
+- Audio playback
+- Clickable list view of recordings
+
+### Changed
+
+- Panning with keyboard shortcuts has been added.
+- Zooming shortcuts work more consistently.
+- Zooming centers on cursor if a cursor has been placed.
+
+### Fixed
+
+- There is a minimal three recording example again.
+
+
+## [0.16.0] - 2025-05-26
 
 ### Highlights
 
