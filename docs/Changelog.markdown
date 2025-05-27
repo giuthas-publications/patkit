@@ -45,7 +45,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Highlights
 
-- Improved zooming and panning:'
+- Improved zooming and panning:
   - Panning works
   - Zooming has better short cut conformity
 - Audio playback
