@@ -256,7 +256,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.goButton.clicked.connect(self.go_to_recording)
         self.goLineEdit.returnPressed.connect(self.go_to_recording)
 
-        # TODO: add recording list to the display and highlight current
+        # TODO 0.17: add recording list to the display and highlight current
         # recording
 
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
@@ -406,8 +406,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         return text
 
     def _release_modality_memory(self):
-        # TODO 1.0: make it possible to select which modalities get their
-        # memory released
         if 'RawUltrasound' in self.current.modalities:
             self.current.modalities['RawUltrasound'].data = None
 
@@ -477,7 +475,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             if data_axes_params is None and axes_params is None:
                 ylim = (-0.05, 1.05)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
-                if not data_axes_params.auto_ylim and not axes_params.auto_ylim:
+                if (
+                    not data_axes_params.auto_ylim and
+                    not axes_params.auto_ylim
+                    ):
                     ylim = (-0.05, 1.05)
                 else:
                     ylim = None
@@ -486,7 +487,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             else:
                 ylim = axes_params.ylim
 
-        # TODO: this needs to work together with normalisation, maybe this
+        # TODO 0.20: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
         y_offset = 0
         if axes_params.y_offset is not None:
@@ -627,16 +628,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                         extent_on_x=(wav_time[0], wav_time[-1]),
                         mode=self.gui_config.color_scheme
                     )
-                # TODO: figure out if this should be just completely removed.
-                # looks like some old experiment.
-                # add `image =` to spectrogram2 to make this work:
-                # case "spectrogram distro":
-                #     spectrum_data = image.get_array().flatten()
-                #     ic(np.min(spectrum_data), np.max(spectrum_data))
-                #     self.data_axes[axes_counter].hist(
-                #         spectrum_data, bins=200)
-                #     ic(np.quantile(spectrum_data,
-                #        [.3, .4, .5, .6, .7, .8, .9, 1]))
                 case "wav":
                     plot_wav(ax=self.data_axes[axes_counter],
                              waveform=wav,
@@ -652,28 +643,12 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                         )
             axes_counter += 1
 
-        # self.data_axes[0].legend(
-        #     loc='upper left')
-
-        # TODO: the sync is iffy with this one, but plotting a pd spectrum is
-        # still a good idea. Just need to get the FFT parameters tuned - if
-        # that's even possible.
-        # plot_spectrogram(self.data_axes[1],
-        #                  waveform=l1.data,
-        #                  ylim=(0, 60),
-        #                  sampling_frequency=l1.sampling_rate,
-        #                  noverlap=98, NFFT=100,
-        #                  #  xtent_on_x=[-1, 1])  # ,
-        #                  xtent_on_x=[ultra_time[0], ultra_time[-1]])  # ,
-
-        # segment_line = None
         self.animators = []
         iterator = zip(self.current.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
             boundaries_by_axis = []
 
-            # boundary_set, segment_line = plot_patgrid_tier(
             boundary_set, _ = plot_patgrid_tier(
                 axis, tier, time_offset=stimulus_onset, text_y=.5)
             boundaries_by_axis.append(boundary_set)
@@ -760,7 +735,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             #         markers=["x"],
             #         linestyle="--")
             #     self.kymography_clicker.on_point_added(self.point_added_cb)
-            #     self.kymography_clicker.on_point_removed(self.point_removed_cb)
+                # self.kymography_clicker.on_point_removed(
+                #     self.point_removed_cb
+                # )
 
             if (self.image_type == GuiImageType.FRAME
                     and 'Splines' in self.current.modalities):
@@ -772,8 +749,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 spline_index = np.argmin(
                     np.abs(splines.timevector - timestamp))
 
-                # TODO: move this to reading splines/end of loading and make
-                # the system warn the user when there is a creeping
+                # TODO 1.0: move this to reading splines/end of loading and
+                # make the system warn the user when there is a creeping
                 # discrepancy. also make it an integration test where
                 # spline_test_token1 gets run and triggers this
                 # ic(splines.timevector)
@@ -963,7 +940,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
         save_recording_session(self.session)
 
     def save_to_pickle(self):
@@ -988,7 +964,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
+        # TODO 0.28: write a call back for asking for overwrite confirmation.
         if not self.current.textgrid_path:
             (self.current.textgrid_path, _) = QFileDialog.getSaveFileName(
                 self, 'Save TextGrid', directory='.',
@@ -1005,7 +981,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
+        # TODO 0.28: write a call back for asking for overwrite confirmation.
         for recording in self.session:
             if not recording.textgrid_path:
                 # TODO: This will be SUPER ANNOYING when there are a lot of
@@ -1039,7 +1015,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         if filename is not None:
             self.figure.savefig(filename, bbox_inches='tight', pad_inches=0.05)
             export_session_and_recording_meta(
-                filename=filename, session=self.session, recording=self.current,
+                filename=filename,
+                session=self.session,
+                recording=self.current,
                 description="main GUI figure"
             )
 
@@ -1050,8 +1028,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         The metadata is written to a separate `.txt` file of the same name as
         the image file.
         """
-        # TODO: Add a check that grays out the export ultrasound figure when one
-        # isn't available.
+        # TODO: Add a check that grays out the export ultrasound figure when
+        # one isn't available.
 
         if self.current.annotations['selection_index'] >= 0:
             suggested_path = Path.cwd() / "Raw_ultrasound_frame.png"
@@ -1227,7 +1205,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         x, y = position
         print(f"New point of class {klass} added at {x=}, {y=}.")
 
-    def point_removed_cb(position: tuple[float, float], klass: str, idx):
+    def point_removed_cb(self, position: tuple[float, float], klass: str, idx):
         x, y = position
 
         suffix = {"1": "st", "2": "nd", "3": "rd"}.get(str(idx)[-1], "th")
