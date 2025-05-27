@@ -68,6 +68,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Zoom commands no longer 'eat' the Ctrl+O for opening a directory. However,
   see the bug below.
 - There is a minimal three recording example again.
+- Boundaries can not be moved across each other any more.
 
 ### Bugs
 
