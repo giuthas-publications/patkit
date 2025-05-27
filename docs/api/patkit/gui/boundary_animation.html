@@ -176,7 +176,7 @@
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span> <span class="k">as</span> <span class="n">mpl_line_2d</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">Text</span> <span class="k">as</span> <span class="n">mpl_text</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.satgrid</span><span class="w"> </span><span class="kn">import</span> <span class="n">SatInterval</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.patgrid</span><span class="w"> </span><span class="kn">import</span> <span class="n">PatInterval</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="nd">@dataclass</span>
@@ -208,7 +208,7 @@
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>            <span class="n">main_window</span><span class="p">,</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>            <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AnimatableBoundary</span><span class="p">],</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">SatInterval</span><span class="p">,</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">PatInterval</span><span class="p">,</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>            <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="mi">0</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>    <span class="p">):</span>
@@ -504,7 +504,7 @@
 </span><span id="BoundaryAnimator-70"><a href="#BoundaryAnimator-70"><span class="linenos"> 70</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="BoundaryAnimator-71"><a href="#BoundaryAnimator-71"><span class="linenos"> 71</span></a>            <span class="n">main_window</span><span class="p">,</span>
 </span><span id="BoundaryAnimator-72"><a href="#BoundaryAnimator-72"><span class="linenos"> 72</span></a>            <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AnimatableBoundary</span><span class="p">],</span>
-</span><span id="BoundaryAnimator-73"><a href="#BoundaryAnimator-73"><span class="linenos"> 73</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">SatInterval</span><span class="p">,</span>
+</span><span id="BoundaryAnimator-73"><a href="#BoundaryAnimator-73"><span class="linenos"> 73</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">PatInterval</span><span class="p">,</span>
 </span><span id="BoundaryAnimator-74"><a href="#BoundaryAnimator-74"><span class="linenos"> 74</span></a>            <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 </span><span id="BoundaryAnimator-75"><a href="#BoundaryAnimator-75"><span class="linenos"> 75</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="mi">0</span>
 </span><span id="BoundaryAnimator-76"><a href="#BoundaryAnimator-76"><span class="linenos"> 76</span></a>    <span class="p">):</span>
@@ -694,7 +694,7 @@ release and  the underlying Interval gets updated with the new position.</p>
                                         <input id="BoundaryAnimator.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">BoundaryAnimator</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">main_window</span>,</span><span class="param">	<span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n"><a href="#AnimatableBoundary">AnimatableBoundary</a></span><span class="p">]</span>,</span><span class="param">	<span class="n">segment</span><span class="p">:</span> <span class="n"><a href="../satgrid.html#SatInterval">patkit.satgrid.SatInterval</a></span>,</span><span class="param">	<span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">time_offset</span><span class="o">=</span><span class="mi">0</span></span>)</span>
+        <span class="name">BoundaryAnimator</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">main_window</span>,</span><span class="param">	<span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n"><a href="#AnimatableBoundary">AnimatableBoundary</a></span><span class="p">]</span>,</span><span class="param">	<span class="n">segment</span><span class="p">:</span> <span class="n"><a href="../patgrid.html#PatInterval">patkit.patgrid.PatInterval</a></span>,</span><span class="param">	<span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>,</span><span class="param">	<span class="n">time_offset</span><span class="o">=</span><span class="mi">0</span></span>)</span>
 
                 <label class="view-source-button" for="BoundaryAnimator.__init__-view-source"><span>View Source</span></label>
 
@@ -704,7 +704,7 @@ release and  the underlying Interval gets updated with the new position.</p>
 </span><span id="BoundaryAnimator.__init__-70"><a href="#BoundaryAnimator.__init__-70"><span class="linenos">70</span></a>            <span class="bp">self</span><span class="p">,</span>
 </span><span id="BoundaryAnimator.__init__-71"><a href="#BoundaryAnimator.__init__-71"><span class="linenos">71</span></a>            <span class="n">main_window</span><span class="p">,</span>
 </span><span id="BoundaryAnimator.__init__-72"><a href="#BoundaryAnimator.__init__-72"><span class="linenos">72</span></a>            <span class="n">boundaries</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AnimatableBoundary</span><span class="p">],</span>
-</span><span id="BoundaryAnimator.__init__-73"><a href="#BoundaryAnimator.__init__-73"><span class="linenos">73</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">SatInterval</span><span class="p">,</span>
+</span><span id="BoundaryAnimator.__init__-73"><a href="#BoundaryAnimator.__init__-73"><span class="linenos">73</span></a>            <span class="n">segment</span><span class="p">:</span> <span class="n">PatInterval</span><span class="p">,</span>
 </span><span id="BoundaryAnimator.__init__-74"><a href="#BoundaryAnimator.__init__-74"><span class="linenos">74</span></a>            <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 </span><span id="BoundaryAnimator.__init__-75"><a href="#BoundaryAnimator.__init__-75"><span class="linenos">75</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="mi">0</span>
 </span><span id="BoundaryAnimator.__init__-76"><a href="#BoundaryAnimator.__init__-76"><span class="linenos">76</span></a>    <span class="p">):</span>

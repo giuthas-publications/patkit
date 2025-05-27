@@ -101,7 +101,7 @@
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataRunConfig</span><span class="p">,</span> <span class="n">DownsampleParams</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.configuration</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataConfig</span><span class="p">,</span> <span class="n">DownsampleParams</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>    <span class="n">Modality</span><span class="p">,</span> <span class="n">ModalityData</span><span class="p">,</span> <span class="n">ModalityMetaData</span><span class="p">,</span> <span class="n">Recording</span><span class="p">,</span> <span class="n">Session</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="p">)</span>
@@ -215,7 +215,7 @@
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="k">def</span><span class="w"> </span><span class="nf">downsample_metrics_in_session</span><span class="p">(</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="n">recording_session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">data_run_config</span><span class="p">:</span> <span class="n">DataRunConfig</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">data_run_config</span><span class="p">:</span> <span class="n">DataConfig</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a><span class="sd">    Downsample metrics in the session.</span>
@@ -224,7 +224,7 @@
 </span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a><span class="sd">    ----------</span>
 </span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="sd">    recording_session : Session</span>
 </span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="sd">        _description_</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    data_run_config : DataRunConfig</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    data_run_config : DataConfig</span>
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">        _description_</span>
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>    <span class="k">for</span> <span class="n">recording</span> <span class="ow">in</span> <span class="n">recording_session</span><span class="p">:</span>
@@ -320,7 +320,7 @@ downsampled and its name will show the downsampling ratio used.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">downsample_metrics</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">recording</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">downsampling_parameters</span><span class="p">:</span> <span class="n"><a href="../configuration/configuration_models.html#DownsampleParams">patkit.configuration.configuration_models.DownsampleParams</a></span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+        <span class="name">downsample_metrics</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">recording</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">downsampling_parameters</span><span class="p">:</span> <span class="n"><a href="../configuration.html#DownsampleParams">patkit.configuration.DownsampleParams</a></span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
 
                 <label class="view-source-button" for="downsample_metrics-view-source"><span>View Source</span></label>
 
@@ -417,7 +417,7 @@ details.</li>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">downsample_metrics_in_session</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">recording_session</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Session">patkit.data_structures.data_structures.Session</a></span>,</span><span class="param">	<span class="n">data_run_config</span><span class="p">:</span> <span class="n"><a href="../configuration/configuration_models.html#DataRunConfig">patkit.configuration.configuration_models.DataRunConfig</a></span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+        <span class="name">downsample_metrics_in_session</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">recording_session</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Session">patkit.data_structures.data_structures.Session</a></span>,</span><span class="param">	<span class="n">data_run_config</span><span class="p">:</span> <span class="n"><a href="../configuration.html#DataConfig">patkit.configuration.DataConfig</a></span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
 
                 <label class="view-source-button" for="downsample_metrics_in_session-view-source"><span>View Source</span></label>
 
@@ -425,7 +425,7 @@ details.</li>
     <a class="headerlink" href="#downsample_metrics_in_session"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="downsample_metrics_in_session-153"><a href="#downsample_metrics_in_session-153"><span class="linenos">153</span></a><span class="k">def</span><span class="w"> </span><span class="nf">downsample_metrics_in_session</span><span class="p">(</span>
 </span><span id="downsample_metrics_in_session-154"><a href="#downsample_metrics_in_session-154"><span class="linenos">154</span></a>        <span class="n">recording_session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
-</span><span id="downsample_metrics_in_session-155"><a href="#downsample_metrics_in_session-155"><span class="linenos">155</span></a>        <span class="n">data_run_config</span><span class="p">:</span> <span class="n">DataRunConfig</span>
+</span><span id="downsample_metrics_in_session-155"><a href="#downsample_metrics_in_session-155"><span class="linenos">155</span></a>        <span class="n">data_run_config</span><span class="p">:</span> <span class="n">DataConfig</span>
 </span><span id="downsample_metrics_in_session-156"><a href="#downsample_metrics_in_session-156"><span class="linenos">156</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="downsample_metrics_in_session-157"><a href="#downsample_metrics_in_session-157"><span class="linenos">157</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="downsample_metrics_in_session-158"><a href="#downsample_metrics_in_session-158"><span class="linenos">158</span></a><span class="sd">    Downsample metrics in the session.</span>
@@ -434,7 +434,7 @@ details.</li>
 </span><span id="downsample_metrics_in_session-161"><a href="#downsample_metrics_in_session-161"><span class="linenos">161</span></a><span class="sd">    ----------</span>
 </span><span id="downsample_metrics_in_session-162"><a href="#downsample_metrics_in_session-162"><span class="linenos">162</span></a><span class="sd">    recording_session : Session</span>
 </span><span id="downsample_metrics_in_session-163"><a href="#downsample_metrics_in_session-163"><span class="linenos">163</span></a><span class="sd">        _description_</span>
-</span><span id="downsample_metrics_in_session-164"><a href="#downsample_metrics_in_session-164"><span class="linenos">164</span></a><span class="sd">    data_run_config : DataRunConfig</span>
+</span><span id="downsample_metrics_in_session-164"><a href="#downsample_metrics_in_session-164"><span class="linenos">164</span></a><span class="sd">    data_run_config : DataConfig</span>
 </span><span id="downsample_metrics_in_session-165"><a href="#downsample_metrics_in_session-165"><span class="linenos">165</span></a><span class="sd">        _description_</span>
 </span><span id="downsample_metrics_in_session-166"><a href="#downsample_metrics_in_session-166"><span class="linenos">166</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="downsample_metrics_in_session-167"><a href="#downsample_metrics_in_session-167"><span class="linenos">167</span></a>    <span class="k">for</span> <span class="n">recording</span> <span class="ow">in</span> <span class="n">recording_session</span><span class="p">:</span>
@@ -449,7 +449,7 @@ details.</li>
 <ul>
 <li><strong>recording_session</strong> (Session):
 _description_</li>
-<li><strong>data_run_config</strong> (DataRunConfig):
+<li><strong>data_run_config</strong> (DataConfig):
 _description_</li>
 </ul>
 </div>

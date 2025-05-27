@@ -190,17 +190,17 @@
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">        size one to take, by default None.</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">    slice_step_to: PositiveInt | None</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">        Instead of incrementally stepping with same size sectors, generate a</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        pair of maximally distant sectors for each step size ranging from one to</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        `slice_step_to`, by default None.</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        pair of maximally distant sectors for each step size ranging from one</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        to `slice_step_to`, by default None.</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a><span class="sd">    sort: bool</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">        Sort the rows and columns of the matrix in order corresponding to the</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="sd">        alphabetical order of the prompts or according to `sort_criteria` if it</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">        is defined. By default, False.</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a><span class="sd">    sort_criteria: list[str] | None</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">        List of substrings to sort the rows and columns by, by default None. The</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        result will consist of blocks where in first block `sort_criteria[0] in</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        prompt` is True, and so on. Final block will consist of any Recordings</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        left after the list has been exhausted.</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">        List of substrings to sort the rows and columns by, by default None.</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">        The result will consist of blocks where in first block</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">        `sort_criteria[0] in prompt` is True, and so on. Final block will</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        consist of any Recordings left after the list has been exhausted.</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>    <span class="n">parent_name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean_squared_error&#39;</span>
@@ -264,7 +264,7 @@
 </span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>                    <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort </span><span class="si">{</span><span class="n">params</span><span class="o">.</span><span class="n">sort</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>            <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">sort_criteria</span><span class="p">:</span>
 </span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>                <span class="n">name_string</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
 </span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>
 </span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="n">name_string</span>
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>
@@ -295,23 +295,23 @@
 </span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">            list of the names of metrics to use in name generation, by default</span>
 </span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">            None which will result in &#39;mean_squared_error&#39; being used.</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a><span class="sd">        release_data_memory: bool</span>
-</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after calculations</span>
-</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">            are complete, by default True.</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="sd">            calculations are complete, by default True.</span>
 </span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="sd">        slice_max_step: PositiveInt | None</span>
 </span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="sd">            Simulate rotating the probe by slicing incrementally so that the</span>
 </span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">            sector is always the same size. This parameter determines how many</span>
 </span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">            steps of size one to take, by default None.</span>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">        slice_step_to: PositiveInt | None</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate a</span>
-</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">            pair of maximally distant sectors for each step size ranging from</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">            a pair of maximally distant sectors for each step size ranging from</span>
 </span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">            one to `slice_step_to`, by default None.</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="sd">        sort: bool</span>
 </span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a><span class="sd">            Sort the rows and columns of the matrix in order corresponding to</span>
 </span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a><span class="sd">            the alphabetical order of the prompts or according to</span>
 </span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a><span class="sd">            `sort_criteria` if it is defined. By default, False.</span>
 </span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a><span class="sd">        sort_criteria: list[str] | None</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default None.</span>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">            The result will consist of blocks where in first block</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a><span class="sd">            None. The result will consist of blocks where in first block</span>
 </span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a><span class="sd">            `sort_criteria[0] in prompt` is True, and so on. Final block will</span>
 </span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a><span class="sd">            consist of any Recordings left after the list has been exhausted.</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a><span class="sd">        exclusion_list : ExclusionList | None</span>
@@ -321,7 +321,7 @@
 </span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a><span class="sd">        Returns</span>
 </span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a><span class="sd">        -------</span>
 </span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a><span class="sd">        dict[str: DistanceMatrixParameters]</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the </span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the</span>
 </span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a><span class="sd">            DistanceMatrixParameter objects.</span>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -353,7 +353,7 @@
 </span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>
 </span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
 </span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">DistanceMatrixParameters</span><span class="p">,</span>
 </span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -373,7 +373,7 @@
 </span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a><span class="sd">            The distance matrix itself, by default None</span>
 </span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span> <span class="p">)</span>
@@ -448,17 +448,17 @@
 </span><span id="DistanceMatrixParameters-70"><a href="#DistanceMatrixParameters-70"><span class="linenos">70</span></a><span class="sd">        size one to take, by default None.</span>
 </span><span id="DistanceMatrixParameters-71"><a href="#DistanceMatrixParameters-71"><span class="linenos">71</span></a><span class="sd">    slice_step_to: PositiveInt | None</span>
 </span><span id="DistanceMatrixParameters-72"><a href="#DistanceMatrixParameters-72"><span class="linenos">72</span></a><span class="sd">        Instead of incrementally stepping with same size sectors, generate a</span>
-</span><span id="DistanceMatrixParameters-73"><a href="#DistanceMatrixParameters-73"><span class="linenos">73</span></a><span class="sd">        pair of maximally distant sectors for each step size ranging from one to</span>
-</span><span id="DistanceMatrixParameters-74"><a href="#DistanceMatrixParameters-74"><span class="linenos">74</span></a><span class="sd">        `slice_step_to`, by default None.</span>
+</span><span id="DistanceMatrixParameters-73"><a href="#DistanceMatrixParameters-73"><span class="linenos">73</span></a><span class="sd">        pair of maximally distant sectors for each step size ranging from one</span>
+</span><span id="DistanceMatrixParameters-74"><a href="#DistanceMatrixParameters-74"><span class="linenos">74</span></a><span class="sd">        to `slice_step_to`, by default None.</span>
 </span><span id="DistanceMatrixParameters-75"><a href="#DistanceMatrixParameters-75"><span class="linenos">75</span></a><span class="sd">    sort: bool</span>
 </span><span id="DistanceMatrixParameters-76"><a href="#DistanceMatrixParameters-76"><span class="linenos">76</span></a><span class="sd">        Sort the rows and columns of the matrix in order corresponding to the</span>
 </span><span id="DistanceMatrixParameters-77"><a href="#DistanceMatrixParameters-77"><span class="linenos">77</span></a><span class="sd">        alphabetical order of the prompts or according to `sort_criteria` if it</span>
 </span><span id="DistanceMatrixParameters-78"><a href="#DistanceMatrixParameters-78"><span class="linenos">78</span></a><span class="sd">        is defined. By default, False.</span>
 </span><span id="DistanceMatrixParameters-79"><a href="#DistanceMatrixParameters-79"><span class="linenos">79</span></a><span class="sd">    sort_criteria: list[str] | None</span>
-</span><span id="DistanceMatrixParameters-80"><a href="#DistanceMatrixParameters-80"><span class="linenos">80</span></a><span class="sd">        List of substrings to sort the rows and columns by, by default None. The</span>
-</span><span id="DistanceMatrixParameters-81"><a href="#DistanceMatrixParameters-81"><span class="linenos">81</span></a><span class="sd">        result will consist of blocks where in first block `sort_criteria[0] in</span>
-</span><span id="DistanceMatrixParameters-82"><a href="#DistanceMatrixParameters-82"><span class="linenos">82</span></a><span class="sd">        prompt` is True, and so on. Final block will consist of any Recordings</span>
-</span><span id="DistanceMatrixParameters-83"><a href="#DistanceMatrixParameters-83"><span class="linenos">83</span></a><span class="sd">        left after the list has been exhausted.</span>
+</span><span id="DistanceMatrixParameters-80"><a href="#DistanceMatrixParameters-80"><span class="linenos">80</span></a><span class="sd">        List of substrings to sort the rows and columns by, by default None.</span>
+</span><span id="DistanceMatrixParameters-81"><a href="#DistanceMatrixParameters-81"><span class="linenos">81</span></a><span class="sd">        The result will consist of blocks where in first block</span>
+</span><span id="DistanceMatrixParameters-82"><a href="#DistanceMatrixParameters-82"><span class="linenos">82</span></a><span class="sd">        `sort_criteria[0] in prompt` is True, and so on. Final block will</span>
+</span><span id="DistanceMatrixParameters-83"><a href="#DistanceMatrixParameters-83"><span class="linenos">83</span></a><span class="sd">        consist of any Recordings left after the list has been exhausted.</span>
 </span><span id="DistanceMatrixParameters-84"><a href="#DistanceMatrixParameters-84"><span class="linenos">84</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="DistanceMatrixParameters-85"><a href="#DistanceMatrixParameters-85"><span class="linenos">85</span></a>    <span class="n">parent_name</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="DistanceMatrixParameters-86"><a href="#DistanceMatrixParameters-86"><span class="linenos">86</span></a>    <span class="n">metric</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean_squared_error&#39;</span>
@@ -495,17 +495,17 @@ is always the same size. This parameter determines how many steps of
 size one to take, by default None.</li>
 <li><strong>slice_step_to</strong> (PositiveInt | None):
 Instead of incrementally stepping with same size sectors, generate a
-pair of maximally distant sectors for each step size ranging from one to
-<code><a href="#DistanceMatrixParameters.slice_step_to">slice_step_to</a></code>, by default None.</li>
+pair of maximally distant sectors for each step size ranging from one
+to <code><a href="#DistanceMatrixParameters.slice_step_to">slice_step_to</a></code>, by default None.</li>
 <li><strong>sort</strong> (bool):
 Sort the rows and columns of the matrix in order corresponding to the
 alphabetical order of the prompts or according to <code><a href="#DistanceMatrixParameters.sort_criteria">sort_criteria</a></code> if it
 is defined. By default, False.</li>
 <li><strong>sort_criteria</strong> (list[str] | None):
-List of substrings to sort the rows and columns by, by default None. The
-result will consist of blocks where in first block <code>sort_criteria[0] in
-prompt</code> is True, and so on. Final block will consist of any Recordings
-left after the list has been exhausted.</li>
+List of substrings to sort the rows and columns by, by default None.
+The result will consist of blocks where in first block
+<code>sort_criteria[0] in prompt</code> is True, and so on. Final block will
+consist of any Recordings left after the list has been exhausted.</li>
 </ul>
 </div>
 
@@ -622,7 +622,7 @@ left after the list has been exhausted.</li>
                             </div>
                             <div id="DistanceMatrixParameters.exclusion_list" class="classattr">
                                 <div class="attr variable">
-            <span class="name">exclusion_list</span><span class="annotation">: <a href="../configuration/configuration_models.html#ExclusionList">patkit.configuration.configuration_models.ExclusionList</a> | None</span>
+            <span class="name">exclusion_list</span><span class="annotation">: <a href="../configuration.html#ExclusionList">patkit.configuration.ExclusionList</a> | None</span>
 
         
     </div>
@@ -648,8 +648,8 @@ left after the list has been exhausted.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel">patkit.external_class_extensions.base_model_extensions.patkitBaseModel</a></dt>
-                                <dd id="DistanceMatrixParameters.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
+                                    <div><dt><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel">patkit.external_class_extensions.base_model_extensions.PatkitBaseModel</a></dt>
+                                <dd id="DistanceMatrixParameters.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
 
             </div>
                                 </dl>
@@ -715,7 +715,7 @@ left after the list has been exhausted.</li>
 </span><span id="DistanceMatrix-144"><a href="#DistanceMatrix-144"><span class="linenos">144</span></a>                    <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort </span><span class="si">{</span><span class="n">params</span><span class="o">.</span><span class="n">sort</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="DistanceMatrix-145"><a href="#DistanceMatrix-145"><span class="linenos">145</span></a>            <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">sort_criteria</span><span class="p">:</span>
 </span><span id="DistanceMatrix-146"><a href="#DistanceMatrix-146"><span class="linenos">146</span></a>                <span class="n">name_string</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="DistanceMatrix-147"><a href="#DistanceMatrix-147"><span class="linenos">147</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
+</span><span id="DistanceMatrix-147"><a href="#DistanceMatrix-147"><span class="linenos">147</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
 </span><span id="DistanceMatrix-148"><a href="#DistanceMatrix-148"><span class="linenos">148</span></a>
 </span><span id="DistanceMatrix-149"><a href="#DistanceMatrix-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="n">name_string</span>
 </span><span id="DistanceMatrix-150"><a href="#DistanceMatrix-150"><span class="linenos">150</span></a>
@@ -746,23 +746,23 @@ left after the list has been exhausted.</li>
 </span><span id="DistanceMatrix-175"><a href="#DistanceMatrix-175"><span class="linenos">175</span></a><span class="sd">            list of the names of metrics to use in name generation, by default</span>
 </span><span id="DistanceMatrix-176"><a href="#DistanceMatrix-176"><span class="linenos">176</span></a><span class="sd">            None which will result in &#39;mean_squared_error&#39; being used.</span>
 </span><span id="DistanceMatrix-177"><a href="#DistanceMatrix-177"><span class="linenos">177</span></a><span class="sd">        release_data_memory: bool</span>
-</span><span id="DistanceMatrix-178"><a href="#DistanceMatrix-178"><span class="linenos">178</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after calculations</span>
-</span><span id="DistanceMatrix-179"><a href="#DistanceMatrix-179"><span class="linenos">179</span></a><span class="sd">            are complete, by default True.</span>
+</span><span id="DistanceMatrix-178"><a href="#DistanceMatrix-178"><span class="linenos">178</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after</span>
+</span><span id="DistanceMatrix-179"><a href="#DistanceMatrix-179"><span class="linenos">179</span></a><span class="sd">            calculations are complete, by default True.</span>
 </span><span id="DistanceMatrix-180"><a href="#DistanceMatrix-180"><span class="linenos">180</span></a><span class="sd">        slice_max_step: PositiveInt | None</span>
 </span><span id="DistanceMatrix-181"><a href="#DistanceMatrix-181"><span class="linenos">181</span></a><span class="sd">            Simulate rotating the probe by slicing incrementally so that the</span>
 </span><span id="DistanceMatrix-182"><a href="#DistanceMatrix-182"><span class="linenos">182</span></a><span class="sd">            sector is always the same size. This parameter determines how many</span>
 </span><span id="DistanceMatrix-183"><a href="#DistanceMatrix-183"><span class="linenos">183</span></a><span class="sd">            steps of size one to take, by default None.</span>
 </span><span id="DistanceMatrix-184"><a href="#DistanceMatrix-184"><span class="linenos">184</span></a><span class="sd">        slice_step_to: PositiveInt | None</span>
-</span><span id="DistanceMatrix-185"><a href="#DistanceMatrix-185"><span class="linenos">185</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate a</span>
-</span><span id="DistanceMatrix-186"><a href="#DistanceMatrix-186"><span class="linenos">186</span></a><span class="sd">            pair of maximally distant sectors for each step size ranging from</span>
+</span><span id="DistanceMatrix-185"><a href="#DistanceMatrix-185"><span class="linenos">185</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate</span>
+</span><span id="DistanceMatrix-186"><a href="#DistanceMatrix-186"><span class="linenos">186</span></a><span class="sd">            a pair of maximally distant sectors for each step size ranging from</span>
 </span><span id="DistanceMatrix-187"><a href="#DistanceMatrix-187"><span class="linenos">187</span></a><span class="sd">            one to `slice_step_to`, by default None.</span>
 </span><span id="DistanceMatrix-188"><a href="#DistanceMatrix-188"><span class="linenos">188</span></a><span class="sd">        sort: bool</span>
 </span><span id="DistanceMatrix-189"><a href="#DistanceMatrix-189"><span class="linenos">189</span></a><span class="sd">            Sort the rows and columns of the matrix in order corresponding to</span>
 </span><span id="DistanceMatrix-190"><a href="#DistanceMatrix-190"><span class="linenos">190</span></a><span class="sd">            the alphabetical order of the prompts or according to</span>
 </span><span id="DistanceMatrix-191"><a href="#DistanceMatrix-191"><span class="linenos">191</span></a><span class="sd">            `sort_criteria` if it is defined. By default, False.</span>
 </span><span id="DistanceMatrix-192"><a href="#DistanceMatrix-192"><span class="linenos">192</span></a><span class="sd">        sort_criteria: list[str] | None</span>
-</span><span id="DistanceMatrix-193"><a href="#DistanceMatrix-193"><span class="linenos">193</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default None.</span>
-</span><span id="DistanceMatrix-194"><a href="#DistanceMatrix-194"><span class="linenos">194</span></a><span class="sd">            The result will consist of blocks where in first block</span>
+</span><span id="DistanceMatrix-193"><a href="#DistanceMatrix-193"><span class="linenos">193</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default</span>
+</span><span id="DistanceMatrix-194"><a href="#DistanceMatrix-194"><span class="linenos">194</span></a><span class="sd">            None. The result will consist of blocks where in first block</span>
 </span><span id="DistanceMatrix-195"><a href="#DistanceMatrix-195"><span class="linenos">195</span></a><span class="sd">            `sort_criteria[0] in prompt` is True, and so on. Final block will</span>
 </span><span id="DistanceMatrix-196"><a href="#DistanceMatrix-196"><span class="linenos">196</span></a><span class="sd">            consist of any Recordings left after the list has been exhausted.</span>
 </span><span id="DistanceMatrix-197"><a href="#DistanceMatrix-197"><span class="linenos">197</span></a><span class="sd">        exclusion_list : ExclusionList | None</span>
@@ -772,7 +772,7 @@ left after the list has been exhausted.</li>
 </span><span id="DistanceMatrix-201"><a href="#DistanceMatrix-201"><span class="linenos">201</span></a><span class="sd">        Returns</span>
 </span><span id="DistanceMatrix-202"><a href="#DistanceMatrix-202"><span class="linenos">202</span></a><span class="sd">        -------</span>
 </span><span id="DistanceMatrix-203"><a href="#DistanceMatrix-203"><span class="linenos">203</span></a><span class="sd">        dict[str: DistanceMatrixParameters]</span>
-</span><span id="DistanceMatrix-204"><a href="#DistanceMatrix-204"><span class="linenos">204</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the </span>
+</span><span id="DistanceMatrix-204"><a href="#DistanceMatrix-204"><span class="linenos">204</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the</span>
 </span><span id="DistanceMatrix-205"><a href="#DistanceMatrix-205"><span class="linenos">205</span></a><span class="sd">            DistanceMatrixParameter objects.</span>
 </span><span id="DistanceMatrix-206"><a href="#DistanceMatrix-206"><span class="linenos">206</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="DistanceMatrix-207"><a href="#DistanceMatrix-207"><span class="linenos">207</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -804,7 +804,7 @@ left after the list has been exhausted.</li>
 </span><span id="DistanceMatrix-233"><a href="#DistanceMatrix-233"><span class="linenos">233</span></a>
 </span><span id="DistanceMatrix-234"><a href="#DistanceMatrix-234"><span class="linenos">234</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="DistanceMatrix-235"><a href="#DistanceMatrix-235"><span class="linenos">235</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="DistanceMatrix-236"><a href="#DistanceMatrix-236"><span class="linenos">236</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+</span><span id="DistanceMatrix-236"><a href="#DistanceMatrix-236"><span class="linenos">236</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
 </span><span id="DistanceMatrix-237"><a href="#DistanceMatrix-237"><span class="linenos">237</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">DistanceMatrixParameters</span><span class="p">,</span>
 </span><span id="DistanceMatrix-238"><a href="#DistanceMatrix-238"><span class="linenos">238</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="DistanceMatrix-239"><a href="#DistanceMatrix-239"><span class="linenos">239</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -824,7 +824,7 @@ left after the list has been exhausted.</li>
 </span><span id="DistanceMatrix-253"><a href="#DistanceMatrix-253"><span class="linenos">253</span></a><span class="sd">            The distance matrix itself, by default None</span>
 </span><span id="DistanceMatrix-254"><a href="#DistanceMatrix-254"><span class="linenos">254</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="DistanceMatrix-255"><a href="#DistanceMatrix-255"><span class="linenos">255</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="DistanceMatrix-256"><a href="#DistanceMatrix-256"><span class="linenos">256</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="DistanceMatrix-256"><a href="#DistanceMatrix-256"><span class="linenos">256</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="DistanceMatrix-257"><a href="#DistanceMatrix-257"><span class="linenos">257</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="DistanceMatrix-258"><a href="#DistanceMatrix-258"><span class="linenos">258</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="DistanceMatrix-259"><a href="#DistanceMatrix-259"><span class="linenos">259</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span> <span class="p">)</span>
@@ -876,7 +876,7 @@ images, same for a selected period, etc.</p>
                                         <input id="DistanceMatrix.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">DistanceMatrix</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Session">patkit.data_structures.data_structures.Session</a></span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="#DistanceMatrixParameters">DistanceMatrixParameters</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">DistanceMatrix</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Session">patkit.data_structures.data_structures.Session</a></span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="#DistanceMatrixParameters">DistanceMatrixParameters</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="DistanceMatrix.__init__-view-source"><span>View Source</span></label>
 
@@ -884,7 +884,7 @@ images, same for a selected period, etc.</p>
     <a class="headerlink" href="#DistanceMatrix.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="DistanceMatrix.__init__-234"><a href="#DistanceMatrix.__init__-234"><span class="linenos">234</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="DistanceMatrix.__init__-235"><a href="#DistanceMatrix.__init__-235"><span class="linenos">235</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="DistanceMatrix.__init__-236"><a href="#DistanceMatrix.__init__-236"><span class="linenos">236</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+</span><span id="DistanceMatrix.__init__-236"><a href="#DistanceMatrix.__init__-236"><span class="linenos">236</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-237"><a href="#DistanceMatrix.__init__-237"><span class="linenos">237</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">DistanceMatrixParameters</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-238"><a href="#DistanceMatrix.__init__-238"><span class="linenos">238</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-239"><a href="#DistanceMatrix.__init__-239"><span class="linenos">239</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -904,7 +904,7 @@ images, same for a selected period, etc.</p>
 </span><span id="DistanceMatrix.__init__-253"><a href="#DistanceMatrix.__init__-253"><span class="linenos">253</span></a><span class="sd">            The distance matrix itself, by default None</span>
 </span><span id="DistanceMatrix.__init__-254"><a href="#DistanceMatrix.__init__-254"><span class="linenos">254</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="DistanceMatrix.__init__-255"><a href="#DistanceMatrix.__init__-255"><span class="linenos">255</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="DistanceMatrix.__init__-256"><a href="#DistanceMatrix.__init__-256"><span class="linenos">256</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="DistanceMatrix.__init__-256"><a href="#DistanceMatrix.__init__-256"><span class="linenos">256</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-257"><a href="#DistanceMatrix.__init__-257"><span class="linenos">257</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-258"><a href="#DistanceMatrix.__init__-258"><span class="linenos">258</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="DistanceMatrix.__init__-259"><a href="#DistanceMatrix.__init__-259"><span class="linenos">259</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span> <span class="p">)</span>
@@ -990,7 +990,7 @@ The distance matrix itself, by default None</li>
 </span><span id="DistanceMatrix.generate_name-144"><a href="#DistanceMatrix.generate_name-144"><span class="linenos">144</span></a>                    <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort </span><span class="si">{</span><span class="n">params</span><span class="o">.</span><span class="n">sort</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="DistanceMatrix.generate_name-145"><a href="#DistanceMatrix.generate_name-145"><span class="linenos">145</span></a>            <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">sort_criteria</span><span class="p">:</span>
 </span><span id="DistanceMatrix.generate_name-146"><a href="#DistanceMatrix.generate_name-146"><span class="linenos">146</span></a>                <span class="n">name_string</span> <span class="o">=</span> <span class="p">(</span>
-</span><span id="DistanceMatrix.generate_name-147"><a href="#DistanceMatrix.generate_name-147"><span class="linenos">147</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
+</span><span id="DistanceMatrix.generate_name-147"><a href="#DistanceMatrix.generate_name-147"><span class="linenos">147</span></a>                        <span class="n">name_string</span> <span class="o">+</span> <span class="s2">&quot; sort_criteria specified&quot;</span><span class="p">)</span>
 </span><span id="DistanceMatrix.generate_name-148"><a href="#DistanceMatrix.generate_name-148"><span class="linenos">148</span></a>
 </span><span id="DistanceMatrix.generate_name-149"><a href="#DistanceMatrix.generate_name-149"><span class="linenos">149</span></a>        <span class="k">return</span> <span class="n">name_string</span>
 </span></pre></div>
@@ -1027,7 +1027,7 @@ DistanceMatrix instance.</li>
                     <div class="decorator decorator-staticmethod">@staticmethod</div>
 
         <span class="def">def</span>
-        <span class="name">get_names_and_meta</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">parent</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span> <span class="o">|</span> <span class="n"><a href="../data_structures/base_classes.html#Statistic">patkit.data_structures.base_classes.Statistic</a></span>,</span><span class="param">	<span class="n">metric</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">release_data_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">slice_max_step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">slice_step_to</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">sort_criteria</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">exclusion_list</span><span class="p">:</span> <span class="n"><a href="../configuration/configuration_models.html#ExclusionList">patkit.configuration.configuration_models.ExclusionList</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> dict[slice(&lt;class &#x27;str&#x27;&gt;, &lt;class &#x27;<a href="#DistanceMatrixParameters">DistanceMatrixParameters</a>&#x27;&gt;, None)]:</span></span>
+        <span class="name">get_names_and_meta</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">parent</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span> <span class="o">|</span> <span class="n"><a href="../data_structures/base_classes.html#Statistic">patkit.data_structures.base_classes.Statistic</a></span>,</span><span class="param">	<span class="n">metric</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">release_data_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">slice_max_step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">slice_step_to</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">sort_criteria</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">exclusion_list</span><span class="p">:</span> <span class="n"><a href="../configuration.html#ExclusionList">patkit.configuration.ExclusionList</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> dict[slice(&lt;class &#x27;str&#x27;&gt;, &lt;class &#x27;<a href="#DistanceMatrixParameters">DistanceMatrixParameters</a>&#x27;&gt;, None)]:</span></span>
 
                 <label class="view-source-button" for="DistanceMatrix.get_names_and_meta-view-source"><span>View Source</span></label>
 
@@ -1060,23 +1060,23 @@ DistanceMatrix instance.</li>
 </span><span id="DistanceMatrix.get_names_and_meta-175"><a href="#DistanceMatrix.get_names_and_meta-175"><span class="linenos">175</span></a><span class="sd">            list of the names of metrics to use in name generation, by default</span>
 </span><span id="DistanceMatrix.get_names_and_meta-176"><a href="#DistanceMatrix.get_names_and_meta-176"><span class="linenos">176</span></a><span class="sd">            None which will result in &#39;mean_squared_error&#39; being used.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-177"><a href="#DistanceMatrix.get_names_and_meta-177"><span class="linenos">177</span></a><span class="sd">        release_data_memory: bool</span>
-</span><span id="DistanceMatrix.get_names_and_meta-178"><a href="#DistanceMatrix.get_names_and_meta-178"><span class="linenos">178</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after calculations</span>
-</span><span id="DistanceMatrix.get_names_and_meta-179"><a href="#DistanceMatrix.get_names_and_meta-179"><span class="linenos">179</span></a><span class="sd">            are complete, by default True.</span>
+</span><span id="DistanceMatrix.get_names_and_meta-178"><a href="#DistanceMatrix.get_names_and_meta-178"><span class="linenos">178</span></a><span class="sd">            Should parent Modality&#39;s data be assigned to None after</span>
+</span><span id="DistanceMatrix.get_names_and_meta-179"><a href="#DistanceMatrix.get_names_and_meta-179"><span class="linenos">179</span></a><span class="sd">            calculations are complete, by default True.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-180"><a href="#DistanceMatrix.get_names_and_meta-180"><span class="linenos">180</span></a><span class="sd">        slice_max_step: PositiveInt | None</span>
 </span><span id="DistanceMatrix.get_names_and_meta-181"><a href="#DistanceMatrix.get_names_and_meta-181"><span class="linenos">181</span></a><span class="sd">            Simulate rotating the probe by slicing incrementally so that the</span>
 </span><span id="DistanceMatrix.get_names_and_meta-182"><a href="#DistanceMatrix.get_names_and_meta-182"><span class="linenos">182</span></a><span class="sd">            sector is always the same size. This parameter determines how many</span>
 </span><span id="DistanceMatrix.get_names_and_meta-183"><a href="#DistanceMatrix.get_names_and_meta-183"><span class="linenos">183</span></a><span class="sd">            steps of size one to take, by default None.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-184"><a href="#DistanceMatrix.get_names_and_meta-184"><span class="linenos">184</span></a><span class="sd">        slice_step_to: PositiveInt | None</span>
-</span><span id="DistanceMatrix.get_names_and_meta-185"><a href="#DistanceMatrix.get_names_and_meta-185"><span class="linenos">185</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate a</span>
-</span><span id="DistanceMatrix.get_names_and_meta-186"><a href="#DistanceMatrix.get_names_and_meta-186"><span class="linenos">186</span></a><span class="sd">            pair of maximally distant sectors for each step size ranging from</span>
+</span><span id="DistanceMatrix.get_names_and_meta-185"><a href="#DistanceMatrix.get_names_and_meta-185"><span class="linenos">185</span></a><span class="sd">            Instead of incrementally stepping with same size sectors, generate</span>
+</span><span id="DistanceMatrix.get_names_and_meta-186"><a href="#DistanceMatrix.get_names_and_meta-186"><span class="linenos">186</span></a><span class="sd">            a pair of maximally distant sectors for each step size ranging from</span>
 </span><span id="DistanceMatrix.get_names_and_meta-187"><a href="#DistanceMatrix.get_names_and_meta-187"><span class="linenos">187</span></a><span class="sd">            one to `slice_step_to`, by default None.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-188"><a href="#DistanceMatrix.get_names_and_meta-188"><span class="linenos">188</span></a><span class="sd">        sort: bool</span>
 </span><span id="DistanceMatrix.get_names_and_meta-189"><a href="#DistanceMatrix.get_names_and_meta-189"><span class="linenos">189</span></a><span class="sd">            Sort the rows and columns of the matrix in order corresponding to</span>
 </span><span id="DistanceMatrix.get_names_and_meta-190"><a href="#DistanceMatrix.get_names_and_meta-190"><span class="linenos">190</span></a><span class="sd">            the alphabetical order of the prompts or according to</span>
 </span><span id="DistanceMatrix.get_names_and_meta-191"><a href="#DistanceMatrix.get_names_and_meta-191"><span class="linenos">191</span></a><span class="sd">            `sort_criteria` if it is defined. By default, False.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-192"><a href="#DistanceMatrix.get_names_and_meta-192"><span class="linenos">192</span></a><span class="sd">        sort_criteria: list[str] | None</span>
-</span><span id="DistanceMatrix.get_names_and_meta-193"><a href="#DistanceMatrix.get_names_and_meta-193"><span class="linenos">193</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default None.</span>
-</span><span id="DistanceMatrix.get_names_and_meta-194"><a href="#DistanceMatrix.get_names_and_meta-194"><span class="linenos">194</span></a><span class="sd">            The result will consist of blocks where in first block</span>
+</span><span id="DistanceMatrix.get_names_and_meta-193"><a href="#DistanceMatrix.get_names_and_meta-193"><span class="linenos">193</span></a><span class="sd">            List of substrings to sort the rows and columns by, by default</span>
+</span><span id="DistanceMatrix.get_names_and_meta-194"><a href="#DistanceMatrix.get_names_and_meta-194"><span class="linenos">194</span></a><span class="sd">            None. The result will consist of blocks where in first block</span>
 </span><span id="DistanceMatrix.get_names_and_meta-195"><a href="#DistanceMatrix.get_names_and_meta-195"><span class="linenos">195</span></a><span class="sd">            `sort_criteria[0] in prompt` is True, and so on. Final block will</span>
 </span><span id="DistanceMatrix.get_names_and_meta-196"><a href="#DistanceMatrix.get_names_and_meta-196"><span class="linenos">196</span></a><span class="sd">            consist of any Recordings left after the list has been exhausted.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-197"><a href="#DistanceMatrix.get_names_and_meta-197"><span class="linenos">197</span></a><span class="sd">        exclusion_list : ExclusionList | None</span>
@@ -1086,7 +1086,7 @@ DistanceMatrix instance.</li>
 </span><span id="DistanceMatrix.get_names_and_meta-201"><a href="#DistanceMatrix.get_names_and_meta-201"><span class="linenos">201</span></a><span class="sd">        Returns</span>
 </span><span id="DistanceMatrix.get_names_and_meta-202"><a href="#DistanceMatrix.get_names_and_meta-202"><span class="linenos">202</span></a><span class="sd">        -------</span>
 </span><span id="DistanceMatrix.get_names_and_meta-203"><a href="#DistanceMatrix.get_names_and_meta-203"><span class="linenos">203</span></a><span class="sd">        dict[str: DistanceMatrixParameters]</span>
-</span><span id="DistanceMatrix.get_names_and_meta-204"><a href="#DistanceMatrix.get_names_and_meta-204"><span class="linenos">204</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the </span>
+</span><span id="DistanceMatrix.get_names_and_meta-204"><a href="#DistanceMatrix.get_names_and_meta-204"><span class="linenos">204</span></a><span class="sd">            Dictionary where the names of the DistanceMatrices index the</span>
 </span><span id="DistanceMatrix.get_names_and_meta-205"><a href="#DistanceMatrix.get_names_and_meta-205"><span class="linenos">205</span></a><span class="sd">            DistanceMatrixParameter objects.</span>
 </span><span id="DistanceMatrix.get_names_and_meta-206"><a href="#DistanceMatrix.get_names_and_meta-206"><span class="linenos">206</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="DistanceMatrix.get_names_and_meta-207"><a href="#DistanceMatrix.get_names_and_meta-207"><span class="linenos">207</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -1134,23 +1134,23 @@ from.</li>
 list of the names of metrics to use in name generation, by default
 None which will result in 'mean_squared_error' being used.</li>
 <li><strong>release_data_memory</strong> (bool):
-Should parent Modality's data be assigned to None after calculations
-are complete, by default True.</li>
+Should parent Modality's data be assigned to None after
+calculations are complete, by default True.</li>
 <li><strong>slice_max_step</strong> (PositiveInt | None):
 Simulate rotating the probe by slicing incrementally so that the
 sector is always the same size. This parameter determines how many
 steps of size one to take, by default None.</li>
 <li><strong>slice_step_to</strong> (PositiveInt | None):
-Instead of incrementally stepping with same size sectors, generate a
-pair of maximally distant sectors for each step size ranging from
+Instead of incrementally stepping with same size sectors, generate
+a pair of maximally distant sectors for each step size ranging from
 one to <code>slice_step_to</code>, by default None.</li>
 <li><strong>sort</strong> (bool):
 Sort the rows and columns of the matrix in order corresponding to
 the alphabetical order of the prompts or according to
 <code>sort_criteria</code> if it is defined. By default, False.</li>
 <li><strong>sort_criteria</strong> (list[str] | None):
-List of substrings to sort the rows and columns by, by default None.
-The result will consist of blocks where in first block
+List of substrings to sort the rows and columns by, by default
+None. The result will consist of blocks where in first block
 <code>sort_criteria[0] in prompt</code> is True, and so on. Final block will
 consist of any Recordings left after the list has been exhausted.</li>
 <li><strong>exclusion_list</strong> (ExclusionList | None):
@@ -1162,7 +1162,7 @@ default, None.</li>
 
 <ul>
 <li><strong>dict[str</strong> (DistanceMatrixParameters]):
-Dictionary where the names of the DistanceMatrices index the 
+Dictionary where the names of the DistanceMatrices index the
 DistanceMatrixParameter objects.</li>
 </ul>
 </div>
@@ -1250,25 +1250,25 @@ any fields that need a simpler representation.</p>
                                 <dd id="DistanceMatrix.data" class="variable"><a href="../data_structures/base_classes.html#Statistic.data">data</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="DistanceMatrix.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="DistanceMatrix.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="DistanceMatrix.owner" class="variable"><a href="../data_structures/base_classes.html#DataObject.owner">owner</a></dd>
-                <dd id="DistanceMatrix.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="DistanceMatrix.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="DistanceMatrix.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="DistanceMatrix.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="DistanceMatrix.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="DistanceMatrix.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="DistanceMatrix.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="DistanceMatrix.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="DistanceMatrix.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="DistanceMatrix.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="DistanceMatrix.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="DistanceMatrix.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="DistanceMatrix.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="DistanceMatrix.container" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.container">container</a></dd>
+                <dd id="DistanceMatrix.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="DistanceMatrix.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="DistanceMatrix.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="DistanceMatrix.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="DistanceMatrix.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="DistanceMatrix.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="DistanceMatrix.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="DistanceMatrix.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="DistanceMatrix.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="DistanceMatrix.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="DistanceMatrix.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="DistanceMatrix.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="DistanceMatrix.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>

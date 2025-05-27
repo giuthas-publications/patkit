@@ -318,7 +318,7 @@
 </span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>
 </span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">PdParameters</span><span class="p">,</span>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModalityData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -351,7 +351,7 @@
 </span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>                <span class="n">time_offset</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">timevector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>
 </span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>            <span class="n">owner</span><span class="p">,</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
@@ -547,8 +547,8 @@ calculate PD on the whole image.</li>
                 <dd id="PdParameters.timestep_matched_downsampling" class="variable"><a href="../data_structures/metadata_classes.html#ModalityMetaData.timestep_matched_downsampling">timestep_matched_downsampling</a></dd>
 
             </div>
-            <div><dt><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel">patkit.external_class_extensions.base_model_extensions.patkitBaseModel</a></dt>
-                                <dd id="PdParameters.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
+            <div><dt><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel">patkit.external_class_extensions.base_model_extensions.PatkitBaseModel</a></dt>
+                                <dd id="PdParameters.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
 
             </div>
                                 </dl>
@@ -694,7 +694,7 @@ calculate PD on the whole image.</li>
 </span><span id="PD-213"><a href="#PD-213"><span class="linenos">213</span></a>
 </span><span id="PD-214"><a href="#PD-214"><span class="linenos">214</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="PD-215"><a href="#PD-215"><span class="linenos">215</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="PD-216"><a href="#PD-216"><span class="linenos">216</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="PD-216"><a href="#PD-216"><span class="linenos">216</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="PD-217"><a href="#PD-217"><span class="linenos">217</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">PdParameters</span><span class="p">,</span>
 </span><span id="PD-218"><a href="#PD-218"><span class="linenos">218</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="PD-219"><a href="#PD-219"><span class="linenos">219</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModalityData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -727,7 +727,7 @@ calculate PD on the whole image.</li>
 </span><span id="PD-246"><a href="#PD-246"><span class="linenos">246</span></a>                <span class="n">time_offset</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">timevector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </span><span id="PD-247"><a href="#PD-247"><span class="linenos">247</span></a>
 </span><span id="PD-248"><a href="#PD-248"><span class="linenos">248</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="PD-249"><a href="#PD-249"><span class="linenos">249</span></a>            <span class="n">owner</span><span class="p">,</span>
+</span><span id="PD-249"><a href="#PD-249"><span class="linenos">249</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="PD-250"><a href="#PD-250"><span class="linenos">250</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="PD-251"><a href="#PD-251"><span class="linenos">251</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="PD-252"><a href="#PD-252"><span class="linenos">252</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
@@ -769,7 +769,7 @@ calculate PD on the whole image.</li>
                                         <input id="PD.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">PD</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="#PdParameters">PdParameters</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">PD</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="#PdParameters">PdParameters</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="PD.__init__-view-source"><span>View Source</span></label>
 
@@ -777,7 +777,7 @@ calculate PD on the whole image.</li>
     <a class="headerlink" href="#PD.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="PD.__init__-214"><a href="#PD.__init__-214"><span class="linenos">214</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="PD.__init__-215"><a href="#PD.__init__-215"><span class="linenos">215</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="PD.__init__-216"><a href="#PD.__init__-216"><span class="linenos">216</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="PD.__init__-216"><a href="#PD.__init__-216"><span class="linenos">216</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="PD.__init__-217"><a href="#PD.__init__-217"><span class="linenos">217</span></a>            <span class="n">metadata</span><span class="p">:</span> <span class="n">PdParameters</span><span class="p">,</span>
 </span><span id="PD.__init__-218"><a href="#PD.__init__-218"><span class="linenos">218</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="PD.__init__-219"><a href="#PD.__init__-219"><span class="linenos">219</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModalityData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -810,7 +810,7 @@ calculate PD on the whole image.</li>
 </span><span id="PD.__init__-246"><a href="#PD.__init__-246"><span class="linenos">246</span></a>                <span class="n">time_offset</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">timevector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </span><span id="PD.__init__-247"><a href="#PD.__init__-247"><span class="linenos">247</span></a>
 </span><span id="PD.__init__-248"><a href="#PD.__init__-248"><span class="linenos">248</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="PD.__init__-249"><a href="#PD.__init__-249"><span class="linenos">249</span></a>            <span class="n">owner</span><span class="p">,</span>
+</span><span id="PD.__init__-249"><a href="#PD.__init__-249"><span class="linenos">249</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="PD.__init__-250"><a href="#PD.__init__-250"><span class="linenos">250</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="PD.__init__-251"><a href="#PD.__init__-251"><span class="linenos">251</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="PD.__init__-252"><a href="#PD.__init__-252"><span class="linenos">252</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
@@ -1124,7 +1124,7 @@ text etc. </p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="PD.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="PD.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="PD.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="PD.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="PD.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -1141,24 +1141,24 @@ text etc. </p>
                 <dd id="PD.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="PD.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="PD.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="PD.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="PD.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="PD.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="PD.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="PD.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="PD.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="PD.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="PD.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="PD.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="PD.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="PD.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="PD.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="PD.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="PD.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="PD.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="PD.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="PD.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="PD.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="PD.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="PD.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="PD.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="PD.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="PD.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="PD.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="PD.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="PD.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>
