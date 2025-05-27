@@ -31,13 +31,13 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="class" href="#patkitBaseModel">patkitBaseModel</a>
+                    <a class="class" href="#PatkitBaseModel">PatkitBaseModel</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#patkitBaseModel.model_config">model_config</a>
+                                <a class="variable" href="#PatkitBaseModel.model_config">model_config</a>
                         </li>
                         <li>
-                                <a class="function" href="#patkitBaseModel.empty_str_to_none">empty_str_to_none</a>
+                                <a class="function" href="#PatkitBaseModel.empty_str_to_none">empty_str_to_none</a>
                         </li>
                 </ul>
 
@@ -125,7 +125,7 @@
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="c1"># UpdatableBaseModel.</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="k">class</span><span class="w"> </span><span class="nc">patkitBaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatkitBaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">    A BaseModel which accepts empty strings for any field as None.</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>
@@ -155,7 +155,7 @@
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="k">return</span> <span class="n">input_string</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UpdatableBaseModel</span><span class="p">(</span><span class="n">patkitBaseModel</span><span class="p">):</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UpdatableBaseModel</span><span class="p">(</span><span class="n">PatkitBaseModel</span><span class="p">):</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">    A BaseModel which can be updated with new data.</span>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
@@ -193,45 +193,45 @@
 
 
             </section>
-                <section id="patkitBaseModel">
-                            <input id="patkitBaseModel-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="PatkitBaseModel">
+                            <input id="PatkitBaseModel-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">patkitBaseModel</span><wbr>(<span class="base">pydantic.main.BaseModel</span>):
+    <span class="name">PatkitBaseModel</span><wbr>(<span class="base">pydantic.main.BaseModel</span>):
 
-                <label class="view-source-button" for="patkitBaseModel-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="PatkitBaseModel-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#patkitBaseModel"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="patkitBaseModel-50"><a href="#patkitBaseModel-50"><span class="linenos">50</span></a><span class="k">class</span><span class="w"> </span><span class="nc">patkitBaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-</span><span id="patkitBaseModel-51"><a href="#patkitBaseModel-51"><span class="linenos">51</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel-52"><a href="#patkitBaseModel-52"><span class="linenos">52</span></a><span class="sd">    A BaseModel which accepts empty strings for any field as None.</span>
-</span><span id="patkitBaseModel-53"><a href="#patkitBaseModel-53"><span class="linenos">53</span></a>
-</span><span id="patkitBaseModel-54"><a href="#patkitBaseModel-54"><span class="linenos">54</span></a><span class="sd">    Additionally, trying to parse undefined fields will raise an exception.</span>
-</span><span id="patkitBaseModel-55"><a href="#patkitBaseModel-55"><span class="linenos">55</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel-56"><a href="#patkitBaseModel-56"><span class="linenos">56</span></a>
-</span><span id="patkitBaseModel-57"><a href="#patkitBaseModel-57"><span class="linenos">57</span></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">)</span>
-</span><span id="patkitBaseModel-58"><a href="#patkitBaseModel-58"><span class="linenos">58</span></a>
-</span><span id="patkitBaseModel-59"><a href="#patkitBaseModel-59"><span class="linenos">59</span></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-</span><span id="patkitBaseModel-60"><a href="#patkitBaseModel-60"><span class="linenos">60</span></a>    <span class="nd">@classmethod</span>
-</span><span id="patkitBaseModel-61"><a href="#patkitBaseModel-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">empty_str_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="patkitBaseModel-62"><a href="#patkitBaseModel-62"><span class="linenos">62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel-63"><a href="#patkitBaseModel-63"><span class="linenos">63</span></a><span class="sd">        Validate empty strings to None, but non-empties to themselves.</span>
-</span><span id="patkitBaseModel-64"><a href="#patkitBaseModel-64"><span class="linenos">64</span></a>
-</span><span id="patkitBaseModel-65"><a href="#patkitBaseModel-65"><span class="linenos">65</span></a><span class="sd">        Parameters</span>
-</span><span id="patkitBaseModel-66"><a href="#patkitBaseModel-66"><span class="linenos">66</span></a><span class="sd">        ----------</span>
-</span><span id="patkitBaseModel-67"><a href="#patkitBaseModel-67"><span class="linenos">67</span></a><span class="sd">        input_string : str</span>
-</span><span id="patkitBaseModel-68"><a href="#patkitBaseModel-68"><span class="linenos">68</span></a><span class="sd">            String to be validated.</span>
-</span><span id="patkitBaseModel-69"><a href="#patkitBaseModel-69"><span class="linenos">69</span></a>
-</span><span id="patkitBaseModel-70"><a href="#patkitBaseModel-70"><span class="linenos">70</span></a><span class="sd">        Returns</span>
-</span><span id="patkitBaseModel-71"><a href="#patkitBaseModel-71"><span class="linenos">71</span></a><span class="sd">        -------</span>
-</span><span id="patkitBaseModel-72"><a href="#patkitBaseModel-72"><span class="linenos">72</span></a><span class="sd">        Optional[str]</span>
-</span><span id="patkitBaseModel-73"><a href="#patkitBaseModel-73"><span class="linenos">73</span></a><span class="sd">            None for empty string, otherwise the string itself.</span>
-</span><span id="patkitBaseModel-74"><a href="#patkitBaseModel-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel-75"><a href="#patkitBaseModel-75"><span class="linenos">75</span></a>        <span class="k">if</span> <span class="n">input_string</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-</span><span id="patkitBaseModel-76"><a href="#patkitBaseModel-76"><span class="linenos">76</span></a>            <span class="n">input_string</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="patkitBaseModel-77"><a href="#patkitBaseModel-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">input_string</span>
+    <a class="headerlink" href="#PatkitBaseModel"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatkitBaseModel-50"><a href="#PatkitBaseModel-50"><span class="linenos">50</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatkitBaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="PatkitBaseModel-51"><a href="#PatkitBaseModel-51"><span class="linenos">51</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel-52"><a href="#PatkitBaseModel-52"><span class="linenos">52</span></a><span class="sd">    A BaseModel which accepts empty strings for any field as None.</span>
+</span><span id="PatkitBaseModel-53"><a href="#PatkitBaseModel-53"><span class="linenos">53</span></a>
+</span><span id="PatkitBaseModel-54"><a href="#PatkitBaseModel-54"><span class="linenos">54</span></a><span class="sd">    Additionally, trying to parse undefined fields will raise an exception.</span>
+</span><span id="PatkitBaseModel-55"><a href="#PatkitBaseModel-55"><span class="linenos">55</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel-56"><a href="#PatkitBaseModel-56"><span class="linenos">56</span></a>
+</span><span id="PatkitBaseModel-57"><a href="#PatkitBaseModel-57"><span class="linenos">57</span></a>    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">)</span>
+</span><span id="PatkitBaseModel-58"><a href="#PatkitBaseModel-58"><span class="linenos">58</span></a>
+</span><span id="PatkitBaseModel-59"><a href="#PatkitBaseModel-59"><span class="linenos">59</span></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+</span><span id="PatkitBaseModel-60"><a href="#PatkitBaseModel-60"><span class="linenos">60</span></a>    <span class="nd">@classmethod</span>
+</span><span id="PatkitBaseModel-61"><a href="#PatkitBaseModel-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">empty_str_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="PatkitBaseModel-62"><a href="#PatkitBaseModel-62"><span class="linenos">62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel-63"><a href="#PatkitBaseModel-63"><span class="linenos">63</span></a><span class="sd">        Validate empty strings to None, but non-empties to themselves.</span>
+</span><span id="PatkitBaseModel-64"><a href="#PatkitBaseModel-64"><span class="linenos">64</span></a>
+</span><span id="PatkitBaseModel-65"><a href="#PatkitBaseModel-65"><span class="linenos">65</span></a><span class="sd">        Parameters</span>
+</span><span id="PatkitBaseModel-66"><a href="#PatkitBaseModel-66"><span class="linenos">66</span></a><span class="sd">        ----------</span>
+</span><span id="PatkitBaseModel-67"><a href="#PatkitBaseModel-67"><span class="linenos">67</span></a><span class="sd">        input_string : str</span>
+</span><span id="PatkitBaseModel-68"><a href="#PatkitBaseModel-68"><span class="linenos">68</span></a><span class="sd">            String to be validated.</span>
+</span><span id="PatkitBaseModel-69"><a href="#PatkitBaseModel-69"><span class="linenos">69</span></a>
+</span><span id="PatkitBaseModel-70"><a href="#PatkitBaseModel-70"><span class="linenos">70</span></a><span class="sd">        Returns</span>
+</span><span id="PatkitBaseModel-71"><a href="#PatkitBaseModel-71"><span class="linenos">71</span></a><span class="sd">        -------</span>
+</span><span id="PatkitBaseModel-72"><a href="#PatkitBaseModel-72"><span class="linenos">72</span></a><span class="sd">        Optional[str]</span>
+</span><span id="PatkitBaseModel-73"><a href="#PatkitBaseModel-73"><span class="linenos">73</span></a><span class="sd">            None for empty string, otherwise the string itself.</span>
+</span><span id="PatkitBaseModel-74"><a href="#PatkitBaseModel-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel-75"><a href="#PatkitBaseModel-75"><span class="linenos">75</span></a>        <span class="k">if</span> <span class="n">input_string</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span><span id="PatkitBaseModel-76"><a href="#PatkitBaseModel-76"><span class="linenos">76</span></a>            <span class="n">input_string</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PatkitBaseModel-77"><a href="#PatkitBaseModel-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">input_string</span>
 </span></pre></div>
 
 
@@ -241,22 +241,22 @@
 </div>
 
 
-                            <div id="patkitBaseModel.model_config" class="classattr">
+                            <div id="PatkitBaseModel.model_config" class="classattr">
                                 <div class="attr variable">
             <span class="name">model_config</span>        =
 <span class="default_value">{&#39;extra&#39;: &#39;forbid&#39;}</span>
 
         
     </div>
-    <a class="headerlink" href="#patkitBaseModel.model_config"></a>
+    <a class="headerlink" href="#PatkitBaseModel.model_config"></a>
     
             <div class="docstring"><p>Configuration for the model, should be a dictionary conforming to [<code>ConfigDict</code>][pydantic.config.ConfigDict].</p>
 </div>
 
 
                             </div>
-                            <div id="patkitBaseModel.empty_str_to_none" class="classattr">
-                                        <input id="patkitBaseModel.empty_str_to_none-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                            <div id="PatkitBaseModel.empty_str_to_none" class="classattr">
+                                        <input id="PatkitBaseModel.empty_str_to_none-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
                     <div class="decorator decorator-model_validator">@model_validator(mode=&#39;before&#39;)</div>
         <div class="decorator decorator-classmethod">@classmethod</div>
@@ -264,29 +264,29 @@
         <span class="def">def</span>
         <span class="name">empty_str_to_none</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">cls</span>, </span><span class="param"><span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>:</span></span>
 
-                <label class="view-source-button" for="patkitBaseModel.empty_str_to_none-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="PatkitBaseModel.empty_str_to_none-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#patkitBaseModel.empty_str_to_none"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="patkitBaseModel.empty_str_to_none-59"><a href="#patkitBaseModel.empty_str_to_none-59"><span class="linenos">59</span></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-</span><span id="patkitBaseModel.empty_str_to_none-60"><a href="#patkitBaseModel.empty_str_to_none-60"><span class="linenos">60</span></a>    <span class="nd">@classmethod</span>
-</span><span id="patkitBaseModel.empty_str_to_none-61"><a href="#patkitBaseModel.empty_str_to_none-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">empty_str_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="patkitBaseModel.empty_str_to_none-62"><a href="#patkitBaseModel.empty_str_to_none-62"><span class="linenos">62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel.empty_str_to_none-63"><a href="#patkitBaseModel.empty_str_to_none-63"><span class="linenos">63</span></a><span class="sd">        Validate empty strings to None, but non-empties to themselves.</span>
-</span><span id="patkitBaseModel.empty_str_to_none-64"><a href="#patkitBaseModel.empty_str_to_none-64"><span class="linenos">64</span></a>
-</span><span id="patkitBaseModel.empty_str_to_none-65"><a href="#patkitBaseModel.empty_str_to_none-65"><span class="linenos">65</span></a><span class="sd">        Parameters</span>
-</span><span id="patkitBaseModel.empty_str_to_none-66"><a href="#patkitBaseModel.empty_str_to_none-66"><span class="linenos">66</span></a><span class="sd">        ----------</span>
-</span><span id="patkitBaseModel.empty_str_to_none-67"><a href="#patkitBaseModel.empty_str_to_none-67"><span class="linenos">67</span></a><span class="sd">        input_string : str</span>
-</span><span id="patkitBaseModel.empty_str_to_none-68"><a href="#patkitBaseModel.empty_str_to_none-68"><span class="linenos">68</span></a><span class="sd">            String to be validated.</span>
-</span><span id="patkitBaseModel.empty_str_to_none-69"><a href="#patkitBaseModel.empty_str_to_none-69"><span class="linenos">69</span></a>
-</span><span id="patkitBaseModel.empty_str_to_none-70"><a href="#patkitBaseModel.empty_str_to_none-70"><span class="linenos">70</span></a><span class="sd">        Returns</span>
-</span><span id="patkitBaseModel.empty_str_to_none-71"><a href="#patkitBaseModel.empty_str_to_none-71"><span class="linenos">71</span></a><span class="sd">        -------</span>
-</span><span id="patkitBaseModel.empty_str_to_none-72"><a href="#patkitBaseModel.empty_str_to_none-72"><span class="linenos">72</span></a><span class="sd">        Optional[str]</span>
-</span><span id="patkitBaseModel.empty_str_to_none-73"><a href="#patkitBaseModel.empty_str_to_none-73"><span class="linenos">73</span></a><span class="sd">            None for empty string, otherwise the string itself.</span>
-</span><span id="patkitBaseModel.empty_str_to_none-74"><a href="#patkitBaseModel.empty_str_to_none-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="patkitBaseModel.empty_str_to_none-75"><a href="#patkitBaseModel.empty_str_to_none-75"><span class="linenos">75</span></a>        <span class="k">if</span> <span class="n">input_string</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
-</span><span id="patkitBaseModel.empty_str_to_none-76"><a href="#patkitBaseModel.empty_str_to_none-76"><span class="linenos">76</span></a>            <span class="n">input_string</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="patkitBaseModel.empty_str_to_none-77"><a href="#patkitBaseModel.empty_str_to_none-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">input_string</span>
+    <a class="headerlink" href="#PatkitBaseModel.empty_str_to_none"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatkitBaseModel.empty_str_to_none-59"><a href="#PatkitBaseModel.empty_str_to_none-59"><span class="linenos">59</span></a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-60"><a href="#PatkitBaseModel.empty_str_to_none-60"><span class="linenos">60</span></a>    <span class="nd">@classmethod</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-61"><a href="#PatkitBaseModel.empty_str_to_none-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">empty_str_to_none</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">input_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-62"><a href="#PatkitBaseModel.empty_str_to_none-62"><span class="linenos">62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-63"><a href="#PatkitBaseModel.empty_str_to_none-63"><span class="linenos">63</span></a><span class="sd">        Validate empty strings to None, but non-empties to themselves.</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-64"><a href="#PatkitBaseModel.empty_str_to_none-64"><span class="linenos">64</span></a>
+</span><span id="PatkitBaseModel.empty_str_to_none-65"><a href="#PatkitBaseModel.empty_str_to_none-65"><span class="linenos">65</span></a><span class="sd">        Parameters</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-66"><a href="#PatkitBaseModel.empty_str_to_none-66"><span class="linenos">66</span></a><span class="sd">        ----------</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-67"><a href="#PatkitBaseModel.empty_str_to_none-67"><span class="linenos">67</span></a><span class="sd">        input_string : str</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-68"><a href="#PatkitBaseModel.empty_str_to_none-68"><span class="linenos">68</span></a><span class="sd">            String to be validated.</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-69"><a href="#PatkitBaseModel.empty_str_to_none-69"><span class="linenos">69</span></a>
+</span><span id="PatkitBaseModel.empty_str_to_none-70"><a href="#PatkitBaseModel.empty_str_to_none-70"><span class="linenos">70</span></a><span class="sd">        Returns</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-71"><a href="#PatkitBaseModel.empty_str_to_none-71"><span class="linenos">71</span></a><span class="sd">        -------</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-72"><a href="#PatkitBaseModel.empty_str_to_none-72"><span class="linenos">72</span></a><span class="sd">        Optional[str]</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-73"><a href="#PatkitBaseModel.empty_str_to_none-73"><span class="linenos">73</span></a><span class="sd">            None for empty string, otherwise the string itself.</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-74"><a href="#PatkitBaseModel.empty_str_to_none-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-75"><a href="#PatkitBaseModel.empty_str_to_none-75"><span class="linenos">75</span></a>        <span class="k">if</span> <span class="n">input_string</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-76"><a href="#PatkitBaseModel.empty_str_to_none-76"><span class="linenos">76</span></a>            <span class="n">input_string</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PatkitBaseModel.empty_str_to_none-77"><a href="#PatkitBaseModel.empty_str_to_none-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="n">input_string</span>
 </span></pre></div>
 
 
@@ -314,13 +314,13 @@ String to be validated.</li>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">UpdatableBaseModel</span><wbr>(<span class="base"><a href="#patkitBaseModel">patkitBaseModel</a></span>):
+    <span class="name">UpdatableBaseModel</span><wbr>(<span class="base"><a href="#PatkitBaseModel">PatkitBaseModel</a></span>):
 
                 <label class="view-source-button" for="UpdatableBaseModel-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#UpdatableBaseModel"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="UpdatableBaseModel-80"><a href="#UpdatableBaseModel-80"><span class="linenos"> 80</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UpdatableBaseModel</span><span class="p">(</span><span class="n">patkitBaseModel</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="UpdatableBaseModel-80"><a href="#UpdatableBaseModel-80"><span class="linenos"> 80</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UpdatableBaseModel</span><span class="p">(</span><span class="n">PatkitBaseModel</span><span class="p">):</span>
 </span><span id="UpdatableBaseModel-81"><a href="#UpdatableBaseModel-81"><span class="linenos"> 81</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="UpdatableBaseModel-82"><a href="#UpdatableBaseModel-82"><span class="linenos"> 82</span></a><span class="sd">    A BaseModel which can be updated with new data.</span>
 </span><span id="UpdatableBaseModel-83"><a href="#UpdatableBaseModel-83"><span class="linenos"> 83</span></a>
@@ -442,8 +442,8 @@ Only valid key, value pairs are accepted.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt><a href="#patkitBaseModel">patkitBaseModel</a></dt>
-                                <dd id="UpdatableBaseModel.empty_str_to_none" class="function"><a href="#patkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
+                                    <div><dt><a href="#PatkitBaseModel">PatkitBaseModel</a></dt>
+                                <dd id="UpdatableBaseModel.empty_str_to_none" class="function"><a href="#PatkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
 
             </div>
                                 </dl>

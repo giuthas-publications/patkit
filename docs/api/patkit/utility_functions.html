@@ -29,7 +29,6 @@
 
             <h2>Submodules</h2>
             <ul>
-                    <li><a href="utility_functions/computational.html">computational</a></li>
                     <li><a href="utility_functions/logging_helpers.html">logging_helpers</a></li>
                     <li><a href="utility_functions/path.html">path</a></li>
                     <li><a href="utility_functions/processing_helpers.html">processing_helpers</a></li>
@@ -93,15 +92,11 @@
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">General purpose utility functions.</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.computational</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>    <span class="n">cartesian_to_polar</span><span class="p">,</span> <span class="n">polar_to_cartesian</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="n">normalise_timeseries</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="p">)</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.logging_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_elapsed_time</span><span class="p">,</span> <span class="n">set_logging_level</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_from_name</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.processing_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">camel_to_snake</span><span class="p">,</span> <span class="n">product_dict</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.string_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_by</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sequence_form</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.logging_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_elapsed_time</span><span class="p">,</span> <span class="n">set_logging_level</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_from_name</span><span class="p">,</span> <span class="n">stem_path</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.processing_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">camel_to_snake</span><span class="p">,</span> <span class="n">product_dict</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.string_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_by</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sequence_form</span>
 </span></pre></div>
 
 

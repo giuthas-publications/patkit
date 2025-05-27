@@ -227,7 +227,7 @@
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -256,7 +256,7 @@
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">            audio in the sample.</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -301,7 +301,7 @@
 </span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a>
 </span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -326,7 +326,7 @@
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">            Default is None.</span>
 </span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">,</span>
@@ -345,8 +345,8 @@
 </span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>        <span class="k">return</span> <span class="n">read_ult</span><span class="p">(</span>
 </span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">recorded_data_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_offset</span><span class="p">)</span>
 </span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RawUltrasoundMeta</span><span class="p">:</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
 </span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>
 </span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>    <span class="nd">@property</span>
 </span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -454,7 +454,7 @@
 </span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="L-301"><a href="#L-301"><span class="linenos">301</span></a>
 </span><span id="L-302"><a href="#L-302"><span class="linenos">302</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-303"><a href="#L-303"><span class="linenos">303</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-304"><a href="#L-304"><span class="linenos">304</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-305"><a href="#L-305"><span class="linenos">305</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="L-306"><a href="#L-306"><span class="linenos">306</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -501,7 +501,7 @@
 </span><span id="L-347"><a href="#L-347"><span class="linenos">347</span></a>                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </span><span id="L-348"><a href="#L-348"><span class="linenos">348</span></a>
 </span><span id="L-349"><a href="#L-349"><span class="linenos">349</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-350"><a href="#L-350"><span class="linenos">350</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-351"><a href="#L-351"><span class="linenos">351</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-352"><a href="#L-352"><span class="linenos">352</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="L-353"><a href="#L-353"><span class="linenos">353</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -535,7 +535,7 @@
 </span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a>
 </span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -564,13 +564,13 @@
 </span><span id="L-410"><a href="#L-410"><span class="linenos">410</span></a>        <span class="k">if</span> <span class="n">meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-411"><a href="#L-411"><span class="linenos">411</span></a>            <span class="k">try</span><span class="p">:</span>
 </span><span id="L-412"><a href="#L-412"><span class="linenos">412</span></a>                <span class="n">wanted_meta</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
+</span><span id="L-413"><a href="#L-413"><span class="linenos">413</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
 </span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">wanted_meta</span><span class="p">)</span>
 </span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a>            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
 </span><span id="L-416"><a href="#L-416"><span class="linenos">416</span></a>                <span class="c1"># Missing metadata for one recording may be ok and this could</span>
 </span><span id="L-417"><a href="#L-417"><span class="linenos">417</span></a>                <span class="c1"># be handled with just a call to _recording_logger.critical and</span>
 </span><span id="L-418"><a href="#L-418"><span class="linenos">418</span></a>                <span class="c1"># setting self.excluded = True</span>
-</span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
 </span><span id="L-420"><a href="#L-420"><span class="linenos">420</span></a>                <span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
 </span><span id="L-421"><a href="#L-421"><span class="linenos">421</span></a>                    <span class="s2">&quot;Part of metadata missing when processing </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
 </span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a>                    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
@@ -582,7 +582,7 @@
 </span><span id="L-428"><a href="#L-428"><span class="linenos">428</span></a>        <span class="c1"># Initialise super only after ensuring meta is correct,</span>
 </span><span id="L-429"><a href="#L-429"><span class="linenos">429</span></a>        <span class="c1"># because latter may already end the run.</span>
 </span><span id="L-430"><a href="#L-430"><span class="linenos">430</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-431"><a href="#L-431"><span class="linenos">431</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-431"><a href="#L-431"><span class="linenos">431</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-432"><a href="#L-432"><span class="linenos">432</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-433"><a href="#L-433"><span class="linenos">433</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="L-434"><a href="#L-434"><span class="linenos">434</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -644,7 +644,7 @@
 </span><span id="MonoAudio-74"><a href="#MonoAudio-74"><span class="linenos"> 74</span></a>
 </span><span id="MonoAudio-75"><a href="#MonoAudio-75"><span class="linenos"> 75</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="MonoAudio-76"><a href="#MonoAudio-76"><span class="linenos"> 76</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="MonoAudio-77"><a href="#MonoAudio-77"><span class="linenos"> 77</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="MonoAudio-77"><a href="#MonoAudio-77"><span class="linenos"> 77</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="MonoAudio-78"><a href="#MonoAudio-78"><span class="linenos"> 78</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="MonoAudio-79"><a href="#MonoAudio-79"><span class="linenos"> 79</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="MonoAudio-80"><a href="#MonoAudio-80"><span class="linenos"> 80</span></a>            <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -673,7 +673,7 @@
 </span><span id="MonoAudio-103"><a href="#MonoAudio-103"><span class="linenos">103</span></a><span class="sd">            audio in the sample.</span>
 </span><span id="MonoAudio-104"><a href="#MonoAudio-104"><span class="linenos">104</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="MonoAudio-105"><a href="#MonoAudio-105"><span class="linenos">105</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="MonoAudio-106"><a href="#MonoAudio-106"><span class="linenos">106</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="MonoAudio-106"><a href="#MonoAudio-106"><span class="linenos">106</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="MonoAudio-107"><a href="#MonoAudio-107"><span class="linenos">107</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="MonoAudio-108"><a href="#MonoAudio-108"><span class="linenos">108</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="MonoAudio-109"><a href="#MonoAudio-109"><span class="linenos">109</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -721,7 +721,7 @@ this Modality preloads data at construction time.</p>
                                         <input id="MonoAudio.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">MonoAudio</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">detect_beep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">go_signal</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">has_speech</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">MonoAudio</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">detect_beep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>,</span><span class="param">	<span class="n">go_signal</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">has_speech</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="MonoAudio.__init__-view-source"><span>View Source</span></label>
 
@@ -729,7 +729,7 @@ this Modality preloads data at construction time.</p>
     <a class="headerlink" href="#MonoAudio.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="MonoAudio.__init__-75"><a href="#MonoAudio.__init__-75"><span class="linenos"> 75</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 </span><span id="MonoAudio.__init__-76"><a href="#MonoAudio.__init__-76"><span class="linenos"> 76</span></a>            <span class="bp">self</span><span class="p">,</span>
-</span><span id="MonoAudio.__init__-77"><a href="#MonoAudio.__init__-77"><span class="linenos"> 77</span></a>            <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="MonoAudio.__init__-77"><a href="#MonoAudio.__init__-77"><span class="linenos"> 77</span></a>            <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-78"><a href="#MonoAudio.__init__-78"><span class="linenos"> 78</span></a>            <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-79"><a href="#MonoAudio.__init__-79"><span class="linenos"> 79</span></a>            <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-80"><a href="#MonoAudio.__init__-80"><span class="linenos"> 80</span></a>            <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -758,7 +758,7 @@ this Modality preloads data at construction time.</p>
 </span><span id="MonoAudio.__init__-103"><a href="#MonoAudio.__init__-103"><span class="linenos">103</span></a><span class="sd">            audio in the sample.</span>
 </span><span id="MonoAudio.__init__-104"><a href="#MonoAudio.__init__-104"><span class="linenos">104</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="MonoAudio.__init__-105"><a href="#MonoAudio.__init__-105"><span class="linenos">105</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="MonoAudio.__init__-106"><a href="#MonoAudio.__init__-106"><span class="linenos">106</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="MonoAudio.__init__-106"><a href="#MonoAudio.__init__-106"><span class="linenos">106</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-107"><a href="#MonoAudio.__init__-107"><span class="linenos">107</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-108"><a href="#MonoAudio.__init__-108"><span class="linenos">108</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="MonoAudio.__init__-109"><a href="#MonoAudio.__init__-109"><span class="linenos">109</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -885,7 +885,7 @@ text etc. </p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="MonoAudio.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="MonoAudio.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="MonoAudio.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="MonoAudio.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="MonoAudio.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -902,25 +902,25 @@ text etc. </p>
                 <dd id="MonoAudio.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="MonoAudio.name" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name">name</a></dd>
-                <dd id="MonoAudio.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="MonoAudio.name" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name">name</a></dd>
+                <dd id="MonoAudio.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="MonoAudio.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="MonoAudio.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="MonoAudio.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="MonoAudio.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="MonoAudio.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="MonoAudio.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="MonoAudio.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="MonoAudio.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="MonoAudio.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="MonoAudio.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="MonoAudio.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="MonoAudio.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="MonoAudio.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="MonoAudio.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="MonoAudio.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="MonoAudio.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="MonoAudio.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="MonoAudio.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="MonoAudio.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="MonoAudio.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="MonoAudio.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="MonoAudio.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="MonoAudio.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="MonoAudio.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="MonoAudio.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="MonoAudio.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>
@@ -947,7 +947,7 @@ text etc. </p>
 </span><span id="RawUltrasound-148"><a href="#RawUltrasound-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="RawUltrasound-149"><a href="#RawUltrasound-149"><span class="linenos">149</span></a>
 </span><span id="RawUltrasound-150"><a href="#RawUltrasound-150"><span class="linenos">150</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="RawUltrasound-151"><a href="#RawUltrasound-151"><span class="linenos">151</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="RawUltrasound-151"><a href="#RawUltrasound-151"><span class="linenos">151</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="RawUltrasound-152"><a href="#RawUltrasound-152"><span class="linenos">152</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="RawUltrasound-153"><a href="#RawUltrasound-153"><span class="linenos">153</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="RawUltrasound-154"><a href="#RawUltrasound-154"><span class="linenos">154</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -972,7 +972,7 @@ text etc. </p>
 </span><span id="RawUltrasound-173"><a href="#RawUltrasound-173"><span class="linenos">173</span></a><span class="sd">            Default is None.</span>
 </span><span id="RawUltrasound-174"><a href="#RawUltrasound-174"><span class="linenos">174</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="RawUltrasound-175"><a href="#RawUltrasound-175"><span class="linenos">175</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="RawUltrasound-176"><a href="#RawUltrasound-176"><span class="linenos">176</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="RawUltrasound-176"><a href="#RawUltrasound-176"><span class="linenos">176</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="RawUltrasound-177"><a href="#RawUltrasound-177"><span class="linenos">177</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="RawUltrasound-178"><a href="#RawUltrasound-178"><span class="linenos">178</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="RawUltrasound-179"><a href="#RawUltrasound-179"><span class="linenos">179</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">,</span>
@@ -991,8 +991,8 @@ text etc. </p>
 </span><span id="RawUltrasound-192"><a href="#RawUltrasound-192"><span class="linenos">192</span></a>        <span class="k">return</span> <span class="n">read_ult</span><span class="p">(</span>
 </span><span id="RawUltrasound-193"><a href="#RawUltrasound-193"><span class="linenos">193</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">recorded_data_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_offset</span><span class="p">)</span>
 </span><span id="RawUltrasound-194"><a href="#RawUltrasound-194"><span class="linenos">194</span></a>
-</span><span id="RawUltrasound-195"><a href="#RawUltrasound-195"><span class="linenos">195</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-</span><span id="RawUltrasound-196"><a href="#RawUltrasound-196"><span class="linenos">196</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span>
+</span><span id="RawUltrasound-195"><a href="#RawUltrasound-195"><span class="linenos">195</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RawUltrasoundMeta</span><span class="p">:</span>
+</span><span id="RawUltrasound-196"><a href="#RawUltrasound-196"><span class="linenos">196</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
 </span><span id="RawUltrasound-197"><a href="#RawUltrasound-197"><span class="linenos">197</span></a>
 </span><span id="RawUltrasound-198"><a href="#RawUltrasound-198"><span class="linenos">198</span></a>    <span class="nd">@property</span>
 </span><span id="RawUltrasound-199"><a href="#RawUltrasound-199"><span class="linenos">199</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -1095,14 +1095,14 @@ text etc. </p>
                                         <input id="RawUltrasound.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">RawUltrasound</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="recorded_metadata_classes.html#RawUltrasoundMeta">patkit.modalities.recorded_metadata_classes.RawUltrasoundMeta</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">RawUltrasound</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">metadata</span><span class="p">:</span> <span class="n"><a href="recorded_metadata_classes.html#RawUltrasoundMeta">patkit.modalities.recorded_metadata_classes.RawUltrasoundMeta</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="RawUltrasound.__init__-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#RawUltrasound.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="RawUltrasound.__init__-150"><a href="#RawUltrasound.__init__-150"><span class="linenos">150</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="RawUltrasound.__init__-151"><a href="#RawUltrasound.__init__-151"><span class="linenos">151</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="RawUltrasound.__init__-151"><a href="#RawUltrasound.__init__-151"><span class="linenos">151</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-152"><a href="#RawUltrasound.__init__-152"><span class="linenos">152</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-153"><a href="#RawUltrasound.__init__-153"><span class="linenos">153</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-154"><a href="#RawUltrasound.__init__-154"><span class="linenos">154</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1127,7 +1127,7 @@ text etc. </p>
 </span><span id="RawUltrasound.__init__-173"><a href="#RawUltrasound.__init__-173"><span class="linenos">173</span></a><span class="sd">            Default is None.</span>
 </span><span id="RawUltrasound.__init__-174"><a href="#RawUltrasound.__init__-174"><span class="linenos">174</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="RawUltrasound.__init__-175"><a href="#RawUltrasound.__init__-175"><span class="linenos">175</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="RawUltrasound.__init__-176"><a href="#RawUltrasound.__init__-176"><span class="linenos">176</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="RawUltrasound.__init__-176"><a href="#RawUltrasound.__init__-176"><span class="linenos">176</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-177"><a href="#RawUltrasound.__init__-177"><span class="linenos">177</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-178"><a href="#RawUltrasound.__init__-178"><span class="linenos">178</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="RawUltrasound.__init__-179"><a href="#RawUltrasound.__init__-179"><span class="linenos">179</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">,</span>
@@ -1214,14 +1214,14 @@ meta -- a dict with (at least) the keys listed in
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">get_meta</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">dict</span>:</span></span>
+        <span class="name">get_meta</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n"><a href="recorded_metadata_classes.html#RawUltrasoundMeta">patkit.modalities.recorded_metadata_classes.RawUltrasoundMeta</a></span>:</span></span>
 
                 <label class="view-source-button" for="RawUltrasound.get_meta-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#RawUltrasound.get_meta"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="RawUltrasound.get_meta-195"><a href="#RawUltrasound.get_meta-195"><span class="linenos">195</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-</span><span id="RawUltrasound.get_meta-196"><a href="#RawUltrasound.get_meta-196"><span class="linenos">196</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="RawUltrasound.get_meta-195"><a href="#RawUltrasound.get_meta-195"><span class="linenos">195</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RawUltrasoundMeta</span><span class="p">:</span>
+</span><span id="RawUltrasound.get_meta-196"><a href="#RawUltrasound.get_meta-196"><span class="linenos">196</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
 </span></pre></div>
 
 
@@ -1454,7 +1454,7 @@ stored in memory.</p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="RawUltrasound.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="RawUltrasound.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="RawUltrasound.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="RawUltrasound.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="RawUltrasound.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -1470,25 +1470,25 @@ stored in memory.</p>
                 <dd id="RawUltrasound.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="RawUltrasound.name" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name">name</a></dd>
-                <dd id="RawUltrasound.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="RawUltrasound.name" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name">name</a></dd>
+                <dd id="RawUltrasound.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="RawUltrasound.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="RawUltrasound.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="RawUltrasound.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="RawUltrasound.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="RawUltrasound.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="RawUltrasound.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="RawUltrasound.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="RawUltrasound.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="RawUltrasound.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="RawUltrasound.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="RawUltrasound.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="RawUltrasound.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="RawUltrasound.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="RawUltrasound.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="RawUltrasound.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="RawUltrasound.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="RawUltrasound.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="RawUltrasound.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="RawUltrasound.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="RawUltrasound.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="RawUltrasound.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="RawUltrasound.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="RawUltrasound.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="RawUltrasound.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="RawUltrasound.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="RawUltrasound.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>
@@ -1519,7 +1519,7 @@ stored in memory.</p>
 </span><span id="Video-301"><a href="#Video-301"><span class="linenos">301</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="Video-302"><a href="#Video-302"><span class="linenos">302</span></a>
 </span><span id="Video-303"><a href="#Video-303"><span class="linenos">303</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="Video-304"><a href="#Video-304"><span class="linenos">304</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="Video-304"><a href="#Video-304"><span class="linenos">304</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="Video-305"><a href="#Video-305"><span class="linenos">305</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="Video-306"><a href="#Video-306"><span class="linenos">306</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="Video-307"><a href="#Video-307"><span class="linenos">307</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1566,7 +1566,7 @@ stored in memory.</p>
 </span><span id="Video-348"><a href="#Video-348"><span class="linenos">348</span></a>                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </span><span id="Video-349"><a href="#Video-349"><span class="linenos">349</span></a>
 </span><span id="Video-350"><a href="#Video-350"><span class="linenos">350</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="Video-351"><a href="#Video-351"><span class="linenos">351</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="Video-351"><a href="#Video-351"><span class="linenos">351</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="Video-352"><a href="#Video-352"><span class="linenos">352</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="Video-353"><a href="#Video-353"><span class="linenos">353</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="Video-354"><a href="#Video-354"><span class="linenos">354</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -1588,14 +1588,14 @@ stored in memory.</p>
                                         <input id="Video.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">Video</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">Video</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="Video.__init__-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Video.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Video.__init__-303"><a href="#Video.__init__-303"><span class="linenos">303</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="Video.__init__-304"><a href="#Video.__init__-304"><span class="linenos">304</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="Video.__init__-304"><a href="#Video.__init__-304"><span class="linenos">304</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="Video.__init__-305"><a href="#Video.__init__-305"><span class="linenos">305</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="Video.__init__-306"><a href="#Video.__init__-306"><span class="linenos">306</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="Video.__init__-307"><a href="#Video.__init__-307"><span class="linenos">307</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1642,7 +1642,7 @@ stored in memory.</p>
 </span><span id="Video.__init__-348"><a href="#Video.__init__-348"><span class="linenos">348</span></a>                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 </span><span id="Video.__init__-349"><a href="#Video.__init__-349"><span class="linenos">349</span></a>
 </span><span id="Video.__init__-350"><a href="#Video.__init__-350"><span class="linenos">350</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="Video.__init__-351"><a href="#Video.__init__-351"><span class="linenos">351</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="Video.__init__-351"><a href="#Video.__init__-351"><span class="linenos">351</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="Video.__init__-352"><a href="#Video.__init__-352"><span class="linenos">352</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="Video.__init__-353"><a href="#Video.__init__-353"><span class="linenos">353</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="Video.__init__-354"><a href="#Video.__init__-354"><span class="linenos">354</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -1744,7 +1744,7 @@ text etc. </p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="Video.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="Video.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="Video.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="Video.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="Video.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -1761,25 +1761,25 @@ text etc. </p>
                 <dd id="Video.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="Video.name" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name">name</a></dd>
-                <dd id="Video.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="Video.name" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name">name</a></dd>
+                <dd id="Video.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="Video.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="Video.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="Video.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="Video.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="Video.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="Video.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="Video.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="Video.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="Video.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="Video.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="Video.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="Video.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="Video.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="Video.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="Video.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="Video.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="Video.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="Video.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="Video.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="Video.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="Video.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="Video.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="Video.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="Video.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="Video.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="Video.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>
@@ -1817,7 +1817,7 @@ text etc. </p>
 </span><span id="ThreeD_Ultrasound-382"><a href="#ThreeD_Ultrasound-382"><span class="linenos">382</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="ThreeD_Ultrasound-383"><a href="#ThreeD_Ultrasound-383"><span class="linenos">383</span></a>
 </span><span id="ThreeD_Ultrasound-384"><a href="#ThreeD_Ultrasound-384"><span class="linenos">384</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="ThreeD_Ultrasound-385"><a href="#ThreeD_Ultrasound-385"><span class="linenos">385</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="ThreeD_Ultrasound-385"><a href="#ThreeD_Ultrasound-385"><span class="linenos">385</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-386"><a href="#ThreeD_Ultrasound-386"><span class="linenos">386</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-387"><a href="#ThreeD_Ultrasound-387"><span class="linenos">387</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-388"><a href="#ThreeD_Ultrasound-388"><span class="linenos">388</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1846,13 +1846,13 @@ text etc. </p>
 </span><span id="ThreeD_Ultrasound-411"><a href="#ThreeD_Ultrasound-411"><span class="linenos">411</span></a>        <span class="k">if</span> <span class="n">meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound-412"><a href="#ThreeD_Ultrasound-412"><span class="linenos">412</span></a>            <span class="k">try</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound-413"><a href="#ThreeD_Ultrasound-413"><span class="linenos">413</span></a>                <span class="n">wanted_meta</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="ThreeD_Ultrasound-414"><a href="#ThreeD_Ultrasound-414"><span class="linenos">414</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
+</span><span id="ThreeD_Ultrasound-414"><a href="#ThreeD_Ultrasound-414"><span class="linenos">414</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
 </span><span id="ThreeD_Ultrasound-415"><a href="#ThreeD_Ultrasound-415"><span class="linenos">415</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">wanted_meta</span><span class="p">)</span>
 </span><span id="ThreeD_Ultrasound-416"><a href="#ThreeD_Ultrasound-416"><span class="linenos">416</span></a>            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound-417"><a href="#ThreeD_Ultrasound-417"><span class="linenos">417</span></a>                <span class="c1"># Missing metadata for one recording may be ok and this could</span>
 </span><span id="ThreeD_Ultrasound-418"><a href="#ThreeD_Ultrasound-418"><span class="linenos">418</span></a>                <span class="c1"># be handled with just a call to _recording_logger.critical and</span>
 </span><span id="ThreeD_Ultrasound-419"><a href="#ThreeD_Ultrasound-419"><span class="linenos">419</span></a>                <span class="c1"># setting self.excluded = True</span>
-</span><span id="ThreeD_Ultrasound-420"><a href="#ThreeD_Ultrasound-420"><span class="linenos">420</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</span><span id="ThreeD_Ultrasound-420"><a href="#ThreeD_Ultrasound-420"><span class="linenos">420</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
 </span><span id="ThreeD_Ultrasound-421"><a href="#ThreeD_Ultrasound-421"><span class="linenos">421</span></a>                <span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
 </span><span id="ThreeD_Ultrasound-422"><a href="#ThreeD_Ultrasound-422"><span class="linenos">422</span></a>                    <span class="s2">&quot;Part of metadata missing when processing </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-423"><a href="#ThreeD_Ultrasound-423"><span class="linenos">423</span></a>                    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
@@ -1864,7 +1864,7 @@ text etc. </p>
 </span><span id="ThreeD_Ultrasound-429"><a href="#ThreeD_Ultrasound-429"><span class="linenos">429</span></a>        <span class="c1"># Initialise super only after ensuring meta is correct,</span>
 </span><span id="ThreeD_Ultrasound-430"><a href="#ThreeD_Ultrasound-430"><span class="linenos">430</span></a>        <span class="c1"># because latter may already end the run.</span>
 </span><span id="ThreeD_Ultrasound-431"><a href="#ThreeD_Ultrasound-431"><span class="linenos">431</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="ThreeD_Ultrasound-432"><a href="#ThreeD_Ultrasound-432"><span class="linenos">432</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="ThreeD_Ultrasound-432"><a href="#ThreeD_Ultrasound-432"><span class="linenos">432</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-433"><a href="#ThreeD_Ultrasound-433"><span class="linenos">433</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-434"><a href="#ThreeD_Ultrasound-434"><span class="linenos">434</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound-435"><a href="#ThreeD_Ultrasound-435"><span class="linenos">435</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -1902,14 +1902,14 @@ text etc. </p>
                                         <input id="ThreeD_Ultrasound.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
-        <span class="name">ThreeD_Ultrasound</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">owner</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+        <span class="name">ThreeD_Ultrasound</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">container</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">file_info</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#FileInformation">patkit.data_structures.metadata_classes.FileInformation</a></span>,</span><span class="param">	<span class="n">parsed_data</span><span class="p">:</span> <span class="n"><a href="../data_structures/metadata_classes.html#ModalityData">patkit.data_structures.metadata_classes.ModalityData</a></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>,</span><span class="param">	<span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
 
                 <label class="view-source-button" for="ThreeD_Ultrasound.__init__-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#ThreeD_Ultrasound.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ThreeD_Ultrasound.__init__-384"><a href="#ThreeD_Ultrasound.__init__-384"><span class="linenos">384</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="ThreeD_Ultrasound.__init__-385"><a href="#ThreeD_Ultrasound.__init__-385"><span class="linenos">385</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="ThreeD_Ultrasound.__init__-385"><a href="#ThreeD_Ultrasound.__init__-385"><span class="linenos">385</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-386"><a href="#ThreeD_Ultrasound.__init__-386"><span class="linenos">386</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-387"><a href="#ThreeD_Ultrasound.__init__-387"><span class="linenos">387</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">ModalityData</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-388"><a href="#ThreeD_Ultrasound.__init__-388"><span class="linenos">388</span></a>                 <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1938,13 +1938,13 @@ text etc. </p>
 </span><span id="ThreeD_Ultrasound.__init__-411"><a href="#ThreeD_Ultrasound.__init__-411"><span class="linenos">411</span></a>        <span class="k">if</span> <span class="n">meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound.__init__-412"><a href="#ThreeD_Ultrasound.__init__-412"><span class="linenos">412</span></a>            <span class="k">try</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound.__init__-413"><a href="#ThreeD_Ultrasound.__init__-413"><span class="linenos">413</span></a>                <span class="n">wanted_meta</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="ThreeD_Ultrasound.__init__-414"><a href="#ThreeD_Ultrasound.__init__-414"><span class="linenos">414</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
+</span><span id="ThreeD_Ultrasound.__init__-414"><a href="#ThreeD_Ultrasound.__init__-414"><span class="linenos">414</span></a>                               <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">}</span>
 </span><span id="ThreeD_Ultrasound.__init__-415"><a href="#ThreeD_Ultrasound.__init__-415"><span class="linenos">415</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">wanted_meta</span><span class="p">)</span>
 </span><span id="ThreeD_Ultrasound.__init__-416"><a href="#ThreeD_Ultrasound.__init__-416"><span class="linenos">416</span></a>            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
 </span><span id="ThreeD_Ultrasound.__init__-417"><a href="#ThreeD_Ultrasound.__init__-417"><span class="linenos">417</span></a>                <span class="c1"># Missing metadata for one recording may be ok and this could</span>
 </span><span id="ThreeD_Ultrasound.__init__-418"><a href="#ThreeD_Ultrasound.__init__-418"><span class="linenos">418</span></a>                <span class="c1"># be handled with just a call to _recording_logger.critical and</span>
 </span><span id="ThreeD_Ultrasound.__init__-419"><a href="#ThreeD_Ultrasound.__init__-419"><span class="linenos">419</span></a>                <span class="c1"># setting self.excluded = True</span>
-</span><span id="ThreeD_Ultrasound.__init__-420"><a href="#ThreeD_Ultrasound.__init__-420"><span class="linenos">420</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">RawUltrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</span><span id="ThreeD_Ultrasound.__init__-420"><a href="#ThreeD_Ultrasound.__init__-420"><span class="linenos">420</span></a>                <span class="n">not_found</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ThreeD_Ultrasound</span><span class="o">.</span><span class="n">requiredMetaKeys</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
 </span><span id="ThreeD_Ultrasound.__init__-421"><a href="#ThreeD_Ultrasound.__init__-421"><span class="linenos">421</span></a>                <span class="n">_logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
 </span><span id="ThreeD_Ultrasound.__init__-422"><a href="#ThreeD_Ultrasound.__init__-422"><span class="linenos">422</span></a>                    <span class="s2">&quot;Part of metadata missing when processing </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-423"><a href="#ThreeD_Ultrasound.__init__-423"><span class="linenos">423</span></a>                    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">])</span>
@@ -1956,7 +1956,7 @@ text etc. </p>
 </span><span id="ThreeD_Ultrasound.__init__-429"><a href="#ThreeD_Ultrasound.__init__-429"><span class="linenos">429</span></a>        <span class="c1"># Initialise super only after ensuring meta is correct,</span>
 </span><span id="ThreeD_Ultrasound.__init__-430"><a href="#ThreeD_Ultrasound.__init__-430"><span class="linenos">430</span></a>        <span class="c1"># because latter may already end the run.</span>
 </span><span id="ThreeD_Ultrasound.__init__-431"><a href="#ThreeD_Ultrasound.__init__-431"><span class="linenos">431</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="ThreeD_Ultrasound.__init__-432"><a href="#ThreeD_Ultrasound.__init__-432"><span class="linenos">432</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="ThreeD_Ultrasound.__init__-432"><a href="#ThreeD_Ultrasound.__init__-432"><span class="linenos">432</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-433"><a href="#ThreeD_Ultrasound.__init__-433"><span class="linenos">433</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-434"><a href="#ThreeD_Ultrasound.__init__-434"><span class="linenos">434</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
 </span><span id="ThreeD_Ultrasound.__init__-435"><a href="#ThreeD_Ultrasound.__init__-435"><span class="linenos">435</span></a>            <span class="n">time_offset</span><span class="o">=</span><span class="n">time_offset</span><span class="p">)</span>
@@ -2093,7 +2093,7 @@ text etc. </p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="ThreeD_Ultrasound.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="ThreeD_Ultrasound.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="ThreeD_Ultrasound.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="ThreeD_Ultrasound.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="ThreeD_Ultrasound.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -2109,25 +2109,25 @@ text etc. </p>
                 <dd id="ThreeD_Ultrasound.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="ThreeD_Ultrasound.name" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name">name</a></dd>
-                <dd id="ThreeD_Ultrasound.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="ThreeD_Ultrasound.name" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name">name</a></dd>
+                <dd id="ThreeD_Ultrasound.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="ThreeD_Ultrasound.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="ThreeD_Ultrasound.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="ThreeD_Ultrasound.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="ThreeD_Ultrasound.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="ThreeD_Ultrasound.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="ThreeD_Ultrasound.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="ThreeD_Ultrasound.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="ThreeD_Ultrasound.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="ThreeD_Ultrasound.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="ThreeD_Ultrasound.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="ThreeD_Ultrasound.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="ThreeD_Ultrasound.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="ThreeD_Ultrasound.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="ThreeD_Ultrasound.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="ThreeD_Ultrasound.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="ThreeD_Ultrasound.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="ThreeD_Ultrasound.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="ThreeD_Ultrasound.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="ThreeD_Ultrasound.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="ThreeD_Ultrasound.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="ThreeD_Ultrasound.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="ThreeD_Ultrasound.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="ThreeD_Ultrasound.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="ThreeD_Ultrasound.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="ThreeD_Ultrasound.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="ThreeD_Ultrasound.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>

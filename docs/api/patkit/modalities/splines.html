@@ -142,7 +142,7 @@
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>    <span class="n">Modality</span><span class="p">,</span> <span class="n">ModalityData</span><span class="p">,</span> <span class="n">ModalityMetaData</span><span class="p">,</span> <span class="n">Recording</span><span class="p">)</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures.metadata_classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileInformation</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.utility_functions.computational</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.computational</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>    <span class="n">cartesian_to_polar</span><span class="p">,</span> <span class="n">polar_to_cartesian</span><span class="p">)</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.import_formats</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_splines</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
@@ -169,7 +169,7 @@
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>                 <span class="n">metadata</span><span class="p">:</span> <span class="n">SplineMetadata</span><span class="p">,</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModalityData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -179,7 +179,7 @@
 </span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="c1"># Initialise super only after ensuring meta is correct,</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="c1"># because latter may already end the run.</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
@@ -353,8 +353,8 @@
                 <dd id="SplineMetadata.timestep_matched_downsampling" class="variable"><a href="../data_structures/metadata_classes.html#ModalityMetaData.timestep_matched_downsampling">timestep_matched_downsampling</a></dd>
 
             </div>
-            <div><dt><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel">patkit.external_class_extensions.base_model_extensions.patkitBaseModel</a></dt>
-                                <dd id="SplineMetadata.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#patkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
+            <div><dt><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel">patkit.external_class_extensions.base_model_extensions.PatkitBaseModel</a></dt>
+                                <dd id="SplineMetadata.empty_str_to_none" class="function"><a href="../external_class_extensions/base_model_extensions.html#PatkitBaseModel.empty_str_to_none">empty_str_to_none</a></dd>
 
             </div>
                                 </dl>
@@ -381,7 +381,7 @@
 </span><span id="Splines-70"><a href="#Splines-70"><span class="linenos"> 70</span></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
 </span><span id="Splines-71"><a href="#Splines-71"><span class="linenos"> 71</span></a>
 </span><span id="Splines-72"><a href="#Splines-72"><span class="linenos"> 72</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-</span><span id="Splines-73"><a href="#Splines-73"><span class="linenos"> 73</span></a>                 <span class="n">owner</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="Splines-73"><a href="#Splines-73"><span class="linenos"> 73</span></a>                 <span class="n">container</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
 </span><span id="Splines-74"><a href="#Splines-74"><span class="linenos"> 74</span></a>                 <span class="n">metadata</span><span class="p">:</span> <span class="n">SplineMetadata</span><span class="p">,</span>
 </span><span id="Splines-75"><a href="#Splines-75"><span class="linenos"> 75</span></a>                 <span class="n">file_info</span><span class="p">:</span> <span class="n">FileInformation</span><span class="p">,</span>
 </span><span id="Splines-76"><a href="#Splines-76"><span class="linenos"> 76</span></a>                 <span class="n">parsed_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModalityData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -391,7 +391,7 @@
 </span><span id="Splines-80"><a href="#Splines-80"><span class="linenos"> 80</span></a>        <span class="c1"># Initialise super only after ensuring meta is correct,</span>
 </span><span id="Splines-81"><a href="#Splines-81"><span class="linenos"> 81</span></a>        <span class="c1"># because latter may already end the run.</span>
 </span><span id="Splines-82"><a href="#Splines-82"><span class="linenos"> 82</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="Splines-83"><a href="#Splines-83"><span class="linenos"> 83</span></a>            <span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span>
+</span><span id="Splines-83"><a href="#Splines-83"><span class="linenos"> 83</span></a>            <span class="n">container</span><span class="o">=</span><span class="n">container</span><span class="p">,</span>
 </span><span id="Splines-84"><a href="#Splines-84"><span class="linenos"> 84</span></a>            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
 </span><span id="Splines-85"><a href="#Splines-85"><span class="linenos"> 85</span></a>            <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
 </span><span id="Splines-86"><a href="#Splines-86"><span class="linenos"> 86</span></a>            <span class="n">parsed_data</span><span class="o">=</span><span class="n">parsed_data</span><span class="p">,</span>
@@ -690,7 +690,7 @@ text etc. </p>
                                 <h5>Inherited Members</h5>
                                 <dl>
                                     <div><dt><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></dt>
-                                <dd id="Splines.owner" class="variable"><a href="../data_structures/data_structures.html#Modality.owner">owner</a></dd>
+                                <dd id="Splines.container" class="variable"><a href="../data_structures/data_structures.html#Modality.container">container</a></dd>
                 <dd id="Splines.excluded" class="variable"><a href="../data_structures/data_structures.html#Modality.excluded">excluded</a></dd>
                 <dd id="Splines.annotations" class="variable"><a href="../data_structures/data_structures.html#Modality.annotations">annotations</a></dd>
                 <dd id="Splines.recording" class="variable"><a href="../data_structures/data_structures.html#Modality.recording">recording</a></dd>
@@ -706,25 +706,25 @@ text etc. </p>
                 <dd id="Splines.is_derived" class="variable"><a href="../data_structures/data_structures.html#Modality.is_derived">is_derived</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataContainer">patkit.data_structures.base_classes.DataContainer</a></dt>
-                                <dd id="Splines.name" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name">name</a></dd>
-                <dd id="Splines.name_underscored" class="variable"><a href="../data_structures/base_classes.html#DataContainer.name_underscored">name_underscored</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractData">patkit.data_structures.base_classes.AbstractData</a></dt>
+                                <dd id="Splines.name" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name">name</a></dd>
+                <dd id="Splines.name_underscored" class="variable"><a href="../data_structures/base_classes.html#AbstractData.name_underscored">name_underscored</a></dd>
 
             </div>
-            <div><dt><a href="../data_structures/base_classes.html#DataObject">patkit.data_structures.base_classes.DataObject</a></dt>
-                                <dd id="Splines.file_info" class="variable"><a href="../data_structures/base_classes.html#DataObject.file_info">file_info</a></dd>
-                <dd id="Splines.metadata" class="variable"><a href="../data_structures/base_classes.html#DataObject.metadata">metadata</a></dd>
-                <dd id="Splines.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_path">recorded_data_path</a></dd>
-                <dd id="Splines.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_data_name">recorded_data_name</a></dd>
-                <dd id="Splines.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_path">recorded_meta_path</a></dd>
-                <dd id="Splines.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_meta_name">recorded_meta_name</a></dd>
-                <dd id="Splines.recorded_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.recorded_path">recorded_path</a></dd>
-                <dd id="Splines.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_path">patkit_data_path</a></dd>
-                <dd id="Splines.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_data_name">patkit_data_name</a></dd>
-                <dd id="Splines.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_path">patkit_meta_path</a></dd>
-                <dd id="Splines.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_meta_name">patkit_meta_name</a></dd>
-                <dd id="Splines.patkit_path" class="variable"><a href="../data_structures/base_classes.html#DataObject.patkit_path">patkit_path</a></dd>
-                <dd id="Splines.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#DataObject.is_fully_initialised">is_fully_initialised</a></dd>
+            <div><dt><a href="../data_structures/base_classes.html#AbstractDataObject">patkit.data_structures.base_classes.AbstractDataObject</a></dt>
+                                <dd id="Splines.file_info" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.file_info">file_info</a></dd>
+                <dd id="Splines.metadata" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.metadata">metadata</a></dd>
+                <dd id="Splines.recorded_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_path">recorded_data_path</a></dd>
+                <dd id="Splines.recorded_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_data_name">recorded_data_name</a></dd>
+                <dd id="Splines.recorded_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_path">recorded_meta_path</a></dd>
+                <dd id="Splines.recorded_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_meta_name">recorded_meta_name</a></dd>
+                <dd id="Splines.recorded_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.recorded_path">recorded_path</a></dd>
+                <dd id="Splines.patkit_data_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_path">patkit_data_path</a></dd>
+                <dd id="Splines.patkit_data_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_data_name">patkit_data_name</a></dd>
+                <dd id="Splines.patkit_meta_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_path">patkit_meta_path</a></dd>
+                <dd id="Splines.patkit_meta_name" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_meta_name">patkit_meta_name</a></dd>
+                <dd id="Splines.patkit_path" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.patkit_path">patkit_path</a></dd>
+                <dd id="Splines.is_fully_initialised" class="variable"><a href="../data_structures/base_classes.html#AbstractDataObject.is_fully_initialised">is_fully_initialised</a></dd>
 
             </div>
                                 </dl>
