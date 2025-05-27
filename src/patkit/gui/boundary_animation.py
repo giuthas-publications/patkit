@@ -49,6 +49,7 @@ class AnimatableBoundary:
     """
     axes: Axes
     line: mpl_line_2d
+    time: float
     prev_text: Optional[mpl_text] = None
     next_text: Optional[mpl_text] = None
 
