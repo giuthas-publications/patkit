@@ -452,15 +452,28 @@ class PatTier(list):
             if element.contains(time=time, epsilon=epsilon):
                 return element.label
 
-    def in_limits(self, xlim: [float, float]) -> list[PatAnnotation]:
+    def intersects(self, xlim: list[float, float]) -> list[PatAnnotation]:
+        """
+        List the items that intersect with the given time interval.
+
+        Parameters
+        ----------
+        xlim : list[float, float]
+            The time interval in seconds.
+
+        Returns
+        -------
+        list[PatAnnotation]
+            List of PatAnnotations that intersect with the interval.
+        """
         in_limits = []
         if len(self) > 0:
             if isinstance(self[0], PatInterval):
                 for item in self:
-                    if item.end is None: 
+                    if item.end is None:
                         if xlim[1] < item.begin:
                             continue
-                        elif item.begin < xlim[0]:
+                        if item.begin < xlim[0]:
                             continue
                     elif item.end < xlim[0] or xlim[1] < item.begin:
                         continue
@@ -526,32 +539,32 @@ class PatGrid(OrderedDict):
         for name, tier in self.items():
             if tier.is_point_tier:
                 tier_type = 'PointTier'
-                elem_type = 'points'
+                element_type = 'points'
             else:
                 tier_type = 'IntervalTier'
-                elem_type = 'intervals'
+                element_type = 'intervals'
             out += long_tier.format(tier_count,
                                     tier_type,
                                     name,
                                     self.begin,
                                     self.end,
-                                    elem_type,
+                                    element_type,
                                     len(tier)-1)
-            for elem_count, elem in enumerate(tier, 1):
+            for element_count, element in enumerate(tier, 1):
                 if tier.is_point_tier:
-                    out += long_point.format(elem_count,
-                                             elem.time,
-                                             elem.label)
-                elif elem.next:
-                    out += long_interval.format(elem_count,
-                                                elem.begin,
-                                                elem.end,
-                                                elem.label)
+                    out += long_point.format(element_count,
+                                             element.time,
+                                             element.label)
+                elif element.next:
+                    out += long_interval.format(element_count,
+                                                element.begin,
+                                                element.end,
+                                                element.label)
                 else:
-                    # The last interval does not contain anything.
-                    # It only marks the end of the file and final
-                    # interval's end. That info got already used by
-                    # elem.end (which is elem.next.begin) above.
+                    # The last interval does not contain anything. It only
+                    # marks the end of the file and final interval's end. That
+                    # info got already used by element.end (which is
+                    # element.next.begin) above.
                     pass
         return out
 
