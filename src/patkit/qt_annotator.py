@@ -245,8 +245,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         ## Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
-        self.goButton.clicked.connect(self.go_to_callback)
-        self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
+        self.goButton.clicked.connect(self.go_to_recording)
+        self.go_to_line_edit.returnPressed.connect(self.go_to_recording)
 
         ## PD categories
         # TODO 1.0: these could be optional instead of the below ones
@@ -880,7 +880,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.update()
             self.update_ui()
 
-    def go_to_callback(self):
+    def go_to_recording(self):
         """
         Go to a recording specified in the goLineEdit text input field.
         """
@@ -1272,7 +1272,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         data = self.database_view.currentIndex().data()
         index = self.database_view.currentIndex().row()
         print(index, data)
-        self.go_to_callback()
+        
 
     def onpick(self, event):
         """
