@@ -650,9 +650,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             boundaries_by_axis = []
 
             boundary_set, _ = plot_patgrid_tier(
-                axes=axis, 
-                tier=tier, 
-                time_offset=stimulus_onset, 
+                axes=axis,
+                tier=tier,
+                time_offset=stimulus_onset,
                 text_y=.5,
                 xlim=self.xlim,
             )

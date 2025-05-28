@@ -170,7 +170,7 @@ class BoundaryAnimator:
             if next_text:
                 axes.draw_artist(next_text)
 
-        # and blit just the redrawn area
+        # and blit the background
         if canvas and axes:
             canvas.blit(axes.bbox)
 
@@ -189,9 +189,8 @@ class BoundaryAnimator:
         x0, x_press = self.press
         dx = event.xdata - x_press
         # Prevent boundary crossings.
-        if self.segment.is_legal_value(
-                time=x0[0] + dx + self.time_offset, epsilon=self.epsilon
-        ):
+        new_time = x0[0] + dx + self.time_offset
+        if self.segment.is_legal_value(time=new_time, epsilon=self.epsilon):
             for i, boundary in enumerate(self.boundaries):
                 self.segment.begin = x0[0] + dx + self.time_offset
 
@@ -216,7 +215,7 @@ class BoundaryAnimator:
                 if boundary.next_text:
                     axes.draw_artist(boundary.next_text)
 
-                # blit just the redrawn area
+                # blit the background
                 canvas.blit(axes.bbox)
 
     def on_release(self, event):
