@@ -342,3 +342,7 @@ class UiMainWindow(object):
                     f"{recording.metadata.prompt.strip()}"
                 )
             )
+
+    def replace_items_in_database_view(self, session: Session):
+        self.database_model.clear()
+        self.add_items_to_database_view(session)

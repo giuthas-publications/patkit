@@ -130,8 +130,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         super().__init__()
         self.kymography_clicker = None
         self.setupUi(self)
-
-        self.add_items_to_database_view(session)
         setup_qtannotator_ui_callbacks()
 
         self.session = session
@@ -143,6 +141,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.data_config = config.data_config
         self.gui_config = config.gui_config
+
+        self.add_items_to_database_view(session)
 
         if categories is None:
             self.categories = PdQtAnnotator.default_categories
@@ -938,13 +938,24 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
+            # TODO 0.18: these should be loaded from the new directory as well
+            # self.display_tongue = display_tongue
+
+            # self.data_config = config.data_config
+            # self.gui_config = config.gui_config
+
             self.session = load_recording_session(
                 directory=directory)
+            for recording in self.session:
+                recording.after_modalities_init()
             self.recordings = self.session.recordings
             self.index = 0
             self.max_index = len(self.recordings)
+            self.replace_items_in_database_view(session=self.session)
             self._add_annotations()
+
             self.update()
+            self.update_ui()
 
     def open_file(self):
         """
