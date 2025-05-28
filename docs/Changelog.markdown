@@ -41,6 +41,18 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
+## [0.18.0] - 2025-05-30
+
+### Highlights
+
+- Automated segmentation exercises are now part of PATKIT.
+
+### Added
+
+
+### Changed
+
+
 ## [0.17.1] - 2025-05-28
 
 ### Highlights
