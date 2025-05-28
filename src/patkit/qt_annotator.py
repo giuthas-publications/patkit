@@ -438,6 +438,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.go_to_line_edit.setText(str(self.index + 1))
 
+        qt_index = self.database_view.model().index(self.index, 0)
+        self.database_view.selectionModel().setCurrentIndex(
+            qt_index, QItemSelectionModel.SelectionFlag.SelectCurrent)
+
         # if self.image_type == GuiImageType.FRAME:
         #     self.action_select_kymography_line.setEnabled(True)
         # else:
@@ -890,9 +894,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if 0 <= index_to_jump_to < len(self.session):
             self.go_to_recording(index=index_to_jump_to)
-            qt_index = self.database_view.model().index(index_to_jump_to, 0)
-            self.database_view.selectionModel().setCurrentIndex(
-                qt_index, QItemSelectionModel.SelectionFlag.SelectCurrent)
 
     def go_to_recording(self, index: int):
         """
@@ -1283,7 +1284,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         index : QModelIndex
             Index of the clicked item.
         """
-        # index = self.database_view.currentIndex().row()
         self.go_to_recording(index.row())
 
     def onpick(self, event):
