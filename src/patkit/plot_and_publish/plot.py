@@ -459,7 +459,8 @@ def plot_spectrogram2(
         case GuiColorScheme.LIGHT:
             cmap = "Greys"
         case GuiColorScheme.FOLLOW_SYSTEM:
-            _logger.warning("GuiColorScheme FOLLOW_SYSTEM encountered in plot.")
+            _logger.warning(
+                "GuiColorScheme FOLLOW_SYSTEM encountered in plot.")
             _logger.warning(
                 "Can't actually deal with following the system in plot, "
                 "so just going dark.")
