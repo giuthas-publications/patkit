@@ -60,7 +60,7 @@ from PyQt6.QtGui import (
     QKeySequence,
     QShortcut,
 )
-from PyQt6.QtWidgets import QFileDialog, QMainWindow
+from PyQt6.QtWidgets import QFileDialog, QListView, QMainWindow
 from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
@@ -73,8 +73,9 @@ from patkit.export import (
     export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog)
-from patkit.gui.annotator_window import Ui_MainWindow
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog,
+    Ui_MainWindow
+)
 from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
