@@ -37,7 +37,7 @@ in touch.
 - Alt+I: Zoom in
 - Alt+O: Zoom out
 - Alt+A: Zoom to the whole recording
-- Alt+N: Zoom to selection [To be implemented once selecting is implemented]
+- Alt+N: Zoom to selection [To be implemented once interval selection is implemented]
 
 ### Panning
 
