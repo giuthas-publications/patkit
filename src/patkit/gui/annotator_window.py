@@ -35,13 +35,13 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1087, 795)
-        MainWindow.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class UiMainWindow(object):
+    def setupUi(self, main_window):
+        #### Main elements and sizing
+        main_window.setObjectName("MainWindow")
+        main_window.resize(1087, 795)
+        main_window.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
+        self.centralwidget = QtWidgets.QWidget(main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -60,6 +60,8 @@ class Ui_MainWindow(object):
         self.mplWindowVerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
         self.horizontalLayout.addWidget(self.mplwindow)
+
+        ### Top navigation buttons and widgets
         self.button_organiser = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
@@ -122,10 +124,17 @@ class Ui_MainWindow(object):
         self.exportButton = QtWidgets.QPushButton(self.frame)
         self.exportButton.setObjectName("exportButton")
         self.gridLayout.addWidget(self.exportButton, 1, 1, 1, 1)
+
+        ### List view 
         self.verticalLayout_3.addWidget(self.frame)
-        self.databaseView = QtWidgets.QListView(self.button_organiser)
-        self.databaseView.setObjectName("databaseView")
-        self.verticalLayout_3.addWidget(self.databaseView)
+        self.database_view = QtWidgets.QListView(self.button_organiser)
+        self.database_model = QtGui.QStandardItemModel()
+        self.database_view.setModel(self.database_model)
+        self.database_view.setObjectName("databaseView")
+        self.verticalLayout_3.addWidget(self.database_view)
+        self.database_view.clicked[QtCore.QModelIndex].connect(self.on_clicked)
+
+        ### Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.button_organiser)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
@@ -139,6 +148,8 @@ class Ui_MainWindow(object):
         self.ultrasoundFrame.setSizePolicy(sizePolicy)
         self.ultrasoundFrame.setMinimumSize(QtCore.QSize(300, 300))
         self.ultrasoundFrame.setObjectName("ultrasoundFrame")
+
+        ### Annotation radio buttons
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.ultrasoundFrame)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
@@ -150,7 +161,7 @@ class Ui_MainWindow(object):
         self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
         self.positionRB_1.setAutoFillBackground(False)
         self.positionRB_1.setObjectName("positionRB_1")
-        self.tonguePositionRBs = QtWidgets.QButtonGroup(MainWindow)
+        self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
         self.tonguePositionRBs.setObjectName("tonguePositionRBs")
         self.tonguePositionRBs.addButton(self.positionRB_1)
         self.verticalLayout_5.addWidget(self.positionRB_1)
@@ -166,9 +177,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.positionRB_3)
         self.verticalLayout_3.addWidget(self.positionRB)
         self.horizontalLayout.addWidget(self.button_organiser)
-        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        main_window.setCentralWidget(self.centralwidget)
+
+        ### Menus and menu items
+        self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
 
@@ -184,65 +197,65 @@ class Ui_MainWindow(object):
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_export = QtWidgets.QMenu(self.menubar)
         self.menu_export.setObjectName("menu_export")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        main_window.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        main_window.setStatusBar(self.statusbar)
 
-        self.actionNew = QtGui.QAction(MainWindow)
+        self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
-        self.action_open = QtGui.QAction(MainWindow)
+        self.action_open = QtGui.QAction(main_window)
         self.action_open.setObjectName("action_open")
-        self.action_save_all = QtGui.QAction(MainWindow)
+        self.action_save_all = QtGui.QAction(main_window)
         self.action_save_all.setObjectName("action_save_all")
-        self.actionSave_as = QtGui.QAction(MainWindow)
+        self.actionSave_as = QtGui.QAction(main_window)
         self.actionSave_as.setObjectName("actionSave_as")
-        self.action_save_all_textgrids = QtGui.QAction(MainWindow)
+        self.action_save_all_textgrids = QtGui.QAction(main_window)
         self.action_save_all_textgrids.setObjectName(
             "action_save_all_textgrids")
-        self.action_save_current_textgrid = QtGui.QAction(MainWindow)
+        self.action_save_current_textgrid = QtGui.QAction(main_window)
         self.action_save_current_textgrid.setObjectName(
             "action_save_current_textgrid")
-        self.action_quit = QtGui.QAction(MainWindow)
+        self.action_quit = QtGui.QAction(main_window)
         self.action_quit.setObjectName("action_quit")
 
-        self.actionShow_interpreter = QtGui.QAction(MainWindow)
+        self.actionShow_interpreter = QtGui.QAction(main_window)
         self.actionShow_interpreter.setObjectName("actionShow_interpreter")
-        self.actionRun_file = QtGui.QAction(MainWindow)
+        self.actionRun_file = QtGui.QAction(main_window)
         self.actionRun_file.setObjectName("actionRun_file")
 
-        self.actionNext = QtGui.QAction(MainWindow)
+        self.actionNext = QtGui.QAction(main_window)
         self.actionNext.setObjectName("actionNext")
-        self.actionPrevious = QtGui.QAction(MainWindow)
+        self.actionPrevious = QtGui.QAction(main_window)
         self.actionPrevious.setObjectName("actionPrevious")
-        self.actionNext_Frame = QtGui.QAction(MainWindow)
+        self.actionNext_Frame = QtGui.QAction(main_window)
         self.actionNext_Frame.setObjectName("actionNext_Frame")
-        self.actionPrevious_Frame = QtGui.QAction(MainWindow)
+        self.actionPrevious_Frame = QtGui.QAction(main_window)
         self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
 
-        self.action_export_analysis = QtGui.QAction(MainWindow)
+        self.action_export_analysis = QtGui.QAction(main_window)
         self.action_export_analysis.setEnabled(False)
         self.action_export_analysis.setObjectName("action_export_analysis")
-        self.action_export_main_figure = QtGui.QAction(MainWindow)
+        self.action_export_main_figure = QtGui.QAction(main_window)
         self.action_export_main_figure.setObjectName(
             "action_export_main_figure")
         self.action_export_ultrasound_frame = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_ultrasound_frame.setObjectName(
             "action_export_ultrasound_frame"
         )
         self.action_export_annotations_and_metadata = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_annotations_and_metadata.setObjectName(
             "action_export_annotations_and_metadata"
         )
         self.action_export_aggregate_images = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_aggregate_images.setObjectName(
             "action_export_aggregate_images"
         )
         self.action_export_distance_matrices = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_distance_matrices.setObjectName(
             "action_export_distance_matrices"
         )
@@ -275,8 +288,8 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu_script.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -342,3 +355,7 @@ class Ui_MainWindow(object):
         self.action_export_distance_matrices.setText(
             _translate("MainWindow", "Export distance matrices...")
         )
+
+    def add_items_to_database(self, items: list):
+        for item in items:
+            self.database_model.appendRow(QtGui.QStandardItem(item))

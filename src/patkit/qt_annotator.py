@@ -60,7 +60,7 @@ from PyQt6.QtGui import (
     QKeySequence,
     QShortcut,
 )
-from PyQt6.QtWidgets import QFileDialog, QListView, QMainWindow
+from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
@@ -74,7 +74,7 @@ from patkit.export import (
 )
 from patkit.gui import (
     BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog,
-    Ui_MainWindow
+    UiMainWindow
 )
 from patkit.plot_and_publish import (
     format_legend,
@@ -101,7 +101,7 @@ def setup_qtannotator_ui_callbacks():
         ReplaceDialog.confirm_overwrite)
 
 
-class PdQtAnnotator(QMainWindow, Ui_MainWindow):
+class PdQtAnnotator(QMainWindow, UiMainWindow):
     """
     Qt_Annotator_Window is a GUI class for annotating PD curves.
 
