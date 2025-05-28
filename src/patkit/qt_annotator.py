@@ -1353,11 +1353,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.alt_gr_is_held = True
 
         if self.alt_is_held or self.alt_gr_is_held:
-            # if event.key() in [Qt.Key.Key_Left, Qt.Key.Key_Right]:
-            #     ic("panning")
-            # else:
-            #     ic("zooming")
-            # ic(event.key())
             if event.key() == Qt.Key.Key_I:
                 self.zoom_in()
             elif event.key() == Qt.Key.Key_O:
@@ -1366,6 +1361,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self.gui_config.auto_xlim = True
                 self.gui_config.xlim = None
                 self.update()
+            elif event.key() == Qt.Key.Key_C:
+                self.center_on_cursor()
             elif event.key() == Qt.Key.Key_Left:
                 self.pan(left=True)
             elif event.key() == Qt.Key.Key_Right:
@@ -1429,7 +1426,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.gui_config.xlim = self.xlim
         self.update()
 
-    def pan(self, left: bool)-> None:
+    def pan(self, left: bool) -> None:
         """
         Pan left or right as instructed.
 
@@ -1451,6 +1448,18 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self.xlim[1] + quarter_length
             )
 
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def center_on_cursor(self) -> None:
+        """
+        Center main graph on selection cursor at the current zoom level.
+        """
+        self.gui_config.auto_xlim = False
+        center = self.current.annotations['selected_time']
+        half_length = (self.xlim[1] - self.xlim[0]) / 2.0
+        self.xlim = (center - half_length, center + half_length)
         if self.gui_config.xlim is not None:
             self.gui_config.xlim = self.xlim
         self.update()
