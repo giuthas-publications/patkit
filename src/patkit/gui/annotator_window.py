@@ -35,6 +35,8 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from patkit.data_structures import Session
+
 class UiMainWindow(object):
     def setupUi(self, main_window):
         #### Main elements and sizing
@@ -125,14 +127,15 @@ class UiMainWindow(object):
         self.exportButton.setObjectName("exportButton")
         self.gridLayout.addWidget(self.exportButton, 1, 1, 1, 1)
 
-        ### List view 
+        ### List view
         self.verticalLayout_3.addWidget(self.frame)
         self.database_view = QtWidgets.QListView(self.button_organiser)
         self.database_model = QtGui.QStandardItemModel()
         self.database_view.setModel(self.database_model)
         self.database_view.setObjectName("databaseView")
         self.verticalLayout_3.addWidget(self.database_view)
-        self.database_view.clicked[QtCore.QModelIndex].connect(self.on_clicked)
+        self.database_view.clicked[QtCore.QModelIndex].connect(
+            main_window.on_database_view_clicked)
 
         ### Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.button_organiser)
@@ -356,6 +359,11 @@ class UiMainWindow(object):
             _translate("MainWindow", "Export distance matrices...")
         )
 
-    def add_items_to_database(self, items: list):
-        for item in items:
-            self.database_model.appendRow(QtGui.QStandardItem(item))
+    def add_items_to_database_view(self, session: Session):
+        for recording in session:
+            self.database_model.appendRow(
+                QtGui.QStandardItem(
+                    f"{recording.basename}: "
+                    f"{recording.metadata.prompt.strip()}"
+                )
+            )

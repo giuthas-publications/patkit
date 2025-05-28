@@ -51,7 +51,7 @@ from matplotlib.widgets import MultiCursor
 from mpl_point_clicker import clicker
 
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import QCoreApplication, Qt
+from PyQt6.QtCore import QCoreApplication, Qt, QModelIndex
 from PyQt6.QtGui import (
     QAction,
     QActionGroup,
@@ -118,7 +118,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def __init__(
             self,
-            recording_session: Session,
+            session: Session,
             display_tongue: bool,
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
@@ -129,10 +129,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.kymography_clicker = None
         self.setupUi(self)
 
+        self.add_items_to_database_view(session)
         setup_qtannotator_ui_callbacks()
 
-        self.session = recording_session
-        self.recordings = recording_session.recordings
+        self.session = session
+        self.recordings = session.recordings
         self.index = 0
         self.max_index = len(self.recordings)
 
@@ -1243,6 +1244,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if radio_button.isChecked():
             self.current.annotations['tonguePosition'] = radio_button.text()
 
+    def on_database_view_clicked(self, index: QModelIndex):
+        item = self.database_model.itemFromIndex(index)
+        print(item.text())
+
     def onpick(self, event):
         """
         Callback for handling time selection on events.
@@ -1450,7 +1455,7 @@ def run_annotator(
     # Apparently the assignment to an unused variable is needed
     # to avoid a segfault.
     app.annotator = PdQtAnnotator(
-        recording_session=session,
+        session=session,
         display_tongue=True,
         config=config)
     sys.exit(app.exec())
