@@ -43,3 +43,5 @@ in touch.
 
 - Alt+Left: Pan left by quarter view 
 - Alt+Right: Pan right by quarter view
+- Alt+C: Center view on selection cursor
+
