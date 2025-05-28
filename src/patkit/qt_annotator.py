@@ -45,14 +45,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 
-# Plotting functions and hooks for GUI
+from icecream import ic
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
 from mpl_point_clicker import clicker
-from PyQt6 import QtWidgets
 
-# GUI functionality
-from PyQt6.QtCore import QCoreApplication, Qt
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import (
+    QCoreApplication, QItemSelectionModel, QModelIndex, Qt
+)
 from PyQt6.QtGui import (
     QAction,
     QActionGroup,
@@ -74,8 +75,9 @@ from patkit.export import (
     export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog)
-from patkit.gui.annotator_window import Ui_MainWindow
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog,
+    UiMainWindow
+)
 from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
@@ -101,7 +103,7 @@ def setup_qtannotator_ui_callbacks():
         ReplaceDialog.confirm_overwrite)
 
 
-class PdQtAnnotator(QMainWindow, Ui_MainWindow):
+class PdQtAnnotator(QMainWindow, UiMainWindow):
     """
     Qt_Annotator_Window is a GUI class for annotating PD curves.
 
@@ -118,7 +120,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
     def __init__(
             self,
-            recording_session: Session,
+            session: Session,
             display_tongue: bool,
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
@@ -129,10 +131,11 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.kymography_clicker = None
         self.setupUi(self)
 
+        self.add_items_to_database_view(session)
         setup_qtannotator_ui_callbacks()
 
-        self.session = recording_session
-        self.recordings = recording_session.recordings
+        self.session = session
+        self.recordings = session.recordings
         self.index = 0
         self.max_index = len(self.recordings)
 
@@ -222,7 +225,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.action_save_current_textgrid.triggered.connect(self.save_textgrid)
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
-        # self.actionSaveToPickle.triggered.connect(self.save_to_pickle)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -242,29 +244,21 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
 
         self.action_quit.triggered.connect(self.quit)
 
-        #
-        # GUI buttons
-        #
-        self.nextButton.clicked.connect(self.next)
-        self.prevButton.clicked.connect(self.prev)
-        self.saveButton.clicked.connect(self.save_all)
-        self.exportButton.clicked.connect(
-            self.export_annotations_and_metadata)
-
+        ## Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
-        self.goLineEdit.setValidator(go_validator)
-        self.goButton.clicked.connect(self.go_to_recording)
-        self.goLineEdit.returnPressed.connect(self.go_to_recording)
+        self.go_to_line_edit.setValidator(go_validator)
+        self.goButton.clicked.connect(self.go_to_callback)
+        self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
-        # TODO: add recording list to the display and highlight current
-        # recording
-
+        ## PD categories
+        # TODO 1.0: these could be optional instead of the below ones
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
         # self.categoryRB_2.toggled.connect(self.pd_category_cb)
         # self.categoryRB_3.toggled.connect(self.pd_category_cb)
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
+        ## Tongue position
         self.positionRB_1.toggled.connect(self.tongue_position_cb)
         self.positionRB_2.toggled.connect(self.tongue_position_cb)
         self.positionRB_3.toggled.connect(self.tongue_position_cb)
@@ -284,6 +278,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         self.animators = []
 
         self.shift_is_held = False
+        self.ctrl_is_held = False
+        self.alt_is_held = False
+        self.alt_gr_is_held = False
         # self.cid_key_press = self.figure.canvas.mpl_connect(
         #     'key_press_event', self.on_key_press)
         # self.cid_key_release = self.figure.canvas.mpl_connect(
@@ -406,8 +403,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         return text
 
     def _release_modality_memory(self):
-        # TODO 1.0: make it possible to select which modalities get their
-        # memory released
         if 'RawUltrasound' in self.current.modalities:
             self.current.modalities['RawUltrasound'].data = None
 
@@ -441,7 +436,11 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             button_to_activate = self.position_rbs[position_annotation]
             button_to_activate.setChecked(True)
 
-        self.goLineEdit.setText(str(self.index + 1))
+        self.go_to_line_edit.setText(str(self.index + 1))
+
+        qt_index = self.database_view.model().index(self.index, 0)
+        self.database_view.selectionModel().setCurrentIndex(
+            qt_index, QItemSelectionModel.SelectionFlag.SelectCurrent)
 
         # if self.image_type == GuiImageType.FRAME:
         #     self.action_select_kymography_line.setEnabled(True)
@@ -477,7 +476,10 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             if data_axes_params is None and axes_params is None:
                 ylim = (-0.05, 1.05)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
-                if not data_axes_params.auto_ylim and not axes_params.auto_ylim:
+                if (
+                    not data_axes_params.auto_ylim and
+                    not axes_params.auto_ylim
+                    ):
                     ylim = (-0.05, 1.05)
                 else:
                     ylim = None
@@ -486,7 +488,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             else:
                 ylim = axes_params.ylim
 
-        # TODO: this needs to work together with normalisation, maybe this
+        # TODO 0.20: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
         y_offset = 0
         if axes_params.y_offset is not None:
@@ -585,7 +587,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         wav = audio.data
         wav_time = audio.timevector - stimulus_onset
 
-        self.xlim = (-.25, 1.5)
         if self.gui_config.xlim is not None:
             self.xlim = self.gui_config.xlim
         elif self.gui_config.auto_xlim:
@@ -627,16 +628,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                         extent_on_x=(wav_time[0], wav_time[-1]),
                         mode=self.gui_config.color_scheme
                     )
-                # TODO: figure out if this should be just completely removed.
-                # looks like some old experiment.
-                # add `image =` to spectrogram2 to make this work:
-                # case "spectrogram distro":
-                #     spectrum_data = image.get_array().flatten()
-                #     ic(np.min(spectrum_data), np.max(spectrum_data))
-                #     self.data_axes[axes_counter].hist(
-                #         spectrum_data, bins=200)
-                #     ic(np.quantile(spectrum_data,
-                #        [.3, .4, .5, .6, .7, .8, .9, 1]))
                 case "wav":
                     plot_wav(ax=self.data_axes[axes_counter],
                              waveform=wav,
@@ -652,30 +643,19 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                         )
             axes_counter += 1
 
-        # self.data_axes[0].legend(
-        #     loc='upper left')
-
-        # TODO: the sync is iffy with this one, but plotting a pd spectrum is
-        # still a good idea. Just need to get the FFT parameters tuned - if
-        # that's even possible.
-        # plot_spectrogram(self.data_axes[1],
-        #                  waveform=l1.data,
-        #                  ylim=(0, 60),
-        #                  sampling_frequency=l1.sampling_rate,
-        #                  noverlap=98, NFFT=100,
-        #                  #  xtent_on_x=[-1, 1])  # ,
-        #                  xtent_on_x=[ultra_time[0], ultra_time[-1]])  # ,
-
-        # segment_line = None
         self.animators = []
         iterator = zip(self.current.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
             boundaries_by_axis = []
 
-            # boundary_set, segment_line = plot_patgrid_tier(
             boundary_set, _ = plot_patgrid_tier(
-                axis, tier, time_offset=stimulus_onset, text_y=.5)
+                axes=axis,
+                tier=tier,
+                time_offset=stimulus_onset,
+                text_y=.5,
+                xlim=self.xlim,
+            )
             boundaries_by_axis.append(boundary_set)
             axis.set_ylabel(
                 name, rotation=0, horizontalalignment="right",
@@ -684,7 +664,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             if name in self.gui_config.pervasive_tiers:
                 for data_axis in self.data_axes:
                     boundary_set = plot_patgrid_tier(
-                        data_axis, tier, time_offset=stimulus_onset,
+                        axes=data_axis,
+                        tier=tier,
+                        time_offset=stimulus_onset,
                         draw_text=False)[0]
                     boundaries_by_axis.append(boundary_set)
 
@@ -693,8 +675,11 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             # represented by multiple lines on different axes.
             boundaries_by_boundary = list(map(list, zip(*boundaries_by_axis)))
 
+            tier_limits = [
+                self.xlim[0] + stimulus_onset, self.xlim[1] + stimulus_onset]
+            tier_in_limits = tier.intersects(xlim=tier_limits)
             for boundaries, interval in zip(
-                    boundaries_by_boundary, tier, strict=True):
+                    boundaries_by_boundary, tier_in_limits, strict=True):
                 animator = BoundaryAnimator(
                     main_window=self,
                     boundaries=boundaries,
@@ -760,7 +745,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             #         markers=["x"],
             #         linestyle="--")
             #     self.kymography_clicker.on_point_added(self.point_added_cb)
-            #     self.kymography_clicker.on_point_removed(self.point_removed_cb)
+                # self.kymography_clicker.on_point_removed(
+                #     self.point_removed_cb
+                # )
 
             if (self.image_type == GuiImageType.FRAME
                     and 'Splines' in self.current.modalities):
@@ -772,8 +759,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 spline_index = np.argmin(
                     np.abs(splines.timevector - timestamp))
 
-                # TODO: move this to reading splines/end of loading and make
-                # the system warn the user when there is a creeping
+                # TODO 1.0: move this to reading splines/end of loading and
+                # make the system warn the user when there is a creeping
                 # discrepancy. also make it an integration test where
                 # spline_test_token1 gets run and triggers this
                 # ic(splines.timevector)
@@ -899,17 +886,28 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.update()
             self.update_ui()
 
-    def go_to_recording(self):
+    def go_to_callback(self):
         """
         Go to a recording specified in the goLineEdit text input field.
         """
-        index_to_jump_to = int(self.goLineEdit.text()) - 1
+        index_to_jump_to = int(self.go_to_line_edit.text()) - 1
 
         if 0 <= index_to_jump_to < len(self.session):
-            self._release_modality_memory()
-            self.index = index_to_jump_to
-            self.update()
-            self.update_ui()
+            self.go_to_recording(index=index_to_jump_to)
+
+    def go_to_recording(self, index: int):
+        """
+        Move to recording at index.
+
+        Parameters
+        ----------
+        index : int
+            Index of recording to move to.
+        """
+        self._release_modality_memory()
+        self.index = index
+        self.update()
+        self.update_ui()
 
     def image_updater(self) -> None:
         """
@@ -963,7 +961,6 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
         save_recording_session(self.session)
 
     def save_to_pickle(self):
@@ -988,7 +985,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
+        # TODO 0.28: write a call back for asking for overwrite confirmation.
         if not self.current.textgrid_path:
             (self.current.textgrid_path, _) = QFileDialog.getSaveFileName(
                 self, 'Save TextGrid', directory='.',
@@ -1005,7 +1002,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 1.0: write a call back for asking for overwrite confirmation.
+        # TODO 0.28: write a call back for asking for overwrite confirmation.
         for recording in self.session:
             if not recording.textgrid_path:
                 # TODO: This will be SUPER ANNOYING when there are a lot of
@@ -1039,7 +1036,9 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         if filename is not None:
             self.figure.savefig(filename, bbox_inches='tight', pad_inches=0.05)
             export_session_and_recording_meta(
-                filename=filename, session=self.session, recording=self.current,
+                filename=filename,
+                session=self.session,
+                recording=self.current,
                 description="main GUI figure"
             )
 
@@ -1050,8 +1049,8 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         The metadata is written to a separate `.txt` file of the same name as
         the image file.
         """
-        # TODO: Add a check that grays out the export ultrasound figure when one
-        # isn't available.
+        # TODO: Add a check that grays out the export ultrasound figure when
+        # one isn't available.
 
         if self.current.annotations['selection_index'] >= 0:
             suggested_path = Path.cwd() / "Raw_ultrasound_frame.png"
@@ -1083,7 +1082,7 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
     def export_aggregate_image(self) -> None:
         """
         Export AggregateImages connected with the current recording.
-        
+
         The metadata is written to a separate `.txt` file of the same name as
         the corresponding image file.
         """
@@ -1224,10 +1223,32 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
                 "Wrote onset data in file %s.", filename)
 
     def point_added_cb(self, position: tuple[float, float], klass: str):
+        """
+        Callback for point being added to kymography line.
+
+        Parameters
+        ----------
+        position : tuple[float, float]
+            position of the point
+        klass : str
+            class name
+        """
         x, y = position
         print(f"New point of class {klass} added at {x=}, {y=}.")
 
-    def point_removed_cb(position: tuple[float, float], klass: str, idx):
+    def point_removed_cb(self, position: tuple[float, float], klass: str, idx):
+        """
+        Callback for point being removed from kymography line.
+
+        Parameters
+        ----------
+        position : tuple[float, float]
+            position of the point
+        klass : str
+            class name
+        idx : _type_
+            index of the point
+        """
         x, y = position
 
         suffix = {"1": "st", "2": "nd", "3": "rd"}.get(str(idx)[-1], "th")
@@ -1253,6 +1274,17 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         radio_button = self.sender()
         if radio_button.isChecked():
             self.current.annotations['tonguePosition'] = radio_button.text()
+
+    def on_database_view_clicked(self, index: QModelIndex):
+        """
+        Callback for handling clicks in the data base list view.
+
+        Parameters
+        ----------
+        index : QModelIndex
+            Index of the clicked item.
+        """
+        self.go_to_recording(index.row())
 
     def onpick(self, event):
         """
@@ -1313,29 +1345,28 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         if event.key() == Qt.Key.Key_Shift:
             self.shift_is_held = True
-        if event.key() == Qt.Key.Key_I:
-            self.gui_config.auto_xlim = False
-            if self.current.annotations['selection_index'] >= 0:
-                center = self.current.annotations['selected_time']
-            else:
-                center = (self.xlim[0] + self.xlim[1]) / 2.0
-            length = (self.xlim[1] - self.xlim[0]) * .25
-            self.xlim = (center - length, center + length)
-            if self.gui_config.xlim is not None:
-                self.gui_config.xlim = self.xlim
-            self.update()
-        elif event.key() == Qt.Key.Key_O:
-            self.gui_config.auto_xlim = False
-            center = (self.xlim[0] + self.xlim[1]) / 2.0
-            length = self.xlim[1] - self.xlim[0]
-            self.xlim = (center - length, center + length)
-            if self.gui_config.xlim is not None:
-                self.gui_config.xlim = self.xlim
-            self.update()
-        elif event.key() == Qt.Key.Key_A:
-            self.gui_config.auto_xlim = True
-            self.gui_config.xlim = None
-            self.update()
+        if event.key() == Qt.Key.Key_Control:
+            self.ctrl_is_held = True
+        if event.key() == Qt.Key.Key_Alt:
+            self.alt_is_held = True
+        if event.key() == Qt.Key.Key_AltGr:
+            self.alt_gr_is_held = True
+
+        if self.alt_is_held or self.alt_gr_is_held:
+            if event.key() == Qt.Key.Key_I:
+                self.zoom_in()
+            elif event.key() == Qt.Key.Key_O:
+                self.zoom_out()
+            elif event.key() == Qt.Key.Key_A:
+                self.gui_config.auto_xlim = True
+                self.gui_config.xlim = None
+                self.update()
+            elif event.key() == Qt.Key.Key_C:
+                self.center_on_cursor()
+            elif event.key() == Qt.Key.Key_Left:
+                self.pan(left=True)
+            elif event.key() == Qt.Key.Key_Right:
+                self.pan(left=False)
 
     # noinspection PyPep8Naming
     def keyReleaseEvent(self, event):
@@ -1346,6 +1377,12 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
         """
         if event.key() == Qt.Key.Key_Shift:
             self.shift_is_held = False
+        if event.key() == Qt.Key.Key_Control:
+            self.ctrl_is_held = False
+        if event.key() == Qt.Key.Key_Alt:
+            self.alt_is_held = False
+        if event.key() == Qt.Key.Key_AltGr:
+            self.alt_gr_is_held = False
 
     def on_color_scheme_changed(self, scheme: Qt.ColorScheme):
         """
@@ -1355,6 +1392,95 @@ class PdQtAnnotator(QMainWindow, Ui_MainWindow):
             self.change_to_light()
         else:
             self.change_to_dark()
+
+    def zoom_in(self) -> None:
+        """
+        Zoom in to half the current viewed length in time.
+
+        Will center on current cursor if there is a selection, otherwise will
+        center on the current view.
+        """
+        self.gui_config.auto_xlim = False
+        if self.current.annotations['selection_index'] >= 0:
+            center = self.current.annotations['selected_time']
+        else:
+            center = (self.xlim[0] + self.xlim[1]) / 2.0
+        length = (self.xlim[1] - self.xlim[0]) * .25
+        self.xlim = (center - length, center + length)
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def zoom_out(self) -> None:
+        """
+        Zoom out to twice the current viewed length in time.
+
+        Will center on current cursor if there is a selection, otherwise will
+        center on the current view.
+        """
+        self.gui_config.auto_xlim = False
+        center = (self.xlim[0] + self.xlim[1]) / 2.0
+        length = self.xlim[1] - self.xlim[0]
+        self.xlim = (center - length, center + length)
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def pan(self, left: bool) -> None:
+        """
+        Pan left or right as instructed.
+
+        Parameters
+        ----------
+        left : bool
+            Pan left if True, right if False.
+        """
+        self.gui_config.auto_xlim = False
+        quarter_length = (self.xlim[1] - self.xlim[0])/4
+        if left:
+            self.xlim = (
+                self.xlim[0] - quarter_length,
+                self.xlim[1] - quarter_length
+            )
+        else:
+            self.xlim = (
+                self.xlim[0] + quarter_length,
+                self.xlim[1] + quarter_length
+            )
+
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    def center_on_cursor(self) -> None:
+        """
+        Center main graph on selection cursor at the current zoom level.
+        """
+        self.gui_config.auto_xlim = False
+        center = self.current.annotations['selected_time']
+        half_length = (self.xlim[1] - self.xlim[0]) / 2.0
+        self.xlim = (center - half_length, center + half_length)
+        if self.gui_config.xlim is not None:
+            self.gui_config.xlim = self.xlim
+        self.update()
+
+    @property
+    def no_modifiers(self) -> bool:
+        """
+        True if no modifier keys are currently held down.
+
+        Returns
+        -------
+        bool
+            True if no modifier keys are currently held down.
+        """
+        modifiers_pressed = (
+            self.shift_is_held or
+            self.ctrl_is_held or
+            self.alt_is_held or
+            self.alt_gr_is_held
+        )
+        return not modifiers_pressed
 
 
 def run_annotator(
@@ -1376,7 +1502,7 @@ def run_annotator(
     # Apparently the assignment to an unused variable is needed
     # to avoid a segfault.
     app.annotator = PdQtAnnotator(
-        recording_session=session,
+        session=session,
         display_tongue=True,
         config=config)
     sys.exit(app.exec())

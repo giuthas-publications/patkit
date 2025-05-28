@@ -27,13 +27,13 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.17 is planned to update the GUI with more complete TextGrid modification.
 - 0.18 is planned to be a release of automated segmentation exercises.
-- 0.19 is planned to be a data structure update giving support for multiple data
+- 0.19 will add audio playback
+- 0.20 is planned to be a data structure update giving support for multiple data
   sources per trial.
-- 0.20 will update configuration handling.
-- 0.21 will add further GUI features
-- 0.22 is planned to be an implementation of kymography. This might get moved 
+- 0.21 will update configuration handling.
+- 0.22 will add further GUI features
+- 0.23 is planned to be an implementation of kymography. This might get moved 
   to a release after 0.23.
 - After 0.23 there are planned updates to CLI, GUI, ultrasound frame
   interpolation, processing speed by implementing multiprocessing, new
@@ -41,7 +41,44 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-## [0.16.0] - 2025-05-23
+## [0.17.0] - 2025-05-28
+
+### Highlights
+
+- Improved zooming and panning:
+  - Panning works.
+  - Zooming has better short cut conformity.
+- New list view of recordings.
+
+### Added
+
+- Clickable list view of recordings.
+- Documentation for keyboard shortcuts.
+- New centering shortcut to center view at cursor.
+
+### Changed
+
+- Panning with keyboard shortcuts has been added.
+- Zooming shortcuts work more consistently.
+- Zooming centers on cursor if a cursor has been placed.
+
+### Fixed
+
+- Zoom commands no longer 'eat' the Ctrl+O for opening a directory. However,
+  see the bug below.
+- There is a minimal three recording example again.
+
+### Bugs
+
+- When PATKIT first starts up, to start zooming you need to click on the main
+  figure - also outside the graph areas will do. This is due to focus being in
+  the 'Go to recording' field. This might or might not be changed in the future.
+- Zooming very far in makes the plotting behave strangely.
+- Ctrl+O crashes PATKIT probably because the directory opening code pre-dates
+  the new directory structure.
+
+
+## [0.16.0] - 2025-05-26
 
 ### Highlights
 

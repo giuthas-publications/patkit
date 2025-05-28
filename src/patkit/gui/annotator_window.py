@@ -35,13 +35,15 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from patkit.data_structures import Session
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1087, 795)
-        MainWindow.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class UiMainWindow(object):
+    def setupUi(self, main_window):
+        #### Main elements and sizing
+        main_window.setObjectName("MainWindow")
+        main_window.resize(1087, 795)
+        main_window.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
+        self.centralwidget = QtWidgets.QWidget(main_window)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -60,7 +62,9 @@ class Ui_MainWindow(object):
         self.mplWindowVerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
         self.horizontalLayout.addWidget(self.mplwindow)
-        self.button_organiser = QtWidgets.QFrame(self.centralwidget)
+
+        ### Top navigation buttons and widgets
+        self.side_panel = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -68,65 +72,45 @@ class Ui_MainWindow(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.button_organiser.sizePolicy().hasHeightForWidth()
+            self.side_panel.sizePolicy().hasHeightForWidth()
         )
-        self.button_organiser.setSizePolicy(sizePolicy)
-        self.button_organiser.setMinimumSize(QtCore.QSize(300, 0))
-        self.button_organiser.setMaximumSize(QtCore.QSize(200, 16777215))
-        self.button_organiser.setObjectName("button_organiser")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.button_organiser)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.groupBox = QtWidgets.QGroupBox(self.button_organiser)
-        self.groupBox.setMaximumSize(QtCore.QSize(16777215, 80))
-        self.groupBox.setObjectName("groupBox")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.groupBox)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.goLineEdit = QtWidgets.QLineEdit(self.groupBox)
-        self.goLineEdit.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.goLineEdit.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.goLineEdit.setObjectName("goLineEdit")
-        self.horizontalLayout_3.addWidget(self.goLineEdit)
-        self.goButton = QtWidgets.QPushButton(self.groupBox)
+        self.side_panel.setSizePolicy(sizePolicy)
+        self.side_panel.setMinimumSize(QtCore.QSize(300, 0))
+        self.side_panel.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.side_panel.setObjectName("side_panel")
+        self.side_panel_layout = QtWidgets.QVBoxLayout(self.side_panel)
+        self.side_panel_layout.setContentsMargins(0, 0, 0, 0)
+        self.side_panel_layout.setObjectName("side_panel_layout")
+
+        self.go_to_group = QtWidgets.QGroupBox(self.side_panel)
+        self.go_to_group.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.go_to_group.setObjectName("groupBox")
+        self.go_to_layout = QtWidgets.QHBoxLayout(self.go_to_group)
+        self.go_to_layout.setContentsMargins(0, 0, 0, 0)
+        self.go_to_layout.setObjectName("go_to_layout")
+
+        self.go_to_line_edit = QtWidgets.QLineEdit(self.go_to_group)
+        self.go_to_line_edit.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.go_to_line_edit.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
+        self.go_to_line_edit.setObjectName("go_to_line_edit")
+        self.go_to_layout.addWidget(self.go_to_line_edit)
+        self.goButton = QtWidgets.QPushButton(self.go_to_group)
         self.goButton.setMaximumSize(QtCore.QSize(80, 16777215))
         self.goButton.setObjectName("goButton")
-        self.horizontalLayout_3.addWidget(self.goButton)
-        self.verticalLayout_3.addWidget(self.groupBox)
-        self.frame = QtWidgets.QFrame(self.button_organiser)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Minimum,
-            QtWidgets.QSizePolicy.Policy.Maximum
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy)
-        self.frame.setMinimumSize(QtCore.QSize(300, 50))
-        self.frame.setMaximumSize(QtCore.QSize(200, 16777215))
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.gridLayout = QtWidgets.QGridLayout(self.frame)
-        self.gridLayout.setObjectName("gridLayout")
-        self.saveButton = QtWidgets.QPushButton(self.frame)
-        self.saveButton.setObjectName("saveButton")
-        self.gridLayout.addWidget(self.saveButton, 0, 1, 1, 1)
-        self.nextButton = QtWidgets.QPushButton(self.frame)
-        self.nextButton.setObjectName("nextButton")
-        self.gridLayout.addWidget(self.nextButton, 1, 0, 1, 1)
-        self.prevButton = QtWidgets.QPushButton(self.frame)
-        self.prevButton.setObjectName("prevButton")
-        self.gridLayout.addWidget(self.prevButton, 0, 0, 1, 1)
-        self.exportButton = QtWidgets.QPushButton(self.frame)
-        self.exportButton.setObjectName("exportButton")
-        self.gridLayout.addWidget(self.exportButton, 1, 1, 1, 1)
-        self.verticalLayout_3.addWidget(self.frame)
-        self.databaseView = QtWidgets.QListView(self.button_organiser)
-        self.databaseView.setObjectName("databaseView")
-        self.verticalLayout_3.addWidget(self.databaseView)
-        self.ultrasoundFrame = QtWidgets.QWidget(self.button_organiser)
+        self.go_to_layout.addWidget(self.goButton)
+        self.side_panel_layout.addWidget(self.go_to_group)
+
+        ### List view
+        self.database_view = QtWidgets.QListView(self.side_panel)
+        self.database_model = QtGui.QStandardItemModel()
+        self.database_view.setModel(self.database_model)
+        self.database_view.setObjectName("databaseView")
+        self.side_panel_layout.addWidget(self.database_view)
+        self.database_view.clicked[QtCore.QModelIndex].connect(
+            main_window.on_database_view_clicked)
+
+        ### Ultrasound frame display
+        self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
             QtWidgets.QSizePolicy.Policy.Fixed
@@ -139,18 +123,21 @@ class Ui_MainWindow(object):
         self.ultrasoundFrame.setSizePolicy(sizePolicy)
         self.ultrasoundFrame.setMinimumSize(QtCore.QSize(300, 300))
         self.ultrasoundFrame.setObjectName("ultrasoundFrame")
+
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.ultrasoundFrame)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.verticalLayout_3.addWidget(self.ultrasoundFrame)
-        self.positionRB = QtWidgets.QGroupBox(self.button_organiser)
+        self.side_panel_layout.addWidget(self.ultrasoundFrame)
+
+        ### Annotation radio buttons
+        self.positionRB = QtWidgets.QGroupBox(self.side_panel)
         self.positionRB.setObjectName("positionRB")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
         self.positionRB_1.setAutoFillBackground(False)
         self.positionRB_1.setObjectName("positionRB_1")
-        self.tonguePositionRBs = QtWidgets.QButtonGroup(MainWindow)
+        self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
         self.tonguePositionRBs.setObjectName("tonguePositionRBs")
         self.tonguePositionRBs.addButton(self.positionRB_1)
         self.verticalLayout_5.addWidget(self.positionRB_1)
@@ -164,11 +151,13 @@ class Ui_MainWindow(object):
         self.positionRB_3.setObjectName("positionRB_3")
         self.tonguePositionRBs.addButton(self.positionRB_3)
         self.verticalLayout_5.addWidget(self.positionRB_3)
-        self.verticalLayout_3.addWidget(self.positionRB)
-        self.horizontalLayout.addWidget(self.button_organiser)
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.side_panel_layout.addWidget(self.positionRB)
+        self.horizontalLayout.addWidget(self.side_panel)
 
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        main_window.setCentralWidget(self.centralwidget)
+
+        ### Menus and menu items
+        self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
 
@@ -184,65 +173,65 @@ class Ui_MainWindow(object):
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_export = QtWidgets.QMenu(self.menubar)
         self.menu_export.setObjectName("menu_export")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        main_window.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        main_window.setStatusBar(self.statusbar)
 
-        self.actionNew = QtGui.QAction(MainWindow)
+        self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
-        self.action_open = QtGui.QAction(MainWindow)
+        self.action_open = QtGui.QAction(main_window)
         self.action_open.setObjectName("action_open")
-        self.action_save_all = QtGui.QAction(MainWindow)
+        self.action_save_all = QtGui.QAction(main_window)
         self.action_save_all.setObjectName("action_save_all")
-        self.actionSave_as = QtGui.QAction(MainWindow)
+        self.actionSave_as = QtGui.QAction(main_window)
         self.actionSave_as.setObjectName("actionSave_as")
-        self.action_save_all_textgrids = QtGui.QAction(MainWindow)
+        self.action_save_all_textgrids = QtGui.QAction(main_window)
         self.action_save_all_textgrids.setObjectName(
             "action_save_all_textgrids")
-        self.action_save_current_textgrid = QtGui.QAction(MainWindow)
+        self.action_save_current_textgrid = QtGui.QAction(main_window)
         self.action_save_current_textgrid.setObjectName(
             "action_save_current_textgrid")
-        self.action_quit = QtGui.QAction(MainWindow)
+        self.action_quit = QtGui.QAction(main_window)
         self.action_quit.setObjectName("action_quit")
 
-        self.actionShow_interpreter = QtGui.QAction(MainWindow)
+        self.actionShow_interpreter = QtGui.QAction(main_window)
         self.actionShow_interpreter.setObjectName("actionShow_interpreter")
-        self.actionRun_file = QtGui.QAction(MainWindow)
+        self.actionRun_file = QtGui.QAction(main_window)
         self.actionRun_file.setObjectName("actionRun_file")
 
-        self.actionNext = QtGui.QAction(MainWindow)
+        self.actionNext = QtGui.QAction(main_window)
         self.actionNext.setObjectName("actionNext")
-        self.actionPrevious = QtGui.QAction(MainWindow)
+        self.actionPrevious = QtGui.QAction(main_window)
         self.actionPrevious.setObjectName("actionPrevious")
-        self.actionNext_Frame = QtGui.QAction(MainWindow)
+        self.actionNext_Frame = QtGui.QAction(main_window)
         self.actionNext_Frame.setObjectName("actionNext_Frame")
-        self.actionPrevious_Frame = QtGui.QAction(MainWindow)
+        self.actionPrevious_Frame = QtGui.QAction(main_window)
         self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
 
-        self.action_export_analysis = QtGui.QAction(MainWindow)
+        self.action_export_analysis = QtGui.QAction(main_window)
         self.action_export_analysis.setEnabled(False)
         self.action_export_analysis.setObjectName("action_export_analysis")
-        self.action_export_main_figure = QtGui.QAction(MainWindow)
+        self.action_export_main_figure = QtGui.QAction(main_window)
         self.action_export_main_figure.setObjectName(
             "action_export_main_figure")
         self.action_export_ultrasound_frame = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_ultrasound_frame.setObjectName(
             "action_export_ultrasound_frame"
         )
         self.action_export_annotations_and_metadata = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_annotations_and_metadata.setObjectName(
             "action_export_annotations_and_metadata"
         )
         self.action_export_aggregate_images = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_aggregate_images.setObjectName(
             "action_export_aggregate_images"
         )
         self.action_export_distance_matrices = QtGui.QAction(
-            MainWindow)
+            main_window)
         self.action_export_distance_matrices.setObjectName(
             "action_export_distance_matrices"
         )
@@ -275,24 +264,22 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu_script.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "PATKIT Annotator"))
-        self.groupBox.setTitle(_translate("MainWindow", "Go to Recording"))
+        main_window.setWindowTitle(
+            _translate("MainWindow", "PATKIT Annotator"))
+        self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
-        self.saveButton.setText(_translate("MainWindow", "Save..."))
-        self.nextButton.setText(_translate("MainWindow", "Next"))
-        self.prevButton.setText(_translate("MainWindow", "Previous"))
-        self.exportButton.setText(_translate("MainWindow", "Save Annotations..."))
         self.positionRB.setTitle(
             _translate("MainWindow", "Customised Metadata: TonguePosition")
         )
         self.positionRB_1.setText(_translate("MainWindow", "High"))
         self.positionRB_2.setText(_translate("MainWindow", "Low"))
-        self.positionRB_3.setText(_translate("MainWindow", "Other / Not visible"))
+        self.positionRB_3.setText(
+            _translate("MainWindow", "Other / Not visible"))
         self.menu_file.setTitle(_translate("MainWindow", "File"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
@@ -302,26 +289,30 @@ class Ui_MainWindow(object):
         self.action_open.setText(_translate("MainWindow", "Open..."))
         self.action_open.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.action_save_all.setText(_translate("MainWindow", "Save all"))
-        self.action_save_all.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+        self.action_save_all.setShortcut(
+            _translate("MainWindow", "Ctrl+Shift+S"))
         self.actionShow_interpreter.setText(
             _translate("MainWindow", "Show interpreter")
         )
         self.actionRun_file.setText(_translate("MainWindow", "Run file..."))
         self.actionNext.setText(_translate("MainWindow", "Next Recording"))
         self.actionNext.setShortcut(_translate("MainWindow", "Down"))
-        self.actionPrevious.setText(_translate("MainWindow", "Previous Recording"))
+        self.actionPrevious.setText(
+            _translate("MainWindow", "Previous Recording"))
         self.actionPrevious.setShortcut(_translate("MainWindow", "Up"))
         self.action_export_analysis.setText(
             _translate("MainWindow", "Export analysis...")
         )
         self.actionNext_Frame.setText(_translate("MainWindow", "Next Frame"))
         self.actionNext_Frame.setShortcut(_translate("MainWindow", "Right"))
-        self.actionPrevious_Frame.setText(_translate("MainWindow", "Previous Frame"))
+        self.actionPrevious_Frame.setText(
+            _translate("MainWindow", "Previous Frame"))
         self.actionPrevious_Frame.setShortcut(_translate("MainWindow", "Left"))
         self.action_export_main_figure.setText(
             _translate("MainWindow", "Export main figure...")
         )
-        self.action_export_main_figure.setShortcut(_translate("MainWindow", "Ctrl+E"))
+        self.action_export_main_figure.setShortcut(
+            _translate("MainWindow", "Ctrl+E"))
         self.action_export_ultrasound_frame.setText(
             _translate("MainWindow", "Export ultrasound figure...")
         )
@@ -342,3 +333,12 @@ class Ui_MainWindow(object):
         self.action_export_distance_matrices.setText(
             _translate("MainWindow", "Export distance matrices...")
         )
+
+    def add_items_to_database_view(self, session: Session):
+        for recording in session:
+            self.database_model.appendRow(
+                QtGui.QStandardItem(
+                    f"{recording.basename}: "
+                    f"{recording.metadata.prompt.strip()}"
+                )
+            )

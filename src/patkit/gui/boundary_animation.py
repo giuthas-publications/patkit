@@ -49,6 +49,7 @@ class AnimatableBoundary:
     """
     axes: Axes
     line: mpl_line_2d
+    time: float
     prev_text: Optional[mpl_text] = None
     next_text: Optional[mpl_text] = None
 
@@ -85,26 +86,26 @@ class BoundaryAnimator:
         # We generate this dynamically every time a shift-drag occurs.
         self.coincident_boundaries = []
 
-        self.cidpress = None
-        self.cidmotion = None
-        self.cidrelease = None
+        self.connect_id_press = None
+        self.connect_id_motion = None
+        self.connect_id_release = None
 
     def connect(self):
         """Connect to all the events we need."""
         for boundary in self.boundaries:
-            self.cidpress = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_press = boundary.line.figure.canvas.mpl_connect(
                 'button_press_event', self.on_press)
-            self.cidrelease = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_release = boundary.line.figure.canvas.mpl_connect(
                 'button_release_event', self.on_release)
-            self.cidmotion = boundary.line.figure.canvas.mpl_connect(
+            self.connect_id_motion = boundary.line.figure.canvas.mpl_connect(
                 'motion_notify_event', self.on_motion)
 
     def disconnect(self):
         """Disconnect all callbacks."""
         for boundary in self.boundaries:
-            boundary.line.figure.canvas.mpl_disconnect(self.cidpress)
-            boundary.line.figure.canvas.mpl_disconnect(self.cidrelease)
-            boundary.line.figure.canvas.mpl_disconnect(self.cidmotion)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_press)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_release)
+            boundary.line.figure.canvas.mpl_disconnect(self.connect_id_motion)
 
     def on_press(self, event):
         """Check whether mouse is over us; if so, store some data."""
@@ -143,7 +144,7 @@ class BoundaryAnimator:
         BoundaryAnimator.lock = self
 
         # draw everything but the selected line and store the pixel buffer
-        # TODO: don't draw coinciding lines if shift was held
+        # TODO 0.23: don't draw coinciding lines if shift was held
         axes = None
         canvas = None
         for boundary in self.boundaries:
@@ -169,7 +170,7 @@ class BoundaryAnimator:
             if next_text:
                 axes.draw_artist(next_text)
 
-        # and blit just the redrawn area
+        # and blit the background
         if canvas and axes:
             canvas.blit(axes.bbox)
 
@@ -185,12 +186,11 @@ class BoundaryAnimator:
         if not is_inaxes:
             return
 
-        x0, xpress = self.press
-        dx = event.xdata - xpress
+        x0, x_press = self.press
+        dx = event.xdata - x_press
         # Prevent boundary crossings.
-        if self.segment.is_legal_value(
-                time=x0[0] + dx + self.time_offset, epsilon=self.epsilon
-        ):
+        new_time = x0[0] + dx + self.time_offset
+        if self.segment.is_legal_value(time=new_time, epsilon=self.epsilon):
             for i, boundary in enumerate(self.boundaries):
                 self.segment.begin = x0[0] + dx + self.time_offset
 
@@ -215,7 +215,7 @@ class BoundaryAnimator:
                 if boundary.next_text:
                     axes.draw_artist(boundary.next_text)
 
-                # blit just the redrawn area
+                # blit the background
                 canvas.blit(axes.bbox)
 
     def on_release(self, event):

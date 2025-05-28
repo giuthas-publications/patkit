@@ -6,16 +6,27 @@ correct.
 
 ## Installation and use
 
-- New [instructions](Installing_and_using.markdown).
-- Setting PATKIT up for analysis is currently covered by setting up for
-  development:
-- [Set PATKIT up for development](SetupForDevelopment.markdown)
+- [Installation and use for analysis](Installing_and_using.markdown).
+- Set PATKIT up for development
+  - [Old instructions for conda/mamba](SetupForDevelopment.markdown)
+  - Current instructions: 
+    - Fork PATKIT on github.
+    - Clone your forked PATKIT repository to your local machine.
+    - Get `uv` if you don't already have it.
+    - Do your test runs with `uv run patkit [arguments]` or install your local
+      repo with `uv tool install .` in the PATKIT repository.
+    - The `uv tool install` has been at least in the recent past been more
+      reliable if used with `uv tool uninstall patkit` when an update is ready
+      to be tried.
 
-## GUI User guide
+## GUI user guide
 
-[To be written.]
+[Being slowly written, please contribute if you want to hasten this up.]
 
-## Commandline User guide
+Currently we only have:
+- [Keyboard shortcuts](Keyboard_shortcuts.markdown)
+
+## Commandline user guide
 
 [To be written] but already available in a rudimentary form by running
 `patkit --help`
