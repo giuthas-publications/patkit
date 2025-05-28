@@ -47,15 +47,15 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Highlights
 
 - Improved zooming and panning:
-  - Panning works
-  - Zooming has better short cut conformity
+  - Panning works.
+  - Zooming has better short cut conformity.
 - New list view of recordings.
 
 ### Added
 
-- Audio playback
-- Clickable list view of recordings
-- Documentation for keyboard shortcuts
+- Clickable list view of recordings.
+- Documentation for keyboard shortcuts.
+- New centering shortcut to center view at cursor.
 
 ### Changed
 
@@ -68,12 +68,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Zoom commands no longer 'eat' the Ctrl+O for opening a directory. However,
   see the bug below.
 - There is a minimal three recording example again.
-- Boundaries can not be moved across each other any more.
 
 ### Bugs
 
-- To start zooming you need to click on the main figure - also outside the
-  graph areas will do.
+- When PATKIT first starts up, to start zooming you need to click on the main
+  figure - also outside the graph areas will do. This is due to focus being in
+  the 'Go to recording' field. This might or might not be changed in the future.
 - Zooming very far in makes the plotting behave strangely.
 - Ctrl+O crashes PATKIT probably because the directory opening code pre-dates
   the new directory structure.
