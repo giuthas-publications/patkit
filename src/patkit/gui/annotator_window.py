@@ -267,9 +267,10 @@ class UiMainWindow(object):
         self.retranslateUi(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "PATKIT Annotator"))
+        main_window.setWindowTitle(
+            _translate("MainWindow", "PATKIT Annotator"))
         self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
         self.positionRB.setTitle(
@@ -277,7 +278,8 @@ class UiMainWindow(object):
         )
         self.positionRB_1.setText(_translate("MainWindow", "High"))
         self.positionRB_2.setText(_translate("MainWindow", "Low"))
-        self.positionRB_3.setText(_translate("MainWindow", "Other / Not visible"))
+        self.positionRB_3.setText(
+            _translate("MainWindow", "Other / Not visible"))
         self.menu_file.setTitle(_translate("MainWindow", "File"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
@@ -287,26 +289,30 @@ class UiMainWindow(object):
         self.action_open.setText(_translate("MainWindow", "Open..."))
         self.action_open.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.action_save_all.setText(_translate("MainWindow", "Save all"))
-        self.action_save_all.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+        self.action_save_all.setShortcut(
+            _translate("MainWindow", "Ctrl+Shift+S"))
         self.actionShow_interpreter.setText(
             _translate("MainWindow", "Show interpreter")
         )
         self.actionRun_file.setText(_translate("MainWindow", "Run file..."))
         self.actionNext.setText(_translate("MainWindow", "Next Recording"))
         self.actionNext.setShortcut(_translate("MainWindow", "Down"))
-        self.actionPrevious.setText(_translate("MainWindow", "Previous Recording"))
+        self.actionPrevious.setText(
+            _translate("MainWindow", "Previous Recording"))
         self.actionPrevious.setShortcut(_translate("MainWindow", "Up"))
         self.action_export_analysis.setText(
             _translate("MainWindow", "Export analysis...")
         )
         self.actionNext_Frame.setText(_translate("MainWindow", "Next Frame"))
         self.actionNext_Frame.setShortcut(_translate("MainWindow", "Right"))
-        self.actionPrevious_Frame.setText(_translate("MainWindow", "Previous Frame"))
+        self.actionPrevious_Frame.setText(
+            _translate("MainWindow", "Previous Frame"))
         self.actionPrevious_Frame.setShortcut(_translate("MainWindow", "Left"))
         self.action_export_main_figure.setText(
             _translate("MainWindow", "Export main figure...")
         )
-        self.action_export_main_figure.setShortcut(_translate("MainWindow", "Ctrl+E"))
+        self.action_export_main_figure.setShortcut(
+            _translate("MainWindow", "Ctrl+E"))
         self.action_export_ultrasound_frame.setText(
             _translate("MainWindow", "Export ultrasound figure...")
         )
