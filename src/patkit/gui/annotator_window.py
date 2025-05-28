@@ -335,6 +335,14 @@ class UiMainWindow(object):
         )
 
     def add_items_to_database_view(self, session: Session):
+        """
+        Add items/recordings to the list view.
+
+        Parameters
+        ----------
+        session : Session
+            Use the recordings in the given session to populate the list view.
+        """
         for recording in session:
             self.database_model.appendRow(
                 QtGui.QStandardItem(
@@ -344,5 +352,13 @@ class UiMainWindow(object):
             )
 
     def replace_items_in_database_view(self, session: Session):
+        """
+        Replace the items/recordings in the list view.
+
+        Parameters
+        ----------
+        session : Session
+            Use the recordings in the given Session to replace the old ones. 
+        """
         self.database_model.clear()
         self.add_items_to_database_view(session)
