@@ -32,6 +32,11 @@ in touch.
 
 ## Other shortcuts:
 
+If you are used to Praat's shortcuts for zooming, these are almost the same.
+However, to avoid collisions with shortcuts for for example opening a
+directory, these use Alt rather than Control as the modifier key. This will be
+an editable feature in the future, probably sometime after release 1.0.
+
 ### Zooming
 
 - Alt+I: Zoom in
