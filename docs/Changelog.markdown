@@ -27,7 +27,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.17 is planned to update the GUI with more complete TextGrid modification.
 - 0.18 is planned to be a release of automated segmentation exercises.
 - 0.19 will add audio playback
 - 0.20 is planned to be a data structure update giving support for multiple data
