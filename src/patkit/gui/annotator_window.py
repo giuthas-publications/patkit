@@ -64,7 +64,7 @@ class UiMainWindow(object):
         self.horizontalLayout.addWidget(self.mplwindow)
 
         ### Top navigation buttons and widgets
-        self.button_organiser = QtWidgets.QFrame(self.centralwidget)
+        self.side_panel = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -72,73 +72,45 @@ class UiMainWindow(object):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.button_organiser.sizePolicy().hasHeightForWidth()
+            self.side_panel.sizePolicy().hasHeightForWidth()
         )
-        self.button_organiser.setSizePolicy(sizePolicy)
-        self.button_organiser.setMinimumSize(QtCore.QSize(300, 0))
-        self.button_organiser.setMaximumSize(QtCore.QSize(200, 16777215))
-        self.button_organiser.setObjectName("button_organiser")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.button_organiser)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.groupBox = QtWidgets.QGroupBox(self.button_organiser)
-        self.groupBox.setMaximumSize(QtCore.QSize(16777215, 80))
-        self.groupBox.setObjectName("groupBox")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.groupBox)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.goLineEdit = QtWidgets.QLineEdit(self.groupBox)
-        self.goLineEdit.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.goLineEdit.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.goLineEdit.setObjectName("goLineEdit")
-        self.horizontalLayout_3.addWidget(self.goLineEdit)
-        self.goButton = QtWidgets.QPushButton(self.groupBox)
+        self.side_panel.setSizePolicy(sizePolicy)
+        self.side_panel.setMinimumSize(QtCore.QSize(300, 0))
+        self.side_panel.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.side_panel.setObjectName("side_panel")
+        self.side_panel_layout = QtWidgets.QVBoxLayout(self.side_panel)
+        self.side_panel_layout.setContentsMargins(0, 0, 0, 0)
+        self.side_panel_layout.setObjectName("side_panel_layout")
+
+        self.go_to_group = QtWidgets.QGroupBox(self.side_panel)
+        self.go_to_group.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.go_to_group.setObjectName("groupBox")
+        self.go_to_layout = QtWidgets.QHBoxLayout(self.go_to_group)
+        self.go_to_layout.setContentsMargins(0, 0, 0, 0)
+        self.go_to_layout.setObjectName("go_to_layout")
+
+        self.go_to_line_edit = QtWidgets.QLineEdit(self.go_to_group)
+        self.go_to_line_edit.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.go_to_line_edit.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
+        self.go_to_line_edit.setObjectName("go_to_line_edit")
+        self.go_to_layout.addWidget(self.go_to_line_edit)
+        self.goButton = QtWidgets.QPushButton(self.go_to_group)
         self.goButton.setMaximumSize(QtCore.QSize(80, 16777215))
         self.goButton.setObjectName("goButton")
-        self.horizontalLayout_3.addWidget(self.goButton)
-        self.verticalLayout_3.addWidget(self.groupBox)
-        self.frame = QtWidgets.QFrame(self.button_organiser)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Policy.Minimum,
-            QtWidgets.QSizePolicy.Policy.Maximum
-        )
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy)
-        self.frame.setMinimumSize(QtCore.QSize(300, 50))
-        self.frame.setMaximumSize(QtCore.QSize(200, 16777215))
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.gridLayout = QtWidgets.QGridLayout(self.frame)
-        self.gridLayout.setObjectName("gridLayout")
-        self.saveButton = QtWidgets.QPushButton(self.frame)
-        self.saveButton.setObjectName("saveButton")
-        self.gridLayout.addWidget(self.saveButton, 0, 1, 1, 1)
-        self.nextButton = QtWidgets.QPushButton(self.frame)
-        self.nextButton.setObjectName("nextButton")
-        self.gridLayout.addWidget(self.nextButton, 1, 0, 1, 1)
-        self.prevButton = QtWidgets.QPushButton(self.frame)
-        self.prevButton.setObjectName("prevButton")
-        self.gridLayout.addWidget(self.prevButton, 0, 0, 1, 1)
-        self.exportButton = QtWidgets.QPushButton(self.frame)
-        self.exportButton.setObjectName("exportButton")
-        self.gridLayout.addWidget(self.exportButton, 1, 1, 1, 1)
+        self.go_to_layout.addWidget(self.goButton)
+        self.side_panel_layout.addWidget(self.go_to_group)
 
         ### List view
-        self.verticalLayout_3.addWidget(self.frame)
-        self.database_view = QtWidgets.QListView(self.button_organiser)
+        self.database_view = QtWidgets.QListView(self.side_panel)
         self.database_model = QtGui.QStandardItemModel()
         self.database_view.setModel(self.database_model)
         self.database_view.setObjectName("databaseView")
-        self.verticalLayout_3.addWidget(self.database_view)
+        self.side_panel_layout.addWidget(self.database_view)
         self.database_view.clicked[QtCore.QModelIndex].connect(
             main_window.on_database_view_clicked)
 
         ### Ultrasound frame display
-        self.ultrasoundFrame = QtWidgets.QWidget(self.button_organiser)
+        self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
             QtWidgets.QSizePolicy.Policy.Fixed
@@ -152,12 +124,13 @@ class UiMainWindow(object):
         self.ultrasoundFrame.setMinimumSize(QtCore.QSize(300, 300))
         self.ultrasoundFrame.setObjectName("ultrasoundFrame")
 
-        ### Annotation radio buttons
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.ultrasoundFrame)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.verticalLayout_3.addWidget(self.ultrasoundFrame)
-        self.positionRB = QtWidgets.QGroupBox(self.button_organiser)
+        self.side_panel_layout.addWidget(self.ultrasoundFrame)
+
+        ### Annotation radio buttons
+        self.positionRB = QtWidgets.QGroupBox(self.side_panel)
         self.positionRB.setObjectName("positionRB")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
@@ -178,8 +151,8 @@ class UiMainWindow(object):
         self.positionRB_3.setObjectName("positionRB_3")
         self.tonguePositionRBs.addButton(self.positionRB_3)
         self.verticalLayout_5.addWidget(self.positionRB_3)
-        self.verticalLayout_3.addWidget(self.positionRB)
-        self.horizontalLayout.addWidget(self.button_organiser)
+        self.side_panel_layout.addWidget(self.positionRB)
+        self.horizontalLayout.addWidget(self.side_panel)
 
         main_window.setCentralWidget(self.centralwidget)
 
@@ -297,12 +270,8 @@ class UiMainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PATKIT Annotator"))
-        self.groupBox.setTitle(_translate("MainWindow", "Go to Recording"))
+        self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
-        self.saveButton.setText(_translate("MainWindow", "Save..."))
-        self.nextButton.setText(_translate("MainWindow", "Next"))
-        self.prevButton.setText(_translate("MainWindow", "Previous"))
-        self.exportButton.setText(_translate("MainWindow", "Save Annotations..."))
         self.positionRB.setTitle(
             _translate("MainWindow", "Customised Metadata: TonguePosition")
         )

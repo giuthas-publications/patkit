@@ -242,19 +242,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.action_quit.triggered.connect(self.quit)
 
-        #
-        # GUI buttons
-        #
-        self.nextButton.clicked.connect(self.next)
-        self.prevButton.clicked.connect(self.prev)
-        self.saveButton.clicked.connect(self.save_all)
-        self.exportButton.clicked.connect(
-            self.export_annotations_and_metadata)
-
+        ## Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
-        self.goLineEdit.setValidator(go_validator)
+        self.go_to_line_edit.setValidator(go_validator)
         self.goButton.clicked.connect(self.go_to_recording)
-        self.goLineEdit.returnPressed.connect(self.go_to_recording)
+        self.go_to_line_edit.returnPressed.connect(self.go_to_recording)
 
         # TODO 0.17: add recording list to the display and highlight current
         # recording
@@ -442,7 +434,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             button_to_activate = self.position_rbs[position_annotation]
             button_to_activate.setChecked(True)
 
-        self.goLineEdit.setText(str(self.index + 1))
+        self.go_to_line_edit.setText(str(self.index + 1))
 
         # if self.image_type == GuiImageType.FRAME:
         #     self.action_select_kymography_line.setEnabled(True)
@@ -892,7 +884,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Go to a recording specified in the goLineEdit text input field.
         """
-        index_to_jump_to = int(self.goLineEdit.text()) - 1
+        index_to_jump_to = int(self.go_to_line_edit.text()) - 1
 
         if 0 <= index_to_jump_to < len(self.session):
             self._release_modality_memory()
