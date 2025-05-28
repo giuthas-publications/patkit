@@ -245,18 +245,18 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         ## Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
-        self.goButton.clicked.connect(self.go_to_recording)
-        self.go_to_line_edit.returnPressed.connect(self.go_to_recording)
+        self.goButton.clicked.connect(self.go_to_callback)
+        self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
-        # TODO 0.17: add recording list to the display and highlight current
-        # recording
-
+        ## PD categories
+        # TODO 1.0: these could be optional instead of the below ones
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
         # self.categoryRB_2.toggled.connect(self.pd_category_cb)
         # self.categoryRB_3.toggled.connect(self.pd_category_cb)
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
+        ## Tongue position
         self.positionRB_1.toggled.connect(self.tongue_position_cb)
         self.positionRB_2.toggled.connect(self.tongue_position_cb)
         self.positionRB_3.toggled.connect(self.tongue_position_cb)
@@ -880,7 +880,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.update()
             self.update_ui()
 
-    def go_to_recording(self):
+    def go_to_callback(self):
         """
         Go to a recording specified in the goLineEdit text input field.
         """
@@ -1206,10 +1206,32 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 "Wrote onset data in file %s.", filename)
 
     def point_added_cb(self, position: tuple[float, float], klass: str):
+        """
+        Callback for point being added to kymography line.
+
+        Parameters
+        ----------
+        position : tuple[float, float]
+            position of the point
+        klass : str
+            class name
+        """
         x, y = position
         print(f"New point of class {klass} added at {x=}, {y=}.")
 
     def point_removed_cb(self, position: tuple[float, float], klass: str, idx):
+        """
+        Callback for point being removed from kymography line.
+
+        Parameters
+        ----------
+        position : tuple[float, float]
+            position of the point
+        klass : str
+            class name
+        idx : _type_
+            index of the point
+        """
         x, y = position
 
         suffix = {"1": "st", "2": "nd", "3": "rd"}.get(str(idx)[-1], "th")
@@ -1237,8 +1259,20 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.current.annotations['tonguePosition'] = radio_button.text()
 
     def on_database_view_clicked(self, index: QModelIndex):
+        """
+        Callback for handling clicks in the data base list view.
+
+        Parameters
+        ----------
+        index : QModelIndex
+            Index of the clicked item.
+        """
         item = self.database_model.itemFromIndex(index)
         print(item.text())
+        data = self.database_view.currentIndex().data()
+        index = self.database_view.currentIndex().row()
+        print(index, data)
+        self.go_to_callback()
 
     def onpick(self, event):
         """
