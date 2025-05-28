@@ -295,8 +295,10 @@ def plot_patgrid_tier(
     Returns a line object for the segment line, so that it
     can be included in the legend.
     """
-    text_settings = {'horizontalalignment': 'center',
-                     'verticalalignment': 'center'}
+    text_settings = {
+        'horizontalalignment': 'center',
+        'verticalalignment': 'center',
+    }
 
     line = None
     text = None
@@ -329,11 +331,13 @@ def plot_patgrid_tier(
             text = axes.text(text_x,
                              text_y, segment.label,
                              text_settings, color="dimgrey")
-            boundaries.append(AnimatableBoundary(axes, line, time, prev_text, text))
+            boundaries.append(
+                AnimatableBoundary(axes, line, time, prev_text, text))
         else:
             prev_text = text
             text = None
-            boundaries.append(AnimatableBoundary(axes, line, time, prev_text, text))
+            boundaries.append(
+                AnimatableBoundary(axes, line, time, prev_text, text))
     return boundaries, line
 
 
