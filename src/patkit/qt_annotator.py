@@ -51,7 +51,9 @@ from matplotlib.widgets import MultiCursor
 from mpl_point_clicker import clicker
 
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import QCoreApplication, Qt, QModelIndex
+from PyQt6.QtCore import (
+    QCoreApplication, QItemSelectionModel, QModelIndex, Qt
+)
 from PyQt6.QtGui import (
     QAction,
     QActionGroup,
@@ -245,8 +247,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         ## Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
-        self.goButton.clicked.connect(self.go_to_recording)
-        self.go_to_line_edit.returnPressed.connect(self.go_to_recording)
+        self.goButton.clicked.connect(self.go_to_callback)
+        self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
         ## PD categories
         # TODO 1.0: these could be optional instead of the below ones
@@ -880,17 +882,31 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.update()
             self.update_ui()
 
-    def go_to_recording(self):
+    def go_to_callback(self):
         """
         Go to a recording specified in the goLineEdit text input field.
         """
         index_to_jump_to = int(self.go_to_line_edit.text()) - 1
 
         if 0 <= index_to_jump_to < len(self.session):
-            self._release_modality_memory()
-            self.index = index_to_jump_to
-            self.update()
-            self.update_ui()
+            self.go_to_recording(index=index_to_jump_to)
+            qt_index = self.database_view.model().index(index_to_jump_to, 0)
+            self.database_view.selectionModel().setCurrentIndex(
+                qt_index, QItemSelectionModel.SelectionFlag.SelectCurrent)
+
+    def go_to_recording(self, index: int):
+        """
+        Move to recording at index.
+
+        Parameters
+        ----------
+        index : int
+            Index of recording to move to.
+        """
+        self._release_modality_memory()
+        self.index = index
+        self.update()
+        self.update_ui()
 
     def image_updater(self) -> None:
         """
@@ -1267,12 +1283,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         index : QModelIndex
             Index of the clicked item.
         """
-        item = self.database_model.itemFromIndex(index)
-        print(item.text())
-        data = self.database_view.currentIndex().data()
-        index = self.database_view.currentIndex().row()
-        print(index, data)
-        
+        # index = self.database_view.currentIndex().row()
+        self.go_to_recording(index.row())
 
     def onpick(self, event):
         """
