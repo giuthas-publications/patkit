@@ -27,7 +27,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.18 is planned to be a release of automated segmentation exercises.
 - 0.19 will add audio playback
 - 0.20 is planned to be a data structure update giving support for multiple data
   sources per trial.
@@ -49,8 +48,16 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
+- Configuration, commands, and shortcuts for treating a directory as an
+  exercise.
 
 ### Changed
+
+- 
+
+### Fixed 
+
+- File -> Open... works again.
 
 
 ## [0.17.1] - 2025-05-28
