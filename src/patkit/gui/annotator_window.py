@@ -156,7 +156,7 @@ class UiMainWindow(object):
 
         main_window.setCentralWidget(self.centralwidget)
 
-        ### Menus and menu items
+        ### Menus and menu bar
         self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
@@ -164,20 +164,22 @@ class UiMainWindow(object):
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
         self.menu_image = QtWidgets.QMenu(self.menubar)
-
         self.menu_image.setObjectName("menu_image")
-        self.menu_script = QtWidgets.QMenu(self.menubar)
-        self.menu_script.setEnabled(False)
-        self.menu_script.setObjectName("menu_script")
         self.menu_navigation = QtWidgets.QMenu(self.menubar)
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_export = QtWidgets.QMenu(self.menubar)
         self.menu_export.setObjectName("menu_export")
+        self.menu_script = QtWidgets.QMenu(self.menubar)
+        self.menu_script.setEnabled(False)
+        self.menu_script.setObjectName("menu_script")
         main_window.setMenuBar(self.menubar)
+
+        ### Statusbar
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
+        ### Menu items
         self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
         self.action_open = QtGui.QAction(main_window)
