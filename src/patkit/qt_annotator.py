@@ -951,6 +951,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.recordings = self.session.recordings
             self.index = 0
             self.max_index = len(self.recordings)
+            go_validator = QIntValidator(1, self.max_index + 1, self)
+            self.go_to_line_edit.setValidator(go_validator)
             self.replace_items_in_database_view(session=self.session)
             self._add_annotations()
 
