@@ -210,20 +210,31 @@ class UiMainWindow(object):
         self.menu_file.addAction(self.action_quit)
 
         ### Exercise menu actions
-        self.action_import_exercise = QtGui.QAction(main_window)
-        self.action_import_exercise.setObjectName("action_import_exercise")
-        self.action_save_as_exercise = QtGui.QAction(main_window)
-        self.action_import_exercise.setObjectName("action_save_as_exercise")
+        self.action_create_assignment = QtGui.QAction(main_window)
+        self.action_create_assignment.setObjectName("action_create_assignment")
+        self.action_open_assignment = QtGui.QAction(main_window)
+        self.action_open_assignment.setObjectName("action_open_assignment")
+        self.action_open_answer = QtGui.QAction(main_window)
+        self.action_open_answer.setObjectName("action_open_answer")
+        self.action_save_answer = QtGui.QAction(main_window)
+        self.action_save_answer.setObjectName("action_save_answer")
         self.action_compare_to_model = QtGui.QAction(main_window)
-        self.action_import_exercise.setObjectName("action_compare_to_model")
-        self.action_rerun_exercise = QtGui.QAction(main_window)
-        self.action_import_exercise.setObjectName("action_rerun_exercise")
+        self.action_compare_to_model.setObjectName("action_compare_to_model")
+        self.action_show_model = QtGui.QAction(main_window)
+        self.action_show_model.setObjectName("action_show_model")
 
-        self.menu_exercise.addAction(self.action_import_exercise)
-        self.menu_exercise.addAction(self.action_save_as_exercise)
+        self.menu_exercise.addAction(self.action_create_assignment)
+        self.menu_exercise.addAction(self.action_open_assignment)
+        self.menu_exercise.addAction(self.action_open_answer)
+        self.menu_exercise.addAction(self.action_save_answer)
         self.menu_exercise.addAction(self.action_compare_to_model)
-        self.menu_exercise.addAction(self.action_rerun_exercise)
+        self.menu_exercise.addAction(self.action_show_model)
 
+        # TODO: 0.18.1: Implement this?
+        self.action_compare_to_model.setEnabled(False)
+
+        self.action_show_model.setCheckable(True)
+        self.action_show_model.setChecked(False)
 
         ### Export menu actions
         self.action_export_analysis = QtGui.QAction(main_window)
@@ -316,14 +327,18 @@ class UiMainWindow(object):
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
 
-        self.action_import_exercise.setText(
-            _translate("MainWindow", "Import exercise..."))
-        self.action_save_as_exercise.setText(
-            _translate("MainWindow", "Save as exercise..."))
+        self.action_create_assignment.setText(
+            _translate("MainWindow", "Create assignment..."))
+        self.action_open_assignment.setText(
+            _translate("MainWindow", "Open assignment..."))
+        self.action_open_answer.setText(
+            _translate("MainWindow", "Open answer..."))
+        self.action_save_answer.setText(
+            _translate("MainWindow", "Save answer..."))
         self.action_compare_to_model.setText(
             _translate("MainWindow", "Compare to model"))
-        self.action_rerun_exercise.setText(
-            _translate("MainWindow", "Rerun exercise"))
+        self.action_show_model.setText(
+            _translate("MainWindow", "Show model"))
 
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.action_open.setText(_translate("MainWindow", "Open..."))
