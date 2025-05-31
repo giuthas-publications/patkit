@@ -226,6 +226,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
+        # TODO: CONTINUE HERE WITH HOOKING IN CALLBACKS
+        self.action_create_assignment
+        self.action_open_assignment
+        self.action_open_answer
+        self.action_save_answer
+        self.action_compare_to_model
+        self.action_show_model
+
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
         self.action_export_annotations_and_metadata.triggered.connect(

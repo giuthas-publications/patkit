@@ -57,6 +57,81 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
+
+class Answer():
+    """
+    Answer is an answer to an Assignment.
+    """
+    def __init__(
+        self,
+        container: Assignment,
+        textgrid_paths: list[Path],
+        session: Session,
+    ):
+        self.container = container
+        self.textgrid_paths = textgrid_paths
+        self.scenario = session
+        self.cursor = 0
+
+    def go_to_recording(self, index: int) -> int:
+        """
+        Go to Recording at index.
+
+        Returns
+        -------
+        int
+            index of current recording
+        """
+        if len(self) > index and index >= 0:
+            self.cursor = index
+        return self.cursor
+
+    def next(self) -> int:
+        """
+        Go to next Recording.
+
+        Returns
+        -------
+        int
+            index of next recording
+        """
+        if len(self) > self.cursor + 1:
+            self.cursor += 1
+        return self.cursor
+
+    def previous(self) -> int:
+        """
+        Go to previous Recording.
+
+        Returns
+        -------
+        int
+            index of previous recording
+        """
+        if self.cursor > 0:
+            self.cursor -= 1
+        return self.cursor
+
+
+class Assignment(UserList):
+    """
+    Assignment is list of Answers, which has an optional ModelAnswer.
+    """
+
+    def __init__(
+        self,
+        session: Session,
+        answers: list[Answer] | None = None,
+        model: Answer | None = None,
+    ):
+        super().__init__()
+        self.model = model
+        self.scenario = session
+
+        if answers is not None:
+            self.extend(answers)
+
+
 class Manifest(UserList):
     """
     Manifest is a list of Scenario paths as strings.
