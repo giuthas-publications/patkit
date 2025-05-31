@@ -225,8 +225,10 @@ class UiMainWindow(object):
 
         self.menu_exercise.addAction(self.action_create_assignment)
         self.menu_exercise.addAction(self.action_open_assignment)
+        self.menu_file.addSeparator()
         self.menu_exercise.addAction(self.action_open_answer)
         self.menu_exercise.addAction(self.action_save_answer)
+        self.menu_file.addSeparator()
         self.menu_exercise.addAction(self.action_compare_to_model)
         self.menu_exercise.addAction(self.action_show_model)
 
