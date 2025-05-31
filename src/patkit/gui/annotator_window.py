@@ -156,19 +156,22 @@ class UiMainWindow(object):
 
         main_window.setCentralWidget(self.centralwidget)
 
-        ### Menus and menu bar
+        ### Menu bar
         self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
 
+        ### Menus
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
+        self.menu_export = QtWidgets.QMenu(self.menubar)
+        self.menu_export.setObjectName("menu_export")
+        self.menu_exercise = QtWidgets.QMenu(self.menubar)
+        self.menu_exercise.setObjectName("menu_exercise")
         self.menu_image = QtWidgets.QMenu(self.menubar)
         self.menu_image.setObjectName("menu_image")
         self.menu_navigation = QtWidgets.QMenu(self.menubar)
         self.menu_navigation.setObjectName("menu_navigation")
-        self.menu_export = QtWidgets.QMenu(self.menubar)
-        self.menu_export.setObjectName("menu_export")
         self.menu_script = QtWidgets.QMenu(self.menubar)
         self.menu_script.setEnabled(False)
         self.menu_script.setObjectName("menu_script")
@@ -179,7 +182,9 @@ class UiMainWindow(object):
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
-        ### Menu items
+        ## Menu items
+
+        ### File menu
         self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
         self.action_open = QtGui.QAction(main_window)
@@ -197,20 +202,30 @@ class UiMainWindow(object):
         self.action_quit = QtGui.QAction(main_window)
         self.action_quit.setObjectName("action_quit")
 
-        self.actionShow_interpreter = QtGui.QAction(main_window)
-        self.actionShow_interpreter.setObjectName("actionShow_interpreter")
-        self.actionRun_file = QtGui.QAction(main_window)
-        self.actionRun_file.setObjectName("actionRun_file")
+        self.menu_file.addAction(self.action_open)
+        self.menu_file.addAction(self.action_save_current_textgrid)
+        self.menu_file.addAction(self.action_save_all_textgrids)
+        self.menu_file.addAction(self.action_save_all)
+        self.menu_file.addSeparator()
+        self.menu_file.addAction(self.action_quit)
 
-        self.actionNext = QtGui.QAction(main_window)
-        self.actionNext.setObjectName("actionNext")
-        self.actionPrevious = QtGui.QAction(main_window)
-        self.actionPrevious.setObjectName("actionPrevious")
-        self.actionNext_Frame = QtGui.QAction(main_window)
-        self.actionNext_Frame.setObjectName("actionNext_Frame")
-        self.actionPrevious_Frame = QtGui.QAction(main_window)
-        self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
+        ### Exercise menu actions
+        self.action_import_exercise = QtGui.QAction(main_window)
+        self.action_import_exercise.setObjectName("action_import_exercise")
+        self.action_save_as_exercise = QtGui.QAction(main_window)
+        self.action_import_exercise.setObjectName("action_save_as_exercise")
+        self.action_compare_to_model = QtGui.QAction(main_window)
+        self.action_import_exercise.setObjectName("action_compare_to_model")
+        self.action_rerun_exercise = QtGui.QAction(main_window)
+        self.action_import_exercise.setObjectName("action_rerun_exercise")
 
+        self.menu_exercise.addAction(self.action_import_exercise)
+        self.menu_exercise.addAction(self.action_save_as_exercise)
+        self.menu_exercise.addAction(self.action_compare_to_model)
+        self.menu_exercise.addAction(self.action_rerun_exercise)
+
+
+        ### Export menu actions
         self.action_export_analysis = QtGui.QAction(main_window)
         self.action_export_analysis.setEnabled(False)
         self.action_export_analysis.setObjectName("action_export_analysis")
@@ -238,15 +253,21 @@ class UiMainWindow(object):
             "action_export_distance_matrices"
         )
 
-        self.menu_file.addAction(self.action_open)
-        self.menu_file.addAction(self.action_save_current_textgrid)
-        self.menu_file.addAction(self.action_save_all_textgrids)
-        self.menu_file.addAction(self.action_save_all)
-        self.menu_file.addSeparator()
-        self.menu_file.addAction(self.action_quit)
+        self.menu_export.addAction(self.action_export_aggregate_images)
+        self.menu_export.addAction(self.action_export_annotations_and_metadata)
+        self.menu_export.addAction(self.action_export_distance_matrices)
+        self.menu_export.addAction(self.action_export_main_figure)
+        self.menu_export.addAction(self.action_export_ultrasound_frame)
 
-        # self.menu_script.addAction(self.actionShow_interpreter)
-        # self.menu_script.addAction(self.actionRun_file)
+        ### Navigation menu actions
+        self.actionNext = QtGui.QAction(main_window)
+        self.actionNext.setObjectName("actionNext")
+        self.actionPrevious = QtGui.QAction(main_window)
+        self.actionPrevious.setObjectName("actionPrevious")
+        self.actionNext_Frame = QtGui.QAction(main_window)
+        self.actionNext_Frame.setObjectName("actionNext_Frame")
+        self.actionPrevious_Frame = QtGui.QAction(main_window)
+        self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
 
         self.menu_navigation.addAction(self.actionNext)
         self.menu_navigation.addAction(self.actionPrevious)
@@ -254,17 +275,22 @@ class UiMainWindow(object):
         self.menu_navigation.addAction(self.actionNext_Frame)
         self.menu_navigation.addAction(self.actionPrevious_Frame)
 
-        self.menu_export.addAction(self.action_export_aggregate_images)
-        self.menu_export.addAction(self.action_export_annotations_and_metadata)
-        self.menu_export.addAction(self.action_export_distance_matrices)
-        self.menu_export.addAction(self.action_export_main_figure)
-        self.menu_export.addAction(self.action_export_ultrasound_frame)
+        ### Script menu actions
+        self.actionShow_interpreter = QtGui.QAction(main_window)
+        self.actionShow_interpreter.setObjectName("actionShow_interpreter")
+        self.actionRun_file = QtGui.QAction(main_window)
+        self.actionRun_file.setObjectName("actionRun_file")
 
+        # self.menu_script.addAction(self.actionShow_interpreter)
+        # self.menu_script.addAction(self.actionRun_file)
+
+        ### Menubar setup
         self.menubar.addAction(self.menu_file.menuAction())
+        self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
-        self.menubar.addAction(self.menu_script.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
+        self.menubar.addAction(self.menu_script.menuAction())
 
         self.retranslateUi(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
@@ -282,11 +308,23 @@ class UiMainWindow(object):
         self.positionRB_2.setText(_translate("MainWindow", "Low"))
         self.positionRB_3.setText(
             _translate("MainWindow", "Other / Not visible"))
+
         self.menu_file.setTitle(_translate("MainWindow", "File"))
-        self.menu_image.setTitle(_translate("MainWindow", "Image"))
-        self.menu_script.setTitle(_translate("MainWindow", "Script"))
-        self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
+        self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
         self.menu_export.setTitle(_translate("MainWindow", "Export"))
+        self.menu_image.setTitle(_translate("MainWindow", "Image"))
+        self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
+        self.menu_script.setTitle(_translate("MainWindow", "Script"))
+
+        self.action_import_exercise.setText(
+            _translate("MainWindow", "Import exercise..."))
+        self.action_save_as_exercise.setText(
+            _translate("MainWindow", "Save as exercise..."))
+        self.action_compare_to_model.setText(
+            _translate("MainWindow", "Compare to model"))
+        self.action_rerun_exercise.setText(
+            _translate("MainWindow", "Rerun exercise"))
+
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.action_open.setText(_translate("MainWindow", "Open..."))
         self.action_open.setShortcut(_translate("MainWindow", "Ctrl+O"))
