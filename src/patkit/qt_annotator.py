@@ -89,7 +89,9 @@ from patkit.plot_and_publish import (
     plot_wav,
 )
 from patkit.plot_and_publish.plot import plot_spectrogram2
-from patkit.save_and_load import load_recording_session, save_recording_session
+from patkit.save_and_load import (
+    load_assignment, load_recording_session, save_recording_session
+)
 from patkit.ui_callbacks import UiCallbacks
 
 _logger = logging.getLogger('patkit.qt_annotator')
@@ -1053,7 +1055,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
 
     def open_assignment(self):
-        pass
+        # TODO 0.18: 
+        # (assignment_config_path, _) = QFileDialog.getOpenFileName(
+        #     self, 'Open Assignment', directory='.',
+        #     filter="Assignment files (patkit_assignment.yaml)")
+        # self.assignment = load_assignment(assignment_config_path)
 
     def open_answer(self):
         pass
@@ -1062,7 +1068,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         pass
 
     def compare_to_model(self):
-        print("Comparing to model has not yet been implemented.")            
+        print("Comparing to model has not yet been implemented.")       
 
     def show_model(self):
         self.update()

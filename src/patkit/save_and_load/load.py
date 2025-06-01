@@ -46,7 +46,7 @@ from patkit.data_import import (
     modality_adders, add_splines
 )
 from patkit.data_structures import (
-    ModalityData, Recording, Session
+    Assignment, ModalityData, Recording, Session
 )
 from patkit.data_structures.metadata_classes import FileInformation
 from patkit.metrics import metrics, statistics
@@ -332,7 +332,7 @@ def load_recording_session(
     if isinstance(directory, str):
         directory = Path(directory)
 
-    if not session_config_path:
+    if session_config_path is None:
         session_config_path = directory / PatkitConfigFile.SESSION
 
     # filename = f"{directory.parts[-1]}{'.Session'}{PatkitSuffix.META}"
@@ -375,3 +375,29 @@ def load_recording_session(
     session.extend(recordings)
 
     return session
+
+
+def load_assignment(
+        directory: Path | str,
+        assignment_config_path: Path | None = None
+) -> Assignment:
+    """
+    Load a recording session from a directory.
+
+    Parameters
+    ----------
+    directory: Path
+        Root directory of the data.
+    session_config_path : Path | None
+        Path to the assignment configuration file. By default, None.
+
+    Returns
+    -------
+    Assignment
+        The loaded Assignment object.
+    """
+
+    if assignment_config_path is None:
+        assignment_config_path = directory / PatkitConfigFile.ASSIGNMENT
+
+    
