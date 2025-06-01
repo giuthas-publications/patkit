@@ -226,13 +226,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
-        # TODO: CONTINUE HERE WITH HOOKING IN CALLBACKS
-        self.action_create_assignment
-        self.action_open_assignment
-        self.action_open_answer
-        self.action_save_answer
-        self.action_compare_to_model
-        self.action_show_model
+        self.action_create_assignment.triggered.connect(
+            self.create_assignment)
+        self.action_open_assignment.triggered.connect(self.open_assignment)
+        self.action_open_answer.triggered.connect(self.open_answer)
+        self.action_save_answer.triggered.connect(self.save_answer)
+        self.action_compare_to_model.triggered.connect(self.compare_to_model)
+        self.action_show_model.triggered.connect(self.show_model)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -562,6 +562,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.data_axes[0].set_title(
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
+
+        # TODO 0.18: Add a check to draw plots which adds the model textgrid to
+        # plotting 
+        if self.action_show_model.isChecked():
+            print("I should be showing the model answer but don't yet know how.")
 
         for axes in self.tier_axes:
             axes.remove()
@@ -1040,6 +1045,27 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 _logger.info(
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))
+
+
+    def create_assignment(self):
+        """
+        _summary_
+        """
+
+    def open_assignment(self):
+        pass
+
+    def open_answer(self):
+        pass
+
+    def save_answer(self):
+        pass
+
+    def compare_to_model(self):
+        print("Comparing to model has not yet been implemented.")            
+
+    def show_model(self):
+        self.update()
 
     def export_figure(self):
         """
