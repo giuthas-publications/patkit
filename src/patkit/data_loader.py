@@ -44,7 +44,9 @@ from patkit.configuration import (
 from patkit.constants import (
     DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
-    generate_aaa_recording_list, load_session_config)
+    generate_aaa_recording_list, generate_wav_recording_list, 
+    load_session_config
+)
 from patkit.data_structures import (
     FileInformation, Session)
 from patkit.save_and_load import load_recording_session
@@ -192,5 +194,26 @@ def read_recorded_session_from_dir(
 
         return session
 
+    if list(recorded_data_path.glob('*' + SourceSuffix.WAV)):
+        paths = PathStructure(root=recorded_data_path)
+        session_config = SessionConfig(
+            data_source_name=DatasourceNames.WAV,
+            path_structure=paths)
+
+        session = Session(
+            name=containing_dir, config=session_config,
+            file_info=file_info)
+
+        recordings = generate_wav_recording_list(
+            directory=recorded_data_path,
+            container=session,
+            import_config=session_config,
+            detect_beep=detect_beep,
+        )
+        session.extend(recordings)
+
+        return session
+
     _logger.error(
         'Could not find a suitable importer: %s', recorded_data_path)
+    # TODO 0.18: This should raise an error.

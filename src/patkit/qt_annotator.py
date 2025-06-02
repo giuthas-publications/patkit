@@ -1051,15 +1051,21 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def create_assignment(self):
         """
-        _summary_
+        Wrap a directory as an Assignment.
         """
+        # TODO 2.6.: JOS MAHDOLLISTA ENNEN EMBRAN ESITELMÄÄ
+        # ask for directory
+        # ask for patkit/assignment dir
+        # write patkit_assignment.yaml in assignment dir
+        # mess up the textgrids as equidistant
+        # show scrambled textgrid instead of original
 
     def open_assignment(self):
-        # TODO 0.18: 
         # (assignment_config_path, _) = QFileDialog.getOpenFileName(
         #     self, 'Open Assignment', directory='.',
         #     filter="Assignment files (patkit_assignment.yaml)")
         # self.assignment = load_assignment(assignment_config_path)
+        pass
 
     def open_answer(self):
         pass
