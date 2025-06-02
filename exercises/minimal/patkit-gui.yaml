@@ -1,0 +1,32 @@
+
+# Height ratio of data display area vs textgrid tier display area. This does
+# not control directly the height of individual data displays nor individual
+# tier displays, but instead controls the ratio between the sum of data
+# displays vs sum of tier displays.
+data_and_tier_height_ratios: 
+  data_axes: 2
+  tier_axes: 1
+
+general_axes_params:
+  data_axes:
+    sharex: True
+  tier_axes:
+    sharex: True
+
+data_axes:
+  spectrogram2:
+    sharex: True
+  wav:
+    sharex: True
+
+# Tiers drawn on the data axes. Ignored if the tier is not found.  
+pervasive_tiers:
+  - phonemes
+
+auto_xlim: True
+
+# Font parameters
+default_font_size: 10
+
+# Dark vs light mode
+color_scheme: follow_system
