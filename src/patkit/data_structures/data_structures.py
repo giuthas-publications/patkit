@@ -426,7 +426,7 @@ class Recording(AbstractDataContainer, UserDict):
             textgrid_path = self.recorded_meta_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
-        elif self.recorded_meta_path:
+        elif self.recorded_data_path:
             textgrid_path = self.recorded_data_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
