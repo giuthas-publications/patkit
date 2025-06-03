@@ -485,6 +485,15 @@ class PatTier(list):
 
         return in_limits
 
+    def scramble(self):
+        boundaries = np.linspace(
+            start=self.begin,
+            stop=self.end,
+            num=len(self)
+        )
+        for item, boundary in zip(self, boundaries):
+            item.time = boundary
+
 
 class PatGrid(OrderedDict):
     """

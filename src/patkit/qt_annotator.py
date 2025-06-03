@@ -228,6 +228,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
+        self.action_run_as_assignment.triggered.connect(
+            self.run_as_assignment)
         self.action_create_assignment.triggered.connect(
             self.create_assignment)
         self.action_open_assignment.triggered.connect(self.open_assignment)
@@ -1049,6 +1051,16 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     str(recording.textgrid_path))
 
 
+    def run_as_assignment(self):
+        """
+        Scramble TextGrids to run as an exercise.
+        """
+        for recording in self.session:
+            for tier in recording.patgrid:
+                recording.patgrid[tier].scramble()
+        self.update()
+        self.update_ui()
+
     def create_assignment(self):
         """
         Wrap a directory as an Assignment.
@@ -1374,6 +1386,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
+        # TODO 0.18: Remove hardcoding of modality name
         timevector = (
             self.current.modalities['PD l1 on RawUltrasound'].timevector)
         distances = np.abs(timevector - stimulus_onset - event.xdata)
