@@ -50,6 +50,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - Configuration, commands, and shortcuts for treating a directory as an
   exercise.
+- Audio only recordings.
 
 ### Changed
 
@@ -58,6 +59,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Fixed 
 
 - File -> Open... works again.
+- Issue of hard coded time vector in GUI selection.
 
 
 ## [0.17.1] - 2025-05-28
