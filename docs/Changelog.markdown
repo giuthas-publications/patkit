@@ -60,6 +60,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - File -> Open... works again.
 - Issue of hard coded time vector in GUI selection.
+- Waveform is no longer plotted in black in dark mode.
 
 
 ## [0.17.1] - 2025-05-28
