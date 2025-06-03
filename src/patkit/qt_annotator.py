@@ -646,10 +646,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                         mode=self.gui_config.color_scheme
                     )
                 case "wav":
-                    plot_wav(ax=self.data_axes[axes_counter],
-                             waveform=wav,
-                             wav_time=wav_time,
-                             xlim=self.xlim)
+                    plot_wav(
+                        ax=self.data_axes[axes_counter],
+                        waveform=wav,
+                        wav_time=wav_time,
+                        xlim=self.xlim,
+                        mode=self.gui_config.color_scheme
+                    )
                 case _:
                     if not self.current.excluded:
                         self.plot_modality_axes(
@@ -726,6 +729,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         Display an already interpolated ultrasound frame.
         """
         # Display mean image if asked or if there is no selection cursor.
+        if 'RawUltrasound' not in self.current.modalities:
+            return
+
         if (self.current.annotations['selection_index'] == -1
                 or self.image_type == GuiImageType.MEAN_IMAGE):
             self.action_export_ultrasound_frame.setEnabled(False)
@@ -1388,7 +1394,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # TODO 0.18: Remove hardcoding of modality name
         timevector = (
-            self.current.modalities['PD l1 on RawUltrasound'].timevector)
+            self.current.modalities['MonoAudio'].timevector)
         distances = np.abs(timevector - stimulus_onset - event.xdata)
         self.current.annotations['selection_index'] = np.argmin(distances)
         self.current.annotations['selected_time'] = event.xdata
