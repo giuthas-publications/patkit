@@ -176,14 +176,6 @@ def add_modalities(
     Keyword arguments:
     wavPreload -- boolean indicating if the .wav file is to be read into
         memory on initialising. Defaults to True.
-    ultPreload -- boolean indicating if the .ult file is to be read into
-        memory on initialising. Defaults to False. Note: these
-        files are, roughly one to two orders of magnitude
-        larger than .wav files.
-    videoPreload -- boolean indicating if the .avi file is to be read into
-        memory on initialising. Defaults to False. Note: these
-        files are, yet again, roughly one to two orders of magnitude
-        larger than .ult files.
 
     Throws KeyError if TimeInSecsOfFirstFrame is missing from the
     meta file: [directory]/basename + .txt.
@@ -193,6 +185,8 @@ def add_modalities(
             _logger.info("Adding modalities to recording for %s.",
                              recording.basename)
 
-            add_audio(recording=recording,
-                      preload=wav_preload,
-                      detect_beep=detect_beep)
+            add_audio(
+                recording=recording,
+                preload=wav_preload,
+                detect_beep=detect_beep,
+            )
