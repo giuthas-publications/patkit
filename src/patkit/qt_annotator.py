@@ -732,8 +732,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if 'RawUltrasound' not in self.current.modalities:
             return
 
-        if (self.current.annotations['selection_index'] == -1
-                or self.image_type == GuiImageType.MEAN_IMAGE):
+        if (
+            (
+                'frame_selection_index' not in self.current.annotations or
+                self.current.annotations['frame_selection_index'] == -1
+            )
+            or self.image_type == GuiImageType.MEAN_IMAGE
+        ):
             self.action_export_ultrasound_frame.setEnabled(False)
             self.ultra_axes.clear()
             image_name = 'AggregateImage mean on RawUltrasound'
@@ -745,10 +750,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
         # Display either raw or interpolated ultrasound if asked
-        elif self.current.annotations['selection_index'] >= 0:
+        elif (
+            'frame_selection_index' in self.current.annotations and
+            self.current.annotations['frame_selection_index'] >= 0
+        ):
             self.action_export_ultrasound_frame.setEnabled(True)
             self.ultra_axes.clear()
-            index = self.current.annotations['selection_index']
+            index = self.current.annotations['frame_selection_index']
 
             ultrasound = self.current.modalities['RawUltrasound']
             if self.image_type == GuiImageType.FRAME:
@@ -775,7 +783,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             if (self.image_type == GuiImageType.FRAME
                     and 'Splines' in self.current.modalities):
                 splines = self.current.modalities['Splines']
-                index = self.current.annotations['selection_index']
+                index = self.current.annotations['frame_selection_index']
                 ultra = self.current.modalities['RawUltrasound']
                 timestamp = ultra.timevector[index]
 
@@ -825,9 +833,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Interpolate and display a raw ultrasound frame.
         """
-        if self.current.annotations['selection_index'] > -1:
+        if self.current.annotations['frame_selection_index'] > -1:
             self.action_export_ultrasound_frame.setEnabled(True)
-            ind = self.current.annotations['selection_index']
+            ind = self.current.annotations['frame_selection_index']
             array = self.current.modalities['RawUltrasound'].data[ind, :, :]
         else:
             self.action_export_ultrasound_frame.setEnabled(False)
@@ -860,27 +868,29 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
+        # TODO 0.19: This should not be hard coded
         if 'PD l1 on RawUltrasound' in self.current.modalities:
             pd_metrics = self.current.modalities['PD l1 on RawUltrasound']
             ultra_time = pd_metrics.timevector - stimulus_onset
-            index = self.current.annotations['selection_index']
+            index = self.current.annotations['frame_selection_index']
             self.current.annotations['selected_time'] = ultra_time[index]
 
     def next_frame(self):
         """
         Move the data cursor to the next frame.
         """
+        # TODO 0.19: Remove hard coding again
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
-        selection_index = self.current.annotations['selection_index']
+        frame_selection_index = self.current.annotations['frame_selection_index']
         pd = self.current.modalities['PD l1 on RawUltrasound']
         data_length = pd.data.size
-        if -1 < selection_index < data_length:
-            self.current.annotations['selection_index'] += 1
+        if -1 < frame_selection_index < data_length:
+            self.current.annotations['frame_selection_index'] += 1
             _logger.debug(
                 "next frame: %d",
-                (self.current.annotations['selection_index']))
+                (self.current.annotations['frame_selection_index']))
             self._update_pd_onset()
             self.update()
             self.update_ui()
@@ -889,11 +899,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Move the data cursor to the previous frame.
         """
-        if self.current.annotations['selection_index'] > 0:
-            self.current.annotations['selection_index'] -= 1
+        if self.current.annotations['frame_selection_index'] > 0:
+            self.current.annotations['frame_selection_index'] -= 1
             _logger.debug(
                 "previous frame: %d",
-                (self.current.annotations['selection_index']))
+                (self.current.annotations['frame_selection_index']))
             self._update_pd_onset()
             self.update()
             self.update_ui()
@@ -1129,7 +1139,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # TODO: Add a check that grays out the export ultrasound figure when
         # one isn't available.
 
-        if self.current.annotations['selection_index'] >= 0:
+        if self.current.annotations['frame_selection_index'] >= 0:
             suggested_path = Path.cwd() / "Raw_ultrasound_frame.png"
             path, options = ImageSaveDialog.get_selection(
                 name="Export ultrasound frame",
@@ -1150,7 +1160,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 filepath=path,
                 session=self.session,
                 recording=self.current,
-                selection_index=self.current.annotations['selection_index'],
+                selection_index=self.current.annotations['frame_selection_index'],
                 selection_time=self.current.annotations['selected_time'],
                 ultrasound=self.current['RawUltrasound'],
                 interpolation_params=interpolation_params
@@ -1370,6 +1380,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if not event.xdata:
             self.current.annotations['selected_time'] = -1
             self.current.annotations['selection_index'] = -1
+            self.current.annotations['frame_selection_index'] = -1
             self.update()
             return
 
@@ -1392,16 +1403,24 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.18: Remove hardcoding of modality name
-        timevector = (
-            self.current.modalities['MonoAudio'].timevector)
-        distances = np.abs(timevector - stimulus_onset - event.xdata)
-        self.current.annotations['selection_index'] = np.argmin(distances)
-        self.current.annotations['selected_time'] = event.xdata
+        # TODO 0.19: Remove hardcoding of modality names?
+        if 'RawUltrasound' in self.current.modalities:
+            timevector = (
+                self.current.modalities['RawUltrasound'].timevector)
+            distances = np.abs(timevector - stimulus_onset - event.xdata)
+            self.current.annotations['frame_selection_index'] = np.argmin(distances)
+            self.current.annotations['selected_time'] = event.xdata
+        if 'MonoAudio' in self.current.modalities:
+            timevector = (
+                self.current.modalities['MonoAudio'].timevector)
+            distances = np.abs(timevector - stimulus_onset - event.xdata)
+            self.current.annotations['selection_index'] = np.argmin(distances)
+            self.current.annotations['selected_time'] = event.xdata
 
         _logger.debug(
-            "Inside onpick - subplot: %d, index=%d, x=%f",
+            "Inside onpick - subplot: %d, ultra_index=%d, audio_index=%d, x=%f",
             subplot,
+            self.current.annotations['frame_selection_index'],
             self.current.annotations['selection_index'],
             self.current.annotations['selected_time'])
 
@@ -1480,6 +1499,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         self.gui_config.auto_xlim = False
         if self.current.annotations['selection_index'] >= 0:
+            center = self.current.annotations['selected_time']
+        elif self.current.annotations['frame_selection_index'] >= 0:
             center = self.current.annotations['selected_time']
         else:
             center = (self.xlim[0] + self.xlim[1]) / 2.0
