@@ -220,10 +220,10 @@ class UiMainWindow(object):
         self.action_open_answer.setObjectName("action_open_answer")
         self.action_save_answer = QtGui.QAction(main_window)
         self.action_save_answer.setObjectName("action_save_answer")
-        self.action_compare_to_model = QtGui.QAction(main_window)
-        self.action_compare_to_model.setObjectName("action_compare_to_model")
-        self.action_show_model = QtGui.QAction(main_window)
-        self.action_show_model.setObjectName("action_show_model")
+        self.action_compare_to_example = QtGui.QAction(main_window)
+        self.action_compare_to_example.setObjectName("action_compare_to_example")
+        self.action_show_example = QtGui.QAction(main_window)
+        self.action_show_example.setObjectName("action_show_example")
 
         self.menu_exercise.addAction(self.action_run_as_exercise)
         self.menu_exercise.addAction(self.action_create_exercise)
@@ -232,14 +232,14 @@ class UiMainWindow(object):
         self.menu_exercise.addAction(self.action_open_answer)
         self.menu_exercise.addAction(self.action_save_answer)
         self.menu_exercise.addSeparator()
-        self.menu_exercise.addAction(self.action_compare_to_model)
-        self.menu_exercise.addAction(self.action_show_model)
+        self.menu_exercise.addAction(self.action_compare_to_example)
+        self.menu_exercise.addAction(self.action_show_example)
 
         # TODO: 0.18.1: Implement this?
-        self.action_compare_to_model.setEnabled(False)
+        self.action_compare_to_example.setEnabled(False)
 
-        self.action_show_model.setCheckable(True)
-        self.action_show_model.setChecked(False)
+        self.action_show_example.setCheckable(True)
+        self.action_show_example.setChecked(False)
 
         ### Export menu actions
         self.action_export_analysis = QtGui.QAction(main_window)
@@ -342,10 +342,10 @@ class UiMainWindow(object):
             _translate("MainWindow", "Open answer..."))
         self.action_save_answer.setText(
             _translate("MainWindow", "Save answer..."))
-        self.action_compare_to_model.setText(
-            _translate("MainWindow", "Compare to model"))
-        self.action_show_model.setText(
-            _translate("MainWindow", "Show model"))
+        self.action_compare_to_example.setText(
+            _translate("MainWindow", "Compare to example"))
+        self.action_show_example.setText(
+            _translate("MainWindow", "Show example"))
 
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.action_open.setText(_translate("MainWindow", "Open..."))

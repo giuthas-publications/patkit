@@ -235,8 +235,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_open_exercise.triggered.connect(self.open_exercise)
         self.action_open_answer.triggered.connect(self.open_answer)
         self.action_save_answer.triggered.connect(self.save_answer)
-        self.action_compare_to_model.triggered.connect(self.compare_to_model)
-        self.action_show_model.triggered.connect(self.show_model)
+        self.action_compare_to_example.triggered.connect(self.compare_to_model)
+        self.action_show_example.triggered.connect(self.show_model)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -569,7 +569,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # TODO 0.18: Add a check to draw plots which adds the model textgrid to
         # plotting 
-        if self.action_show_model.isChecked():
+        if self.action_show_example.isChecked():
             print("I should be showing the model answer but don't yet know how.")
 
         for axes in self.tier_axes:
