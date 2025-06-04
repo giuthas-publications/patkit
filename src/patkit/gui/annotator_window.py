@@ -210,12 +210,12 @@ class UiMainWindow(object):
         self.menu_file.addAction(self.action_quit)
 
         ### Exercise menu actions
-        self.action_run_as_assignment = QtGui.QAction(main_window)
-        self.action_run_as_assignment.setObjectName("action_run_as_assignment")
-        self.action_create_assignment = QtGui.QAction(main_window)
-        self.action_create_assignment.setObjectName("action_create_assignment")
-        self.action_open_assignment = QtGui.QAction(main_window)
-        self.action_open_assignment.setObjectName("action_open_assignment")
+        self.action_run_as_exercise = QtGui.QAction(main_window)
+        self.action_run_as_exercise.setObjectName("action_run_as_exercise")
+        self.action_create_exercise = QtGui.QAction(main_window)
+        self.action_create_exercise.setObjectName("action_create_exercise")
+        self.action_open_exercise = QtGui.QAction(main_window)
+        self.action_open_exercise.setObjectName("action_open_exercise")
         self.action_open_answer = QtGui.QAction(main_window)
         self.action_open_answer.setObjectName("action_open_answer")
         self.action_save_answer = QtGui.QAction(main_window)
@@ -225,9 +225,9 @@ class UiMainWindow(object):
         self.action_show_model = QtGui.QAction(main_window)
         self.action_show_model.setObjectName("action_show_model")
 
-        self.menu_exercise.addAction(self.action_run_as_assignment)
-        self.menu_exercise.addAction(self.action_create_assignment)
-        self.menu_exercise.addAction(self.action_open_assignment)
+        self.menu_exercise.addAction(self.action_run_as_exercise)
+        self.menu_exercise.addAction(self.action_create_exercise)
+        self.menu_exercise.addAction(self.action_open_exercise)
         self.menu_exercise.addSeparator()
         self.menu_exercise.addAction(self.action_open_answer)
         self.menu_exercise.addAction(self.action_save_answer)
@@ -332,12 +332,12 @@ class UiMainWindow(object):
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
 
-        self.action_run_as_assignment.setText(
-            _translate("MainWindow", "Run as assignment"))
-        self.action_create_assignment.setText(
-            _translate("MainWindow", "Create assignment..."))
-        self.action_open_assignment.setText(
-            _translate("MainWindow", "Open assignment..."))
+        self.action_run_as_exercise.setText(
+            _translate("MainWindow", "Run as exercise"))
+        self.action_create_exercise.setText(
+            _translate("MainWindow", "Create exercise..."))
+        self.action_open_exercise.setText(
+            _translate("MainWindow", "Open exercise..."))
         self.action_open_answer.setText(
             _translate("MainWindow", "Open answer..."))
         self.action_save_answer.setText(

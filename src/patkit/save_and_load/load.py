@@ -46,7 +46,7 @@ from patkit.data_import import (
     modality_adders, add_splines
 )
 from patkit.data_structures import (
-    Assignment, ModalityData, Recording, Session
+    Exercise, ModalityData, Recording, Session
 )
 from patkit.data_structures.metadata_classes import FileInformation
 from patkit.metrics import metrics, statistics
@@ -377,27 +377,25 @@ def load_recording_session(
     return session
 
 
-def load_assignment(
+def load_exercise(
         directory: Path | str,
-        assignment_config_path: Path | None = None
-) -> Assignment:
+        exercise_config_path: Path | None = None
+) -> Exercise:
     """
-    Load a recording session from a directory.
+    Load an exercise from a directory.
 
     Parameters
     ----------
     directory: Path
         Root directory of the data.
-    session_config_path : Path | None
-        Path to the assignment configuration file. By default, None.
+    exercise_config_path : Path | None
+        Path to the exercise configuration file. By default, None.
 
     Returns
     -------
-    Assignment
-        The loaded Assignment object.
+    Exercise
+        The loaded Exercise object.
     """
 
-    if assignment_config_path is None:
-        assignment_config_path = directory / PatkitConfigFile.ASSIGNMENT
-
-    
+    if exercise_config_path is None:
+        exercise_config_path = directory / PatkitConfigFile.ASSIGNMENT

@@ -60,11 +60,11 @@ _logger = logging.getLogger('patkit.data_structures')
 
 class Answer():
     """
-    Answer is an answer to an Assignment.
+    Answer is an answer to an Exercise.
     """
     def __init__(
         self,
-        container: Assignment,
+        container: Exercise,
         textgrid_paths: list[Path],
         session: Session,
     ):
@@ -113,9 +113,9 @@ class Answer():
         return self.cursor
 
 
-class Assignment(UserList):
+class Exercise(UserList):
     """
-    Assignment is list of Answers, which has an optional ModelAnswer.
+    Exercise is list of Answers, which has an optional ExampleAnswer.
     """
 
     def __init__(
@@ -594,7 +594,7 @@ class Modality(AbstractData, OrderedDict):
     @property
     def recording(self) -> Recording | None:
         """
-        This modality's container available also with this alias for ease of use.
+        This modality's container available with this alias for ease of use.
 
         Returns
         -------
@@ -920,4 +920,3 @@ class Modality(AbstractData, OrderedDict):
         if self._metadata and self._metadata.parent_name:
             return True
         return False
-

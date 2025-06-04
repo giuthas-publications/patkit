@@ -90,7 +90,7 @@ from patkit.plot_and_publish import (
 )
 from patkit.plot_and_publish.plot import plot_spectrogram2
 from patkit.save_and_load import (
-    load_assignment, load_recording_session, save_recording_session
+    load_exercise, load_recording_session, save_recording_session
 )
 from patkit.ui_callbacks import UiCallbacks
 
@@ -228,11 +228,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
-        self.action_run_as_assignment.triggered.connect(
-            self.run_as_assignment)
-        self.action_create_assignment.triggered.connect(
-            self.create_assignment)
-        self.action_open_assignment.triggered.connect(self.open_assignment)
+        self.action_run_as_exercise.triggered.connect(
+            self.run_as_exercise)
+        self.action_create_exercise.triggered.connect(
+            self.create_exercise)
+        self.action_open_exercise.triggered.connect(self.open_exercise)
         self.action_open_answer.triggered.connect(self.open_answer)
         self.action_save_answer.triggered.connect(self.save_answer)
         self.action_compare_to_model.triggered.connect(self.compare_to_model)
@@ -1067,9 +1067,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     str(recording.textgrid_path))
 
 
-    def run_as_assignment(self):
+    def run_as_exercise(self):
         """
-        Scramble TextGrids to run as an exercise.
+        Scramble TextGrids to run as an Exercise.
         """
         for recording in self.session:
             for tier in recording.patgrid:
@@ -1077,22 +1077,22 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.update()
         self.update_ui()
 
-    def create_assignment(self):
+    def create_exercise(self):
         """
-        Wrap a directory as an Assignment.
+        Wrap a directory as an Exercise.
         """
         # TODO 2.6.: JOS MAHDOLLISTA ENNEN EMBRAN ESITELMÄÄ
         # ask for directory
-        # ask for patkit/assignment dir
-        # write patkit_assignment.yaml in assignment dir
+        # ask for patkit/exercise dir
+        # write patkit_v.yaml in exercise dir
         # mess up the textgrids as equidistant
         # show scrambled textgrid instead of original
 
-    def open_assignment(self):
-        # (assignment_config_path, _) = QFileDialog.getOpenFileName(
-        #     self, 'Open Assignment', directory='.',
-        #     filter="Assignment files (patkit_assignment.yaml)")
-        # self.assignment = load_assignment(assignment_config_path)
+    def open_exercise(self):
+        # (exercise_config_path, _) = QFileDialog.getOpenFileName(
+        #     self, 'Open Exercise', directory='.',
+        #     filter="Exercise files (patkit_exercise.yaml)")
+        # self.exercise = load_exercise(exercise_config_path)
         pass
 
     def open_answer(self):

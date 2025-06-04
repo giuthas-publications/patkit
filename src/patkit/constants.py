@@ -194,7 +194,7 @@ class PatkitConfigFile:
     SESSION: how PATKIT should read a session based on recorded data
     SPLINE: spline formatting
     """
-    ASSIGNMENT = "patkit-assignment.yaml"
+    EXERCISE = "patkit-exercise.yaml"
     DATA = "patkit-data.yaml"
     GUI = "patkit-gui.yaml"
     PUBLISH = "patkit-publish.yaml"

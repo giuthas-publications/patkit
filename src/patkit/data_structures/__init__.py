@@ -40,7 +40,7 @@ from .base_classes import (
     AbstractData, AbstractDataContainer, AbstractDataObject, Statistic
 )
 from .data_structures import (
-    Assignment, Answer, Manifest, Modality, Recording, Session
+    Exercise, Answer, Manifest, Modality, Recording, Session
 )
 from .metadata_classes import (
     FileInformation,
