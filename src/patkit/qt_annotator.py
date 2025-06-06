@@ -137,6 +137,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.session = session
         self.recordings = session.recordings
         self.index = 0
+
         self.max_index = len(self.recordings)
 
         self.display_tongue = display_tongue
@@ -374,7 +375,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     @property
     def current(self):
-        """Current recording index."""
+        """Current recording at index."""
         return self.recordings[self.index]
 
     @property
@@ -385,6 +386,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'tonguePosition': self.tongue_positions[-1],
             'selected_time': -1.0,
             'selection_index': -1,
+            'frame_selection_index': -1,
         }
 
     def _add_annotations(self):
