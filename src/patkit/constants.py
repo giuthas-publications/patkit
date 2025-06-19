@@ -56,7 +56,7 @@ DEFAULT_ENCODING = 'utf-8'
 PATKIT_CONFIG_DIR = "~/.patkit/"
 PATKIT_HISTORY_FILE = PATKIT_CONFIG_DIR + "history"
 
-# TODO 0.17 still not happy with this and how it meshes with patgrid.
+# TODO 0.21 still not happy with this and how it meshes with patgrid.
 PATKIT_EPSILON = 0.00001
 
 
@@ -194,6 +194,7 @@ class PatkitConfigFile:
     SESSION: how PATKIT should read a session based on recorded data
     SPLINE: spline formatting
     """
+    EXERCISE = "patkit-exercise.yaml"
     DATA = "patkit-data.yaml"
     GUI = "patkit-gui.yaml"
     PUBLISH = "patkit-publish.yaml"

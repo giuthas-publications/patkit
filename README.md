@@ -28,7 +28,7 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
 Check that [PyPi](https://pypi.org/search/?q=patkit) finds patkit and if it
 does:
 - Install [uv](https://docs.astral.sh/uv/#getting-started).
-- On the commandline run `uv tool install patkit`.
+- On the commandline run `uv tool install patkit`
 - Run `patkit --help` for instructions.
 - If you want to run the example data, get the `recorded_data` folder from
   [github](https://github.com/giuthas/patkit).

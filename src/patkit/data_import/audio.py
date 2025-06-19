@@ -64,19 +64,23 @@ def add_audio(
         _description_, by default None
     """
     if not path:
-        ult_wav_file = recording.recorded_meta_path.with_suffix(
-            SourceSuffix.WAV)
+        if recording.recorded_meta_path is not None:
+            wav_file = recording.recorded_meta_path.with_suffix(
+                SourceSuffix.WAV)
+        else:
+            wav_file = recording.recorded_data_path.with_suffix(
+                SourceSuffix.WAV)
     else:
-        ult_wav_file = path
+        wav_file = path
 
-    if ult_wav_file.is_file():
+    if wav_file.is_file():
         file_info = FileInformation(
             recorded_path=Path("."),
-            recorded_data_file=ult_wav_file.name
+            recorded_data_file=wav_file.name
         )
         if preload and detect_beep:
             data, go_signal, has_speech = read_wav_and_detect_beep(
-                ult_wav_file)
+                wav_file)
             waveform = MonoAudio(
                 container=recording,
                 file_info=file_info,
@@ -87,7 +91,7 @@ def add_audio(
             )
             recording.add_modality(waveform)
         elif preload:
-            data = read_wav(ult_wav_file)
+            data = read_wav(wav_file)
             waveform = MonoAudio(
                 container=recording,
                 file_info=file_info,
@@ -106,6 +110,6 @@ def add_audio(
             "Added MonoAudio to Recording representing %s.",
             recording.recorded_data_name)
     else:
-        notice = 'Note: ' + str(ult_wav_file) + " does not exist. Excluding."
+        notice = 'Note: ' + str(wav_file) + " does not exist. Excluding."
         _generic_io_logger.warning(notice)
         recording.exclude()

@@ -132,6 +132,9 @@
                         <li>
                                 <a class="function" href="#PatTier.intersects">intersects</a>
                         </li>
+                        <li>
+                                <a class="function" href="#PatTier.scramble">scramble</a>
+                        </li>
                 </ul>
 
             </li>
@@ -664,116 +667,125 @@
 </span><span id="L-485"><a href="#L-485"><span class="linenos">485</span></a>
 </span><span id="L-486"><a href="#L-486"><span class="linenos">486</span></a>        <span class="k">return</span> <span class="n">in_limits</span>
 </span><span id="L-487"><a href="#L-487"><span class="linenos">487</span></a>
-</span><span id="L-488"><a href="#L-488"><span class="linenos">488</span></a>
-</span><span id="L-489"><a href="#L-489"><span class="linenos">489</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatGrid</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
-</span><span id="L-490"><a href="#L-490"><span class="linenos">490</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-491"><a href="#L-491"><span class="linenos">491</span></a><span class="sd">    TextGrid representation which makes editing easier.</span>
-</span><span id="L-492"><a href="#L-492"><span class="linenos">492</span></a>
-</span><span id="L-493"><a href="#L-493"><span class="linenos">493</span></a><span class="sd">    PatGrid is a OrderedDict very similar to Python textgrids TextGrid, but</span>
-</span><span id="L-494"><a href="#L-494"><span class="linenos">494</span></a><span class="sd">    made up of PatTiers that in turn contain intervals or points as doubly</span>
-</span><span id="L-495"><a href="#L-495"><span class="linenos">495</span></a><span class="sd">    linked lists instead of just lists. See the relevant classes for more</span>
-</span><span id="L-496"><a href="#L-496"><span class="linenos">496</span></a><span class="sd">    details.</span>
-</span><span id="L-497"><a href="#L-497"><span class="linenos">497</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a>
-</span><span id="L-499"><a href="#L-499"><span class="linenos">499</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textgrid</span><span class="p">:</span> <span class="n">TextGrid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="n">textgrid</span><span class="p">:</span>
-</span><span id="L-502"><a href="#L-502"><span class="linenos">502</span></a>            <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">PatTier</span><span class="o">.</span><span class="n">from_textgrid_tier</span><span class="p">(</span><span class="n">textgrid</span><span class="p">[</span><span class="n">tier_name</span><span class="p">])</span>
-</span><span id="L-503"><a href="#L-503"><span class="linenos">503</span></a>
-</span><span id="L-504"><a href="#L-504"><span class="linenos">504</span></a>    <span class="c1"># def as_textgrid(self):</span>
-</span><span id="L-505"><a href="#L-505"><span class="linenos">505</span></a>    <span class="c1">#     pass</span>
-</span><span id="L-506"><a href="#L-506"><span class="linenos">506</span></a>
-</span><span id="L-507"><a href="#L-507"><span class="linenos">507</span></a>    <span class="nd">@property</span>
-</span><span id="L-508"><a href="#L-508"><span class="linenos">508</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-509"><a href="#L-509"><span class="linenos">509</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-510"><a href="#L-510"><span class="linenos">510</span></a><span class="sd">        Begin timestamp.</span>
-</span><span id="L-511"><a href="#L-511"><span class="linenos">511</span></a>
-</span><span id="L-512"><a href="#L-512"><span class="linenos">512</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
-</span><span id="L-513"><a href="#L-513"><span class="linenos">513</span></a>
-</span><span id="L-514"><a href="#L-514"><span class="linenos">514</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="L-515"><a href="#L-515"><span class="linenos">515</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="L-516"><a href="#L-516"><span class="linenos">516</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-517"><a href="#L-517"><span class="linenos">517</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-518"><a href="#L-518"><span class="linenos">518</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
-</span><span id="L-519"><a href="#L-519"><span class="linenos">519</span></a>
-</span><span id="L-520"><a href="#L-520"><span class="linenos">520</span></a>    <span class="nd">@property</span>
-</span><span id="L-521"><a href="#L-521"><span class="linenos">521</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="L-522"><a href="#L-522"><span class="linenos">522</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-523"><a href="#L-523"><span class="linenos">523</span></a><span class="sd">        End timestamp.</span>
-</span><span id="L-524"><a href="#L-524"><span class="linenos">524</span></a>
-</span><span id="L-525"><a href="#L-525"><span class="linenos">525</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
-</span><span id="L-526"><a href="#L-526"><span class="linenos">526</span></a>
-</span><span id="L-527"><a href="#L-527"><span class="linenos">527</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="L-528"><a href="#L-528"><span class="linenos">528</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="L-529"><a href="#L-529"><span class="linenos">529</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-530"><a href="#L-530"><span class="linenos">530</span></a>        <span class="c1"># First Tier</span>
-</span><span id="L-531"><a href="#L-531"><span class="linenos">531</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-532"><a href="#L-532"><span class="linenos">532</span></a>        <span class="c1"># Return the end of the first Tier.</span>
-</span><span id="L-533"><a href="#L-533"><span class="linenos">533</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
-</span><span id="L-534"><a href="#L-534"><span class="linenos">534</span></a>
-</span><span id="L-535"><a href="#L-535"><span class="linenos">535</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="L-536"><a href="#L-536"><span class="linenos">536</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
-</span><span id="L-537"><a href="#L-537"><span class="linenos">537</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-</span><span id="L-538"><a href="#L-538"><span class="linenos">538</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-539"><a href="#L-539"><span class="linenos">539</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span id="L-540"><a href="#L-540"><span class="linenos">540</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="L-541"><a href="#L-541"><span class="linenos">541</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
-</span><span id="L-542"><a href="#L-542"><span class="linenos">542</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
-</span><span id="L-543"><a href="#L-543"><span class="linenos">543</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="L-544"><a href="#L-544"><span class="linenos">544</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
-</span><span id="L-545"><a href="#L-545"><span class="linenos">545</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
-</span><span id="L-546"><a href="#L-546"><span class="linenos">546</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
-</span><span id="L-547"><a href="#L-547"><span class="linenos">547</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
-</span><span id="L-548"><a href="#L-548"><span class="linenos">548</span></a>                                    <span class="n">name</span><span class="p">,</span>
-</span><span id="L-549"><a href="#L-549"><span class="linenos">549</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="L-550"><a href="#L-550"><span class="linenos">550</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="L-551"><a href="#L-551"><span class="linenos">551</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
-</span><span id="L-552"><a href="#L-552"><span class="linenos">552</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-553"><a href="#L-553"><span class="linenos">553</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="L-554"><a href="#L-554"><span class="linenos">554</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="L-555"><a href="#L-555"><span class="linenos">555</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="L-556"><a href="#L-556"><span class="linenos">556</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
-</span><span id="L-557"><a href="#L-557"><span class="linenos">557</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="L-558"><a href="#L-558"><span class="linenos">558</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
-</span><span id="L-559"><a href="#L-559"><span class="linenos">559</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="L-560"><a href="#L-560"><span class="linenos">560</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="L-561"><a href="#L-561"><span class="linenos">561</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="L-562"><a href="#L-562"><span class="linenos">562</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="L-563"><a href="#L-563"><span class="linenos">563</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="L-564"><a href="#L-564"><span class="linenos">564</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
-</span><span id="L-565"><a href="#L-565"><span class="linenos">565</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
-</span><span id="L-566"><a href="#L-566"><span class="linenos">566</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
-</span><span id="L-567"><a href="#L-567"><span class="linenos">567</span></a>                    <span class="c1"># element.next.begin) above.</span>
-</span><span id="L-568"><a href="#L-568"><span class="linenos">568</span></a>                    <span class="k">pass</span>
-</span><span id="L-569"><a href="#L-569"><span class="linenos">569</span></a>        <span class="k">return</span> <span class="n">out</span>
-</span><span id="L-570"><a href="#L-570"><span class="linenos">570</span></a>
-</span><span id="L-571"><a href="#L-571"><span class="linenos">571</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
-</span><span id="L-572"><a href="#L-572"><span class="linenos">572</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="L-573"><a href="#L-573"><span class="linenos">573</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-</span><span id="L-574"><a href="#L-574"><span class="linenos">574</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-575"><a href="#L-575"><span class="linenos">575</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
-</span><span id="L-576"><a href="#L-576"><span class="linenos">576</span></a>
-</span><span id="L-577"><a href="#L-577"><span class="linenos">577</span></a><span class="sd">        Parameters</span>
-</span><span id="L-578"><a href="#L-578"><span class="linenos">578</span></a><span class="sd">        ----------</span>
-</span><span id="L-579"><a href="#L-579"><span class="linenos">579</span></a><span class="sd">        time_vector : np.ndarray</span>
-</span><span id="L-580"><a href="#L-580"><span class="linenos">580</span></a><span class="sd">            Time values to get the labels for.</span>
-</span><span id="L-581"><a href="#L-581"><span class="linenos">581</span></a><span class="sd">        epsilon : float | None</span>
-</span><span id="L-582"><a href="#L-582"><span class="linenos">582</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
-</span><span id="L-583"><a href="#L-583"><span class="linenos">583</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
-</span><span id="L-584"><a href="#L-584"><span class="linenos">584</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
-</span><span id="L-585"><a href="#L-585"><span class="linenos">585</span></a><span class="sd">            should be passed here.</span>
-</span><span id="L-586"><a href="#L-586"><span class="linenos">586</span></a>
-</span><span id="L-587"><a href="#L-587"><span class="linenos">587</span></a><span class="sd">        Returns</span>
-</span><span id="L-588"><a href="#L-588"><span class="linenos">588</span></a><span class="sd">        -------</span>
-</span><span id="L-589"><a href="#L-589"><span class="linenos">589</span></a><span class="sd">        dict[str, np.ndarray]</span>
-</span><span id="L-590"><a href="#L-590"><span class="linenos">590</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
-</span><span id="L-591"><a href="#L-591"><span class="linenos">591</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-592"><a href="#L-592"><span class="linenos">592</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="L-593"><a href="#L-593"><span class="linenos">593</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span id="L-594"><a href="#L-594"><span class="linenos">594</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
-</span><span id="L-595"><a href="#L-595"><span class="linenos">595</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-</span><span id="L-596"><a href="#L-596"><span class="linenos">596</span></a>
-</span><span id="L-597"><a href="#L-597"><span class="linenos">597</span></a>        <span class="k">return</span> <span class="n">labels</span>
+</span><span id="L-488"><a href="#L-488"><span class="linenos">488</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scramble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-489"><a href="#L-489"><span class="linenos">489</span></a>        <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+</span><span id="L-490"><a href="#L-490"><span class="linenos">490</span></a>            <span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="L-491"><a href="#L-491"><span class="linenos">491</span></a>            <span class="n">stop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="L-492"><a href="#L-492"><span class="linenos">492</span></a>            <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="L-493"><a href="#L-493"><span class="linenos">493</span></a>        <span class="p">)</span>
+</span><span id="L-494"><a href="#L-494"><span class="linenos">494</span></a>        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">):</span>
+</span><span id="L-495"><a href="#L-495"><span class="linenos">495</span></a>            <span class="n">item</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">boundary</span>
+</span><span id="L-496"><a href="#L-496"><span class="linenos">496</span></a>
+</span><span id="L-497"><a href="#L-497"><span class="linenos">497</span></a>
+</span><span id="L-498"><a href="#L-498"><span class="linenos">498</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatGrid</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
+</span><span id="L-499"><a href="#L-499"><span class="linenos">499</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-500"><a href="#L-500"><span class="linenos">500</span></a><span class="sd">    TextGrid representation which makes editing easier.</span>
+</span><span id="L-501"><a href="#L-501"><span class="linenos">501</span></a>
+</span><span id="L-502"><a href="#L-502"><span class="linenos">502</span></a><span class="sd">    PatGrid is a OrderedDict very similar to Python textgrids TextGrid, but</span>
+</span><span id="L-503"><a href="#L-503"><span class="linenos">503</span></a><span class="sd">    made up of PatTiers that in turn contain intervals or points as doubly</span>
+</span><span id="L-504"><a href="#L-504"><span class="linenos">504</span></a><span class="sd">    linked lists instead of just lists. See the relevant classes for more</span>
+</span><span id="L-505"><a href="#L-505"><span class="linenos">505</span></a><span class="sd">    details.</span>
+</span><span id="L-506"><a href="#L-506"><span class="linenos">506</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-507"><a href="#L-507"><span class="linenos">507</span></a>
+</span><span id="L-508"><a href="#L-508"><span class="linenos">508</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textgrid</span><span class="p">:</span> <span class="n">TextGrid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-509"><a href="#L-509"><span class="linenos">509</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="L-510"><a href="#L-510"><span class="linenos">510</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="n">textgrid</span><span class="p">:</span>
+</span><span id="L-511"><a href="#L-511"><span class="linenos">511</span></a>            <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">PatTier</span><span class="o">.</span><span class="n">from_textgrid_tier</span><span class="p">(</span><span class="n">textgrid</span><span class="p">[</span><span class="n">tier_name</span><span class="p">])</span>
+</span><span id="L-512"><a href="#L-512"><span class="linenos">512</span></a>
+</span><span id="L-513"><a href="#L-513"><span class="linenos">513</span></a>    <span class="c1"># def as_textgrid(self):</span>
+</span><span id="L-514"><a href="#L-514"><span class="linenos">514</span></a>    <span class="c1">#     pass</span>
+</span><span id="L-515"><a href="#L-515"><span class="linenos">515</span></a>
+</span><span id="L-516"><a href="#L-516"><span class="linenos">516</span></a>    <span class="nd">@property</span>
+</span><span id="L-517"><a href="#L-517"><span class="linenos">517</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-518"><a href="#L-518"><span class="linenos">518</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-519"><a href="#L-519"><span class="linenos">519</span></a><span class="sd">        Begin timestamp.</span>
+</span><span id="L-520"><a href="#L-520"><span class="linenos">520</span></a>
+</span><span id="L-521"><a href="#L-521"><span class="linenos">521</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
+</span><span id="L-522"><a href="#L-522"><span class="linenos">522</span></a>
+</span><span id="L-523"><a href="#L-523"><span class="linenos">523</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="L-524"><a href="#L-524"><span class="linenos">524</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="L-525"><a href="#L-525"><span class="linenos">525</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-526"><a href="#L-526"><span class="linenos">526</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-527"><a href="#L-527"><span class="linenos">527</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
+</span><span id="L-528"><a href="#L-528"><span class="linenos">528</span></a>
+</span><span id="L-529"><a href="#L-529"><span class="linenos">529</span></a>    <span class="nd">@property</span>
+</span><span id="L-530"><a href="#L-530"><span class="linenos">530</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="L-531"><a href="#L-531"><span class="linenos">531</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-532"><a href="#L-532"><span class="linenos">532</span></a><span class="sd">        End timestamp.</span>
+</span><span id="L-533"><a href="#L-533"><span class="linenos">533</span></a>
+</span><span id="L-534"><a href="#L-534"><span class="linenos">534</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
+</span><span id="L-535"><a href="#L-535"><span class="linenos">535</span></a>
+</span><span id="L-536"><a href="#L-536"><span class="linenos">536</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="L-537"><a href="#L-537"><span class="linenos">537</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="L-538"><a href="#L-538"><span class="linenos">538</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-539"><a href="#L-539"><span class="linenos">539</span></a>        <span class="c1"># First Tier</span>
+</span><span id="L-540"><a href="#L-540"><span class="linenos">540</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-541"><a href="#L-541"><span class="linenos">541</span></a>        <span class="c1"># Return the end of the first Tier.</span>
+</span><span id="L-542"><a href="#L-542"><span class="linenos">542</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
+</span><span id="L-543"><a href="#L-543"><span class="linenos">543</span></a>
+</span><span id="L-544"><a href="#L-544"><span class="linenos">544</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-545"><a href="#L-545"><span class="linenos">545</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
+</span><span id="L-546"><a href="#L-546"><span class="linenos">546</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</span><span id="L-547"><a href="#L-547"><span class="linenos">547</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-548"><a href="#L-548"><span class="linenos">548</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="L-549"><a href="#L-549"><span class="linenos">549</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="L-550"><a href="#L-550"><span class="linenos">550</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
+</span><span id="L-551"><a href="#L-551"><span class="linenos">551</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
+</span><span id="L-552"><a href="#L-552"><span class="linenos">552</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="L-553"><a href="#L-553"><span class="linenos">553</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
+</span><span id="L-554"><a href="#L-554"><span class="linenos">554</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
+</span><span id="L-555"><a href="#L-555"><span class="linenos">555</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
+</span><span id="L-556"><a href="#L-556"><span class="linenos">556</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
+</span><span id="L-557"><a href="#L-557"><span class="linenos">557</span></a>                                    <span class="n">name</span><span class="p">,</span>
+</span><span id="L-558"><a href="#L-558"><span class="linenos">558</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="L-559"><a href="#L-559"><span class="linenos">559</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="L-560"><a href="#L-560"><span class="linenos">560</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
+</span><span id="L-561"><a href="#L-561"><span class="linenos">561</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-562"><a href="#L-562"><span class="linenos">562</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="L-563"><a href="#L-563"><span class="linenos">563</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="L-564"><a href="#L-564"><span class="linenos">564</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="L-565"><a href="#L-565"><span class="linenos">565</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+</span><span id="L-566"><a href="#L-566"><span class="linenos">566</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="L-567"><a href="#L-567"><span class="linenos">567</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+</span><span id="L-568"><a href="#L-568"><span class="linenos">568</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="L-569"><a href="#L-569"><span class="linenos">569</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="L-570"><a href="#L-570"><span class="linenos">570</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="L-571"><a href="#L-571"><span class="linenos">571</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="L-572"><a href="#L-572"><span class="linenos">572</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="L-573"><a href="#L-573"><span class="linenos">573</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
+</span><span id="L-574"><a href="#L-574"><span class="linenos">574</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
+</span><span id="L-575"><a href="#L-575"><span class="linenos">575</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
+</span><span id="L-576"><a href="#L-576"><span class="linenos">576</span></a>                    <span class="c1"># element.next.begin) above.</span>
+</span><span id="L-577"><a href="#L-577"><span class="linenos">577</span></a>                    <span class="k">pass</span>
+</span><span id="L-578"><a href="#L-578"><span class="linenos">578</span></a>        <span class="k">return</span> <span class="n">out</span>
+</span><span id="L-579"><a href="#L-579"><span class="linenos">579</span></a>
+</span><span id="L-580"><a href="#L-580"><span class="linenos">580</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
+</span><span id="L-581"><a href="#L-581"><span class="linenos">581</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-582"><a href="#L-582"><span class="linenos">582</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span><span id="L-583"><a href="#L-583"><span class="linenos">583</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-584"><a href="#L-584"><span class="linenos">584</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
+</span><span id="L-585"><a href="#L-585"><span class="linenos">585</span></a>
+</span><span id="L-586"><a href="#L-586"><span class="linenos">586</span></a><span class="sd">        Parameters</span>
+</span><span id="L-587"><a href="#L-587"><span class="linenos">587</span></a><span class="sd">        ----------</span>
+</span><span id="L-588"><a href="#L-588"><span class="linenos">588</span></a><span class="sd">        time_vector : np.ndarray</span>
+</span><span id="L-589"><a href="#L-589"><span class="linenos">589</span></a><span class="sd">            Time values to get the labels for.</span>
+</span><span id="L-590"><a href="#L-590"><span class="linenos">590</span></a><span class="sd">        epsilon : float | None</span>
+</span><span id="L-591"><a href="#L-591"><span class="linenos">591</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
+</span><span id="L-592"><a href="#L-592"><span class="linenos">592</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
+</span><span id="L-593"><a href="#L-593"><span class="linenos">593</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
+</span><span id="L-594"><a href="#L-594"><span class="linenos">594</span></a><span class="sd">            should be passed here.</span>
+</span><span id="L-595"><a href="#L-595"><span class="linenos">595</span></a>
+</span><span id="L-596"><a href="#L-596"><span class="linenos">596</span></a><span class="sd">        Returns</span>
+</span><span id="L-597"><a href="#L-597"><span class="linenos">597</span></a><span class="sd">        -------</span>
+</span><span id="L-598"><a href="#L-598"><span class="linenos">598</span></a><span class="sd">        dict[str, np.ndarray]</span>
+</span><span id="L-599"><a href="#L-599"><span class="linenos">599</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
+</span><span id="L-600"><a href="#L-600"><span class="linenos">600</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-601"><a href="#L-601"><span class="linenos">601</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="L-602"><a href="#L-602"><span class="linenos">602</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="L-603"><a href="#L-603"><span class="linenos">603</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
+</span><span id="L-604"><a href="#L-604"><span class="linenos">604</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+</span><span id="L-605"><a href="#L-605"><span class="linenos">605</span></a>
+</span><span id="L-606"><a href="#L-606"><span class="linenos">606</span></a>        <span class="k">return</span> <span class="n">labels</span>
 </span></pre></div>
 
 
@@ -1854,6 +1866,15 @@ here.</li>
 </span><span id="PatTier-485"><a href="#PatTier-485"><span class="linenos">485</span></a>                        <span class="n">in_limits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </span><span id="PatTier-486"><a href="#PatTier-486"><span class="linenos">486</span></a>
 </span><span id="PatTier-487"><a href="#PatTier-487"><span class="linenos">487</span></a>        <span class="k">return</span> <span class="n">in_limits</span>
+</span><span id="PatTier-488"><a href="#PatTier-488"><span class="linenos">488</span></a>
+</span><span id="PatTier-489"><a href="#PatTier-489"><span class="linenos">489</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scramble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="PatTier-490"><a href="#PatTier-490"><span class="linenos">490</span></a>        <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+</span><span id="PatTier-491"><a href="#PatTier-491"><span class="linenos">491</span></a>            <span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatTier-492"><a href="#PatTier-492"><span class="linenos">492</span></a>            <span class="n">stop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatTier-493"><a href="#PatTier-493"><span class="linenos">493</span></a>            <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="PatTier-494"><a href="#PatTier-494"><span class="linenos">494</span></a>        <span class="p">)</span>
+</span><span id="PatTier-495"><a href="#PatTier-495"><span class="linenos">495</span></a>        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">):</span>
+</span><span id="PatTier-496"><a href="#PatTier-496"><span class="linenos">496</span></a>            <span class="n">item</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">boundary</span>
 </span></pre></div>
 
 
@@ -2318,6 +2339,31 @@ The time interval in seconds.</li>
 
 
                             </div>
+                            <div id="PatTier.scramble" class="classattr">
+                                        <input id="PatTier.scramble-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">scramble</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="PatTier.scramble-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PatTier.scramble"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatTier.scramble-489"><a href="#PatTier.scramble-489"><span class="linenos">489</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scramble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="PatTier.scramble-490"><a href="#PatTier.scramble-490"><span class="linenos">490</span></a>        <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+</span><span id="PatTier.scramble-491"><a href="#PatTier.scramble-491"><span class="linenos">491</span></a>            <span class="n">start</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatTier.scramble-492"><a href="#PatTier.scramble-492"><span class="linenos">492</span></a>            <span class="n">stop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatTier.scramble-493"><a href="#PatTier.scramble-493"><span class="linenos">493</span></a>            <span class="n">num</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="PatTier.scramble-494"><a href="#PatTier.scramble-494"><span class="linenos">494</span></a>        <span class="p">)</span>
+</span><span id="PatTier.scramble-495"><a href="#PatTier.scramble-495"><span class="linenos">495</span></a>        <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">boundary</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">):</span>
+</span><span id="PatTier.scramble-496"><a href="#PatTier.scramble-496"><span class="linenos">496</span></a>            <span class="n">item</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">boundary</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
                 </section>
                 <section id="PatGrid">
                             <input id="PatGrid-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -2330,115 +2376,115 @@ The time interval in seconds.</li>
 
     </div>
     <a class="headerlink" href="#PatGrid"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid-490"><a href="#PatGrid-490"><span class="linenos">490</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatGrid</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
-</span><span id="PatGrid-491"><a href="#PatGrid-491"><span class="linenos">491</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid-492"><a href="#PatGrid-492"><span class="linenos">492</span></a><span class="sd">    TextGrid representation which makes editing easier.</span>
-</span><span id="PatGrid-493"><a href="#PatGrid-493"><span class="linenos">493</span></a>
-</span><span id="PatGrid-494"><a href="#PatGrid-494"><span class="linenos">494</span></a><span class="sd">    PatGrid is a OrderedDict very similar to Python textgrids TextGrid, but</span>
-</span><span id="PatGrid-495"><a href="#PatGrid-495"><span class="linenos">495</span></a><span class="sd">    made up of PatTiers that in turn contain intervals or points as doubly</span>
-</span><span id="PatGrid-496"><a href="#PatGrid-496"><span class="linenos">496</span></a><span class="sd">    linked lists instead of just lists. See the relevant classes for more</span>
-</span><span id="PatGrid-497"><a href="#PatGrid-497"><span class="linenos">497</span></a><span class="sd">    details.</span>
-</span><span id="PatGrid-498"><a href="#PatGrid-498"><span class="linenos">498</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="PatGrid-499"><a href="#PatGrid-499"><span class="linenos">499</span></a>
-</span><span id="PatGrid-500"><a href="#PatGrid-500"><span class="linenos">500</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textgrid</span><span class="p">:</span> <span class="n">TextGrid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="PatGrid-501"><a href="#PatGrid-501"><span class="linenos">501</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-</span><span id="PatGrid-502"><a href="#PatGrid-502"><span class="linenos">502</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="n">textgrid</span><span class="p">:</span>
-</span><span id="PatGrid-503"><a href="#PatGrid-503"><span class="linenos">503</span></a>            <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">PatTier</span><span class="o">.</span><span class="n">from_textgrid_tier</span><span class="p">(</span><span class="n">textgrid</span><span class="p">[</span><span class="n">tier_name</span><span class="p">])</span>
-</span><span id="PatGrid-504"><a href="#PatGrid-504"><span class="linenos">504</span></a>
-</span><span id="PatGrid-505"><a href="#PatGrid-505"><span class="linenos">505</span></a>    <span class="c1"># def as_textgrid(self):</span>
-</span><span id="PatGrid-506"><a href="#PatGrid-506"><span class="linenos">506</span></a>    <span class="c1">#     pass</span>
-</span><span id="PatGrid-507"><a href="#PatGrid-507"><span class="linenos">507</span></a>
-</span><span id="PatGrid-508"><a href="#PatGrid-508"><span class="linenos">508</span></a>    <span class="nd">@property</span>
-</span><span id="PatGrid-509"><a href="#PatGrid-509"><span class="linenos">509</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="PatGrid-510"><a href="#PatGrid-510"><span class="linenos">510</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid-511"><a href="#PatGrid-511"><span class="linenos">511</span></a><span class="sd">        Begin timestamp.</span>
-</span><span id="PatGrid-512"><a href="#PatGrid-512"><span class="linenos">512</span></a>
-</span><span id="PatGrid-513"><a href="#PatGrid-513"><span class="linenos">513</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
-</span><span id="PatGrid-514"><a href="#PatGrid-514"><span class="linenos">514</span></a>
-</span><span id="PatGrid-515"><a href="#PatGrid-515"><span class="linenos">515</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="PatGrid-516"><a href="#PatGrid-516"><span class="linenos">516</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="PatGrid-517"><a href="#PatGrid-517"><span class="linenos">517</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid-518"><a href="#PatGrid-518"><span class="linenos">518</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="PatGrid-519"><a href="#PatGrid-519"><span class="linenos">519</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
-</span><span id="PatGrid-520"><a href="#PatGrid-520"><span class="linenos">520</span></a>
-</span><span id="PatGrid-521"><a href="#PatGrid-521"><span class="linenos">521</span></a>    <span class="nd">@property</span>
-</span><span id="PatGrid-522"><a href="#PatGrid-522"><span class="linenos">522</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="PatGrid-523"><a href="#PatGrid-523"><span class="linenos">523</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid-524"><a href="#PatGrid-524"><span class="linenos">524</span></a><span class="sd">        End timestamp.</span>
-</span><span id="PatGrid-525"><a href="#PatGrid-525"><span class="linenos">525</span></a>
-</span><span id="PatGrid-526"><a href="#PatGrid-526"><span class="linenos">526</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
-</span><span id="PatGrid-527"><a href="#PatGrid-527"><span class="linenos">527</span></a>
-</span><span id="PatGrid-528"><a href="#PatGrid-528"><span class="linenos">528</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="PatGrid-529"><a href="#PatGrid-529"><span class="linenos">529</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="PatGrid-530"><a href="#PatGrid-530"><span class="linenos">530</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid-531"><a href="#PatGrid-531"><span class="linenos">531</span></a>        <span class="c1"># First Tier</span>
-</span><span id="PatGrid-532"><a href="#PatGrid-532"><span class="linenos">532</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="PatGrid-533"><a href="#PatGrid-533"><span class="linenos">533</span></a>        <span class="c1"># Return the end of the first Tier.</span>
-</span><span id="PatGrid-534"><a href="#PatGrid-534"><span class="linenos">534</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
-</span><span id="PatGrid-535"><a href="#PatGrid-535"><span class="linenos">535</span></a>
-</span><span id="PatGrid-536"><a href="#PatGrid-536"><span class="linenos">536</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="PatGrid-537"><a href="#PatGrid-537"><span class="linenos">537</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
-</span><span id="PatGrid-538"><a href="#PatGrid-538"><span class="linenos">538</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-</span><span id="PatGrid-539"><a href="#PatGrid-539"><span class="linenos">539</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="PatGrid-540"><a href="#PatGrid-540"><span class="linenos">540</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span id="PatGrid-541"><a href="#PatGrid-541"><span class="linenos">541</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="PatGrid-542"><a href="#PatGrid-542"><span class="linenos">542</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
-</span><span id="PatGrid-543"><a href="#PatGrid-543"><span class="linenos">543</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
-</span><span id="PatGrid-544"><a href="#PatGrid-544"><span class="linenos">544</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="PatGrid-545"><a href="#PatGrid-545"><span class="linenos">545</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
-</span><span id="PatGrid-546"><a href="#PatGrid-546"><span class="linenos">546</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
-</span><span id="PatGrid-547"><a href="#PatGrid-547"><span class="linenos">547</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
-</span><span id="PatGrid-548"><a href="#PatGrid-548"><span class="linenos">548</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
-</span><span id="PatGrid-549"><a href="#PatGrid-549"><span class="linenos">549</span></a>                                    <span class="n">name</span><span class="p">,</span>
-</span><span id="PatGrid-550"><a href="#PatGrid-550"><span class="linenos">550</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="PatGrid-551"><a href="#PatGrid-551"><span class="linenos">551</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="PatGrid-552"><a href="#PatGrid-552"><span class="linenos">552</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
-</span><span id="PatGrid-553"><a href="#PatGrid-553"><span class="linenos">553</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="PatGrid-554"><a href="#PatGrid-554"><span class="linenos">554</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="PatGrid-555"><a href="#PatGrid-555"><span class="linenos">555</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="PatGrid-556"><a href="#PatGrid-556"><span class="linenos">556</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="PatGrid-557"><a href="#PatGrid-557"><span class="linenos">557</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
-</span><span id="PatGrid-558"><a href="#PatGrid-558"><span class="linenos">558</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="PatGrid-559"><a href="#PatGrid-559"><span class="linenos">559</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
-</span><span id="PatGrid-560"><a href="#PatGrid-560"><span class="linenos">560</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="PatGrid-561"><a href="#PatGrid-561"><span class="linenos">561</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="PatGrid-562"><a href="#PatGrid-562"><span class="linenos">562</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="PatGrid-563"><a href="#PatGrid-563"><span class="linenos">563</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="PatGrid-564"><a href="#PatGrid-564"><span class="linenos">564</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="PatGrid-565"><a href="#PatGrid-565"><span class="linenos">565</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
-</span><span id="PatGrid-566"><a href="#PatGrid-566"><span class="linenos">566</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
-</span><span id="PatGrid-567"><a href="#PatGrid-567"><span class="linenos">567</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
-</span><span id="PatGrid-568"><a href="#PatGrid-568"><span class="linenos">568</span></a>                    <span class="c1"># element.next.begin) above.</span>
-</span><span id="PatGrid-569"><a href="#PatGrid-569"><span class="linenos">569</span></a>                    <span class="k">pass</span>
-</span><span id="PatGrid-570"><a href="#PatGrid-570"><span class="linenos">570</span></a>        <span class="k">return</span> <span class="n">out</span>
-</span><span id="PatGrid-571"><a href="#PatGrid-571"><span class="linenos">571</span></a>
-</span><span id="PatGrid-572"><a href="#PatGrid-572"><span class="linenos">572</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
-</span><span id="PatGrid-573"><a href="#PatGrid-573"><span class="linenos">573</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="PatGrid-574"><a href="#PatGrid-574"><span class="linenos">574</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-</span><span id="PatGrid-575"><a href="#PatGrid-575"><span class="linenos">575</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid-576"><a href="#PatGrid-576"><span class="linenos">576</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
-</span><span id="PatGrid-577"><a href="#PatGrid-577"><span class="linenos">577</span></a>
-</span><span id="PatGrid-578"><a href="#PatGrid-578"><span class="linenos">578</span></a><span class="sd">        Parameters</span>
-</span><span id="PatGrid-579"><a href="#PatGrid-579"><span class="linenos">579</span></a><span class="sd">        ----------</span>
-</span><span id="PatGrid-580"><a href="#PatGrid-580"><span class="linenos">580</span></a><span class="sd">        time_vector : np.ndarray</span>
-</span><span id="PatGrid-581"><a href="#PatGrid-581"><span class="linenos">581</span></a><span class="sd">            Time values to get the labels for.</span>
-</span><span id="PatGrid-582"><a href="#PatGrid-582"><span class="linenos">582</span></a><span class="sd">        epsilon : float | None</span>
-</span><span id="PatGrid-583"><a href="#PatGrid-583"><span class="linenos">583</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
-</span><span id="PatGrid-584"><a href="#PatGrid-584"><span class="linenos">584</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
-</span><span id="PatGrid-585"><a href="#PatGrid-585"><span class="linenos">585</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
-</span><span id="PatGrid-586"><a href="#PatGrid-586"><span class="linenos">586</span></a><span class="sd">            should be passed here.</span>
-</span><span id="PatGrid-587"><a href="#PatGrid-587"><span class="linenos">587</span></a>
-</span><span id="PatGrid-588"><a href="#PatGrid-588"><span class="linenos">588</span></a><span class="sd">        Returns</span>
-</span><span id="PatGrid-589"><a href="#PatGrid-589"><span class="linenos">589</span></a><span class="sd">        -------</span>
-</span><span id="PatGrid-590"><a href="#PatGrid-590"><span class="linenos">590</span></a><span class="sd">        dict[str, np.ndarray]</span>
-</span><span id="PatGrid-591"><a href="#PatGrid-591"><span class="linenos">591</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
-</span><span id="PatGrid-592"><a href="#PatGrid-592"><span class="linenos">592</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid-593"><a href="#PatGrid-593"><span class="linenos">593</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="PatGrid-594"><a href="#PatGrid-594"><span class="linenos">594</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span id="PatGrid-595"><a href="#PatGrid-595"><span class="linenos">595</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
-</span><span id="PatGrid-596"><a href="#PatGrid-596"><span class="linenos">596</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-</span><span id="PatGrid-597"><a href="#PatGrid-597"><span class="linenos">597</span></a>
-</span><span id="PatGrid-598"><a href="#PatGrid-598"><span class="linenos">598</span></a>        <span class="k">return</span> <span class="n">labels</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid-499"><a href="#PatGrid-499"><span class="linenos">499</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatGrid</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">):</span>
+</span><span id="PatGrid-500"><a href="#PatGrid-500"><span class="linenos">500</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid-501"><a href="#PatGrid-501"><span class="linenos">501</span></a><span class="sd">    TextGrid representation which makes editing easier.</span>
+</span><span id="PatGrid-502"><a href="#PatGrid-502"><span class="linenos">502</span></a>
+</span><span id="PatGrid-503"><a href="#PatGrid-503"><span class="linenos">503</span></a><span class="sd">    PatGrid is a OrderedDict very similar to Python textgrids TextGrid, but</span>
+</span><span id="PatGrid-504"><a href="#PatGrid-504"><span class="linenos">504</span></a><span class="sd">    made up of PatTiers that in turn contain intervals or points as doubly</span>
+</span><span id="PatGrid-505"><a href="#PatGrid-505"><span class="linenos">505</span></a><span class="sd">    linked lists instead of just lists. See the relevant classes for more</span>
+</span><span id="PatGrid-506"><a href="#PatGrid-506"><span class="linenos">506</span></a><span class="sd">    details.</span>
+</span><span id="PatGrid-507"><a href="#PatGrid-507"><span class="linenos">507</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="PatGrid-508"><a href="#PatGrid-508"><span class="linenos">508</span></a>
+</span><span id="PatGrid-509"><a href="#PatGrid-509"><span class="linenos">509</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">textgrid</span><span class="p">:</span> <span class="n">TextGrid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PatGrid-510"><a href="#PatGrid-510"><span class="linenos">510</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="PatGrid-511"><a href="#PatGrid-511"><span class="linenos">511</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="n">textgrid</span><span class="p">:</span>
+</span><span id="PatGrid-512"><a href="#PatGrid-512"><span class="linenos">512</span></a>            <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">PatTier</span><span class="o">.</span><span class="n">from_textgrid_tier</span><span class="p">(</span><span class="n">textgrid</span><span class="p">[</span><span class="n">tier_name</span><span class="p">])</span>
+</span><span id="PatGrid-513"><a href="#PatGrid-513"><span class="linenos">513</span></a>
+</span><span id="PatGrid-514"><a href="#PatGrid-514"><span class="linenos">514</span></a>    <span class="c1"># def as_textgrid(self):</span>
+</span><span id="PatGrid-515"><a href="#PatGrid-515"><span class="linenos">515</span></a>    <span class="c1">#     pass</span>
+</span><span id="PatGrid-516"><a href="#PatGrid-516"><span class="linenos">516</span></a>
+</span><span id="PatGrid-517"><a href="#PatGrid-517"><span class="linenos">517</span></a>    <span class="nd">@property</span>
+</span><span id="PatGrid-518"><a href="#PatGrid-518"><span class="linenos">518</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="PatGrid-519"><a href="#PatGrid-519"><span class="linenos">519</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid-520"><a href="#PatGrid-520"><span class="linenos">520</span></a><span class="sd">        Begin timestamp.</span>
+</span><span id="PatGrid-521"><a href="#PatGrid-521"><span class="linenos">521</span></a>
+</span><span id="PatGrid-522"><a href="#PatGrid-522"><span class="linenos">522</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
+</span><span id="PatGrid-523"><a href="#PatGrid-523"><span class="linenos">523</span></a>
+</span><span id="PatGrid-524"><a href="#PatGrid-524"><span class="linenos">524</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="PatGrid-525"><a href="#PatGrid-525"><span class="linenos">525</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="PatGrid-526"><a href="#PatGrid-526"><span class="linenos">526</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid-527"><a href="#PatGrid-527"><span class="linenos">527</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="PatGrid-528"><a href="#PatGrid-528"><span class="linenos">528</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
+</span><span id="PatGrid-529"><a href="#PatGrid-529"><span class="linenos">529</span></a>
+</span><span id="PatGrid-530"><a href="#PatGrid-530"><span class="linenos">530</span></a>    <span class="nd">@property</span>
+</span><span id="PatGrid-531"><a href="#PatGrid-531"><span class="linenos">531</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="PatGrid-532"><a href="#PatGrid-532"><span class="linenos">532</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid-533"><a href="#PatGrid-533"><span class="linenos">533</span></a><span class="sd">        End timestamp.</span>
+</span><span id="PatGrid-534"><a href="#PatGrid-534"><span class="linenos">534</span></a>
+</span><span id="PatGrid-535"><a href="#PatGrid-535"><span class="linenos">535</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
+</span><span id="PatGrid-536"><a href="#PatGrid-536"><span class="linenos">536</span></a>
+</span><span id="PatGrid-537"><a href="#PatGrid-537"><span class="linenos">537</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="PatGrid-538"><a href="#PatGrid-538"><span class="linenos">538</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="PatGrid-539"><a href="#PatGrid-539"><span class="linenos">539</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid-540"><a href="#PatGrid-540"><span class="linenos">540</span></a>        <span class="c1"># First Tier</span>
+</span><span id="PatGrid-541"><a href="#PatGrid-541"><span class="linenos">541</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="PatGrid-542"><a href="#PatGrid-542"><span class="linenos">542</span></a>        <span class="c1"># Return the end of the first Tier.</span>
+</span><span id="PatGrid-543"><a href="#PatGrid-543"><span class="linenos">543</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
+</span><span id="PatGrid-544"><a href="#PatGrid-544"><span class="linenos">544</span></a>
+</span><span id="PatGrid-545"><a href="#PatGrid-545"><span class="linenos">545</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="PatGrid-546"><a href="#PatGrid-546"><span class="linenos">546</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
+</span><span id="PatGrid-547"><a href="#PatGrid-547"><span class="linenos">547</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</span><span id="PatGrid-548"><a href="#PatGrid-548"><span class="linenos">548</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="PatGrid-549"><a href="#PatGrid-549"><span class="linenos">549</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="PatGrid-550"><a href="#PatGrid-550"><span class="linenos">550</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="PatGrid-551"><a href="#PatGrid-551"><span class="linenos">551</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
+</span><span id="PatGrid-552"><a href="#PatGrid-552"><span class="linenos">552</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
+</span><span id="PatGrid-553"><a href="#PatGrid-553"><span class="linenos">553</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="PatGrid-554"><a href="#PatGrid-554"><span class="linenos">554</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
+</span><span id="PatGrid-555"><a href="#PatGrid-555"><span class="linenos">555</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
+</span><span id="PatGrid-556"><a href="#PatGrid-556"><span class="linenos">556</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
+</span><span id="PatGrid-557"><a href="#PatGrid-557"><span class="linenos">557</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
+</span><span id="PatGrid-558"><a href="#PatGrid-558"><span class="linenos">558</span></a>                                    <span class="n">name</span><span class="p">,</span>
+</span><span id="PatGrid-559"><a href="#PatGrid-559"><span class="linenos">559</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatGrid-560"><a href="#PatGrid-560"><span class="linenos">560</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatGrid-561"><a href="#PatGrid-561"><span class="linenos">561</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
+</span><span id="PatGrid-562"><a href="#PatGrid-562"><span class="linenos">562</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="PatGrid-563"><a href="#PatGrid-563"><span class="linenos">563</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="PatGrid-564"><a href="#PatGrid-564"><span class="linenos">564</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="PatGrid-565"><a href="#PatGrid-565"><span class="linenos">565</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="PatGrid-566"><a href="#PatGrid-566"><span class="linenos">566</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+</span><span id="PatGrid-567"><a href="#PatGrid-567"><span class="linenos">567</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="PatGrid-568"><a href="#PatGrid-568"><span class="linenos">568</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+</span><span id="PatGrid-569"><a href="#PatGrid-569"><span class="linenos">569</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="PatGrid-570"><a href="#PatGrid-570"><span class="linenos">570</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatGrid-571"><a href="#PatGrid-571"><span class="linenos">571</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatGrid-572"><a href="#PatGrid-572"><span class="linenos">572</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="PatGrid-573"><a href="#PatGrid-573"><span class="linenos">573</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="PatGrid-574"><a href="#PatGrid-574"><span class="linenos">574</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
+</span><span id="PatGrid-575"><a href="#PatGrid-575"><span class="linenos">575</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
+</span><span id="PatGrid-576"><a href="#PatGrid-576"><span class="linenos">576</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
+</span><span id="PatGrid-577"><a href="#PatGrid-577"><span class="linenos">577</span></a>                    <span class="c1"># element.next.begin) above.</span>
+</span><span id="PatGrid-578"><a href="#PatGrid-578"><span class="linenos">578</span></a>                    <span class="k">pass</span>
+</span><span id="PatGrid-579"><a href="#PatGrid-579"><span class="linenos">579</span></a>        <span class="k">return</span> <span class="n">out</span>
+</span><span id="PatGrid-580"><a href="#PatGrid-580"><span class="linenos">580</span></a>
+</span><span id="PatGrid-581"><a href="#PatGrid-581"><span class="linenos">581</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
+</span><span id="PatGrid-582"><a href="#PatGrid-582"><span class="linenos">582</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PatGrid-583"><a href="#PatGrid-583"><span class="linenos">583</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span><span id="PatGrid-584"><a href="#PatGrid-584"><span class="linenos">584</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid-585"><a href="#PatGrid-585"><span class="linenos">585</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
+</span><span id="PatGrid-586"><a href="#PatGrid-586"><span class="linenos">586</span></a>
+</span><span id="PatGrid-587"><a href="#PatGrid-587"><span class="linenos">587</span></a><span class="sd">        Parameters</span>
+</span><span id="PatGrid-588"><a href="#PatGrid-588"><span class="linenos">588</span></a><span class="sd">        ----------</span>
+</span><span id="PatGrid-589"><a href="#PatGrid-589"><span class="linenos">589</span></a><span class="sd">        time_vector : np.ndarray</span>
+</span><span id="PatGrid-590"><a href="#PatGrid-590"><span class="linenos">590</span></a><span class="sd">            Time values to get the labels for.</span>
+</span><span id="PatGrid-591"><a href="#PatGrid-591"><span class="linenos">591</span></a><span class="sd">        epsilon : float | None</span>
+</span><span id="PatGrid-592"><a href="#PatGrid-592"><span class="linenos">592</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
+</span><span id="PatGrid-593"><a href="#PatGrid-593"><span class="linenos">593</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
+</span><span id="PatGrid-594"><a href="#PatGrid-594"><span class="linenos">594</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
+</span><span id="PatGrid-595"><a href="#PatGrid-595"><span class="linenos">595</span></a><span class="sd">            should be passed here.</span>
+</span><span id="PatGrid-596"><a href="#PatGrid-596"><span class="linenos">596</span></a>
+</span><span id="PatGrid-597"><a href="#PatGrid-597"><span class="linenos">597</span></a><span class="sd">        Returns</span>
+</span><span id="PatGrid-598"><a href="#PatGrid-598"><span class="linenos">598</span></a><span class="sd">        -------</span>
+</span><span id="PatGrid-599"><a href="#PatGrid-599"><span class="linenos">599</span></a><span class="sd">        dict[str, np.ndarray]</span>
+</span><span id="PatGrid-600"><a href="#PatGrid-600"><span class="linenos">600</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
+</span><span id="PatGrid-601"><a href="#PatGrid-601"><span class="linenos">601</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid-602"><a href="#PatGrid-602"><span class="linenos">602</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="PatGrid-603"><a href="#PatGrid-603"><span class="linenos">603</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="PatGrid-604"><a href="#PatGrid-604"><span class="linenos">604</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
+</span><span id="PatGrid-605"><a href="#PatGrid-605"><span class="linenos">605</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+</span><span id="PatGrid-606"><a href="#PatGrid-606"><span class="linenos">606</span></a>
+</span><span id="PatGrid-607"><a href="#PatGrid-607"><span class="linenos">607</span></a>        <span class="k">return</span> <span class="n">labels</span>
 </span></pre></div>
 
 
@@ -2460,18 +2506,18 @@ details.</p>
 
     </div>
     <a class="headerlink" href="#PatGrid.begin"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.begin-508"><a href="#PatGrid.begin-508"><span class="linenos">508</span></a>    <span class="nd">@property</span>
-</span><span id="PatGrid.begin-509"><a href="#PatGrid.begin-509"><span class="linenos">509</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="PatGrid.begin-510"><a href="#PatGrid.begin-510"><span class="linenos">510</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid.begin-511"><a href="#PatGrid.begin-511"><span class="linenos">511</span></a><span class="sd">        Begin timestamp.</span>
-</span><span id="PatGrid.begin-512"><a href="#PatGrid.begin-512"><span class="linenos">512</span></a>
-</span><span id="PatGrid.begin-513"><a href="#PatGrid.begin-513"><span class="linenos">513</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
-</span><span id="PatGrid.begin-514"><a href="#PatGrid.begin-514"><span class="linenos">514</span></a>
-</span><span id="PatGrid.begin-515"><a href="#PatGrid.begin-515"><span class="linenos">515</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="PatGrid.begin-516"><a href="#PatGrid.begin-516"><span class="linenos">516</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="PatGrid.begin-517"><a href="#PatGrid.begin-517"><span class="linenos">517</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid.begin-518"><a href="#PatGrid.begin-518"><span class="linenos">518</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="PatGrid.begin-519"><a href="#PatGrid.begin-519"><span class="linenos">519</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.begin-517"><a href="#PatGrid.begin-517"><span class="linenos">517</span></a>    <span class="nd">@property</span>
+</span><span id="PatGrid.begin-518"><a href="#PatGrid.begin-518"><span class="linenos">518</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="PatGrid.begin-519"><a href="#PatGrid.begin-519"><span class="linenos">519</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid.begin-520"><a href="#PatGrid.begin-520"><span class="linenos">520</span></a><span class="sd">        Begin timestamp.</span>
+</span><span id="PatGrid.begin-521"><a href="#PatGrid.begin-521"><span class="linenos">521</span></a>
+</span><span id="PatGrid.begin-522"><a href="#PatGrid.begin-522"><span class="linenos">522</span></a><span class="sd">        Corresponds to a TextGrids xmin.</span>
+</span><span id="PatGrid.begin-523"><a href="#PatGrid.begin-523"><span class="linenos">523</span></a>
+</span><span id="PatGrid.begin-524"><a href="#PatGrid.begin-524"><span class="linenos">524</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="PatGrid.begin-525"><a href="#PatGrid.begin-525"><span class="linenos">525</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="PatGrid.begin-526"><a href="#PatGrid.begin-526"><span class="linenos">526</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid.begin-527"><a href="#PatGrid.begin-527"><span class="linenos">527</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="PatGrid.begin-528"><a href="#PatGrid.begin-528"><span class="linenos">528</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">begin</span>
 </span></pre></div>
 
 
@@ -2494,20 +2540,20 @@ PatTier of this PatGrid.</p>
 
     </div>
     <a class="headerlink" href="#PatGrid.end"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.end-521"><a href="#PatGrid.end-521"><span class="linenos">521</span></a>    <span class="nd">@property</span>
-</span><span id="PatGrid.end-522"><a href="#PatGrid.end-522"><span class="linenos">522</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-</span><span id="PatGrid.end-523"><a href="#PatGrid.end-523"><span class="linenos">523</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid.end-524"><a href="#PatGrid.end-524"><span class="linenos">524</span></a><span class="sd">        End timestamp.</span>
-</span><span id="PatGrid.end-525"><a href="#PatGrid.end-525"><span class="linenos">525</span></a>
-</span><span id="PatGrid.end-526"><a href="#PatGrid.end-526"><span class="linenos">526</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
-</span><span id="PatGrid.end-527"><a href="#PatGrid.end-527"><span class="linenos">527</span></a>
-</span><span id="PatGrid.end-528"><a href="#PatGrid.end-528"><span class="linenos">528</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
-</span><span id="PatGrid.end-529"><a href="#PatGrid.end-529"><span class="linenos">529</span></a><span class="sd">        PatTier of this PatGrid.</span>
-</span><span id="PatGrid.end-530"><a href="#PatGrid.end-530"><span class="linenos">530</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid.end-531"><a href="#PatGrid.end-531"><span class="linenos">531</span></a>        <span class="c1"># First Tier</span>
-</span><span id="PatGrid.end-532"><a href="#PatGrid.end-532"><span class="linenos">532</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="PatGrid.end-533"><a href="#PatGrid.end-533"><span class="linenos">533</span></a>        <span class="c1"># Return the end of the first Tier.</span>
-</span><span id="PatGrid.end-534"><a href="#PatGrid.end-534"><span class="linenos">534</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.end-530"><a href="#PatGrid.end-530"><span class="linenos">530</span></a>    <span class="nd">@property</span>
+</span><span id="PatGrid.end-531"><a href="#PatGrid.end-531"><span class="linenos">531</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="PatGrid.end-532"><a href="#PatGrid.end-532"><span class="linenos">532</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid.end-533"><a href="#PatGrid.end-533"><span class="linenos">533</span></a><span class="sd">        End timestamp.</span>
+</span><span id="PatGrid.end-534"><a href="#PatGrid.end-534"><span class="linenos">534</span></a>
+</span><span id="PatGrid.end-535"><a href="#PatGrid.end-535"><span class="linenos">535</span></a><span class="sd">        Corresponds to a TextGrids xmax.</span>
+</span><span id="PatGrid.end-536"><a href="#PatGrid.end-536"><span class="linenos">536</span></a>
+</span><span id="PatGrid.end-537"><a href="#PatGrid.end-537"><span class="linenos">537</span></a><span class="sd">        This is a property and the actual value is generated from the first</span>
+</span><span id="PatGrid.end-538"><a href="#PatGrid.end-538"><span class="linenos">538</span></a><span class="sd">        PatTier of this PatGrid.</span>
+</span><span id="PatGrid.end-539"><a href="#PatGrid.end-539"><span class="linenos">539</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid.end-540"><a href="#PatGrid.end-540"><span class="linenos">540</span></a>        <span class="c1"># First Tier</span>
+</span><span id="PatGrid.end-541"><a href="#PatGrid.end-541"><span class="linenos">541</span></a>        <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="PatGrid.end-542"><a href="#PatGrid.end-542"><span class="linenos">542</span></a>        <span class="c1"># Return the end of the first Tier.</span>
+</span><span id="PatGrid.end-543"><a href="#PatGrid.end-543"><span class="linenos">543</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">end</span>
 </span></pre></div>
 
 
@@ -2532,41 +2578,41 @@ PatTier of this PatGrid.</p>
 
     </div>
     <a class="headerlink" href="#PatGrid.format_long"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.format_long-536"><a href="#PatGrid.format_long-536"><span class="linenos">536</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-537"><a href="#PatGrid.format_long-537"><span class="linenos">537</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
-</span><span id="PatGrid.format_long-538"><a href="#PatGrid.format_long-538"><span class="linenos">538</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-</span><span id="PatGrid.format_long-539"><a href="#PatGrid.format_long-539"><span class="linenos">539</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="PatGrid.format_long-540"><a href="#PatGrid.format_long-540"><span class="linenos">540</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span id="PatGrid.format_long-541"><a href="#PatGrid.format_long-541"><span class="linenos">541</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-542"><a href="#PatGrid.format_long-542"><span class="linenos">542</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
-</span><span id="PatGrid.format_long-543"><a href="#PatGrid.format_long-543"><span class="linenos">543</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
-</span><span id="PatGrid.format_long-544"><a href="#PatGrid.format_long-544"><span class="linenos">544</span></a>            <span class="k">else</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-545"><a href="#PatGrid.format_long-545"><span class="linenos">545</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
-</span><span id="PatGrid.format_long-546"><a href="#PatGrid.format_long-546"><span class="linenos">546</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
-</span><span id="PatGrid.format_long-547"><a href="#PatGrid.format_long-547"><span class="linenos">547</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-548"><a href="#PatGrid.format_long-548"><span class="linenos">548</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-549"><a href="#PatGrid.format_long-549"><span class="linenos">549</span></a>                                    <span class="n">name</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-550"><a href="#PatGrid.format_long-550"><span class="linenos">550</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-551"><a href="#PatGrid.format_long-551"><span class="linenos">551</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-552"><a href="#PatGrid.format_long-552"><span class="linenos">552</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-553"><a href="#PatGrid.format_long-553"><span class="linenos">553</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="PatGrid.format_long-554"><a href="#PatGrid.format_long-554"><span class="linenos">554</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="PatGrid.format_long-555"><a href="#PatGrid.format_long-555"><span class="linenos">555</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-556"><a href="#PatGrid.format_long-556"><span class="linenos">556</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-557"><a href="#PatGrid.format_long-557"><span class="linenos">557</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-558"><a href="#PatGrid.format_long-558"><span class="linenos">558</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="PatGrid.format_long-559"><a href="#PatGrid.format_long-559"><span class="linenos">559</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-560"><a href="#PatGrid.format_long-560"><span class="linenos">560</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-561"><a href="#PatGrid.format_long-561"><span class="linenos">561</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-562"><a href="#PatGrid.format_long-562"><span class="linenos">562</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
-</span><span id="PatGrid.format_long-563"><a href="#PatGrid.format_long-563"><span class="linenos">563</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
-</span><span id="PatGrid.format_long-564"><a href="#PatGrid.format_long-564"><span class="linenos">564</span></a>                <span class="k">else</span><span class="p">:</span>
-</span><span id="PatGrid.format_long-565"><a href="#PatGrid.format_long-565"><span class="linenos">565</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
-</span><span id="PatGrid.format_long-566"><a href="#PatGrid.format_long-566"><span class="linenos">566</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
-</span><span id="PatGrid.format_long-567"><a href="#PatGrid.format_long-567"><span class="linenos">567</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
-</span><span id="PatGrid.format_long-568"><a href="#PatGrid.format_long-568"><span class="linenos">568</span></a>                    <span class="c1"># element.next.begin) above.</span>
-</span><span id="PatGrid.format_long-569"><a href="#PatGrid.format_long-569"><span class="linenos">569</span></a>                    <span class="k">pass</span>
-</span><span id="PatGrid.format_long-570"><a href="#PatGrid.format_long-570"><span class="linenos">570</span></a>        <span class="k">return</span> <span class="n">out</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.format_long-545"><a href="#PatGrid.format_long-545"><span class="linenos">545</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_long</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-546"><a href="#PatGrid.format_long-546"><span class="linenos">546</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Format self as long format TextGrid.&quot;&quot;&quot;</span>
+</span><span id="PatGrid.format_long-547"><a href="#PatGrid.format_long-547"><span class="linenos">547</span></a>        <span class="n">out</span> <span class="o">=</span> <span class="n">long_header</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</span><span id="PatGrid.format_long-548"><a href="#PatGrid.format_long-548"><span class="linenos">548</span></a>        <span class="n">tier_count</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="PatGrid.format_long-549"><a href="#PatGrid.format_long-549"><span class="linenos">549</span></a>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="PatGrid.format_long-550"><a href="#PatGrid.format_long-550"><span class="linenos">550</span></a>            <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-551"><a href="#PatGrid.format_long-551"><span class="linenos">551</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;PointTier&#39;</span>
+</span><span id="PatGrid.format_long-552"><a href="#PatGrid.format_long-552"><span class="linenos">552</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;points&#39;</span>
+</span><span id="PatGrid.format_long-553"><a href="#PatGrid.format_long-553"><span class="linenos">553</span></a>            <span class="k">else</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-554"><a href="#PatGrid.format_long-554"><span class="linenos">554</span></a>                <span class="n">tier_type</span> <span class="o">=</span> <span class="s1">&#39;IntervalTier&#39;</span>
+</span><span id="PatGrid.format_long-555"><a href="#PatGrid.format_long-555"><span class="linenos">555</span></a>                <span class="n">element_type</span> <span class="o">=</span> <span class="s1">&#39;intervals&#39;</span>
+</span><span id="PatGrid.format_long-556"><a href="#PatGrid.format_long-556"><span class="linenos">556</span></a>            <span class="n">out</span> <span class="o">+=</span> <span class="n">long_tier</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tier_count</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-557"><a href="#PatGrid.format_long-557"><span class="linenos">557</span></a>                                    <span class="n">tier_type</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-558"><a href="#PatGrid.format_long-558"><span class="linenos">558</span></a>                                    <span class="n">name</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-559"><a href="#PatGrid.format_long-559"><span class="linenos">559</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-560"><a href="#PatGrid.format_long-560"><span class="linenos">560</span></a>                                    <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-561"><a href="#PatGrid.format_long-561"><span class="linenos">561</span></a>                                    <span class="n">element_type</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-562"><a href="#PatGrid.format_long-562"><span class="linenos">562</span></a>                                    <span class="nb">len</span><span class="p">(</span><span class="n">tier</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="PatGrid.format_long-563"><a href="#PatGrid.format_long-563"><span class="linenos">563</span></a>            <span class="k">for</span> <span class="n">element_count</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tier</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="PatGrid.format_long-564"><a href="#PatGrid.format_long-564"><span class="linenos">564</span></a>                <span class="k">if</span> <span class="n">tier</span><span class="o">.</span><span class="n">is_point_tier</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-565"><a href="#PatGrid.format_long-565"><span class="linenos">565</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_point</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-566"><a href="#PatGrid.format_long-566"><span class="linenos">566</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-567"><a href="#PatGrid.format_long-567"><span class="linenos">567</span></a>                                             <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="PatGrid.format_long-568"><a href="#PatGrid.format_long-568"><span class="linenos">568</span></a>                <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">next</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-569"><a href="#PatGrid.format_long-569"><span class="linenos">569</span></a>                    <span class="n">out</span> <span class="o">+=</span> <span class="n">long_interval</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_count</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-570"><a href="#PatGrid.format_long-570"><span class="linenos">570</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-571"><a href="#PatGrid.format_long-571"><span class="linenos">571</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+</span><span id="PatGrid.format_long-572"><a href="#PatGrid.format_long-572"><span class="linenos">572</span></a>                                                <span class="n">element</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+</span><span id="PatGrid.format_long-573"><a href="#PatGrid.format_long-573"><span class="linenos">573</span></a>                <span class="k">else</span><span class="p">:</span>
+</span><span id="PatGrid.format_long-574"><a href="#PatGrid.format_long-574"><span class="linenos">574</span></a>                    <span class="c1"># The last interval does not contain anything. It only</span>
+</span><span id="PatGrid.format_long-575"><a href="#PatGrid.format_long-575"><span class="linenos">575</span></a>                    <span class="c1"># marks the end of the file and final interval&#39;s end. That</span>
+</span><span id="PatGrid.format_long-576"><a href="#PatGrid.format_long-576"><span class="linenos">576</span></a>                    <span class="c1"># info got already used by element.end (which is</span>
+</span><span id="PatGrid.format_long-577"><a href="#PatGrid.format_long-577"><span class="linenos">577</span></a>                    <span class="c1"># element.next.begin) above.</span>
+</span><span id="PatGrid.format_long-578"><a href="#PatGrid.format_long-578"><span class="linenos">578</span></a>                    <span class="k">pass</span>
+</span><span id="PatGrid.format_long-579"><a href="#PatGrid.format_long-579"><span class="linenos">579</span></a>        <span class="k">return</span> <span class="n">out</span>
 </span></pre></div>
 
 
@@ -2586,33 +2632,33 @@ PatTier of this PatGrid.</p>
 
     </div>
     <a class="headerlink" href="#PatGrid.get_labels"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.get_labels-572"><a href="#PatGrid.get_labels-572"><span class="linenos">572</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
-</span><span id="PatGrid.get_labels-573"><a href="#PatGrid.get_labels-573"><span class="linenos">573</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="PatGrid.get_labels-574"><a href="#PatGrid.get_labels-574"><span class="linenos">574</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-</span><span id="PatGrid.get_labels-575"><a href="#PatGrid.get_labels-575"><span class="linenos">575</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="PatGrid.get_labels-576"><a href="#PatGrid.get_labels-576"><span class="linenos">576</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
-</span><span id="PatGrid.get_labels-577"><a href="#PatGrid.get_labels-577"><span class="linenos">577</span></a>
-</span><span id="PatGrid.get_labels-578"><a href="#PatGrid.get_labels-578"><span class="linenos">578</span></a><span class="sd">        Parameters</span>
-</span><span id="PatGrid.get_labels-579"><a href="#PatGrid.get_labels-579"><span class="linenos">579</span></a><span class="sd">        ----------</span>
-</span><span id="PatGrid.get_labels-580"><a href="#PatGrid.get_labels-580"><span class="linenos">580</span></a><span class="sd">        time_vector : np.ndarray</span>
-</span><span id="PatGrid.get_labels-581"><a href="#PatGrid.get_labels-581"><span class="linenos">581</span></a><span class="sd">            Time values to get the labels for.</span>
-</span><span id="PatGrid.get_labels-582"><a href="#PatGrid.get_labels-582"><span class="linenos">582</span></a><span class="sd">        epsilon : float | None</span>
-</span><span id="PatGrid.get_labels-583"><a href="#PatGrid.get_labels-583"><span class="linenos">583</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
-</span><span id="PatGrid.get_labels-584"><a href="#PatGrid.get_labels-584"><span class="linenos">584</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
-</span><span id="PatGrid.get_labels-585"><a href="#PatGrid.get_labels-585"><span class="linenos">585</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
-</span><span id="PatGrid.get_labels-586"><a href="#PatGrid.get_labels-586"><span class="linenos">586</span></a><span class="sd">            should be passed here.</span>
-</span><span id="PatGrid.get_labels-587"><a href="#PatGrid.get_labels-587"><span class="linenos">587</span></a>
-</span><span id="PatGrid.get_labels-588"><a href="#PatGrid.get_labels-588"><span class="linenos">588</span></a><span class="sd">        Returns</span>
-</span><span id="PatGrid.get_labels-589"><a href="#PatGrid.get_labels-589"><span class="linenos">589</span></a><span class="sd">        -------</span>
-</span><span id="PatGrid.get_labels-590"><a href="#PatGrid.get_labels-590"><span class="linenos">590</span></a><span class="sd">        dict[str, np.ndarray]</span>
-</span><span id="PatGrid.get_labels-591"><a href="#PatGrid.get_labels-591"><span class="linenos">591</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
-</span><span id="PatGrid.get_labels-592"><a href="#PatGrid.get_labels-592"><span class="linenos">592</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PatGrid.get_labels-593"><a href="#PatGrid.get_labels-593"><span class="linenos">593</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span id="PatGrid.get_labels-594"><a href="#PatGrid.get_labels-594"><span class="linenos">594</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span id="PatGrid.get_labels-595"><a href="#PatGrid.get_labels-595"><span class="linenos">595</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
-</span><span id="PatGrid.get_labels-596"><a href="#PatGrid.get_labels-596"><span class="linenos">596</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-</span><span id="PatGrid.get_labels-597"><a href="#PatGrid.get_labels-597"><span class="linenos">597</span></a>
-</span><span id="PatGrid.get_labels-598"><a href="#PatGrid.get_labels-598"><span class="linenos">598</span></a>        <span class="k">return</span> <span class="n">labels</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatGrid.get_labels-581"><a href="#PatGrid.get_labels-581"><span class="linenos">581</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_labels</span><span class="p">(</span>
+</span><span id="PatGrid.get_labels-582"><a href="#PatGrid.get_labels-582"><span class="linenos">582</span></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">time_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PatGrid.get_labels-583"><a href="#PatGrid.get_labels-583"><span class="linenos">583</span></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span><span id="PatGrid.get_labels-584"><a href="#PatGrid.get_labels-584"><span class="linenos">584</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="PatGrid.get_labels-585"><a href="#PatGrid.get_labels-585"><span class="linenos">585</span></a><span class="sd">        Get the labels at the times in the `time_vector`.</span>
+</span><span id="PatGrid.get_labels-586"><a href="#PatGrid.get_labels-586"><span class="linenos">586</span></a>
+</span><span id="PatGrid.get_labels-587"><a href="#PatGrid.get_labels-587"><span class="linenos">587</span></a><span class="sd">        Parameters</span>
+</span><span id="PatGrid.get_labels-588"><a href="#PatGrid.get_labels-588"><span class="linenos">588</span></a><span class="sd">        ----------</span>
+</span><span id="PatGrid.get_labels-589"><a href="#PatGrid.get_labels-589"><span class="linenos">589</span></a><span class="sd">        time_vector : np.ndarray</span>
+</span><span id="PatGrid.get_labels-590"><a href="#PatGrid.get_labels-590"><span class="linenos">590</span></a><span class="sd">            Time values to get the labels for.</span>
+</span><span id="PatGrid.get_labels-591"><a href="#PatGrid.get_labels-591"><span class="linenos">591</span></a><span class="sd">        epsilon : float | None</span>
+</span><span id="PatGrid.get_labels-592"><a href="#PatGrid.get_labels-592"><span class="linenos">592</span></a><span class="sd">            The precision (in seconds) to use in comparisons. The default value</span>
+</span><span id="PatGrid.get_labels-593"><a href="#PatGrid.get_labels-593"><span class="linenos">593</span></a><span class="sd">            None will result in PATKIT_EPSILON, being used. For expected</span>
+</span><span id="PatGrid.get_labels-594"><a href="#PatGrid.get_labels-594"><span class="linenos">594</span></a><span class="sd">            behaviour for `PointTiers`, `configuration.data_config.epsilon`</span>
+</span><span id="PatGrid.get_labels-595"><a href="#PatGrid.get_labels-595"><span class="linenos">595</span></a><span class="sd">            should be passed here.</span>
+</span><span id="PatGrid.get_labels-596"><a href="#PatGrid.get_labels-596"><span class="linenos">596</span></a>
+</span><span id="PatGrid.get_labels-597"><a href="#PatGrid.get_labels-597"><span class="linenos">597</span></a><span class="sd">        Returns</span>
+</span><span id="PatGrid.get_labels-598"><a href="#PatGrid.get_labels-598"><span class="linenos">598</span></a><span class="sd">        -------</span>
+</span><span id="PatGrid.get_labels-599"><a href="#PatGrid.get_labels-599"><span class="linenos">599</span></a><span class="sd">        dict[str, np.ndarray]</span>
+</span><span id="PatGrid.get_labels-600"><a href="#PatGrid.get_labels-600"><span class="linenos">600</span></a><span class="sd">            Dictionary of the labels indexed by tier name.</span>
+</span><span id="PatGrid.get_labels-601"><a href="#PatGrid.get_labels-601"><span class="linenos">601</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PatGrid.get_labels-602"><a href="#PatGrid.get_labels-602"><span class="linenos">602</span></a>        <span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="PatGrid.get_labels-603"><a href="#PatGrid.get_labels-603"><span class="linenos">603</span></a>        <span class="k">for</span> <span class="n">tier_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+</span><span id="PatGrid.get_labels-604"><a href="#PatGrid.get_labels-604"><span class="linenos">604</span></a>            <span class="n">labels</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">tier_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span>
+</span><span id="PatGrid.get_labels-605"><a href="#PatGrid.get_labels-605"><span class="linenos">605</span></a>                <span class="n">time_vector</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+</span><span id="PatGrid.get_labels-606"><a href="#PatGrid.get_labels-606"><span class="linenos">606</span></a>
+</span><span id="PatGrid.get_labels-607"><a href="#PatGrid.get_labels-607"><span class="linenos">607</span></a>        <span class="k">return</span> <span class="n">labels</span>
 </span></pre></div>
 
 

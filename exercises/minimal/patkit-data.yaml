@@ -1,0 +1,13 @@
+
+# What precision is treated as equal when comparing annotation boundaries.
+epsilon: 0.00001
+
+# Used in filtering sound signals before beep detection.
+mains_frequency: 50
+
+# Path to the recorded data
+recorded_data_path: "../../recorded_data/assignment_example/"
+
+flags:
+  detect_beep: False # Should onset beep detection be run?
+  test: False # Run on only the first 10 recordings.

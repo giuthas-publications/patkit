@@ -39,6 +39,9 @@ from .AAA_recordings import (generate_aaa_recording_list,
 from .RASL_3D_ultrasound_recordings import (generate_3D_ultrasound_recording,
                                             generate_rasl_recording_list)
 from .session_import_config import load_session_config
+from .wav_recordings import (
+    generate_wav_recording_list, generate_audio_recording
+)
 
 from .audio import add_audio
 from .video import add_video

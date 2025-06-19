@@ -24,6 +24,7 @@ correct.
 [Being slowly written, please contribute if you want to hasten this up.]
 
 Currently we only have:
+- [Automated exercises](Automated_exercises.markdown)
 - [Keyboard shortcuts](Keyboard_shortcuts.markdown)
 
 ## Commandline user guide

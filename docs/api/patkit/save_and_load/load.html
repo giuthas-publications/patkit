@@ -48,6 +48,9 @@
             <li>
                     <a class="function" href="#load_recording_session">load_recording_session</a>
             </li>
+            <li>
+                    <a class="function" href="#load_exercise">load_exercise</a>
+            </li>
     </ul>
 
 
@@ -119,7 +122,7 @@
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>    <span class="n">modality_adders</span><span class="p">,</span> <span class="n">add_splines</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="p">)</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>    <span class="n">ModalityData</span><span class="p">,</span> <span class="n">Recording</span><span class="p">,</span> <span class="n">Session</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>    <span class="n">Exercise</span><span class="p">,</span> <span class="n">ModalityData</span><span class="p">,</span> <span class="n">Recording</span><span class="p">,</span> <span class="n">Session</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="p">)</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures.metadata_classes</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileInformation</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">statistics</span>
@@ -405,7 +408,7 @@
 </span><span id="L-332"><a href="#L-332"><span class="linenos">332</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="L-333"><a href="#L-333"><span class="linenos">333</span></a>        <span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
 </span><span id="L-334"><a href="#L-334"><span class="linenos">334</span></a>
-</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">session_config_path</span><span class="p">:</span>
+</span><span id="L-335"><a href="#L-335"><span class="linenos">335</span></a>    <span class="k">if</span> <span class="n">session_config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-336"><a href="#L-336"><span class="linenos">336</span></a>        <span class="n">session_config_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="n">PatkitConfigFile</span><span class="o">.</span><span class="n">SESSION</span>
 </span><span id="L-337"><a href="#L-337"><span class="linenos">337</span></a>
 </span><span id="L-338"><a href="#L-338"><span class="linenos">338</span></a>    <span class="c1"># filename = f&quot;{directory.parts[-1]}{&#39;.Session&#39;}{PatkitSuffix.META}&quot;</span>
@@ -448,6 +451,30 @@
 </span><span id="L-375"><a href="#L-375"><span class="linenos">375</span></a>    <span class="n">session</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">recordings</span><span class="p">)</span>
 </span><span id="L-376"><a href="#L-376"><span class="linenos">376</span></a>
 </span><span id="L-377"><a href="#L-377"><span class="linenos">377</span></a>    <span class="k">return</span> <span class="n">session</span>
+</span><span id="L-378"><a href="#L-378"><span class="linenos">378</span></a>
+</span><span id="L-379"><a href="#L-379"><span class="linenos">379</span></a>
+</span><span id="L-380"><a href="#L-380"><span class="linenos">380</span></a><span class="k">def</span><span class="w"> </span><span class="nf">load_exercise</span><span class="p">(</span>
+</span><span id="L-381"><a href="#L-381"><span class="linenos">381</span></a>        <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-382"><a href="#L-382"><span class="linenos">382</span></a>        <span class="n">exercise_config_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-383"><a href="#L-383"><span class="linenos">383</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Exercise</span><span class="p">:</span>
+</span><span id="L-384"><a href="#L-384"><span class="linenos">384</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a><span class="sd">    Load an exercise from a directory.</span>
+</span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>
+</span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a><span class="sd">    Parameters</span>
+</span><span id="L-388"><a href="#L-388"><span class="linenos">388</span></a><span class="sd">    ----------</span>
+</span><span id="L-389"><a href="#L-389"><span class="linenos">389</span></a><span class="sd">    directory: Path</span>
+</span><span id="L-390"><a href="#L-390"><span class="linenos">390</span></a><span class="sd">        Root directory of the data.</span>
+</span><span id="L-391"><a href="#L-391"><span class="linenos">391</span></a><span class="sd">    exercise_config_path : Path | None</span>
+</span><span id="L-392"><a href="#L-392"><span class="linenos">392</span></a><span class="sd">        Path to the exercise configuration file. By default, None.</span>
+</span><span id="L-393"><a href="#L-393"><span class="linenos">393</span></a>
+</span><span id="L-394"><a href="#L-394"><span class="linenos">394</span></a><span class="sd">    Returns</span>
+</span><span id="L-395"><a href="#L-395"><span class="linenos">395</span></a><span class="sd">    -------</span>
+</span><span id="L-396"><a href="#L-396"><span class="linenos">396</span></a><span class="sd">    Exercise</span>
+</span><span id="L-397"><a href="#L-397"><span class="linenos">397</span></a><span class="sd">        The loaded Exercise object.</span>
+</span><span id="L-398"><a href="#L-398"><span class="linenos">398</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-399"><a href="#L-399"><span class="linenos">399</span></a>
+</span><span id="L-400"><a href="#L-400"><span class="linenos">400</span></a>    <span class="k">if</span> <span class="n">exercise_config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-401"><a href="#L-401"><span class="linenos">401</span></a>        <span class="n">exercise_config_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="n">PatkitConfigFile</span><span class="o">.</span><span class="n">ASSIGNMENT</span>
 </span></pre></div>
 
 
@@ -871,7 +898,7 @@ directory will be loaded.</li>
 </span><span id="load_recording_session-333"><a href="#load_recording_session-333"><span class="linenos">333</span></a>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 </span><span id="load_recording_session-334"><a href="#load_recording_session-334"><span class="linenos">334</span></a>        <span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
 </span><span id="load_recording_session-335"><a href="#load_recording_session-335"><span class="linenos">335</span></a>
-</span><span id="load_recording_session-336"><a href="#load_recording_session-336"><span class="linenos">336</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">session_config_path</span><span class="p">:</span>
+</span><span id="load_recording_session-336"><a href="#load_recording_session-336"><span class="linenos">336</span></a>    <span class="k">if</span> <span class="n">session_config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="load_recording_session-337"><a href="#load_recording_session-337"><span class="linenos">337</span></a>        <span class="n">session_config_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="n">PatkitConfigFile</span><span class="o">.</span><span class="n">SESSION</span>
 </span><span id="load_recording_session-338"><a href="#load_recording_session-338"><span class="linenos">338</span></a>
 </span><span id="load_recording_session-339"><a href="#load_recording_session-339"><span class="linenos">339</span></a>    <span class="c1"># filename = f&quot;{directory.parts[-1]}{&#39;.Session&#39;}{PatkitSuffix.META}&quot;</span>
@@ -932,6 +959,62 @@ Path to the session configuration file. By default, None.</li>
 
 <ul>
 <li><strong>Session</strong>: The loaded Session object.</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="load_exercise">
+                            <input id="load_exercise-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">load_exercise</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">directory</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">exercise_config_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">_local</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span><span class="return-annotation">) -> <span class="n"><a href="../data_structures/data_structures.html#Exercise">patkit.data_structures.data_structures.Exercise</a></span>:</span></span>
+
+                <label class="view-source-button" for="load_exercise-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#load_exercise"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="load_exercise-381"><a href="#load_exercise-381"><span class="linenos">381</span></a><span class="k">def</span><span class="w"> </span><span class="nf">load_exercise</span><span class="p">(</span>
+</span><span id="load_exercise-382"><a href="#load_exercise-382"><span class="linenos">382</span></a>        <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="load_exercise-383"><a href="#load_exercise-383"><span class="linenos">383</span></a>        <span class="n">exercise_config_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="load_exercise-384"><a href="#load_exercise-384"><span class="linenos">384</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Exercise</span><span class="p">:</span>
+</span><span id="load_exercise-385"><a href="#load_exercise-385"><span class="linenos">385</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="load_exercise-386"><a href="#load_exercise-386"><span class="linenos">386</span></a><span class="sd">    Load an exercise from a directory.</span>
+</span><span id="load_exercise-387"><a href="#load_exercise-387"><span class="linenos">387</span></a>
+</span><span id="load_exercise-388"><a href="#load_exercise-388"><span class="linenos">388</span></a><span class="sd">    Parameters</span>
+</span><span id="load_exercise-389"><a href="#load_exercise-389"><span class="linenos">389</span></a><span class="sd">    ----------</span>
+</span><span id="load_exercise-390"><a href="#load_exercise-390"><span class="linenos">390</span></a><span class="sd">    directory: Path</span>
+</span><span id="load_exercise-391"><a href="#load_exercise-391"><span class="linenos">391</span></a><span class="sd">        Root directory of the data.</span>
+</span><span id="load_exercise-392"><a href="#load_exercise-392"><span class="linenos">392</span></a><span class="sd">    exercise_config_path : Path | None</span>
+</span><span id="load_exercise-393"><a href="#load_exercise-393"><span class="linenos">393</span></a><span class="sd">        Path to the exercise configuration file. By default, None.</span>
+</span><span id="load_exercise-394"><a href="#load_exercise-394"><span class="linenos">394</span></a>
+</span><span id="load_exercise-395"><a href="#load_exercise-395"><span class="linenos">395</span></a><span class="sd">    Returns</span>
+</span><span id="load_exercise-396"><a href="#load_exercise-396"><span class="linenos">396</span></a><span class="sd">    -------</span>
+</span><span id="load_exercise-397"><a href="#load_exercise-397"><span class="linenos">397</span></a><span class="sd">    Exercise</span>
+</span><span id="load_exercise-398"><a href="#load_exercise-398"><span class="linenos">398</span></a><span class="sd">        The loaded Exercise object.</span>
+</span><span id="load_exercise-399"><a href="#load_exercise-399"><span class="linenos">399</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="load_exercise-400"><a href="#load_exercise-400"><span class="linenos">400</span></a>
+</span><span id="load_exercise-401"><a href="#load_exercise-401"><span class="linenos">401</span></a>    <span class="k">if</span> <span class="n">exercise_config_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="load_exercise-402"><a href="#load_exercise-402"><span class="linenos">402</span></a>        <span class="n">exercise_config_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="n">PatkitConfigFile</span><span class="o">.</span><span class="n">ASSIGNMENT</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Load an exercise from a directory.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>directory</strong> (Path):
+Root directory of the data.</li>
+<li><strong>exercise_config_path</strong> (Path | None):
+Path to the exercise configuration file. By default, None.</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<ul>
+<li><strong>Exercise</strong>: The loaded Exercise object.</li>
 </ul>
 </div>
 
