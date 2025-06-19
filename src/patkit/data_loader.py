@@ -74,7 +74,7 @@ def load_data(configuration: Configuration) -> Session:
     recorded_path = configuration.data_config.recorded_data_path
     patkit_path = configuration.config_paths.path
 
-    # TODO 0.18 Should not blindly assume that sampling frequency is 44100!
+    # TODO 0.18.1 Should not blindly assume that sampling frequency is 44100!
     if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
@@ -216,4 +216,4 @@ def read_recorded_session_from_dir(
 
     _logger.error(
         'Could not find a suitable importer: %s', recorded_data_path)
-    # TODO 0.18: This should raise an error.
+    # TODO 0.18.1: This should raise an error.
