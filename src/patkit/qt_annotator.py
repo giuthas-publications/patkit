@@ -236,8 +236,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_open_exercise.triggered.connect(self.open_exercise)
         self.action_open_answer.triggered.connect(self.open_answer)
         self.action_save_answer.triggered.connect(self.save_answer)
-        self.action_compare_to_example.triggered.connect(self.compare_to_model)
-        self.action_show_example.triggered.connect(self.show_model)
+        self.action_compare_to_example.triggered.connect(
+            self.compare_to_example)
+        self.action_show_example.triggered.connect(self.show_example)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -1103,10 +1104,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
     def save_answer(self):
         pass
 
-    def compare_to_model(self):
-        print("Comparing to model has not yet been implemented.")       
+    def compare_to_example(self):
+        print("Comparing to model has not yet been implemented.")    
 
-    def show_model(self):
+    def show_example(self):
         self.update()
 
     def export_figure(self):
