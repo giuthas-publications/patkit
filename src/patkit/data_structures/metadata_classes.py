@@ -110,8 +110,9 @@ class FileInformation:
                 basepath = self.recorded_path/self.recorded_data_file
             elif self.recorded_meta_file:
                 basepath = self.recorded_path/self.recorded_meta_file
-        if basepath is None:
-            basepath = self.patkit_path/self.patkit_meta_file
+        if basepath is None: 
+            if self.patkit_meta_file is not None:
+                basepath = self.patkit_path/self.patkit_meta_file
         return stem_path(basepath)
 
 

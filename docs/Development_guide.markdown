@@ -87,7 +87,7 @@ In the fork repository:
    increments), check that all features in the current roadmap are either
    done (implemented and merged to local `devel`, after which you should 
    delete the feature branch: `git push -d <remote_name> <branchname>` and 
-   `git branch -d <branchname`)), or that all undone features are
+   `git branch -d <branchname>`), or that all undone features are
    moved to the next release's roadmap.
    - This applies from version 1.0. Before that the roadmap is for 1.0 and
      minor releases are done when significant parts have been updated without

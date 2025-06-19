@@ -39,7 +39,9 @@ patkit's datastructures and are not meant to be directly inherited from.
 from .base_classes import (
     AbstractData, AbstractDataContainer, AbstractDataObject, Statistic
 )
-from .data_structures import Manifest, Modality, Recording, Session
+from .data_structures import (
+    Exercise, Answer, Manifest, Modality, Recording, Session
+)
 from .metadata_classes import (
     FileInformation,
     ModalityData, ModalityMetaData, PointAnnotations,

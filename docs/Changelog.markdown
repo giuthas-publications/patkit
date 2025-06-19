@@ -27,7 +27,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.18 is planned to be a release of automated segmentation exercises.
+- 0.18.x releases will add displaying the model answer, saving and loading of exercise
+  answers, and possibly some more detailed configuration.
 - 0.19 will add audio playback
 - 0.20 is planned to be a data structure update giving support for multiple data
   sources per trial.
@@ -41,7 +42,35 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-## [0.17.0] - 2025-05-28
+## [0.18.0] - 2025-06-19
+
+### Highlights
+
+- Automated segmentation exercises are now becoming part of PATKIT.
+- As we are still in alpha, this is not the full final release. **Only**
+  scrambling a TextGrid works at the moment.
+  - There will be 0.18.x releases that add most of the rest of the
+    functionality.
+- Some bugs have been fixed.
+
+### Added
+
+- Configuration, commands, and shortcuts for treating a directory as an
+  exercise.
+- Audio only recordings.
+
+### Bugs
+
+- Saving TextGrids will overwrite the example answers to an exercise.
+
+### Fixed 
+
+- File -> Open... works again.
+- Issue of hard coded time vector in GUI selection.
+- Waveform is no longer plotted in black in dark mode.
+
+
+## [0.17.1] - 2025-05-28
 
 ### Highlights
 

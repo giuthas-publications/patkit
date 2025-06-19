@@ -346,7 +346,9 @@ def plot_wav(
         waveform: np.ndarray,
         wav_time: np.ndarray,
         xlim: tuple[float, float],
-        picker=None) -> list[Line2D]:
+        picker=None,
+        mode: GuiColorScheme = GuiColorScheme.FOLLOW_SYSTEM,
+) -> list[Line2D]:
     """
     Plot a waveform.
 
@@ -371,11 +373,23 @@ def plot_wav(
     """
     normalised_wav = waveform / np.amax(np.abs(waveform))
 
+    match mode:
+        case GuiColorScheme.DARK:
+            color="lightgrey"
+        case GuiColorScheme.LIGHT:
+            color="k"
+        case GuiColorScheme.FOLLOW_SYSTEM:
+            _logger.warning(
+                "GuiColorScheme FOLLOW_SYSTEM encountered in plot.")
+            _logger.warning(
+                "Can't actually deal with following the system in plot, "
+                "so just going dark.")
+    
     if picker:
         line = ax.plot(wav_time, normalised_wav,
-                       color="k", lw=1, picker=picker)
+                       color=color, lw=.25, picker=picker)
     else:
-        line = ax.plot(wav_time, normalised_wav, color="k", lw=1)
+        line = ax.plot(wav_time, normalised_wav, color=color, lw=.25)
 
     ax.axvline(x=0, color="dimgrey", lw=1, linestyle=(0, (5, 10)))
 

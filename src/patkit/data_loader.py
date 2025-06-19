@@ -44,7 +44,9 @@ from patkit.configuration import (
 from patkit.constants import (
     DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
-    generate_aaa_recording_list, load_session_config)
+    generate_aaa_recording_list, generate_wav_recording_list, 
+    load_session_config
+)
 from patkit.data_structures import (
     FileInformation, Session)
 from patkit.save_and_load import load_recording_session
@@ -72,7 +74,7 @@ def load_data(configuration: Configuration) -> Session:
     recorded_path = configuration.data_config.recorded_data_path
     patkit_path = configuration.config_paths.path
 
-    # TODO 0.18 Should not blindly assume that sampling frequency is 44100!
+    # TODO 0.18.1 Should not blindly assume that sampling frequency is 44100!
     if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
@@ -192,5 +194,26 @@ def read_recorded_session_from_dir(
 
         return session
 
+    if list(recorded_data_path.glob('*' + SourceSuffix.WAV)):
+        paths = PathStructure(root=recorded_data_path)
+        session_config = SessionConfig(
+            data_source_name=DatasourceNames.WAV,
+            path_structure=paths)
+
+        session = Session(
+            name=containing_dir, config=session_config,
+            file_info=file_info)
+
+        recordings = generate_wav_recording_list(
+            directory=recorded_data_path,
+            container=session,
+            import_config=session_config,
+            detect_beep=detect_beep,
+        )
+        session.extend(recordings)
+
+        return session
+
     _logger.error(
         'Could not find a suitable importer: %s', recorded_data_path)
+    # TODO 0.18.1: This should raise an error.

@@ -57,6 +57,81 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
+
+class Answer():
+    """
+    Answer is an answer to an Exercise.
+    """
+    def __init__(
+        self,
+        container: Exercise,
+        textgrid_paths: list[Path],
+        session: Session,
+    ):
+        self.container = container
+        self.textgrid_paths = textgrid_paths
+        self.scenario = session
+        self.cursor = 0
+
+    def go_to_recording(self, index: int) -> int:
+        """
+        Go to Recording at index.
+
+        Returns
+        -------
+        int
+            index of current recording
+        """
+        if len(self) > index and index >= 0:
+            self.cursor = index
+        return self.cursor
+
+    def next(self) -> int:
+        """
+        Go to next Recording.
+
+        Returns
+        -------
+        int
+            index of next recording
+        """
+        if len(self) > self.cursor + 1:
+            self.cursor += 1
+        return self.cursor
+
+    def previous(self) -> int:
+        """
+        Go to previous Recording.
+
+        Returns
+        -------
+        int
+            index of previous recording
+        """
+        if self.cursor > 0:
+            self.cursor -= 1
+        return self.cursor
+
+
+class Exercise(UserList):
+    """
+    Exercise is list of Answers, which has an optional ExampleAnswer.
+    """
+
+    def __init__(
+        self,
+        session: Session,
+        answers: list[Answer] | None = None,
+        model: Answer | None = None,
+    ):
+        super().__init__()
+        self.model = model
+        self.scenario = session
+
+        if answers is not None:
+            self.extend(answers)
+
+
 class Manifest(UserList):
     """
     Manifest is a list of Scenario paths as strings.
@@ -351,7 +426,7 @@ class Recording(AbstractDataContainer, UserDict):
             textgrid_path = self.recorded_meta_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
-        elif self.recorded_meta_path:
+        elif self.recorded_data_path:
             textgrid_path = self.recorded_data_path.with_suffix(
                 SourceSuffix.TEXTGRID
             )
@@ -519,7 +594,7 @@ class Modality(AbstractData, OrderedDict):
     @property
     def recording(self) -> Recording | None:
         """
-        This modality's container available also with this alias for ease of use.
+        This modality's container available with this alias for ease of use.
 
         Returns
         -------
@@ -845,4 +920,3 @@ class Modality(AbstractData, OrderedDict):
         if self._metadata and self._metadata.parent_name:
             return True
         return False
-
