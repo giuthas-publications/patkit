@@ -127,7 +127,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            pickle_filename: Path | str | None = None
+            pickle_filename: Path | str | None = None,
+            run_as_exercise: bool = False,
     ):
         super().__init__()
         self.kymography_clicker = None
@@ -141,6 +142,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.max_index = len(self.recordings)
 
         self.display_tongue = display_tongue
+        self.running_as_exercise = run_as_exercise
 
         self.data_config = config.data_config
         self.gui_config = config.gui_config
@@ -974,7 +976,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.1: these should be loaded from the new directory as well
+            # TODO 0.18.1: these should be loaded from the new directory as
+            # well 
             # self.display_tongue = display_tongue
 
             # self.data_config = config.data_config
@@ -1074,6 +1077,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Scramble TextGrids to run as an Exercise.
         """
+        self.running_as_exercise = True
         for recording in self.session:
             for tier in recording.patgrid:
                 recording.patgrid[tier].scramble()
@@ -1105,9 +1109,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         pass
 
     def compare_to_example(self):
-        print("Comparing to model has not yet been implemented.")    
+        print("Comparing to model has not yet been implemented.")
 
     def show_example(self):
+        """
+        On 'Show example' menu item being triggered, update the plots.
+        """
         self.update()
 
     def export_figure(self):
