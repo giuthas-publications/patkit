@@ -36,6 +36,7 @@ from __future__ import annotations
 import abc
 import logging
 from collections import OrderedDict, UserDict, UserList
+from copy import deepcopy
 from pathlib import Path
 
 import numpy as np
@@ -58,20 +59,43 @@ _logger = logging.getLogger('patkit.data_structures')
 
 
 
-class Answer():
+class Answer(UserList):
     """
-    Answer is an answer to an Exercise.
+    Answer is an answer to an Exercise and consists of PatGrids.
+
+    The PatGrids correspond to the Recordings that the Exercise is based on.
     """
     def __init__(
         self,
         container: Exercise,
-        textgrid_paths: list[Path],
-        session: Session,
+        scenario: Session,
+        scramble: bool,
     ):
+        super().__init__()
         self.container = container
-        self.textgrid_paths = textgrid_paths
-        self.scenario = session
+        self.scenario = scenario
         self.cursor = 0
+        for recording in self.scenario:
+            patgrid = deepcopy(recording.patgrid)
+            self.append(patgrid)
+        if scramble:
+            for patgrid in self:
+                for tier in patgrid:
+                    patgrid[tier].scramble()
+            self.edited = [False for i in range(len(self))]
+        else:
+            self.edited = [True for i in range(len(self))]
+
+    def current(self) -> PatGrid:
+        """
+        The PatGrid at the current index.
+
+        Returns
+        -------
+        PatGrid
+            The PatGrid.
+        """
+        return self[self.index]
 
     def go_to_recording(self, index: int) -> int:
         """
@@ -115,21 +139,42 @@ class Answer():
 
 class Exercise(UserList):
     """
-    Exercise is list of Answers, which has an optional ExampleAnswer.
+    Exercise is list of Answers relating to a Scenario (Session).
+
+    If no example Answers are provided, the current PatGrids in the Session are
+    copied and used as the example.
     """
 
     def __init__(
         self,
         session: Session,
         answers: list[Answer] | None = None,
-        model: Answer | None = None,
+        example: Answer | None = None,
     ):
         super().__init__()
-        self.model = model
+        if example is None:
+            self.example = Answer(
+                container=self,
+                scenario=session,
+                scramble = False,
+            )
+        else:
+            self.example = example
         self.scenario = session
 
         if answers is not None:
             self.extend(answers)
+
+    def new_blank_answer(self) -> None:
+        """
+        Create a new blank Answer and append it to this Exercise.
+        """
+        blank = Answer(
+                container=self,
+                scenario=self.scenario,
+                scramble = True,
+            )
+        self.extend(blank)
 
 
 class Manifest(UserList):
