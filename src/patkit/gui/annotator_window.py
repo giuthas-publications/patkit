@@ -238,6 +238,9 @@ class UiMainWindow(object):
         # TODO: 0.18.1: Implement this?
         self.action_compare_to_example.setEnabled(False)
 
+        self.action_run_as_exercise.setCheckable(True)
+        self.action_run_as_exercise.setChecked(False)
+
         self.action_show_example.setCheckable(True)
         self.action_show_example.setChecked(False)
 

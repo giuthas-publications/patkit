@@ -67,7 +67,7 @@ from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
 from patkit.constants import GuiColorScheme, GuiImageType
-from patkit.data_structures import Session
+from patkit.data_structures import Exercise, Session
 from patkit.export import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
@@ -141,7 +141,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.max_index = len(self.recordings)
 
         self.display_tongue = display_tongue
-        self.running_as_exercise = run_as_exercise
+
+        self.action_run_as_exercise.setChecked(run_as_exercise)
+        if run_as_exercise:
+            self.exercise = Exercise(session)
+        else:
+            self.exercise = None
 
         self.data_config = config.data_config
         self.gui_config = config.gui_config
@@ -885,7 +890,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
-        frame_selection_index = self.current.annotations['frame_selection_index']
+        frame_selection_index = self.current.annotations[
+            'frame_selection_index']
         pd = self.current.modalities['PD l1 on RawUltrasound']
         data_length = pd.data.size
         if -1 < frame_selection_index < data_length:
@@ -1051,15 +1057,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))
 
-
     def run_as_exercise(self):
         """
-        Scramble TextGrids to run as an Exercise.
+        If `Run as Exercise` is checked, run current Session as an Exercise.
         """
-        self.running_as_exercise = True
-        for recording in self.session:
-            for tier in recording.patgrid:
-                recording.patgrid[tier].scramble()
+        if self.action_run_as_exercise.isChecked() and self.exercise is None:
+            for recording in self.session:
+                for tier in recording.patgrid:
+                    recording.patgrid[tier].scramble()
         self.update()
         self.update_ui()
 
