@@ -42,7 +42,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-## [0.18.0] - 2025-06-07
+## [0.18.0] - 2025-06-19
 
 ### Highlights
 
