@@ -249,11 +249,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_export_ultrasound_frame.triggered.connect(
             self.export_ultrasound_frame)
 
-        self.actionNext.triggered.connect(self.next)
-        self.actionPrevious.triggered.connect(self.prev)
+        self.action_next.triggered.connect(self.next)
+        self.action_previous.triggered.connect(self.prev)
 
-        self.actionNext_Frame.triggered.connect(self.next_frame)
-        self.actionPrevious_Frame.triggered.connect(self.previous_frame)
+        self.action_next_frame.triggered.connect(self.next_frame)
+        self.action_previous_frame.triggered.connect(self.previous_frame)
 
         self.action_quit.triggered.connect(self.quit)
 

@@ -276,20 +276,20 @@ class UiMainWindow(object):
         self.menu_export.addAction(self.action_export_ultrasound_frame)
 
         ### Navigation menu actions
-        self.actionNext = QtGui.QAction(main_window)
-        self.actionNext.setObjectName("actionNext")
-        self.actionPrevious = QtGui.QAction(main_window)
-        self.actionPrevious.setObjectName("actionPrevious")
-        self.actionNext_Frame = QtGui.QAction(main_window)
-        self.actionNext_Frame.setObjectName("actionNext_Frame")
-        self.actionPrevious_Frame = QtGui.QAction(main_window)
-        self.actionPrevious_Frame.setObjectName("actionPrevious_Frame")
+        self.action_next = QtGui.QAction(main_window)
+        self.action_next.setObjectName("action_next")
+        self.action_previous = QtGui.QAction(main_window)
+        self.action_previous.setObjectName("action_previous")
+        self.action_next_frame = QtGui.QAction(main_window)
+        self.action_next_frame.setObjectName("action_next_frame")
+        self.action_previous_frame = QtGui.QAction(main_window)
+        self.action_previous_frame.setObjectName("action_previous_frame")
 
-        self.menu_navigation.addAction(self.actionNext)
-        self.menu_navigation.addAction(self.actionPrevious)
+        self.menu_navigation.addAction(self.action_next)
+        self.menu_navigation.addAction(self.action_previous)
         self.menu_navigation.addSeparator()
-        self.menu_navigation.addAction(self.actionNext_Frame)
-        self.menu_navigation.addAction(self.actionPrevious_Frame)
+        self.menu_navigation.addAction(self.action_next_frame)
+        self.menu_navigation.addAction(self.action_previous_frame)
 
         ### Script menu actions
         self.actionShow_interpreter = QtGui.QAction(main_window)
@@ -357,19 +357,19 @@ class UiMainWindow(object):
             _translate("MainWindow", "Show interpreter")
         )
         self.actionRun_file.setText(_translate("MainWindow", "Run file..."))
-        self.actionNext.setText(_translate("MainWindow", "Next Recording"))
-        self.actionNext.setShortcut(_translate("MainWindow", "Down"))
-        self.actionPrevious.setText(
+        self.action_next.setText(_translate("MainWindow", "Next Recording"))
+        self.action_next.setShortcut(_translate("MainWindow", "Down"))
+        self.action_previous.setText(
             _translate("MainWindow", "Previous Recording"))
-        self.actionPrevious.setShortcut(_translate("MainWindow", "Up"))
+        self.action_previous.setShortcut(_translate("MainWindow", "Up"))
         self.action_export_analysis.setText(
             _translate("MainWindow", "Export analysis...")
         )
-        self.actionNext_Frame.setText(_translate("MainWindow", "Next Frame"))
-        self.actionNext_Frame.setShortcut(_translate("MainWindow", "Right"))
-        self.actionPrevious_Frame.setText(
+        self.action_next_frame.setText(_translate("MainWindow", "Next Frame"))
+        self.action_next_frame.setShortcut(_translate("MainWindow", "Right"))
+        self.action_previous_frame.setText(
             _translate("MainWindow", "Previous Frame"))
-        self.actionPrevious_Frame.setShortcut(_translate("MainWindow", "Left"))
+        self.action_previous_frame.setShortcut(_translate("MainWindow", "Left"))
         self.action_export_main_figure.setText(
             _translate("MainWindow", "Export main figure...")
         )
