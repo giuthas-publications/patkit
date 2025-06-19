@@ -70,11 +70,12 @@ class Answer(UserList):
         container: Exercise,
         scenario: Session,
         scramble: bool,
+        cursor: int = 0,
     ):
         super().__init__()
         self.container = container
         self.scenario = scenario
-        self.cursor = 0
+        self.cursor = cursor
         for recording in self.scenario:
             patgrid = deepcopy(recording.patgrid)
             self.append(patgrid)
@@ -147,7 +148,7 @@ class Exercise(UserList):
 
     def __init__(
         self,
-        session: Session,
+        scenario: Session,
         answers: list[Answer] | None = None,
         example: Answer | None = None,
     ):
@@ -155,24 +156,30 @@ class Exercise(UserList):
         if example is None:
             self.example = Answer(
                 container=self,
-                scenario=session,
+                scenario=scenario,
                 scramble = False,
             )
         else:
             self.example = example
-        self.scenario = session
+        self.scenario = scenario
 
         if answers is not None:
             self.extend(answers)
 
-    def new_blank_answer(self) -> None:
+    def new_blank_answer(self, cursor: int = 0) -> None:
         """
         Create a new blank Answer and append it to this Exercise.
+
+        Parameters
+        ----------
+        cursor : int
+            Cursor position for the new exercise.
         """
         blank = Answer(
                 container=self,
                 scenario=self.scenario,
                 scramble = True,
+                cursor=cursor,
             )
         self.extend(blank)
 
