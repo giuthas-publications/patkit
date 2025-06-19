@@ -127,7 +127,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            pickle_filename: Path | str | None = None,
             run_as_exercise: bool = False,
     ):
         super().__init__()
@@ -155,8 +154,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.categories = categories
         self.tongue_positions = PdQtAnnotator.default_tongue_positions
         self._add_annotations()
-
-        self.pickle_filename = pickle_filename
 
         match config.gui_config.color_scheme:
             case GuiColorScheme.DARK:
@@ -1014,24 +1011,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         Save derived modalities and annotations.
         """
         save_recording_session(self.session)
-
-    def save_to_pickle(self):
-        """
-        Save the recordings into a pickle file.
-        """
-        if not self.pickle_filename:
-            (self.pickle_filename, _) = QFileDialog.getSaveFileName(
-                self, 'Save file', directory='.',
-                filter="Pickle files (*.pickle)")
-        if self.pickle_filename:
-            _logger.info(
-                "Pickling is currently disabled. Did NOT write file %s.",
-                self.pickle_filename)
-            # patkit_io.save2pickle(
-            #     self.recordings,
-            #     self.pickle_filename)
-            # _qt_annotator_logger.info(
-            #     "Wrote data to file {file}.", file = self.pickle_filename)
 
     def save_textgrid(self):
         """
