@@ -574,8 +574,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.1: Add a check to draw plots which adds the model textgrid to
-        # plotting 
+        # TODO 0.18.1: Add a check to draw plots which adds the model textgrid
+        # to plotting
         if self.action_show_example.isChecked():
             print("I should be showing the model answer but don't yet know how.")
 
@@ -1062,9 +1062,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         If `Run as Exercise` is checked, run current Session as an Exercise.
         """
         if self.action_run_as_exercise.isChecked() and self.exercise is None:
-            for recording in self.session:
-                for tier in recording.patgrid:
-                    recording.patgrid[tier].scramble()
+            self.exercise = Exercise(
+                scenario=self.session,
+            )
+            self.exercise.new_blank_answer(cursor=self.cursor)
         self.update()
         self.update_ui()
 
@@ -1072,7 +1073,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Wrap a directory as an Exercise.
         """
-        # TODO 2.6.: JOS MAHDOLLISTA ENNEN EMBRAN ESITELMÄÄ
+        # TODO 0.18.3
         # ask for directory
         # ask for patkit/exercise dir
         # write patkit_v.yaml in exercise dir
