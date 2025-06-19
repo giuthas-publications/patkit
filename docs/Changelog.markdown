@@ -59,6 +59,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   exercise.
 - Audio only recordings.
 
+### Bugs
+
+- Saving TextGrids will overwrite the example answers to an exercise.
+
 ### Fixed 
 
 - File -> Open... works again.
