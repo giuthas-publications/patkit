@@ -151,6 +151,7 @@ class Exercise(UserList):
         scenario: Session,
         answers: list[Answer] | None = None,
         example: Answer | None = None,
+        index: int = 0,
     ):
         super().__init__()
         if example is None:
@@ -165,6 +166,12 @@ class Exercise(UserList):
 
         if answers is not None:
             self.extend(answers)
+
+        self.index = index
+
+    @property
+    def current_answer(self) -> Answer:
+        return self[self.index]
 
     def new_blank_answer(self, cursor: int = 0) -> None:
         """

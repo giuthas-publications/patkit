@@ -137,6 +137,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.session = session
         self.recordings = session.recordings
         self.index = 0
+        self.patgrid = self.current.patgrid
 
         self.max_index = len(self.recordings)
 
@@ -1066,6 +1067,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 scenario=self.session,
             )
             self.exercise.new_blank_answer(cursor=self.cursor)
+
+        if self.action_run_as_exercise.isChecked():
+            self.patgrid = self.exercise.current_answer[self.index]
+        else: 
+            self.patgrid = self.current.patgrid
+
         self.update()
         self.update_ui()
 
