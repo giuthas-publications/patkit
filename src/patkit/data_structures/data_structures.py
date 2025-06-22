@@ -76,9 +76,11 @@ class Answer(UserList):
         self.container = container
         self.scenario = scenario
         self.cursor = cursor
+
         for recording in self.scenario:
             patgrid = deepcopy(recording.patgrid)
             self.append(patgrid)
+
         if scramble:
             for patgrid in self:
                 for tier in patgrid:
@@ -96,7 +98,7 @@ class Answer(UserList):
         PatGrid
             The PatGrid.
         """
-        return self[self.index]
+        return self[self.cursor]
 
     def go_to_recording(self, index: int) -> int:
         """
@@ -138,7 +140,7 @@ class Answer(UserList):
         return self.cursor
 
 
-class Exercise(UserList):
+class Exercise(UserDict):
     """
     Exercise is list of Answers relating to a Scenario (Session).
 
@@ -150,11 +152,12 @@ class Exercise(UserList):
         self,
         scenario: Session,
         answers: list[Answer] | None = None,
-        example: Answer | None = None,
+        example: dict[str, Answer] | None = None,
         index: int = 0,
     ):
         super().__init__()
         if example is None:
+            _logger.debug("Creating an example answer")
             self.example = Answer(
                 container=self,
                 scenario=scenario,
@@ -165,13 +168,13 @@ class Exercise(UserList):
         self.scenario = scenario
 
         if answers is not None:
-            self.extend(answers)
+            self.update(answers)
 
-        self.index = index
+        self.cursor = index
 
     @property
     def current_answer(self) -> Answer:
-        return self[self.index]
+        return self[list(self.keys())[self.cursor]]
 
     def new_blank_answer(self, cursor: int = 0) -> None:
         """
@@ -180,15 +183,17 @@ class Exercise(UserList):
         Parameters
         ----------
         cursor : int
-            Cursor position for the new exercise.
+            Cursor position for the new Answer.
         """
+        _logger.debug("Creating a blank answer.")
         blank = Answer(
                 container=self,
                 scenario=self.scenario,
                 scramble = True,
                 cursor=cursor,
             )
-        self.extend(blank)
+        name = f"Answer {len(self)+1}"
+        self[name] = blank
 
 
 class Manifest(UserList):

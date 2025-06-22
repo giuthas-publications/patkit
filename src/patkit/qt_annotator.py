@@ -1070,7 +1070,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if self.action_run_as_exercise.isChecked():
             self.patgrid = self.exercise.current_answer[self.index]
-        else: 
+        else:
             self.patgrid = self.current.patgrid
 
         self.update()
