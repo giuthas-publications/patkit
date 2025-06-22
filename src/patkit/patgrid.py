@@ -518,9 +518,15 @@ class PatGrid(OrderedDict):
         cls = self.__class__
         new_copy = cls.__new__(cls)
         memo[id(self)] = new_copy
-        for key, value in self.__dict__.items():
-            setattr(new_copy, key, deepcopy(value, memo))
+        for tier_name, tier in self.items():
+            new_copy[tier_name] = deepcopy(tier)
         return new_copy
+
+    def __repr__(self):
+        representation = "PatGrid:"
+        for tier_name in self:
+            representation += f"\n\tTier: {tier_name}"
+        return representation
 
     @property
     def begin(self) -> float:
