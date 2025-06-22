@@ -526,6 +526,9 @@ class PatGrid(OrderedDict):
         representation = "PatGrid:"
         for tier_name in self:
             representation += f"\n\tTier: {tier_name}"
+            for item in self[tier_name]:
+                if isinstance(item, PatInterval):
+                    representation += f"\n\t\t{item}"
         return representation
 
     @property
