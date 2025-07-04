@@ -38,6 +38,7 @@ import logging
 from collections import OrderedDict, UserDict, UserList
 from copy import deepcopy
 from pathlib import Path
+from textwrap import indent
 
 import numpy as np
 import textgrids
@@ -171,6 +172,17 @@ class Exercise(UserDict):
             self.update(answers)
 
         self.cursor = index
+
+    def __repr__(self) -> str:
+        representation = "Exercise:\n"
+        scenario_repr = f"{self.scenario}"
+        scenario_repr = indent(text=scenario_repr,prefix="\t")
+        representation += f"\tScenario:\n{scenario_repr}\n"
+        representation += f"\texample: {self.example}\n"
+        representation += f"\tAnswers:\n"
+        for name in self:
+            representation += f"\t\t{self[name]}"
+        return representation
 
     @property
     def current_answer(self) -> Answer:
