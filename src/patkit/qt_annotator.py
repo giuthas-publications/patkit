@@ -1066,11 +1066,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.exercise = Exercise(
                 scenario=self.session,
             )
+            print(self.exercise)
             self.exercise.new_blank_answer(cursor=self.cursor)
+            print(self.exercise)
 
         if self.action_run_as_exercise.isChecked():
             self.patgrid = self.exercise.current_answer[self.index]
-            print(self.exercise)
         else:
             self.patgrid = self.current.patgrid
 

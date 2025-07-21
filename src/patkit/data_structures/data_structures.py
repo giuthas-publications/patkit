@@ -176,7 +176,7 @@ class Exercise(UserDict):
     def __repr__(self) -> str:
         representation = "Exercise:\n"
         scenario_repr = f"{self.scenario}"
-        scenario_repr = indent(text=scenario_repr,prefix="\t")
+        scenario_repr = indent(text=scenario_repr,prefix="\t\t")
         representation += f"\tScenario:\n{scenario_repr}\n"
         representation += f"\texample: {self.example}\n"
         representation += f"\tAnswers:\n"
@@ -297,6 +297,12 @@ class Session(AbstractDataContainer, UserList):
             self.extend(recordings)
 
         self.config = config
+
+    def __repr__(self) -> str:
+        representation = "Session:\n"
+        for recording in self:
+            representation += f"\tRecording: {recording.basename},\n"
+        return representation
 
     @property
     def recordings(self) -> list[Recording]:
