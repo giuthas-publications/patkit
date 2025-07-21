@@ -90,6 +90,13 @@ class Answer(UserList):
         else:
             self.edited = [True for i in range(len(self))]
 
+    def __repr__(self) -> str:
+        representation = ""
+        for patgrid in self:
+            patgrid_string = f"{patgrid}"
+            representation += indent(text=patgrid_string,prefix="\t")
+        return representation
+
     def current(self) -> PatGrid:
         """
         The PatGrid at the current index.
@@ -178,10 +185,14 @@ class Exercise(UserDict):
         scenario_repr = f"{self.scenario}"
         scenario_repr = indent(text=scenario_repr,prefix="\t\t")
         representation += f"\tScenario:\n{scenario_repr}\n"
-        representation += f"\texample: {self.example}\n"
-        representation += f"\tAnswers:\n"
-        for name in self:
-            representation += f"\t\t{self[name]}"
+        example_repr = f"{self.example}"
+        example_repr = indent(text=example_repr,prefix="\t")
+        representation += f"\tExample:\n{example_repr}\n"
+        representation += "\tAnswers:\n"
+        answers_string = ""
+        for name in list(self.keys()):
+            answers_string += f"{name}:\n{self[name]}"
+        representation += indent(text=answers_string,prefix="\t\t")
         return representation
 
     @property
