@@ -578,16 +578,19 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # TODO 0.18.1: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
-            print("I should be showing the model answer but don't yet know how.")
+            print(
+                "I should be showing the model answer but don't yet know how."
+            )
 
         for axes in self.tier_axes:
             axes.remove()
         self.tier_axes = []
-        if self.current.patgrid:
-            nro_tiers = len(self.current.patgrid)
+        # if self.current.patgrid:
+        if self.patgrid:
+            nro_tiers = len(self.patgrid)
             self.tier_grid_spec = self.main_grid_spec[1].subgridspec(
                 nro_tiers, 1, hspace=0, wspace=0)
-            for axes_counter, tier in enumerate(self.current.textgrid):
+            for axes_counter, tier in enumerate(self.patgrid):
                 axes = self.figure.add_subplot(
                     self.tier_grid_spec[axes_counter],
                     sharex=self.data_axes[0])
@@ -672,7 +675,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             axes_counter += 1
 
         self.animators = []
-        iterator = zip(self.current.patgrid.items(),
+        iterator = zip(self.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
             boundaries_by_axis = []
@@ -1066,9 +1069,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.exercise = Exercise(
                 scenario=self.session,
             )
-            print(self.exercise)
             self.exercise.new_blank_answer(cursor=self.cursor)
-            print(self.exercise)
 
         if self.action_run_as_exercise.isChecked():
             self.patgrid = self.exercise.current_answer[self.index]
