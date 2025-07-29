@@ -435,6 +435,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates the graphs but not the buttons.
         """
+        if self.action_run_as_exercise.isChecked():
+            self.patgrid = self.exercise.current_answer[self.index]
+        else:
+            self.patgrid = self.current.patgrid
+
         self.clear_axes()
         self.draw_plots()
         self.multicursor = MultiCursor(
@@ -1070,11 +1075,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 scenario=self.session,
             )
             self.exercise.new_blank_answer(cursor=self.cursor)
-
-        if self.action_run_as_exercise.isChecked():
-            self.patgrid = self.exercise.current_answer[self.index]
-        else:
-            self.patgrid = self.current.patgrid
 
         self.update()
         self.update_ui()
