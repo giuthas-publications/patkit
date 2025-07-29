@@ -337,6 +337,8 @@ class UiMainWindow(object):
 
         self.action_run_as_exercise.setText(
             _translate("MainWindow", "Run as exercise"))
+        self.action_run_as_exercise.setShortcut(
+            _translate("MainWindow", "Alt+E"))
         self.action_create_exercise.setText(
             _translate("MainWindow", "Create exercise..."))
         self.action_open_exercise.setText(
