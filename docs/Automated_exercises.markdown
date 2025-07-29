@@ -10,7 +10,7 @@ each other within the recordings.
 After that you can practice aligning the boundaries to which ever data modalities are open. 
 
 **Please note**, that in 0.18.0, saving the TextGrids **overwrites** the originals.
-This planned to be changed in 0.18.1 to protect the model answer.
+This planned to be changed in 0.18.1 to protect the example answer.
 
 There will be further commands enabled in versions 0.18.1 onwards to enable
 saving and other functionality. See the
