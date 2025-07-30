@@ -50,7 +50,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Fixed
 
 - When running as an exercise, after scrambling, saving the modified TextGrids
-  no longer overwrites the example answer.
+  no longer overwrites the example answer. Instead for this release saving
+  TextGrids is disabled in exercise mode.
 
 ## [0.18.0] - 2025-06-19
 
