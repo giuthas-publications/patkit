@@ -35,6 +35,7 @@ PatGrid and its components are a GUI friendly encapsulation of
 """
 from abc import ABC, abstractmethod
 from collections import OrderedDict
+from copy import deepcopy
 
 import numpy as np
 from textgrids import Interval, Point, TextGrid, Tier, Transcript
@@ -512,6 +513,23 @@ class PatGrid(OrderedDict):
 
     # def as_textgrid(self):
     #     pass
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        new_copy = cls.__new__(cls)
+        memo[id(self)] = new_copy
+        for tier_name, tier in self.items():
+            new_copy[tier_name] = deepcopy(tier)
+        return new_copy
+
+    def __repr__(self):
+        representation = "PatGrid:"
+        for tier_name in self:
+            representation += f"\n\tTier: {tier_name}"
+            for item in self[tier_name]:
+                if isinstance(item, PatInterval):
+                    representation += f"\n\t\t{item}"
+        return representation
 
     @property
     def begin(self) -> float:

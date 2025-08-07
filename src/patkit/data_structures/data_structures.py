@@ -36,7 +36,9 @@ from __future__ import annotations
 import abc
 import logging
 from collections import OrderedDict, UserDict, UserList
+from copy import deepcopy
 from pathlib import Path
+from textwrap import indent
 
 import numpy as np
 import textgrids
@@ -58,20 +60,53 @@ _logger = logging.getLogger('patkit.data_structures')
 
 
 
-class Answer():
+class Answer(UserList):
     """
-    Answer is an answer to an Exercise.
+    Answer is an answer to an Exercise and consists of PatGrids.
+
+    The PatGrids correspond to the Recordings that the Exercise is based on.
     """
     def __init__(
         self,
         container: Exercise,
-        textgrid_paths: list[Path],
-        session: Session,
+        scenario: Session,
+        scramble: bool,
+        cursor: int = 0,
     ):
+        super().__init__()
         self.container = container
-        self.textgrid_paths = textgrid_paths
-        self.scenario = session
-        self.cursor = 0
+        self.scenario = scenario
+        self.cursor = cursor
+
+        for recording in self.scenario:
+            patgrid = deepcopy(recording.patgrid)
+            self.append(patgrid)
+
+        if scramble:
+            for patgrid in self:
+                for tier in patgrid:
+                    patgrid[tier].scramble()
+            self.edited = [False for i in range(len(self))]
+        else:
+            self.edited = [True for i in range(len(self))]
+
+    def __repr__(self) -> str:
+        representation = ""
+        for patgrid in self:
+            patgrid_string = f"{patgrid}"
+            representation += indent(text=patgrid_string,prefix="\t")
+        return representation
+
+    def current(self) -> PatGrid:
+        """
+        The PatGrid at the current index.
+
+        Returns
+        -------
+        PatGrid
+            The PatGrid.
+        """
+        return self[self.cursor]
 
     def go_to_recording(self, index: int) -> int:
         """
@@ -113,23 +148,75 @@ class Answer():
         return self.cursor
 
 
-class Exercise(UserList):
+class Exercise(UserDict):
     """
-    Exercise is list of Answers, which has an optional ExampleAnswer.
+    Exercise is list of Answers relating to a Scenario (Session).
+
+    If no example Answers are provided, the current PatGrids in the Session are
+    copied and used as the example.
     """
 
     def __init__(
         self,
-        session: Session,
+        scenario: Session,
         answers: list[Answer] | None = None,
-        model: Answer | None = None,
+        example: dict[str, Answer] | None = None,
+        index: int = 0,
     ):
         super().__init__()
-        self.model = model
-        self.scenario = session
+        if example is None:
+            _logger.debug("Creating an example answer")
+            self.example = Answer(
+                container=self,
+                scenario=scenario,
+                scramble = False,
+            )
+        else:
+            self.example = example
+        self.scenario = scenario
 
         if answers is not None:
-            self.extend(answers)
+            self.update(answers)
+
+        self.cursor = index
+
+    def __repr__(self) -> str:
+        representation = "Exercise:\n"
+        scenario_repr = f"{self.scenario}"
+        scenario_repr = indent(text=scenario_repr,prefix="\t\t")
+        representation += f"\tScenario:\n{scenario_repr}\n"
+        example_repr = f"{self.example}"
+        example_repr = indent(text=example_repr,prefix="\t")
+        representation += f"\tExample:\n{example_repr}\n"
+        representation += "\tAnswers:\n"
+        answers_string = ""
+        for name in list(self.keys()):
+            answers_string += f"{name}:\n{self[name]}"
+        representation += indent(text=answers_string,prefix="\t\t")
+        return representation
+
+    @property
+    def current_answer(self) -> Answer:
+        return self[list(self.keys())[self.cursor]]
+
+    def new_blank_answer(self, cursor: int = 0) -> None:
+        """
+        Create a new blank Answer and append it to this Exercise.
+
+        Parameters
+        ----------
+        cursor : int
+            Cursor position for the new Answer.
+        """
+        _logger.debug("Creating a blank answer.")
+        blank = Answer(
+                container=self,
+                scenario=self.scenario,
+                scramble = True,
+                cursor=cursor,
+            )
+        name = f"Answer {len(self)+1}"
+        self[name] = blank
 
 
 class Manifest(UserList):
@@ -221,6 +308,12 @@ class Session(AbstractDataContainer, UserList):
             self.extend(recordings)
 
         self.config = config
+
+    def __repr__(self) -> str:
+        representation = "Session:\n"
+        for recording in self:
+            representation += f"\tRecording: {recording.basename},\n"
+        return representation
 
     @property
     def recordings(self) -> list[Recording]:

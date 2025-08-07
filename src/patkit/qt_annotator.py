@@ -67,7 +67,7 @@ from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
 from patkit.constants import GuiColorScheme, GuiImageType
-from patkit.data_structures import Session
+from patkit.data_structures import Exercise, Session
 from patkit.export import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
@@ -127,7 +127,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            pickle_filename: Path | str | None = None
+            run_as_exercise: bool = False,
     ):
         super().__init__()
         self.kymography_clicker = None
@@ -137,10 +137,17 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.session = session
         self.recordings = session.recordings
         self.index = 0
+        self.patgrid = self.current.patgrid
 
         self.max_index = len(self.recordings)
 
         self.display_tongue = display_tongue
+
+        self.action_run_as_exercise.setChecked(run_as_exercise)
+        if run_as_exercise:
+            self.exercise = Exercise(session)
+        else:
+            self.exercise = None
 
         self.data_config = config.data_config
         self.gui_config = config.gui_config
@@ -153,8 +160,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.categories = categories
         self.tongue_positions = PdQtAnnotator.default_tongue_positions
         self._add_annotations()
-
-        self.pickle_filename = pickle_filename
 
         match config.gui_config.color_scheme:
             case GuiColorScheme.DARK:
@@ -189,10 +194,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.close_window_shortcut = QShortcut(
             QKeySequence(self.tr("Ctrl+W", "File|Quit")), self)
         self.close_window_shortcut.activated.connect(self.quit)
-
-        # self.export_figure_shortcut = QShortcut(QKeySequence(
-        #     self.tr("Ctrl+E", "File|Export figure...")), self)
-        # self.export_figure_shortcut.activated.connect(self.export_figure)
 
         self.menu_select_image = self.menu_image.addMenu(
             "Select image")
@@ -236,8 +237,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_open_exercise.triggered.connect(self.open_exercise)
         self.action_open_answer.triggered.connect(self.open_answer)
         self.action_save_answer.triggered.connect(self.save_answer)
-        self.action_compare_to_example.triggered.connect(self.compare_to_model)
-        self.action_show_example.triggered.connect(self.show_model)
+        self.action_compare_to_example.triggered.connect(
+            self.compare_to_example)
+        self.action_show_example.triggered.connect(self.show_example)
 
         self.action_export_aggregate_images.triggered.connect(
             self.export_aggregate_image)
@@ -249,11 +251,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_export_ultrasound_frame.triggered.connect(
             self.export_ultrasound_frame)
 
-        self.actionNext.triggered.connect(self.next)
-        self.actionPrevious.triggered.connect(self.prev)
+        self.action_next.triggered.connect(self.next)
+        self.action_previous.triggered.connect(self.prev)
 
-        self.actionNext_Frame.triggered.connect(self.next_frame)
-        self.actionPrevious_Frame.triggered.connect(self.previous_frame)
+        self.action_next_frame.triggered.connect(self.next_frame)
+        self.action_previous_frame.triggered.connect(self.previous_frame)
 
         self.action_quit.triggered.connect(self.quit)
 
@@ -429,6 +431,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates the graphs but not the buttons.
         """
+        if self.action_run_as_exercise.isChecked():
+            self.patgrid = self.exercise.current_answer[self.index]
+        else:
+            self.patgrid = self.current.patgrid
+
         self.clear_axes()
         self.draw_plots()
         self.multicursor = MultiCursor(
@@ -569,19 +576,22 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.1: Add a check to draw plots which adds the model textgrid to
-        # plotting 
+        # TODO 0.18.2: Add a check to draw plots which adds the model textgrid
+        # to plotting
         if self.action_show_example.isChecked():
-            print("I should be showing the model answer but don't yet know how.")
+            print(
+                "I should be showing the model answer but don't yet know how."
+            )
 
         for axes in self.tier_axes:
             axes.remove()
         self.tier_axes = []
-        if self.current.patgrid:
-            nro_tiers = len(self.current.patgrid)
+        # if self.current.patgrid:
+        if self.patgrid:
+            nro_tiers = len(self.patgrid)
             self.tier_grid_spec = self.main_grid_spec[1].subgridspec(
                 nro_tiers, 1, hspace=0, wspace=0)
-            for axes_counter, tier in enumerate(self.current.textgrid):
+            for axes_counter, tier in enumerate(self.patgrid):
                 axes = self.figure.add_subplot(
                     self.tier_grid_spec[axes_counter],
                     sharex=self.data_axes[0])
@@ -666,7 +676,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             axes_counter += 1
 
         self.animators = []
-        iterator = zip(self.current.patgrid.items(),
+        iterator = zip(self.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
             boundaries_by_axis = []
@@ -885,7 +895,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
-        frame_selection_index = self.current.annotations['frame_selection_index']
+        frame_selection_index = self.current.annotations[
+            'frame_selection_index']
         pd = self.current.modalities['PD l1 on RawUltrasound']
         data_length = pd.data.size
         if -1 < frame_selection_index < data_length:
@@ -973,7 +984,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.1: these should be loaded from the new directory as well
+            # TODO 0.18.2: these should be loaded from the new directory as
+            # well
             # self.display_tongue = display_tongue
 
             # self.data_config = config.data_config
@@ -1009,31 +1021,18 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
+        # TODO 0.18.2: does this save textgrids too and how does it interact
+        # with saving answers and exercises.
         save_recording_session(self.session)
-
-    def save_to_pickle(self):
-        """
-        Save the recordings into a pickle file.
-        """
-        if not self.pickle_filename:
-            (self.pickle_filename, _) = QFileDialog.getSaveFileName(
-                self, 'Save file', directory='.',
-                filter="Pickle files (*.pickle)")
-        if self.pickle_filename:
-            _logger.info(
-                "Pickling is currently disabled. Did NOT write file %s.",
-                self.pickle_filename)
-            # patkit_io.save2pickle(
-            #     self.recordings,
-            #     self.pickle_filename)
-            # _qt_annotator_logger.info(
-            #     "Wrote data to file {file}.", file = self.pickle_filename)
 
     def save_textgrid(self):
         """
         Save the current TextGrid.
         """
-        # TODO 0.28: write a call back for asking for overwrite confirmation.
+        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        if self.action_run_as_exercise.isChecked:
+            return
+
         if not self.current.textgrid_path:
             (self.current.textgrid_path, _) = QFileDialog.getSaveFileName(
                 self, 'Save TextGrid', directory='.',
@@ -1050,7 +1049,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.28: write a call back for asking for overwrite confirmation.
+        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        if self.action_run_as_exercise.isChecked:
+            return
+
         for recording in self.session:
             if not recording.textgrid_path:
                 # TODO: This will be SUPER ANNOYING when there are a lot of
@@ -1068,14 +1070,24 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))
 
-
     def run_as_exercise(self):
         """
-        Scramble TextGrids to run as an Exercise.
+        If `Run as Exercise` is checked, run current Session as an Exercise.
         """
-        for recording in self.session:
-            for tier in recording.patgrid:
-                recording.patgrid[tier].scramble()
+        if self.action_run_as_exercise.isChecked() and self.exercise is None:
+            self.exercise = Exercise(
+                scenario=self.session,
+            )
+            self.exercise.new_blank_answer(cursor=self.cursor)
+
+        # TODO 0.18.2: Update this as needed.
+        if self.action_run_as_exercise.isChecked():
+            self.action_save_all_textgrids.setEnabled(False)
+            self.action_save_current_textgrid.setEnabled(False)
+        else:
+            self.action_save_all_textgrids.setEnabled(True)
+            self.action_save_current_textgrid.setEnabled(True)
+
         self.update()
         self.update_ui()
 
@@ -1083,7 +1095,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Wrap a directory as an Exercise.
         """
-        # TODO 2.6.: JOS MAHDOLLISTA ENNEN EMBRAN ESITELMÄÄ
+        # TODO 0.18.3
         # ask for directory
         # ask for patkit/exercise dir
         # write patkit_v.yaml in exercise dir
@@ -1103,10 +1115,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
     def save_answer(self):
         pass
 
-    def compare_to_model(self):
-        print("Comparing to model has not yet been implemented.")       
+    def compare_to_example(self):
+        print("Comparing to model has not yet been implemented.")
 
-    def show_model(self):
+    def show_example(self):
+        """
+        On 'Show example' menu item being triggered, update the plots.
+        """
         self.update()
 
     def export_figure(self):
