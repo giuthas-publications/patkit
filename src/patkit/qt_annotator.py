@@ -576,7 +576,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.1: Add a check to draw plots which adds the model textgrid
+        # TODO 0.18.2: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
             print(
@@ -984,8 +984,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.1: these should be loaded from the new directory as
-            # well 
+            # TODO 0.18.2: these should be loaded from the new directory as
+            # well
             # self.display_tongue = display_tongue
 
             # self.data_config = config.data_config
