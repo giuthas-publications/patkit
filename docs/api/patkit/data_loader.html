@@ -135,7 +135,7 @@
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="n">recorded_path</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">data_config</span><span class="o">.</span><span class="n">recorded_data_path</span>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>    <span class="n">patkit_path</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">config_paths</span><span class="o">.</span><span class="n">path</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>    <span class="c1"># TODO 0.18 Should not blindly assume that sampling frequency is 44100!</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>    <span class="c1"># TODO 0.19 Should not blindly assume that sampling frequency is 44100!</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="k">if</span> <span class="n">configuration</span><span class="o">.</span><span class="n">data_config</span><span class="o">.</span><span class="n">mains_frequency</span><span class="p">:</span>
 </span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>        <span class="n">MainsFilter</span><span class="o">.</span><span class="n">generate_mains_filter</span><span class="p">(</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>            <span class="mi">44100</span><span class="p">,</span>
@@ -277,7 +277,7 @@
 </span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>
 </span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
 </span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>        <span class="s1">&#39;Could not find a suitable importer: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">recorded_data_path</span><span class="p">)</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>    <span class="c1"># TODO 0.18: This should raise an error.</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>    <span class="c1"># TODO 0.19: This should raise an error.</span>
 </span></pre></div>
 
 
@@ -310,7 +310,7 @@
 </span><span id="load_data-75"><a href="#load_data-75"><span class="linenos"> 75</span></a>    <span class="n">recorded_path</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">data_config</span><span class="o">.</span><span class="n">recorded_data_path</span>
 </span><span id="load_data-76"><a href="#load_data-76"><span class="linenos"> 76</span></a>    <span class="n">patkit_path</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">config_paths</span><span class="o">.</span><span class="n">path</span>
 </span><span id="load_data-77"><a href="#load_data-77"><span class="linenos"> 77</span></a>
-</span><span id="load_data-78"><a href="#load_data-78"><span class="linenos"> 78</span></a>    <span class="c1"># TODO 0.18 Should not blindly assume that sampling frequency is 44100!</span>
+</span><span id="load_data-78"><a href="#load_data-78"><span class="linenos"> 78</span></a>    <span class="c1"># TODO 0.19 Should not blindly assume that sampling frequency is 44100!</span>
 </span><span id="load_data-79"><a href="#load_data-79"><span class="linenos"> 79</span></a>    <span class="k">if</span> <span class="n">configuration</span><span class="o">.</span><span class="n">data_config</span><span class="o">.</span><span class="n">mains_frequency</span><span class="p">:</span>
 </span><span id="load_data-80"><a href="#load_data-80"><span class="linenos"> 80</span></a>        <span class="n">MainsFilter</span><span class="o">.</span><span class="n">generate_mains_filter</span><span class="p">(</span>
 </span><span id="load_data-81"><a href="#load_data-81"><span class="linenos"> 81</span></a>            <span class="mi">44100</span><span class="p">,</span>
@@ -482,7 +482,7 @@ patkit configuration.</li>
 </span><span id="read_recorded_session_from_dir-217"><a href="#read_recorded_session_from_dir-217"><span class="linenos">217</span></a>
 </span><span id="read_recorded_session_from_dir-218"><a href="#read_recorded_session_from_dir-218"><span class="linenos">218</span></a>    <span class="n">_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
 </span><span id="read_recorded_session_from_dir-219"><a href="#read_recorded_session_from_dir-219"><span class="linenos">219</span></a>        <span class="s1">&#39;Could not find a suitable importer: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">recorded_data_path</span><span class="p">)</span>
-</span><span id="read_recorded_session_from_dir-220"><a href="#read_recorded_session_from_dir-220"><span class="linenos">220</span></a>    <span class="c1"># TODO 0.18: This should raise an error.</span>
+</span><span id="read_recorded_session_from_dir-220"><a href="#read_recorded_session_from_dir-220"><span class="linenos">220</span></a>    <span class="c1"># TODO 0.19: This should raise an error.</span>
 </span></pre></div>
 
 

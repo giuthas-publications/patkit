@@ -26,7 +26,7 @@
 # see <https://creativecommons.org/licenses/by-nc-sa/4.0/> for details.
 #
 # When using the toolkit for scientific publications, please cite the
-# articles listed in README.markdown. They can also be found in
+# articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
 """

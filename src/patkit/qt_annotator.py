@@ -576,7 +576,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.1: Add a check to draw plots which adds the model textgrid
+        # TODO 0.18.2: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
             print(
@@ -984,8 +984,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.1: these should be loaded from the new directory as
-            # well 
+            # TODO 0.18.2: these should be loaded from the new directory as
+            # well
             # self.display_tongue = display_tongue
 
             # self.data_config = config.data_config
@@ -1021,13 +1021,18 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
+        # TODO 0.18.2: does this save textgrids too and how does it interact
+        # with saving answers and exercises.
         save_recording_session(self.session)
 
     def save_textgrid(self):
         """
         Save the current TextGrid.
         """
-        # TODO 0.28: write a call back for asking for overwrite confirmation.
+        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        if self.action_run_as_exercise.isChecked:
+            return
+
         if not self.current.textgrid_path:
             (self.current.textgrid_path, _) = QFileDialog.getSaveFileName(
                 self, 'Save TextGrid', directory='.',
@@ -1044,7 +1049,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.28: write a call back for asking for overwrite confirmation.
+        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        if self.action_run_as_exercise.isChecked:
+            return
+
         for recording in self.session:
             if not recording.textgrid_path:
                 # TODO: This will be SUPER ANNOYING when there are a lot of
@@ -1071,6 +1079,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 scenario=self.session,
             )
             self.exercise.new_blank_answer(cursor=self.cursor)
+
+        # TODO 0.18.2: Update this as needed.
+        if self.action_run_as_exercise.isChecked():
+            self.action_save_all_textgrids.setEnabled(False)
+            self.action_save_current_textgrid.setEnabled(False)
+        else:
+            self.action_save_all_textgrids.setEnabled(True)
+            self.action_save_current_textgrid.setEnabled(True)
 
         self.update()
         self.update_ui()

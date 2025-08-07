@@ -41,16 +41,27 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
   code testing, documentation and finally a 1.0 release.
 
-## [0.18.1] - 2025-06-30
+## [0.18.2] - 2025-08-14
 
 ### Highlights
 
-- Toggling the display of example answer in the GUI.
+- Saving exercises and answers is now implemented.
+
+### Fixed
+
+- 
+
+## [0.18.1] - 2025-08-07
+
+### Highlights
+
+- Switching between an exercise answer and the example answer in the GUI.
 
 ### Fixed
 
 - When running as an exercise, after scrambling, saving the modified TextGrids
-  no longer overwrites the example answer.
+  no longer overwrites the example answer. Instead for this release saving
+  TextGrids is disabled in exercise mode.
 
 ## [0.18.0] - 2025-06-19
 
