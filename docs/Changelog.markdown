@@ -41,7 +41,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
   code testing, documentation and finally a 1.0 release.
 
-## [0.18.1] - 2025-07-30
+## [0.18.1] - 2025-08-07
 
 ### Highlights
 
