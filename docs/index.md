@@ -2,23 +2,12 @@
 # PATKIT Documentation
 
 Until the 1.0 release none of the documentation is final nor necessarily
-correct.
+correct. Corrections and but reports are always welcome.
 
-## Installation and use
+## Installation and basic use
 
-- Installation and use for analysis:
-  - [Installing](Installing.markdown)
-- Set PATKIT up for development
-  - [Old instructions for conda/mamba](SetupForDevelopment.markdown)
-  - Current instructions: 
-    - Fork PATKIT on github.
-    - Clone your forked PATKIT repository to your local machine.
-    - Get `uv` if you don't already have it.
-    - Do your test runs with `uv run patkit [arguments]` or install your local
-      repo with `uv tool install .` in the PATKIT repository.
-    - The `uv tool install` has been at least in the recent past been more
-      reliable if used with `uv tool uninstall patkit` when an update is ready
-      to be tried.
+- [Installing](Installing.markdown)
+- [Running](Running.markdown)
 
 ## GUI user guide
 
@@ -31,7 +20,7 @@ Currently we only have:
 ## Commandline user guide
 
 [To be written] but already available in a rudimentary form by running
-`patkit --help`
+`patkit --help` which also works on the subcommands (`open`, ).
 
 ## PATKIT Runtime data structures
 

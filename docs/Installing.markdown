@@ -1,4 +1,4 @@
-# Installing and using PATKIT
+# Installing PATKIT
 
 ## Requisites
 
@@ -30,28 +30,15 @@ Meanwhile `uv` and `pip` are valid options.
 
 ### Using uv
 
-This works independent of patkit being released on
-[PyPi](https://pypi.org/search/?q=patkit):
-- Install [uv](https://docs.astral.sh/uv/#getting-started).
-- Fork patkit on [github](https://github.com/giuthas/patkit) if you like, or
-  just clone it directly with `git clone https://github.com/giuthas/patkit` or
-  download [the latest
-  sources](https://github.com/giuthas/patkit/releases/latest).
-- In the root directory of the repository on your machine run `uv build` and `uv
-  tool install patkit`.
-- Patkit now runs from the commandline with `patkit`. Try `patkit --help` for
-  instructions.
-
 Once the [PyPi](https://pypi.org/search/?q=patkit) package exists this
 simplifies to:
 - Install [uv](https://docs.astral.sh/uv/#getting-started).
 - On the commandline run `uv tool install patkit`.
-- Running instructions [below](#running-patkit).
+- Running [instructions](Running.markdown).
 
 ### Using pip
 
-Once patkit is on [PyPi](https://pypi.org/search/?q=patkit) (at time of writing
-this does not work yet, but once that link finds patkit, it should):
+Patkit is on [PyPi](https://pypi.org/search/?q=patkit):
 
 - First install python either using your OS's software shop features or from
   [the official download page](https://www.python.org/downloads/).
@@ -59,63 +46,27 @@ this does not work yet, but once that link finds patkit, it should):
 
 ## Installing for development
 
-This works independent of patkit being released on
-[PyPi](https://pypi.org/search/?q=patkit):
+### Using uv
+
+Some care and understanding is needed if you want to have a installed released
+version of Patkit and at the same time run local development versions for
+testing. This can be done however. Use the instructions above for the released
+install, and the instructions below for running the local versions.
+
 - Install [uv](https://docs.astral.sh/uv/#getting-started).
 - Fork patkit on [github](https://github.com/giuthas/patkit) if you like, or
   just clone it directly with `git clone https://github.com/giuthas/patkit` or
   download [the latest
   sources](https://github.com/giuthas/patkit/releases/latest).
-- Optionally run these to get Patkit installed as a commandline tool.
+- Optionally run these to get Patkit installed as a commandline tool. Skip
+  this part if you have a released version of Patkit installed.
   - In the root directory of the repository on your machine run `uv build` and `uv
     tool install patkit`.
 - Or you can just use `uv` to run patkit: `uv run patkit recorded_data/minimal`.
   See `uv`'s [docs](https://docs.astral.sh/uv/) for more.
   
-## Running PATKIT
+### Using conda/mamba
 
-First install PATKIT to run from the commandline.
+[Old instructions for conda/mamba](SetupForDevelopment.markdown). These are no
+longer maintained unless you want to step up and do that.
 
-- Patkit uns from the commandline with `patkit`. 
-- Try `patkit --help` for instructions.
-- This will analyse a minimal three recording example and open the GUI `patkit
-  recorded_data/minimal`
-
-### If running fails on Linux
-
-- If on Linux of the debian variety (ubuntu, popos, others), you may also need 
-to run the following:
-```shell
-apt-get update
-apt-get upgrade
-sudo apt-get install -y libxcb-cursor-dev
-```
-Try this in case trying to run patkit complains about a missing `xcb` plugin.
-
-## Running the examples
-
-TODO 0.15: update this
-
-Get the [test data](Test_data.markdown).
-
-There are three small datasets included in the distribution. You can
-run tests on them with the test script `pd_test.py`. Currently, the
-following work and produce a new spaghetti_plot.pdf and a transcript
-in `[method_name].log`.
-
-``` shell
-patkit recorded_data/tongue_data_1_1
-```
-
-The first example directory contains recordings with all files present
-while the second is intentionally missing some files. The latter case
-should therefore produce warnings in the resulting log. Running
-without the exclusion list specified should produce a plot with a
-couple more curves in it.
-
-The routines to deal with a directory structure like that of `test2`
-are yet to be implemented.
-
-## Running the tests
-
-Proper testing is yet to be implemented.

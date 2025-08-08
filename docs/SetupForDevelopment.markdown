@@ -4,8 +4,9 @@
 
 As of PATKIT 0.14, these instructions are incorrect and only here in case
 someone wants to install PATKIT using mamba/conda etc. If you are that someone
-and would like to contribute, please fork PATKIT, update these instructions, and
-send us a pull request.
+and would like to contribute, please get in touch. In any case you'll need to
+fork PATKIT, update these instructions. A pull request for working instructions
+would be welcome.
 
 ## On with the instructions
 

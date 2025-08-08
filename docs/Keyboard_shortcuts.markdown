@@ -1,8 +1,16 @@
 # Keyboard shortcuts
 
-Eventually the hotkeys will be editable, but this might not happen until after
-1.0 -- unless you want to write that functionality, in which case please get
-in touch.
+Eventually the hotkeys will be editable, but this will not happen until after
+1.0 -- unless you want to write that functionality, in which case please get in
+touch (I even have a likely library in mind, just no time to do write the
+code).
+
+In the following the modifier keys used are written as:
+
+- Ctrl for Control on Linux/Windows and Command (Apple key) on Mac.
+- Alt for Alt (not Alt Gr, usually on the right) for Linux/Windows and Alt/Option on Mac.
+- Fn for Function (not currently used).
+- Shift for Shift on all platforms.
 
 ## Quit the program
 
@@ -14,6 +22,12 @@ in touch.
 - Ctrl+O - Open: Open a Scenario, Exercise, or directory
 - Ctrl+Shift+S - Save all: Saves all derived data in the Scenario directory or
   its subdirectories.
+
+## Exercise menu: Running in exercise mode
+
+- Alt+E - Switch between regular Annotation mode and Exercise mode.
+
+#TODO 0.18.3: update this
 
 ## Export menu: Exporting images and data
 
