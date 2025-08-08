@@ -41,6 +41,26 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
   code testing, documentation and finally a 1.0 release.
 
+
+## [0.18.3] - 2025-08-14
+
+### Highlights
+
+- Save and load answer data.
+
+### Added
+
+- Answers can now be named, saved, and loaded.
+- There is a new indicator text in the GUI which shows which mode Patkit is
+  running in: Annotation or Exercise.
+- Example answer can be displayed simultaneously with the answer being worked
+  on.
+
+### Fixed
+
+
+
+
 ## [0.18.2] - 2025-08-08
 
 ### Highlights
@@ -60,6 +80,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - When running as an exercise, after scrambling, saving the modified TextGrids
   no longer overwrites the example answer. Instead for this release saving
   TextGrids is disabled in exercise mode.
+
 
 ## [0.18.0] - 2025-06-19
 
