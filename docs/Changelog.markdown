@@ -27,11 +27,11 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.18.x releases will add displaying the model answer, saving and loading of exercise
-  answers, and possibly some more detailed configuration.
+- 0.18.x releases will add displaying the model answer, saving and loading of
+  exercise answers, and possibly some more detailed configuration.
 - 0.19 will add audio playback
-- 0.20 is planned to be a data structure update giving support for multiple data
-  sources per trial.
+- 0.20 is planned to be a data structure update giving support for multiple
+  data sources per trial.
 - 0.21 will update configuration handling.
 - 0.22 will add further GUI features
 - 0.23 is planned to be an implementation of kymography. This might get moved 
@@ -40,6 +40,14 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   interpolation, processing speed by implementing multiprocessing, new
   algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
   code testing, documentation and finally a 1.0 release.
+
+## [0.18.2] - 2025-08-08
+
+### Highlights
+
+- Documentation update for installation, running, hotkeys and such. No changes
+  in code.
+
 
 ## [0.18.1] - 2025-08-07
 
