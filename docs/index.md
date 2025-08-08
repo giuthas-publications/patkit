@@ -6,7 +6,8 @@ correct.
 
 ## Installation and use
 
-- [Installation and use for analysis](Installing_and_using.markdown).
+- Installation and use for analysis:
+  - [Installing](Installing.markdown)
 - Set PATKIT up for development
   - [Old instructions for conda/mamba](SetupForDevelopment.markdown)
   - Current instructions: 
