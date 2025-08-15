@@ -17,7 +17,7 @@ The directory tree organisation follows the hierarchy of the [Database classes](
             └── [file types]
 ```
 
-With two or more datasources (systems with their own internal syncronisation) it is easy to go with structure like the one below:
+With two or more datasources (systems with their own internal syncronisation) it might be tempting to use structure like the one below:
 
 ```bash
 └── dataset
