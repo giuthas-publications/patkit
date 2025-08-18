@@ -17,7 +17,7 @@ The directory tree organisation follows the hierarchy of the [Database classes](
             └── [file types]
 ```
 
-With two or more datasources (systems with their own internal syncronisation) it might be tempting to use structure like the one below:
+With two or more datasources (systems with their own internal synchronisation) it might be tempting to use structure like the one below:
 
 ```bash
 └── dataset
@@ -62,9 +62,9 @@ Some sources like RASL  will produce this sort of directory structure by default
 
 ### Separate directories for file types?
 
-Another optional decision is whether individual datatypes are stored in subdirectories of a session. This one really depends on how difficult it will be to browse through a directories content if all files for a session are in it.
+Another optional decision is whether individual data types are stored in subdirectories of a session. This one really depends on how difficult it will be to browse through a directories content if all files for a session are in it.
 
-If files are devided into subdirectories by type, then it is still a good idea to keep `.wav` files and `TextGrid` files in the same directory. This makes it easier when working with them in Praat.
+If files are divided into subdirectories by type, then it is still a good idea to keep `.wav` files and `TextGrid` files in the same directory. This makes it easier when working with them in Praat.
 
 ### Things Not to Do
 
