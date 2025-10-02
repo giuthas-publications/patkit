@@ -1084,9 +1084,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.action_run_as_exercise.isChecked():
             self.action_save_all_textgrids.setEnabled(False)
             self.action_save_current_textgrid.setEnabled(False)
+            self.statusbar.showMessage("In exercise mode")
         else:
             self.action_save_all_textgrids.setEnabled(True)
             self.action_save_current_textgrid.setEnabled(True)
+            self.statusbar.showMessage("")
 
         self.update()
         self.update_ui()
