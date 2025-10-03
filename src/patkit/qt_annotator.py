@@ -195,6 +195,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             QKeySequence(self.tr("Ctrl+W", "File|Quit")), self)
         self.close_window_shortcut.activated.connect(self.quit)
 
+        self.test_shortcut = QShortcut(
+            QKeySequence(self.tr("Ctrl+T")), self)
+        self.test_shortcut.activated.connect(self.test)
+
         self.menu_select_image = self.menu_image.addMenu(
             "Select image")
         self.action_mean_image = QAction(
@@ -1092,6 +1096,20 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.update()
         self.update_ui()
+
+    def test(self):
+        """
+        Test things like a new dialog window.
+        """
+        statistics_names = self.current.statistics.keys()
+        choice_list = [
+            name for name in statistics_names if 'AggregateImage' in name]
+        image_list, path, export_interpolated = OpenAnswerDialog.get_selection(
+            name="Open Answer",
+            item_names=choice_list,
+            parent=self,
+            option_label='Export interpolated image'
+        )        
 
     def create_exercise(self):
         """
