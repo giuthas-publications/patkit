@@ -42,13 +42,18 @@ class OpenAnswerDialog(QDialog):
 
     def __init__(
         self,
+        name: str,
         answers: list[Answer] | None,
-        parent=None
+        icon: QIcon | None = None,
+        parent: QWidget | None = None,
     ):
         super().__init__(parent)
 
         self.chosen_answer_name = None
-        # self.name = name
+        if name == "":
+            self.name = "Please select the answer you want to open."
+        else:
+            self.name = name
 
         # The checklist
         self.list_view = QListView()
@@ -88,10 +93,13 @@ class OpenAnswerDialog(QDialog):
         vbox.addStretch(1)
         vbox.addWidget(self.ok_cancel_buttons)
 
-        self.setWindowTitle("Please select the answer you want to open.")
-        self.adjustSize()
-
         self.answer = None
+
+        self.setWindowTitle(self.name)
+        if icon:
+            self.setWindowIcon(icon)
+
+        self.adjustSize()
 
     def _handle_open(self):
         self.answer = 'open'
@@ -113,22 +121,16 @@ class OpenAnswerDialog(QDialog):
     @staticmethod
     def get_selection(
             name: str,
-            item_names: list[str] | None = None,
-            save_path: str | Path | None = None,
-            checked: bool = True,
+            answers: list[Answer] | None,
             icon: QIcon | None = None,
             parent: QWidget | None = None,
-            option_label: str | None = None,
-    ) -> tuple[list[str] | None, Path | None, bool | None]:
+    ) -> tuple[bool | None, str | None]:
         dialog = OpenAnswerDialog(
             name=name,
-            item_names=item_names,
-            save_path=save_path,
-            checked=checked,
+            answers=answers,
             icon=icon,
             parent=parent,
-            option_label=option_label,
         )
         if dialog.exec() == QDialog.DialogCode.Rejected:
-            return None, None, None
-        return dialog.chosen_item_names, dialog.save_path, dialog.option
+            return None, None
+        return dialog.create_new, dialog.chosen_answer_name

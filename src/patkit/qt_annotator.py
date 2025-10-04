@@ -75,8 +75,8 @@ from patkit.export import (
     export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog,
-    UiMainWindow
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, 
+    OpenAnswerDialog, ReplaceDialog, UiMainWindow, 
 )
 from patkit.plot_and_publish import (
     format_legend,

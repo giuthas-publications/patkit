@@ -64,8 +64,6 @@ class ListSaveDialog(QDialog):
         self.save_path = save_path
         self.option = None
 
-        # self.icon = icon
-
         # The checklist
         self.list_view = QListView()
         self.list_view.setHorizontalScrollBarPolicy(
