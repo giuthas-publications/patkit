@@ -38,7 +38,7 @@ import numpy as np
 # local modules
 from patkit.data_structures import Modality
 
-_pd_logger = logging.getLogger('patkit.intensity')
+_logger = logging.getLogger('patkit.intensity')
 
 
 def calculate_intensity(parent_modality: Modality) -> np.ndarray:

@@ -32,18 +32,22 @@
 from .ofreg import of
 from .calculate_aggregate_images import add_aggregate_images
 from .calculate_distance_matrices import add_distance_matrices
+from .calculate_intensity import calculate_intensity
 from .calculate_pd import add_pd
 from .calculate_spline_metric import add_spline_metric
 
-from .downsample_metric import downsample_metrics_in_session, downsample_metrics
+from .downsample_metric import (
+    downsample_metrics_in_session, downsample_metrics
+)
 
 from .aggregate_image import AggregateImage, AggregateImageParameters
 from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
 from .pd import PD, PdParameters, ImageMask
 from .spline_metric import (SplineMetric, SplineMetricParameters)
+# TODO 1.0: This is not the correct way of dealing with constants
 from ..constants import SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum
 
-# TODO: Decide if it is worth it to use typing.Annotated to document this
+# TODO: Decide if it is worth it to use typing.Annotated to document this.
 # metrics is a mapping between a modality name and its actual type and the
 # validator model for its parameters.
 metrics = {
