@@ -576,7 +576,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.2: Add a check to draw plots which adds the model textgrid
+        # TODO 0.18.3: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
             print(
