@@ -29,6 +29,10 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
+"""
+The container classes and calculation functions for metrics and statistics. 
+"""
+
 from .ofreg import of
 from .calculate_aggregate_images import add_aggregate_images
 from .calculate_distance_matrices import add_distance_matrices
@@ -42,6 +46,7 @@ from .downsample_metric import (
 
 from .aggregate_image import AggregateImage, AggregateImageParameters
 from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
+from .intensity import Intensity, IntensityParameters
 from .pd import PD, PdParameters, ImageMask
 from .spline_metric import (SplineMetric, SplineMetricParameters)
 # TODO 1.0: This is not the correct way of dealing with constants
@@ -51,6 +56,7 @@ from ..constants import SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum
 # metrics is a mapping between a modality name and its actual type and the
 # validator model for its parameters.
 metrics = {
+    'Intensity': (Intensity, IntensityParameters),
     'PD': (PD, PdParameters),
     'SplineMetric': (SplineMetric, SplineMetricParameters),
 }
