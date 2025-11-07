@@ -257,7 +257,7 @@ def add_pd(recording: Recording,
            pd_on_interpolated_data: bool = False,
            mask_images: bool = False) -> None:
     """
-    Calculate PD on dataModality and add it to recording.
+    Calculate PD on the Modality and add it to the Recording.
 
     Positional arguments:
     recording -- a Recording object
