@@ -30,23 +30,20 @@
 # citations.bib in BibTeX format.
 #
 """
-Modality for PD (Pixel Difference) and its parameter class.
+Modality for Intensity and its parameter class.
 """
 
 import logging
 
 import numpy as np
 
-from pydantic import PositiveInt
-
-from patkit.constants import ImageMask
 from patkit.data_structures import (
     FileInformation, Modality, ModalityData,
     ModalityMetaData, Recording
 )
 from patkit.utility_functions import product_dict
 
-_pd_logger = logging.getLogger('patkit.pd')
+_logger = logging.getLogger('patkit.intensity')
 
 
 class IntensityParameters(ModalityMetaData):
@@ -138,23 +135,8 @@ class Intensity(Modality):
         else:
             parent_name = modality.__name__
 
-        if not norms:
-            norms = ['l2']
-        if not timesteps:
-            timesteps = [1]
-
-        if mask_images:
-            masks = list(ImageMask)
-            masks.append(None)
-        else:
-            masks = [None]
-
         param_dict = {
             'parent_name': [parent_name],
-            'metric': norms,
-            'timestep': timesteps,
-            'image_mask': masks,
-            'interpolated': [pd_on_interpolated_data],
             'release_data_memory': [release_data_memory]}
 
         pd_params = [IntensityParameters(**item)
@@ -173,24 +155,24 @@ class Intensity(Modality):
             time_offset: float | None = None
     ) -> None:
         """
-        Build a Pixel Difference (PD) Modality       
+        Build an Intensity Modality       
 
         Parameters
         ----------
         owner : Recording
             the containing Recording.
-        metadata : PdParameters
-            Parameters used in calculating this instance of PD.
+        metadata : IntensityParameters
+            Parameters used in calculating this instance of Intensity.
         file_info : FileInformation
             Save paths for numerical and meta data.
-        parsed_data : Optional[ModalityData], optional
-            ModalityData object, by default None. Contains PD values,
-            sampling rate, and either timevector and/or time_offset. Providing
+        parsed_data : ModalityData | None
+            ModalityData object, by default None. Contains Intensity values,
+            sampling rate, and either timevector and/or `time_offset`. Providing
             a timevector overrides any time_offset value given, but in absence
-            of a timevector the time_offset will be applied on reading the data
+            of a timevector the `time_offset` will be applied on reading the data
             from file.
-        time_offset : Optional[float], optional
-            If not specified or 0, timeOffset will be copied from dataModality,
+        time_offset : ModalityData | None
+            If not specified or 0, `time_offset` will be copied from `parsed_data`,
             by default None
         """
         # This allows the caller to be lazy.
@@ -207,17 +189,14 @@ class Intensity(Modality):
 
     def _derive_data(self) -> tuple[np.ndarray, np.ndarray, float]:
         """
-        Calculate Pixel Difference (PD) on the data Modality parent.       
+        Calculate Intensity on the data Modality parent.       
         """
         raise NotImplementedError(
-            "Currently PD Modalities have to be "
+            "Currently Intensity Modalities have to be "
             "calculated at instantiation time.")
 
     def get_meta(self) -> dict:
-        # This conversion is done to keep nestedtext working.
-        meta = self.metadata.model_dump()
-        meta['image_mask'] = str(meta['image_mask'])
-        return meta
+        return self.metadata.model_dump()
 
     @property
     def name(self) -> str:
