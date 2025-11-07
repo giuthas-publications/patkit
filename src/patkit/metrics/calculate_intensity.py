@@ -29,14 +29,17 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
+"""
+Calculate and add Intensity to a Recording.
+"""
 
 import logging
 
-# Numpy and scipy
 import numpy as np
 
-# local modules
-from patkit.data_structures import Modality
+from patkit.data_structures import Modality, Recording
+
+from .intensity import Intensity
 
 _logger = logging.getLogger('patkit.intensity')
 
@@ -57,4 +60,66 @@ def calculate_intensity(parent_modality: Modality) -> np.ndarray:
     """
     data = parent_modality.data
     return np.sum(data, axis=(1, 2))
-    # TODO: Compare this to the PD similarity matrix used by Gabor et al.
+
+
+def add_intensity(
+    recording: Recording,
+    modality: Modality,
+    preload: bool = True,
+    release_data_memory: bool = False,
+) -> None:
+    """
+    Calculate Intensity and add it to the Recording.
+
+    Parameters
+    ----------
+    recording : Recording
+        The Recording the new Intensity will be added to.
+    modality : Modality
+        The Modality the new Intensity will be calculated on.
+    preload : bool, optional
+        Should the Intensity be calculated on creation (preloaded) or only on
+        access, by default True
+    release_data_memory : bool, optional
+        Should the data attribute of the Modality be set to None after use, by
+        default True
+
+    Raises
+    ------
+    NotImplementedError
+        Running with preload set to False has not yet been implemented.
+    """
+    if not preload:
+        message = ("Looks like somebody is trying to leave Intensity to be "
+                   "calculated on the fly. This is not yet supported.")
+        raise NotImplementedError(message)
+
+    if recording.excluded:
+        _logger.info(
+            "Recording %s excluded from processing.", recording.basename)
+    elif not modality.__name__ in recording:
+        _logger.info("Data modality '%s' not found in recording: %s.",
+                     modality.__name__, recording.basename)
+    else:
+        all_requested = Intensity.get_names_and_meta(
+            modality, release_data_memory)
+        missing_keys = set(all_requested).difference(
+            recording.keys())
+        to_be_computed = dict((key, value) for key,
+                              value in all_requested.items()
+                              if key in missing_keys)
+
+        data_modality = recording[modality.__name__]
+
+        if to_be_computed:
+            # intensities = calculate_intensity(data_modality, to_be_computed)
+            intensities = calculate_intensity(data_modality)
+
+            for intensity in intensities:
+                recording.add_modality(intensity)
+                _logger.info("Added '%s' to recording: %s.",
+                             intensity.name, recording.basename)
+        else:
+            _logger.info(
+                "Nothing to compute in Intensity for Recording: %s.",
+                recording.basename)
