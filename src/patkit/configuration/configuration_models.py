@@ -295,6 +295,12 @@ class AggregateImageArguments(UpdatableBaseModel):
     run_on_interpolated_data: bool = False
 
 
+class IntensityArguments(UpdatableBaseModel):
+    modalities: list[str]
+    release_data_memory: bool = True
+    preload: bool = True
+
+
 class PdArguments(UpdatableBaseModel):
     norms: list[str]
     timesteps: list[int]
@@ -391,6 +397,7 @@ class DataConfig(UpdatableBaseModel):
     flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None
+    intensity_arguments: IntensityArguments | None = None
     pd_arguments: PdArguments | None = None
     spline_metric_arguments: SplineMetricArguments | None = None
     distance_matrix_arguments: DistanceMatrixArguments | None = None
