@@ -111,6 +111,11 @@ def add_intensity(
 
         data_modality = recording[modality.__name__]
 
+        # TODO 0.19: this should follow the pattern where calculate_intensity
+        # returns ready wrapped Intensity objects after calling something like
+        # calculate_intensity_metric which corresponds to current
+        # calculate_intensity, which returns a numpy array rather than a
+        # Modality.
         if to_be_computed:
             # intensities = calculate_intensity(data_modality, to_be_computed)
             intensities = calculate_intensity(data_modality)
