@@ -36,7 +36,7 @@ The container classes and calculation functions for metrics and statistics.
 from .ofreg import of
 from .calculate_aggregate_images import add_aggregate_images
 from .calculate_distance_matrices import add_distance_matrices
-from .calculate_intensity import calculate_intensity
+from .calculate_intensity import add_intensity
 from .calculate_pd import add_pd
 from .calculate_spline_metric import add_spline_metric
 

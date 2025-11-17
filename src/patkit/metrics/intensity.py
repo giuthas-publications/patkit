@@ -97,7 +97,7 @@ class Intensity(Modality):
         str
             Name of the Intensity instance.
         """
-        name_string = cls.__name__ + " " + params.metric
+        name_string = cls.__name__
 
         if params.parent_name:
             name_string = name_string + " on " + params.parent_name
