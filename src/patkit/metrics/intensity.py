@@ -167,13 +167,13 @@ class Intensity(Modality):
             Save paths for numerical and meta data.
         parsed_data : ModalityData | None
             ModalityData object, by default None. Contains Intensity values,
-            sampling rate, and either timevector and/or `time_offset`. Providing
-            a timevector overrides any time_offset value given, but in absence
-            of a timevector the `time_offset` will be applied on reading the data
-            from file.
+            sampling rate, and either timevector and/or `time_offset`.
+            Providing a timevector overrides any time_offset value given, but
+            in absence of a timevector the `time_offset` will be applied on
+            reading the data from file.
         time_offset : ModalityData | None
-            If not specified or 0, `time_offset` will be copied from `parsed_data`,
-            by default None
+            If not specified or 0, `time_offset` will be copied from
+            `parsed_data`, by default None
         """
         # This allows the caller to be lazy.
         if not time_offset:
