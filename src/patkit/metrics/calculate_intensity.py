@@ -37,16 +37,22 @@ import logging
 
 import numpy as np
 
-from patkit.data_structures import Modality, Recording
-
-from .intensity import Intensity
+from patkit.data_structures import (
+    FileInformation, Modality, ModalityData, Recording
+)
+from patkit.modalities import RawUltrasound
+from .intensity import Intensity, IntensityParameters
 
 _logger = logging.getLogger('patkit.intensity')
 
 
-def calculate_intensity(parent_modality: Modality) -> np.ndarray:
+def calculate_intensity_metric(
+    parent_modality: Modality
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Calculate overall intensity on the Modality as a function of time.
+
+    Currently works on video Modalities, but not audio.
 
     Parameters
     ----------
@@ -55,11 +61,66 @@ def calculate_intensity(parent_modality: Modality) -> np.ndarray:
 
     Returns
     -------
-    np.ndarray
-        Overall intensity as a function of time.
+    tuple[np.ndarray, np.ndarray]
+        Overall intensity as a function of time and the timevector.
     """
     data = parent_modality.data
-    return np.sum(data, axis=(1, 2))
+    return np.sum(data, axis=(1, 2)), parent_modality.timevector
+
+
+def create_intensities(
+        parent_modality: Modality,
+        to_be_computed: dict[str, IntensityParameters]
+) -> list[Intensity]:
+    """
+    Create Intensity Modalities for each of the entries in `to_be_computed`.
+
+    Parameters
+    ----------
+    parent_modality : Modality
+        The Modality the Intensities will be computed on. 
+    to_be_computed : dict[str, IntensityParameters]
+        The parameters for the Intensities to be created.
+
+    Returns
+    -------
+    list[Intensity]
+        The created Intensity Modalities.
+
+    Raises
+    ------
+    NotImplementedError
+        If run on anything but RawUltrasound at the moment.
+    """
+
+    if not isinstance(parent_modality, RawUltrasound):
+        raise NotImplementedError(
+            "Calculating intensity for anything else than RawUltrasound is "
+            "not yet implemented."
+        )
+
+    sampling_rate = parent_modality.sampling_rate
+
+    intensities = []
+    for item in to_be_computed:
+        intensity_data, timevector = calculate_intensity_metric(
+            parent_modality=parent_modality)
+        modality_data = ModalityData(
+            data=intensity_data, sampling_rate=sampling_rate, timevector=timevector)
+
+        if parent_modality.patkit_path:
+            file_info = FileInformation(
+                patkit_path=parent_modality.patkit_path)
+        else:
+            file_info = FileInformation()
+        new_intensity = Intensity(
+                container=parent_modality.container,
+                metadata=to_be_computed[item],
+                file_info=file_info,
+                parsed_data=modality_data,
+        )
+        intensities.append(new_intensity)
+    return intensities
 
 
 def add_intensity(
@@ -111,14 +172,8 @@ def add_intensity(
 
         data_modality = recording[modality.__name__]
 
-        # TODO 0.19: this should follow the pattern where calculate_intensity
-        # returns ready wrapped Intensity objects after calling something like
-        # calculate_intensity_metric which corresponds to current
-        # calculate_intensity, which returns a numpy array rather than a
-        # Modality.
         if to_be_computed:
-            # intensities = calculate_intensity(data_modality, to_be_computed)
-            intensities = calculate_intensity(data_modality)
+            intensities = create_intensities(data_modality, to_be_computed)
 
             for intensity in intensities:
                 recording.add_modality(intensity)

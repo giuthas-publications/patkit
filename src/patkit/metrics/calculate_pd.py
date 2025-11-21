@@ -230,8 +230,12 @@ def calculate_pd(
 
         modality_data = ModalityData(
             norm_data, sampling_rate, timevectors[param_set.timestep])
-        # TODO: add the patkit save path if it is known.
-        file_info = FileInformation()
+        if parent_modality.patkit_path:
+            file_info = FileInformation(
+                patkit_path=parent_modality.patkit_path)
+        else:
+            file_info = FileInformation()
+
         pds.append(
             PD(
                 container=parent_modality.recording,
