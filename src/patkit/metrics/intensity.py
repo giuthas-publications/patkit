@@ -177,7 +177,7 @@ class Intensity(Modality):
         """
         # This allows the caller to be lazy.
         if not time_offset:
-            if parsed_data:
+            if parsed_data is not None:
                 time_offset = parsed_data.timevector[0]
 
         super().__init__(
