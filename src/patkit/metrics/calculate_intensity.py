@@ -106,7 +106,10 @@ def create_intensities(
         intensity_data, timevector = calculate_intensity_metric(
             parent_modality=parent_modality)
         modality_data = ModalityData(
-            data=intensity_data, sampling_rate=sampling_rate, timevector=timevector)
+            data=intensity_data,
+            sampling_rate=sampling_rate,
+            timevector=timevector
+        )
 
         if parent_modality.patkit_path:
             file_info = FileInformation(
