@@ -1,0 +1,30 @@
+
+# What precision is treated as equal when comparing annotation boundaries.
+epsilon: 0.00001
+
+# Used in filtering sound signals before beep detection.
+mains_frequency: 50
+
+# Path to the recorded data
+recorded_data_path: "../../recorded_data/tongue_data_1_1/"
+
+flags:
+  detect_beep: True # Should onset beep detection be run?
+  test: False # Run on only the first 10 recordings.
+
+intensity_arguments:
+  modalities:
+    - 'RawUltrasound'
+  preload: True
+  release_data_memory: False
+
+pd_arguments:
+  'norms':
+    - 'l1'
+    - 'l2'
+  'timesteps':
+    - 1
+  mask_images: False
+  pd_on_interpolated_data: False
+  release_data_memory: True
+  preload: True
