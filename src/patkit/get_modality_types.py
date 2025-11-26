@@ -30,38 +30,39 @@
 # citations.bib in BibTeX format.
 #
 """
-The container classes and calculation functions for metrics and statistics. 
+Safe way of interpreting Modality name strings as Modality types.
 """
 
-from .ofreg import of
-from .calculate_aggregate_images import add_aggregate_images
-from .calculate_distance_matrices import add_distance_matrices
-from .calculate_intensity import add_intensity
-from .calculate_pd import add_pd
-from .calculate_spline_metric import add_spline_metric
+# TODO 0.24: This whole module should maybe be just a dict that is a bit more
+# protected?
 
-from .downsample_metric import (
-    downsample_metrics_in_session, downsample_metrics
+from patkit.modalities import (
+    MonoAudio, RawUltrasound, Video, ThreeD_Ultrasound
 )
 
-from .aggregate_image import AggregateImage, AggregateImageParameters
-from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
-from .intensity import Intensity, IntensityParameters
-from .pd import PD, PdParameters, ImageMask
-from .spline_metric import (SplineMetric, SplineMetricParameters)
-# TODO 0.19: This is not the correct way of dealing with constants
-# from ..constants import SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum
-
-# TODO: Decide if it is worth it to use typing.Annotated to document this.
-# metrics is a mapping between a modality name and its actual type and the
-# validator model for its parameters.
-metrics = {
-    'Intensity': (Intensity, IntensityParameters),
-    'PD': (PD, PdParameters),
-    'SplineMetric': (SplineMetric, SplineMetricParameters),
+modality_dict = {
+    "MonoAudio": MonoAudio, 
+    "RawUltrasound": RawUltrasound, 
+    "Video": Video, 
+    "ThreeD_Ultrasound": ThreeD_Ultrasound,
 }
 
-statistics = {
-    'AggregateImage': (AggregateImage, AggregateImageParameters),
-    'DistanceMatrix': (DistanceMatrix, DistanceMatrixParameters),
-}
+def get_modality_types(names: list[str]) -> list:
+    """
+    Get Modality types corresponding to Modality names.
+
+    This is the safeway to do this. Avoid using `exec()` or similar calls.
+
+    Parameters
+    ----------
+    names : list[str]
+        List of Modality names.
+
+    Returns
+    -------
+    list
+        List of Modality types.
+    """
+    return [
+        modality_dict[name] for name in names
+    ]

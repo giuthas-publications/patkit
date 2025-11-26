@@ -260,6 +260,11 @@ def load_data_params(filepath: Path | str | None = None) -> YAML:
                     Optional('sort'): Bool(),
                     Optional('sort_criteria'): UniqueSeq(Str()),
                 }),
+                Optional("intensity_arguments"): Map({
+                    "modalities": Seq(Str()),
+                    Optional("preload", default=True): Bool(),
+                    Optional("release_data_memory", default=True): Bool(),
+                }),
                 Optional("pd_arguments"): Map({
                     "norms": Seq(Str()),
                     "timesteps": Seq(Int()),

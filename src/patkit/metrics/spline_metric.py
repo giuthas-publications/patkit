@@ -34,14 +34,16 @@ SplineMetric and supporting classes.
 """
 
 import logging
-from typing import Optional, Tuple
 
 import numpy as np
 from pydantic import PositiveInt
 
-from patkit.constants import SplineDiffsEnum, SplineMetricEnum, SplineShapesEnum
+from patkit.constants import (
+    SplineDiffsEnum, SplineMetricEnum, SplineShapesEnum
+)
 from patkit.data_structures import (
-    FileInformation, Modality, ModalityData, ModalityMetaData, Recording)
+    FileInformation, Modality, ModalityData, ModalityMetaData, Recording
+)
 from patkit.utility_functions import product_dict
 
 _logger = logging.getLogger('patkit.spline_metric')
@@ -70,7 +72,7 @@ class SplineMetricParameters(ModalityMetaData):
     metric: SplineMetricEnum = SplineDiffsEnum.MPBPD
     timestep: PositiveInt = 1
     release_data_memory: bool = False
-    exclude_points: Optional[tuple[int, int]] = None
+    exclude_points: tuple[int, int] | None = None
 
 
 class SplineMetric(Modality):
@@ -140,8 +142,8 @@ class SplineMetric(Modality):
             How many points to exclude from the (beginning, end) of the spline,
             by default, None.
         release_data_memory: bool
-            Should parent Modality's data be assigned to None after calculations
-            are complete, by default False.
+            Should parent Modality's data be assigned to None after
+            calculations are complete, by default False.
 
         Returns
         -------
@@ -169,12 +171,14 @@ class SplineMetric(Modality):
         return {SplineMetric.generate_name(params): params
                 for params in spline_metric_params}
 
-    def __init__(self,
-                 container: Recording,
-                 metadata: SplineMetricParameters,
-                 file_info: FileInformation,
-                 parsed_data: Optional[ModalityData] = None,
-                 time_offset: Optional[float] = None) -> None:
+    def __init__(
+        self,
+        container: Recording,
+        metadata: SplineMetricParameters,
+        file_info: FileInformation,
+        parsed_data: ModalityData | None = None,
+        time_offset: float | None = None
+    ) -> None:
         """
         Build a SplineMetric Modality.       
 
@@ -210,7 +214,7 @@ class SplineMetric(Modality):
             time_offset=time_offset,
         )
 
-    def _derive_data(self) -> Tuple[np.ndarray, np.ndarray, float]:
+    def _derive_data(self) -> tuple[np.ndarray, np.ndarray, float]:
         """
         Calculate the SplineMetric on the data of the parent Modality.
         """

@@ -34,7 +34,6 @@ Modality for PD (Pixel Difference) and its parameter class.
 """
 
 import logging
-from typing import Optional, Tuple, Union
 
 import numpy as np
 
@@ -65,8 +64,8 @@ class PdParameters(ModalityMetaData):
         data. Defaults to 1, which means comparison of consecutive frames.
     release_data_memory : bool
         Whether to assign None to `parent.data` after deriving this Modality
-        from the data. Currently, has no effect as deriving PD at runtime is not
-        yet supported.
+        from the data. Currently, has no effect as deriving PD at runtime is
+        not yet supported.
     interpolated : bool
         Should this PD be calculated on interpolated images. Defaults to False
         for calculating PD on raw data. This one really can only be used on 2D
@@ -78,7 +77,7 @@ class PdParameters(ModalityMetaData):
     parent_name: str
     metric: str = 'l1'
     timestep: PositiveInt = 1
-    image_mask: Optional[ImageMask] = None
+    image_mask: ImageMask | None = None
     interpolated: bool = False
     release_data_memory: bool = True
 
@@ -144,7 +143,7 @@ class PD(Modality):
 
     @staticmethod
     def get_names_and_meta(
-            modality: Union[Modality, str],
+            modality: Modality | str,
             norms: list[str] = None,
             timesteps: list[int] = None,
             pd_on_interpolated_data: bool = False,
@@ -172,13 +171,13 @@ class PD(Modality):
         mask_images : bool, optional
             indicates if images should be masked, by default False
         release_data_memory: bool
-            Should parent Modality's data be assigned to None after calculations
-            are complete, by default True.
+            Should parent Modality's data be assigned to None after
+            calculations are complete, by default True.
 
         Returns
         -------
         dict[str: PdParameters]
-            Dictionary where the names of the PD Modalities index the 
+            Dictionary where the names of the PD Modalities index the
             PdParameter objects.
         """
         if isinstance(modality, str):
@@ -215,8 +214,8 @@ class PD(Modality):
             container: Recording,
             metadata: PdParameters,
             file_info: FileInformation,
-            parsed_data: Optional[ModalityData] = None,
-            time_offset: Optional[float] = None
+            parsed_data: ModalityData | None = None,
+            time_offset: float | None = None
     ) -> None:
         """
         Build a Pixel Difference (PD) Modality       
@@ -251,7 +250,7 @@ class PD(Modality):
             parsed_data=parsed_data,
             time_offset=time_offset)
 
-    def _derive_data(self) -> Tuple[np.ndarray, np.ndarray, float]:
+    def _derive_data(self) -> tuple[np.ndarray, np.ndarray, float]:
         """
         Calculate Pixel Difference (PD) on the data Modality parent.       
         """

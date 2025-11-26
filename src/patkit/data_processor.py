@@ -81,15 +81,19 @@ def process_modalities(
         if recording.excluded:
             continue
 
-        for key in tqdm(processing_functions, desc=f"Running functions", leave=False):
+        desc1 = "Running functions"
+        for key in tqdm(processing_functions, desc=desc1, leave=False):
             (function, modalities, arguments) = processing_functions[key]
+
             # TODO: Version 1.0: add a mechanism to change the arguments for
             # different modalities.
-            for modality in tqdm(modalities, desc="Processing modalities", leave=False):
+            desc2 = "Processing modalities"
+            for modality in tqdm(modalities, desc=desc2, leave=False):
                 function(
                     recording,
                     modality,
-                    **arguments)
+                    **arguments
+                )
 
     _logger.info('Modalities processed at %s.', str(datetime.datetime.now()))
 

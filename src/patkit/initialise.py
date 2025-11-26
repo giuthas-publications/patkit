@@ -55,13 +55,18 @@ from patkit.data_structures import Session
 from patkit.metrics import (
     add_aggregate_images,
     add_distance_matrices,
+    add_intensity,
     add_pd,
     add_spline_metric,
     downsample_metrics_in_session,
 )
-from patkit.modalities import RawUltrasound, Splines
+from patkit.modalities import (
+    RawUltrasound, Splines
+)
+from patkit.get_modality_types import get_modality_types
 from patkit.utility_functions import (
-    log_elapsed_time, set_logging_level)
+    log_elapsed_time, set_logging_level
+)
 
 
 def get_config_dir(path: Path) -> Path:
@@ -281,7 +286,17 @@ def add_derived_data(
     """
     data_run_config = config.data_config
 
+    # TODO 0.21: Automate most of this for arbitrary Modalities.
     modality_operation_dict = {}
+    if data_run_config.intensity_arguments:
+        intensity_arguments = data_run_config.intensity_arguments
+        modality_types = get_modality_types(intensity_arguments.modalities)
+        modality_operation_dict["Intensity"] = (
+            add_intensity,
+            modality_types,
+            intensity_arguments.model_dump(exclude=['modalities']),
+        )
+
     if data_run_config.pd_arguments:
         pd_arguments = data_run_config.pd_arguments
         modality_operation_dict["PD"] = (
