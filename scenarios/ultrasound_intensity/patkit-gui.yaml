@@ -23,7 +23,7 @@ data_axes:
       - l2
     sharex: True
     normalisation: both # none, peak, bottom, both
-  Intensity:
+  "Normalised\nIntensity":
     modalities:
       - Intensity on RawUltrasound
     modality_names:
