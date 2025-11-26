@@ -65,7 +65,8 @@ def calculate_intensity_metric(
         Overall intensity as a function of time and the timevector.
     """
     data = parent_modality.data
-    return np.sum(data, axis=(1, 2)), parent_modality.timevector
+    data = data.reshape(data.shape[0], -1)
+    return np.sum(data, axis=1), parent_modality.timevector
 
 
 def create_intensities(
