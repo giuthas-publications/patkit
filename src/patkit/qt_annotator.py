@@ -880,7 +880,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.19: This should not be hard coded
+        # TODO 0.20: This should not be hard coded
         if 'PD l1 on RawUltrasound' in self.current.modalities:
             pd_metrics = self.current.modalities['PD l1 on RawUltrasound']
             ultra_time = pd_metrics.timevector - stimulus_onset
@@ -891,7 +891,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Move the data cursor to the next frame.
         """
-        # TODO 0.19: Remove hard coding again
+        # TODO 0.20: Remove hard coding again
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
@@ -1420,7 +1420,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.19: Remove hardcoding of modality names?
+        # TODO 0.20: Remove hardcoding of modality names?
         if 'RawUltrasound' in self.current.modalities:
             timevector = (
                 self.current.modalities['RawUltrasound'].timevector)

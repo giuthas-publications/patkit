@@ -427,7 +427,7 @@ Exercises:
 
 ###  `session-config.yaml`
 
-TODO 0.19: Update the below description.
+TODO 0.27: Update the below description.
 
 Until the data structure update in v0.19.0 only one data source is allowed.
 Accepted names will be `AAA`, `RASL`, `EVA` (once flow data reading is

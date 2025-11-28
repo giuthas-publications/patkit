@@ -116,7 +116,7 @@ In the main repository (done by Pertti or other maintainers):
      release does not get done in one working session. 
 3. Merge `main` to the release branch (not the other way around).
 4. Check that installation works: `uv tool install .`
-  - TODO 0.23: This does not actually work because it installs from pypi rather
+  - TODO 0.28: This does not actually work because it installs from pypi rather
     than from the local dir.
 5. Run tests.
    - These don't exist yet at the time of PATKIT 0.10.0 except as

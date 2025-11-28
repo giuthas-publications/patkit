@@ -46,7 +46,7 @@ from patkit.constants import (
     CoordinateSystems, PatkitConfigFile,
     SplineDataColumn, SplineMetaColumn)
 from patkit.data_structures import ModalityData, Recording
-from patkit.errors import patkitError
+from patkit.errors import PatkitError
 from patkit.modalities.splines import Splines, SplineMetadata
 
 from .spline_import_config import (
@@ -256,7 +256,7 @@ def add_splines_from_individual_files(
         spline_dict = retrieve_splines(spline_file, spline_config)
         keys = list(spline_dict.keys())
         if len(keys) > 1:
-            raise patkitError(
+            raise PatkitError(
                 f"Spline file {spline_file} was supposed to "
                 f"contain splines of a single recording, "
                 f"but multiple found: {keys}.")

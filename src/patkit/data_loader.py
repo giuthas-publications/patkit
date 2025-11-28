@@ -44,17 +44,18 @@ from patkit.configuration import (
 from patkit.constants import (
     DatasourceNames, SourceSuffix, PatkitSuffix, PatkitConfigFile)
 from patkit.data_import import (
-    generate_aaa_recording_list, generate_wav_recording_list, 
+    generate_aaa_recording_list, generate_wav_recording_list,
     load_session_config
 )
 from patkit.data_structures import (
     FileInformation, Session)
+from patkit.errors import NoImporterError
 from patkit.save_and_load import load_recording_session
 
 _logger = logging.getLogger('patkit.scripting')
 
-# TODO 1.0: change the name of this file to data_importer and move it to a more
-# appropriate submodule.
+# TODO 0.27: change the name of this file to data_importer and move it to a
+# more appropriate submodule?
 
 
 def load_data(configuration: Configuration) -> Session:
@@ -74,7 +75,7 @@ def load_data(configuration: Configuration) -> Session:
     recorded_path = configuration.data_config.recorded_data_path
     patkit_path = configuration.config_paths.path
 
-    # TODO 0.19 Should not blindly assume that sampling frequency is 44100!
+    # TODO 0.25 Should not blindly assume that sampling frequency is 44100!
     if configuration.data_config.mains_frequency:
         MainsFilter.generate_mains_filter(
             44100,
@@ -216,4 +217,6 @@ def read_recorded_session_from_dir(
 
     _logger.error(
         'Could not find a suitable importer: %s', recorded_data_path)
-    # TODO 0.19: This should raise an error.
+    raise NoImporterError(
+        f"Could not find a suitable importer for data at: "
+        f"{recorded_data_path}")
