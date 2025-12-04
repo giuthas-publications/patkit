@@ -31,7 +31,13 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="class" href="#patkitError">patkitError</a>
+                    <a class="class" href="#PatkitError">PatkitError</a>
+                            <ul class="memberlist">
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#DimensionMismatchError">DimensionMismatchError</a>
                             <ul class="memberlist">
                 </ul>
 
@@ -43,13 +49,13 @@
 
             </li>
             <li>
-                    <a class="class" href="#OverwriteError">OverwriteError</a>
+                    <a class="class" href="#NoImporterError">NoImporterError</a>
                             <ul class="memberlist">
                 </ul>
 
             </li>
             <li>
-                    <a class="class" href="#DimensionMismatchError">DimensionMismatchError</a>
+                    <a class="class" href="#OverwriteError">OverwriteError</a>
                             <ul class="memberlist">
                 </ul>
 
@@ -82,7 +88,7 @@
                     <h1 class="modulename">
 <a href="./../patkit.html">patkit</a><wbr>.errors    </h1>
 
-                        <div class="docstring"><p>Error classes for patkit.</p>
+                        <div class="docstring"><p>Error classes for PATKIT.</p>
 </div>
 
                         <input id="mod-errors-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
@@ -121,117 +127,69 @@
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="c1"># citations.bib in BibTeX format.</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="c1">#</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">Error classes for patkit.</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">Error classes for PATKIT.</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
 </span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="k">class</span><span class="w"> </span><span class="nc">patkitError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of patkit Errors.&quot;&quot;&quot;</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatkitError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of PATKIT Errors.&quot;&quot;&quot;</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
 </span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MissingDataError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DimensionMismatchError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">    Data requested from Modality but is unavailable.</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">    Trying to replace the data or timevector with unmatched np.ndarray.</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    This Error signifies that a Modality was created without providing either a</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    path to files to load or an algorithm for deriving the Modality from another</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">    Modality.</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">    Modality or Statistic already exists in container.</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    Fail can be using unmatching dtype, size, or shape.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MissingDataError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">    Data requested from Modality but is unavailable.</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">    This Error signifies that a Modality was created without providing either a</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">    path to files to load or an algorithm for deriving the Modality from</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    another Modality.</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DimensionMismatchError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">    Trying to replace the data or timevector in a Modality with non-matching dtype, size, or shape.</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="k">class</span><span class="w"> </span><span class="nc">NoImporterError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">    No importer function was found for the data. </span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UnrecognisedNormError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Did not have an implementation for requested norm.&quot;&quot;&quot;</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UltrasoundInterpolationError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolated ultrasound image could not be produced.&quot;&quot;&quot;</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="sd">    Modality or Statistic already exists in container.</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UnrecognisedNormError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Did not have an implementation for requested norm.&quot;&quot;&quot;</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UltrasoundInterpolationError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolated ultrasound image could not be produced.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
             </section>
-                <section id="patkitError">
-                            <input id="patkitError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="PatkitError">
+                            <input id="PatkitError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">patkitError</span><wbr>(<span class="base">builtins.Exception</span>):
+    <span class="name">PatkitError</span><wbr>(<span class="base">builtins.Exception</span>):
 
-                <label class="view-source-button" for="patkitError-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="PatkitError-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#patkitError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="patkitError-38"><a href="#patkitError-38"><span class="linenos">38</span></a><span class="k">class</span><span class="w"> </span><span class="nc">patkitError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-</span><span id="patkitError-39"><a href="#patkitError-39"><span class="linenos">39</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of patkit Errors.&quot;&quot;&quot;</span>
+    <a class="headerlink" href="#PatkitError"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PatkitError-38"><a href="#PatkitError-38"><span class="linenos">38</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PatkitError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+</span><span id="PatkitError-39"><a href="#PatkitError-39"><span class="linenos">39</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of PATKIT Errors.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Base class of patkit Errors.</p>
-</div>
-
-
-                </section>
-                <section id="MissingDataError">
-                            <input id="MissingDataError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">MissingDataError</span><wbr>(<span class="base"><a href="#patkitError">patkitError</a></span>):
-
-                <label class="view-source-button" for="MissingDataError-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#MissingDataError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="MissingDataError-42"><a href="#MissingDataError-42"><span class="linenos">42</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MissingDataError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="MissingDataError-43"><a href="#MissingDataError-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="MissingDataError-44"><a href="#MissingDataError-44"><span class="linenos">44</span></a><span class="sd">    Data requested from Modality but is unavailable.</span>
-</span><span id="MissingDataError-45"><a href="#MissingDataError-45"><span class="linenos">45</span></a>
-</span><span id="MissingDataError-46"><a href="#MissingDataError-46"><span class="linenos">46</span></a><span class="sd">    This Error signifies that a Modality was created without providing either a</span>
-</span><span id="MissingDataError-47"><a href="#MissingDataError-47"><span class="linenos">47</span></a><span class="sd">    path to files to load or an algorithm for deriving the Modality from another</span>
-</span><span id="MissingDataError-48"><a href="#MissingDataError-48"><span class="linenos">48</span></a><span class="sd">    Modality.</span>
-</span><span id="MissingDataError-49"><a href="#MissingDataError-49"><span class="linenos">49</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Data requested from Modality but is unavailable.</p>
-
-<p>This Error signifies that a Modality was created without providing either a
-path to files to load or an algorithm for deriving the Modality from another
-Modality.</p>
-</div>
-
-
-                </section>
-                <section id="OverwriteError">
-                            <input id="OverwriteError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">OverwriteError</span><wbr>(<span class="base"><a href="#patkitError">patkitError</a></span>):
-
-                <label class="view-source-button" for="OverwriteError-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#OverwriteError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="OverwriteError-52"><a href="#OverwriteError-52"><span class="linenos">52</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="OverwriteError-53"><a href="#OverwriteError-53"><span class="linenos">53</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="OverwriteError-54"><a href="#OverwriteError-54"><span class="linenos">54</span></a><span class="sd">    Modality or Statistic already exists in container.</span>
-</span><span id="OverwriteError-55"><a href="#OverwriteError-55"><span class="linenos">55</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Modality or Statistic already exists in container.</p>
+            <div class="docstring"><p>Base class of PATKIT Errors.</p>
 </div>
 
 
@@ -241,20 +199,101 @@ Modality.</p>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">DimensionMismatchError</span><wbr>(<span class="base"><a href="#patkitError">patkitError</a></span>):
+    <span class="name">DimensionMismatchError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
 
                 <label class="view-source-button" for="DimensionMismatchError-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#DimensionMismatchError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DimensionMismatchError-58"><a href="#DimensionMismatchError-58"><span class="linenos">58</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DimensionMismatchError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="DimensionMismatchError-59"><a href="#DimensionMismatchError-59"><span class="linenos">59</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DimensionMismatchError-60"><a href="#DimensionMismatchError-60"><span class="linenos">60</span></a><span class="sd">    Trying to replace the data or timevector in a Modality with non-matching dtype, size, or shape.</span>
-</span><span id="DimensionMismatchError-61"><a href="#DimensionMismatchError-61"><span class="linenos">61</span></a><span class="sd">    &quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DimensionMismatchError-42"><a href="#DimensionMismatchError-42"><span class="linenos">42</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DimensionMismatchError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="DimensionMismatchError-43"><a href="#DimensionMismatchError-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DimensionMismatchError-44"><a href="#DimensionMismatchError-44"><span class="linenos">44</span></a><span class="sd">    Trying to replace the data or timevector with unmatched np.ndarray.</span>
+</span><span id="DimensionMismatchError-45"><a href="#DimensionMismatchError-45"><span class="linenos">45</span></a>
+</span><span id="DimensionMismatchError-46"><a href="#DimensionMismatchError-46"><span class="linenos">46</span></a><span class="sd">    Fail can be using unmatching dtype, size, or shape.</span>
+</span><span id="DimensionMismatchError-47"><a href="#DimensionMismatchError-47"><span class="linenos">47</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Trying to replace the data or timevector in a Modality with non-matching dtype, size, or shape.</p>
+            <div class="docstring"><p>Trying to replace the data or timevector with unmatched np.ndarray.</p>
+
+<p>Fail can be using unmatching dtype, size, or shape.</p>
+</div>
+
+
+                </section>
+                <section id="MissingDataError">
+                            <input id="MissingDataError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">MissingDataError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
+
+                <label class="view-source-button" for="MissingDataError-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#MissingDataError"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="MissingDataError-49"><a href="#MissingDataError-49"><span class="linenos">49</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MissingDataError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="MissingDataError-50"><a href="#MissingDataError-50"><span class="linenos">50</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="MissingDataError-51"><a href="#MissingDataError-51"><span class="linenos">51</span></a><span class="sd">    Data requested from Modality but is unavailable.</span>
+</span><span id="MissingDataError-52"><a href="#MissingDataError-52"><span class="linenos">52</span></a>
+</span><span id="MissingDataError-53"><a href="#MissingDataError-53"><span class="linenos">53</span></a><span class="sd">    This Error signifies that a Modality was created without providing either a</span>
+</span><span id="MissingDataError-54"><a href="#MissingDataError-54"><span class="linenos">54</span></a><span class="sd">    path to files to load or an algorithm for deriving the Modality from</span>
+</span><span id="MissingDataError-55"><a href="#MissingDataError-55"><span class="linenos">55</span></a><span class="sd">    another Modality.</span>
+</span><span id="MissingDataError-56"><a href="#MissingDataError-56"><span class="linenos">56</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Data requested from Modality but is unavailable.</p>
+
+<p>This Error signifies that a Modality was created without providing either a
+path to files to load or an algorithm for deriving the Modality from
+another Modality.</p>
+</div>
+
+
+                </section>
+                <section id="NoImporterError">
+                            <input id="NoImporterError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">NoImporterError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
+
+                <label class="view-source-button" for="NoImporterError-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#NoImporterError"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="NoImporterError-59"><a href="#NoImporterError-59"><span class="linenos">59</span></a><span class="k">class</span><span class="w"> </span><span class="nc">NoImporterError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="NoImporterError-60"><a href="#NoImporterError-60"><span class="linenos">60</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="NoImporterError-61"><a href="#NoImporterError-61"><span class="linenos">61</span></a><span class="sd">    No importer function was found for the data. </span>
+</span><span id="NoImporterError-62"><a href="#NoImporterError-62"><span class="linenos">62</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>No importer function was found for the data.</p>
+</div>
+
+
+                </section>
+                <section id="OverwriteError">
+                            <input id="OverwriteError-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">OverwriteError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
+
+                <label class="view-source-button" for="OverwriteError-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#OverwriteError"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="OverwriteError-64"><a href="#OverwriteError-64"><span class="linenos">64</span></a><span class="k">class</span><span class="w"> </span><span class="nc">OverwriteError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="OverwriteError-65"><a href="#OverwriteError-65"><span class="linenos">65</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="OverwriteError-66"><a href="#OverwriteError-66"><span class="linenos">66</span></a><span class="sd">    Modality or Statistic already exists in container.</span>
+</span><span id="OverwriteError-67"><a href="#OverwriteError-67"><span class="linenos">67</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Modality or Statistic already exists in container.</p>
 </div>
 
 
@@ -264,14 +303,14 @@ Modality.</p>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">UnrecognisedNormError</span><wbr>(<span class="base"><a href="#patkitError">patkitError</a></span>):
+    <span class="name">UnrecognisedNormError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
 
                 <label class="view-source-button" for="UnrecognisedNormError-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#UnrecognisedNormError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="UnrecognisedNormError-64"><a href="#UnrecognisedNormError-64"><span class="linenos">64</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UnrecognisedNormError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="UnrecognisedNormError-65"><a href="#UnrecognisedNormError-65"><span class="linenos">65</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Did not have an implementation for requested norm.&quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="UnrecognisedNormError-70"><a href="#UnrecognisedNormError-70"><span class="linenos">70</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UnrecognisedNormError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="UnrecognisedNormError-71"><a href="#UnrecognisedNormError-71"><span class="linenos">71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Did not have an implementation for requested norm.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -285,14 +324,14 @@ Modality.</p>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">UltrasoundInterpolationError</span><wbr>(<span class="base"><a href="#patkitError">patkitError</a></span>):
+    <span class="name">UltrasoundInterpolationError</span><wbr>(<span class="base"><a href="#PatkitError">PatkitError</a></span>):
 
                 <label class="view-source-button" for="UltrasoundInterpolationError-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#UltrasoundInterpolationError"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="UltrasoundInterpolationError-68"><a href="#UltrasoundInterpolationError-68"><span class="linenos">68</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UltrasoundInterpolationError</span><span class="p">(</span><span class="n">patkitError</span><span class="p">):</span>
-</span><span id="UltrasoundInterpolationError-69"><a href="#UltrasoundInterpolationError-69"><span class="linenos">69</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolated ultrasound image could not be produced.&quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="UltrasoundInterpolationError-74"><a href="#UltrasoundInterpolationError-74"><span class="linenos">74</span></a><span class="k">class</span><span class="w"> </span><span class="nc">UltrasoundInterpolationError</span><span class="p">(</span><span class="n">PatkitError</span><span class="p">):</span>
+</span><span id="UltrasoundInterpolationError-75"><a href="#UltrasoundInterpolationError-75"><span class="linenos">75</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolated ultrasound image could not be produced.&quot;&quot;&quot;</span>
 </span></pre></div>
 
 

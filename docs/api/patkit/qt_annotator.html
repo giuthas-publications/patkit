@@ -913,7 +913,7 @@
 </span><span id="L-576"><a href="#L-576"><span class="linenos"> 576</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_get_long_title</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">NOTE: Audio missing.&quot;</span><span class="p">)</span>
 </span><span id="L-577"><a href="#L-577"><span class="linenos"> 577</span></a>            <span class="k">return</span>
 </span><span id="L-578"><a href="#L-578"><span class="linenos"> 578</span></a>
-</span><span id="L-579"><a href="#L-579"><span class="linenos"> 579</span></a>        <span class="c1"># TODO 0.18.2: Add a check to draw plots which adds the model textgrid</span>
+</span><span id="L-579"><a href="#L-579"><span class="linenos"> 579</span></a>        <span class="c1"># TODO 0.18.3: Add a check to draw plots which adds the model textgrid</span>
 </span><span id="L-580"><a href="#L-580"><span class="linenos"> 580</span></a>        <span class="c1"># to plotting</span>
 </span><span id="L-581"><a href="#L-581"><span class="linenos"> 581</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_show_example</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
 </span><span id="L-582"><a href="#L-582"><span class="linenos"> 582</span></a>            <span class="nb">print</span><span class="p">(</span>
@@ -1217,7 +1217,7 @@
 </span><span id="L-880"><a href="#L-880"><span class="linenos"> 880</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="L-881"><a href="#L-881"><span class="linenos"> 881</span></a>            <span class="n">stimulus_onset</span> <span class="o">=</span> <span class="n">audio</span><span class="o">.</span><span class="n">go_signal</span>
 </span><span id="L-882"><a href="#L-882"><span class="linenos"> 882</span></a>
-</span><span id="L-883"><a href="#L-883"><span class="linenos"> 883</span></a>        <span class="c1"># TODO 0.19: This should not be hard coded</span>
+</span><span id="L-883"><a href="#L-883"><span class="linenos"> 883</span></a>        <span class="c1"># TODO 0.20: This should not be hard coded</span>
 </span><span id="L-884"><a href="#L-884"><span class="linenos"> 884</span></a>        <span class="k">if</span> <span class="s1">&#39;PD l1 on RawUltrasound&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="L-885"><a href="#L-885"><span class="linenos"> 885</span></a>            <span class="n">pd_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">[</span><span class="s1">&#39;PD l1 on RawUltrasound&#39;</span><span class="p">]</span>
 </span><span id="L-886"><a href="#L-886"><span class="linenos"> 886</span></a>            <span class="n">ultra_time</span> <span class="o">=</span> <span class="n">pd_metrics</span><span class="o">.</span><span class="n">timevector</span> <span class="o">-</span> <span class="n">stimulus_onset</span>
@@ -1228,7 +1228,7 @@
 </span><span id="L-891"><a href="#L-891"><span class="linenos"> 891</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-892"><a href="#L-892"><span class="linenos"> 892</span></a><span class="sd">        Move the data cursor to the next frame.</span>
 </span><span id="L-893"><a href="#L-893"><span class="linenos"> 893</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-894"><a href="#L-894"><span class="linenos"> 894</span></a>        <span class="c1"># TODO 0.19: Remove hard coding again</span>
+</span><span id="L-894"><a href="#L-894"><span class="linenos"> 894</span></a>        <span class="c1"># TODO 0.20: Remove hard coding again</span>
 </span><span id="L-895"><a href="#L-895"><span class="linenos"> 895</span></a>        <span class="k">if</span> <span class="s1">&#39;PD l1 on RawUltrasound&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="L-896"><a href="#L-896"><span class="linenos"> 896</span></a>            <span class="k">return</span>
 </span><span id="L-897"><a href="#L-897"><span class="linenos"> 897</span></a>
@@ -1757,7 +1757,7 @@
 </span><span id="L-1420"><a href="#L-1420"><span class="linenos">1420</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="L-1421"><a href="#L-1421"><span class="linenos">1421</span></a>            <span class="n">stimulus_onset</span> <span class="o">=</span> <span class="n">audio</span><span class="o">.</span><span class="n">go_signal</span>
 </span><span id="L-1422"><a href="#L-1422"><span class="linenos">1422</span></a>
-</span><span id="L-1423"><a href="#L-1423"><span class="linenos">1423</span></a>        <span class="c1"># TODO 0.19: Remove hardcoding of modality names?</span>
+</span><span id="L-1423"><a href="#L-1423"><span class="linenos">1423</span></a>        <span class="c1"># TODO 0.20: Remove hardcoding of modality names?</span>
 </span><span id="L-1424"><a href="#L-1424"><span class="linenos">1424</span></a>        <span class="k">if</span> <span class="s1">&#39;RawUltrasound&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="L-1425"><a href="#L-1425"><span class="linenos">1425</span></a>            <span class="n">timevector</span> <span class="o">=</span> <span class="p">(</span>
 </span><span id="L-1426"><a href="#L-1426"><span class="linenos">1426</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">[</span><span class="s1">&#39;RawUltrasound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timevector</span><span class="p">)</span>
@@ -2470,7 +2470,7 @@
 </span><span id="PdQtAnnotator-577"><a href="#PdQtAnnotator-577"><span class="linenos"> 577</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_get_long_title</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">NOTE: Audio missing.&quot;</span><span class="p">)</span>
 </span><span id="PdQtAnnotator-578"><a href="#PdQtAnnotator-578"><span class="linenos"> 578</span></a>            <span class="k">return</span>
 </span><span id="PdQtAnnotator-579"><a href="#PdQtAnnotator-579"><span class="linenos"> 579</span></a>
-</span><span id="PdQtAnnotator-580"><a href="#PdQtAnnotator-580"><span class="linenos"> 580</span></a>        <span class="c1"># TODO 0.18.2: Add a check to draw plots which adds the model textgrid</span>
+</span><span id="PdQtAnnotator-580"><a href="#PdQtAnnotator-580"><span class="linenos"> 580</span></a>        <span class="c1"># TODO 0.18.3: Add a check to draw plots which adds the model textgrid</span>
 </span><span id="PdQtAnnotator-581"><a href="#PdQtAnnotator-581"><span class="linenos"> 581</span></a>        <span class="c1"># to plotting</span>
 </span><span id="PdQtAnnotator-582"><a href="#PdQtAnnotator-582"><span class="linenos"> 582</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_show_example</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
 </span><span id="PdQtAnnotator-583"><a href="#PdQtAnnotator-583"><span class="linenos"> 583</span></a>            <span class="nb">print</span><span class="p">(</span>
@@ -2774,7 +2774,7 @@
 </span><span id="PdQtAnnotator-881"><a href="#PdQtAnnotator-881"><span class="linenos"> 881</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="PdQtAnnotator-882"><a href="#PdQtAnnotator-882"><span class="linenos"> 882</span></a>            <span class="n">stimulus_onset</span> <span class="o">=</span> <span class="n">audio</span><span class="o">.</span><span class="n">go_signal</span>
 </span><span id="PdQtAnnotator-883"><a href="#PdQtAnnotator-883"><span class="linenos"> 883</span></a>
-</span><span id="PdQtAnnotator-884"><a href="#PdQtAnnotator-884"><span class="linenos"> 884</span></a>        <span class="c1"># TODO 0.19: This should not be hard coded</span>
+</span><span id="PdQtAnnotator-884"><a href="#PdQtAnnotator-884"><span class="linenos"> 884</span></a>        <span class="c1"># TODO 0.20: This should not be hard coded</span>
 </span><span id="PdQtAnnotator-885"><a href="#PdQtAnnotator-885"><span class="linenos"> 885</span></a>        <span class="k">if</span> <span class="s1">&#39;PD l1 on RawUltrasound&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="PdQtAnnotator-886"><a href="#PdQtAnnotator-886"><span class="linenos"> 886</span></a>            <span class="n">pd_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">[</span><span class="s1">&#39;PD l1 on RawUltrasound&#39;</span><span class="p">]</span>
 </span><span id="PdQtAnnotator-887"><a href="#PdQtAnnotator-887"><span class="linenos"> 887</span></a>            <span class="n">ultra_time</span> <span class="o">=</span> <span class="n">pd_metrics</span><span class="o">.</span><span class="n">timevector</span> <span class="o">-</span> <span class="n">stimulus_onset</span>
@@ -2785,7 +2785,7 @@
 </span><span id="PdQtAnnotator-892"><a href="#PdQtAnnotator-892"><span class="linenos"> 892</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="PdQtAnnotator-893"><a href="#PdQtAnnotator-893"><span class="linenos"> 893</span></a><span class="sd">        Move the data cursor to the next frame.</span>
 </span><span id="PdQtAnnotator-894"><a href="#PdQtAnnotator-894"><span class="linenos"> 894</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PdQtAnnotator-895"><a href="#PdQtAnnotator-895"><span class="linenos"> 895</span></a>        <span class="c1"># TODO 0.19: Remove hard coding again</span>
+</span><span id="PdQtAnnotator-895"><a href="#PdQtAnnotator-895"><span class="linenos"> 895</span></a>        <span class="c1"># TODO 0.20: Remove hard coding again</span>
 </span><span id="PdQtAnnotator-896"><a href="#PdQtAnnotator-896"><span class="linenos"> 896</span></a>        <span class="k">if</span> <span class="s1">&#39;PD l1 on RawUltrasound&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="PdQtAnnotator-897"><a href="#PdQtAnnotator-897"><span class="linenos"> 897</span></a>            <span class="k">return</span>
 </span><span id="PdQtAnnotator-898"><a href="#PdQtAnnotator-898"><span class="linenos"> 898</span></a>
@@ -3314,7 +3314,7 @@
 </span><span id="PdQtAnnotator-1421"><a href="#PdQtAnnotator-1421"><span class="linenos">1421</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="PdQtAnnotator-1422"><a href="#PdQtAnnotator-1422"><span class="linenos">1422</span></a>            <span class="n">stimulus_onset</span> <span class="o">=</span> <span class="n">audio</span><span class="o">.</span><span class="n">go_signal</span>
 </span><span id="PdQtAnnotator-1423"><a href="#PdQtAnnotator-1423"><span class="linenos">1423</span></a>
-</span><span id="PdQtAnnotator-1424"><a href="#PdQtAnnotator-1424"><span class="linenos">1424</span></a>        <span class="c1"># TODO 0.19: Remove hardcoding of modality names?</span>
+</span><span id="PdQtAnnotator-1424"><a href="#PdQtAnnotator-1424"><span class="linenos">1424</span></a>        <span class="c1"># TODO 0.20: Remove hardcoding of modality names?</span>
 </span><span id="PdQtAnnotator-1425"><a href="#PdQtAnnotator-1425"><span class="linenos">1425</span></a>        <span class="k">if</span> <span class="s1">&#39;RawUltrasound&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="PdQtAnnotator-1426"><a href="#PdQtAnnotator-1426"><span class="linenos">1426</span></a>            <span class="n">timevector</span> <span class="o">=</span> <span class="p">(</span>
 </span><span id="PdQtAnnotator-1427"><a href="#PdQtAnnotator-1427"><span class="linenos">1427</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">[</span><span class="s1">&#39;RawUltrasound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timevector</span><span class="p">)</span>
@@ -4534,7 +4534,7 @@ y limits, by default None</li>
 </span><span id="PdQtAnnotator.draw_plots-577"><a href="#PdQtAnnotator.draw_plots-577"><span class="linenos">577</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_get_long_title</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">NOTE: Audio missing.&quot;</span><span class="p">)</span>
 </span><span id="PdQtAnnotator.draw_plots-578"><a href="#PdQtAnnotator.draw_plots-578"><span class="linenos">578</span></a>            <span class="k">return</span>
 </span><span id="PdQtAnnotator.draw_plots-579"><a href="#PdQtAnnotator.draw_plots-579"><span class="linenos">579</span></a>
-</span><span id="PdQtAnnotator.draw_plots-580"><a href="#PdQtAnnotator.draw_plots-580"><span class="linenos">580</span></a>        <span class="c1"># TODO 0.18.2: Add a check to draw plots which adds the model textgrid</span>
+</span><span id="PdQtAnnotator.draw_plots-580"><a href="#PdQtAnnotator.draw_plots-580"><span class="linenos">580</span></a>        <span class="c1"># TODO 0.18.3: Add a check to draw plots which adds the model textgrid</span>
 </span><span id="PdQtAnnotator.draw_plots-581"><a href="#PdQtAnnotator.draw_plots-581"><span class="linenos">581</span></a>        <span class="c1"># to plotting</span>
 </span><span id="PdQtAnnotator.draw_plots-582"><a href="#PdQtAnnotator.draw_plots-582"><span class="linenos">582</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_show_example</span><span class="o">.</span><span class="n">isChecked</span><span class="p">():</span>
 </span><span id="PdQtAnnotator.draw_plots-583"><a href="#PdQtAnnotator.draw_plots-583"><span class="linenos">583</span></a>            <span class="nb">print</span><span class="p">(</span>
@@ -4908,7 +4908,7 @@ Increases cursor index, updates the view.</p>
 </span><span id="PdQtAnnotator.next_frame-892"><a href="#PdQtAnnotator.next_frame-892"><span class="linenos">892</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="PdQtAnnotator.next_frame-893"><a href="#PdQtAnnotator.next_frame-893"><span class="linenos">893</span></a><span class="sd">        Move the data cursor to the next frame.</span>
 </span><span id="PdQtAnnotator.next_frame-894"><a href="#PdQtAnnotator.next_frame-894"><span class="linenos">894</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="PdQtAnnotator.next_frame-895"><a href="#PdQtAnnotator.next_frame-895"><span class="linenos">895</span></a>        <span class="c1"># TODO 0.19: Remove hard coding again</span>
+</span><span id="PdQtAnnotator.next_frame-895"><a href="#PdQtAnnotator.next_frame-895"><span class="linenos">895</span></a>        <span class="c1"># TODO 0.20: Remove hard coding again</span>
 </span><span id="PdQtAnnotator.next_frame-896"><a href="#PdQtAnnotator.next_frame-896"><span class="linenos">896</span></a>        <span class="k">if</span> <span class="s1">&#39;PD l1 on RawUltrasound&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="PdQtAnnotator.next_frame-897"><a href="#PdQtAnnotator.next_frame-897"><span class="linenos">897</span></a>            <span class="k">return</span>
 </span><span id="PdQtAnnotator.next_frame-898"><a href="#PdQtAnnotator.next_frame-898"><span class="linenos">898</span></a>
@@ -6000,7 +6000,7 @@ Index of the clicked item.</li>
 </span><span id="PdQtAnnotator.onpick-1421"><a href="#PdQtAnnotator.onpick-1421"><span class="linenos">1421</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="PdQtAnnotator.onpick-1422"><a href="#PdQtAnnotator.onpick-1422"><span class="linenos">1422</span></a>            <span class="n">stimulus_onset</span> <span class="o">=</span> <span class="n">audio</span><span class="o">.</span><span class="n">go_signal</span>
 </span><span id="PdQtAnnotator.onpick-1423"><a href="#PdQtAnnotator.onpick-1423"><span class="linenos">1423</span></a>
-</span><span id="PdQtAnnotator.onpick-1424"><a href="#PdQtAnnotator.onpick-1424"><span class="linenos">1424</span></a>        <span class="c1"># TODO 0.19: Remove hardcoding of modality names?</span>
+</span><span id="PdQtAnnotator.onpick-1424"><a href="#PdQtAnnotator.onpick-1424"><span class="linenos">1424</span></a>        <span class="c1"># TODO 0.20: Remove hardcoding of modality names?</span>
 </span><span id="PdQtAnnotator.onpick-1425"><a href="#PdQtAnnotator.onpick-1425"><span class="linenos">1425</span></a>        <span class="k">if</span> <span class="s1">&#39;RawUltrasound&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">:</span>
 </span><span id="PdQtAnnotator.onpick-1426"><a href="#PdQtAnnotator.onpick-1426"><span class="linenos">1426</span></a>            <span class="n">timevector</span> <span class="o">=</span> <span class="p">(</span>
 </span><span id="PdQtAnnotator.onpick-1427"><a href="#PdQtAnnotator.onpick-1427"><span class="linenos">1427</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">modalities</span><span class="p">[</span><span class="s1">&#39;RawUltrasound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timevector</span><span class="p">)</span>

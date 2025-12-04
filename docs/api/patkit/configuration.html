@@ -82,6 +82,9 @@
                                 <a class="variable" href="#DataConfig.aggregate_image_arguments">aggregate_image_arguments</a>
                         </li>
                         <li>
+                                <a class="variable" href="#DataConfig.intensity_arguments">intensity_arguments</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#DataConfig.pd_arguments">pd_arguments</a>
                         </li>
                         <li>
@@ -754,19 +757,20 @@ represented by None. If you want to specify current working directory, use
 
     </div>
     <a class="headerlink" href="#DataConfig"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DataConfig-388"><a href="#DataConfig-388"><span class="linenos">388</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DataConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="DataConfig-389"><a href="#DataConfig-389"><span class="linenos">389</span></a>    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="DataConfig-390"><a href="#DataConfig-390"><span class="linenos">390</span></a>    <span class="n">mains_frequency</span><span class="p">:</span> <span class="nb">float</span>
-</span><span id="DataConfig-391"><a href="#DataConfig-391"><span class="linenos">391</span></a>    <span class="n">recorded_data_path</span><span class="p">:</span> <span class="n">Path</span>
-</span><span id="DataConfig-392"><a href="#DataConfig-392"><span class="linenos">392</span></a>    <span class="n">flags</span><span class="p">:</span> <span class="n">DataFlags</span>
-</span><span id="DataConfig-393"><a href="#DataConfig-393"><span class="linenos">393</span></a>    <span class="n">output_directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-394"><a href="#DataConfig-394"><span class="linenos">394</span></a>    <span class="n">aggregate_image_arguments</span><span class="p">:</span> <span class="n">AggregateImageArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-395"><a href="#DataConfig-395"><span class="linenos">395</span></a>    <span class="n">pd_arguments</span><span class="p">:</span> <span class="n">PdArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-396"><a href="#DataConfig-396"><span class="linenos">396</span></a>    <span class="n">spline_metric_arguments</span><span class="p">:</span> <span class="n">SplineMetricArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-397"><a href="#DataConfig-397"><span class="linenos">397</span></a>    <span class="n">distance_matrix_arguments</span><span class="p">:</span> <span class="n">DistanceMatrixArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-398"><a href="#DataConfig-398"><span class="linenos">398</span></a>    <span class="n">peaks</span><span class="p">:</span> <span class="n">PeakDetectionParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-399"><a href="#DataConfig-399"><span class="linenos">399</span></a>    <span class="n">downsample</span><span class="p">:</span> <span class="n">DownsampleParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="DataConfig-400"><a href="#DataConfig-400"><span class="linenos">400</span></a>    <span class="n">cast</span><span class="p">:</span> <span class="n">CastParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DataConfig-394"><a href="#DataConfig-394"><span class="linenos">394</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DataConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="DataConfig-395"><a href="#DataConfig-395"><span class="linenos">395</span></a>    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="DataConfig-396"><a href="#DataConfig-396"><span class="linenos">396</span></a>    <span class="n">mains_frequency</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="DataConfig-397"><a href="#DataConfig-397"><span class="linenos">397</span></a>    <span class="n">recorded_data_path</span><span class="p">:</span> <span class="n">Path</span>
+</span><span id="DataConfig-398"><a href="#DataConfig-398"><span class="linenos">398</span></a>    <span class="n">flags</span><span class="p">:</span> <span class="n">DataFlags</span>
+</span><span id="DataConfig-399"><a href="#DataConfig-399"><span class="linenos">399</span></a>    <span class="n">output_directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-400"><a href="#DataConfig-400"><span class="linenos">400</span></a>    <span class="n">aggregate_image_arguments</span><span class="p">:</span> <span class="n">AggregateImageArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-401"><a href="#DataConfig-401"><span class="linenos">401</span></a>    <span class="n">intensity_arguments</span><span class="p">:</span> <span class="n">IntensityArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-402"><a href="#DataConfig-402"><span class="linenos">402</span></a>    <span class="n">pd_arguments</span><span class="p">:</span> <span class="n">PdArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-403"><a href="#DataConfig-403"><span class="linenos">403</span></a>    <span class="n">spline_metric_arguments</span><span class="p">:</span> <span class="n">SplineMetricArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-404"><a href="#DataConfig-404"><span class="linenos">404</span></a>    <span class="n">distance_matrix_arguments</span><span class="p">:</span> <span class="n">DistanceMatrixArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-405"><a href="#DataConfig-405"><span class="linenos">405</span></a>    <span class="n">peaks</span><span class="p">:</span> <span class="n">PeakDetectionParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-406"><a href="#DataConfig-406"><span class="linenos">406</span></a>    <span class="n">downsample</span><span class="p">:</span> <span class="n">DownsampleParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="DataConfig-407"><a href="#DataConfig-407"><span class="linenos">407</span></a>    <span class="n">cast</span><span class="p">:</span> <span class="n">CastParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
@@ -838,6 +842,17 @@ represented by None. If you want to specify current working directory, use
         
     </div>
     <a class="headerlink" href="#DataConfig.aggregate_image_arguments"></a>
+    
+    
+
+                            </div>
+                            <div id="DataConfig.intensity_arguments" class="classattr">
+                                <div class="attr variable">
+            <span class="name">intensity_arguments</span><span class="annotation">: patkit.configuration.configuration_models.IntensityArguments | None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DataConfig.intensity_arguments"></a>
     
     
 
@@ -947,24 +962,24 @@ represented by None. If you want to specify current working directory, use
 
     </div>
     <a class="headerlink" href="#DownsampleParams"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DownsampleParams-356"><a href="#DownsampleParams-356"><span class="linenos">356</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DownsampleParams</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="DownsampleParams-357"><a href="#DownsampleParams-357"><span class="linenos">357</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="DownsampleParams-358"><a href="#DownsampleParams-358"><span class="linenos">358</span></a><span class="sd">    Parameters for downsampling metrics.</span>
-</span><span id="DownsampleParams-359"><a href="#DownsampleParams-359"><span class="linenos">359</span></a>
-</span><span id="DownsampleParams-360"><a href="#DownsampleParams-360"><span class="linenos">360</span></a><span class="sd">    Members</span>
-</span><span id="DownsampleParams-361"><a href="#DownsampleParams-361"><span class="linenos">361</span></a><span class="sd">    ----------</span>
-</span><span id="DownsampleParams-362"><a href="#DownsampleParams-362"><span class="linenos">362</span></a><span class="sd">    modality_pattern : str</span>
-</span><span id="DownsampleParams-363"><a href="#DownsampleParams-363"><span class="linenos">363</span></a><span class="sd">        Simple search string to used to find the modalities.</span>
-</span><span id="DownsampleParams-364"><a href="#DownsampleParams-364"><span class="linenos">364</span></a><span class="sd">    downsampling_ratios : tuple[int]</span>
-</span><span id="DownsampleParams-365"><a href="#DownsampleParams-365"><span class="linenos">365</span></a><span class="sd">        Which downsampling ratios should be attempted. Depending on the next</span>
-</span><span id="DownsampleParams-366"><a href="#DownsampleParams-366"><span class="linenos">366</span></a><span class="sd">        parameter all might not actually be used.</span>
-</span><span id="DownsampleParams-367"><a href="#DownsampleParams-367"><span class="linenos">367</span></a><span class="sd">    match_timestep : bool, optional</span>
-</span><span id="DownsampleParams-368"><a href="#DownsampleParams-368"><span class="linenos">368</span></a><span class="sd">        If the timestep of the Modality to be downsampled should match the</span>
-</span><span id="DownsampleParams-369"><a href="#DownsampleParams-369"><span class="linenos">369</span></a><span class="sd">        downsampling_ratio, by default True</span>
-</span><span id="DownsampleParams-370"><a href="#DownsampleParams-370"><span class="linenos">370</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="DownsampleParams-371"><a href="#DownsampleParams-371"><span class="linenos">371</span></a>    <span class="n">modality_pattern</span><span class="p">:</span> <span class="n">SearchPattern</span>
-</span><span id="DownsampleParams-372"><a href="#DownsampleParams-372"><span class="linenos">372</span></a>    <span class="n">downsampling_ratios</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
-</span><span id="DownsampleParams-373"><a href="#DownsampleParams-373"><span class="linenos">373</span></a>    <span class="n">match_timestep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="DownsampleParams-362"><a href="#DownsampleParams-362"><span class="linenos">362</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DownsampleParams</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="DownsampleParams-363"><a href="#DownsampleParams-363"><span class="linenos">363</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="DownsampleParams-364"><a href="#DownsampleParams-364"><span class="linenos">364</span></a><span class="sd">    Parameters for downsampling metrics.</span>
+</span><span id="DownsampleParams-365"><a href="#DownsampleParams-365"><span class="linenos">365</span></a>
+</span><span id="DownsampleParams-366"><a href="#DownsampleParams-366"><span class="linenos">366</span></a><span class="sd">    Members</span>
+</span><span id="DownsampleParams-367"><a href="#DownsampleParams-367"><span class="linenos">367</span></a><span class="sd">    ----------</span>
+</span><span id="DownsampleParams-368"><a href="#DownsampleParams-368"><span class="linenos">368</span></a><span class="sd">    modality_pattern : str</span>
+</span><span id="DownsampleParams-369"><a href="#DownsampleParams-369"><span class="linenos">369</span></a><span class="sd">        Simple search string to used to find the modalities.</span>
+</span><span id="DownsampleParams-370"><a href="#DownsampleParams-370"><span class="linenos">370</span></a><span class="sd">    downsampling_ratios : tuple[int]</span>
+</span><span id="DownsampleParams-371"><a href="#DownsampleParams-371"><span class="linenos">371</span></a><span class="sd">        Which downsampling ratios should be attempted. Depending on the next</span>
+</span><span id="DownsampleParams-372"><a href="#DownsampleParams-372"><span class="linenos">372</span></a><span class="sd">        parameter all might not actually be used.</span>
+</span><span id="DownsampleParams-373"><a href="#DownsampleParams-373"><span class="linenos">373</span></a><span class="sd">    match_timestep : bool, optional</span>
+</span><span id="DownsampleParams-374"><a href="#DownsampleParams-374"><span class="linenos">374</span></a><span class="sd">        If the timestep of the Modality to be downsampled should match the</span>
+</span><span id="DownsampleParams-375"><a href="#DownsampleParams-375"><span class="linenos">375</span></a><span class="sd">        downsampling_ratio, by default True</span>
+</span><span id="DownsampleParams-376"><a href="#DownsampleParams-376"><span class="linenos">376</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="DownsampleParams-377"><a href="#DownsampleParams-377"><span class="linenos">377</span></a>    <span class="n">modality_pattern</span><span class="p">:</span> <span class="n">SearchPattern</span>
+</span><span id="DownsampleParams-378"><a href="#DownsampleParams-378"><span class="linenos">378</span></a>    <span class="n">downsampling_ratios</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+</span><span id="DownsampleParams-379"><a href="#DownsampleParams-379"><span class="linenos">379</span></a>    <span class="n">match_timestep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 </span></pre></div>
 
 
@@ -1055,15 +1070,15 @@ match_timestep : bool, optional
 
     </div>
     <a class="headerlink" href="#FindPeaksScipyArguments"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="FindPeaksScipyArguments-333"><a href="#FindPeaksScipyArguments-333"><span class="linenos">333</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FindPeaksScipyArguments</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="FindPeaksScipyArguments-334"><a href="#FindPeaksScipyArguments-334"><span class="linenos">334</span></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-335"><a href="#FindPeaksScipyArguments-335"><span class="linenos">335</span></a>    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-336"><a href="#FindPeaksScipyArguments-336"><span class="linenos">336</span></a>    <span class="n">distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-337"><a href="#FindPeaksScipyArguments-337"><span class="linenos">337</span></a>    <span class="n">prominence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-338"><a href="#FindPeaksScipyArguments-338"><span class="linenos">338</span></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-339"><a href="#FindPeaksScipyArguments-339"><span class="linenos">339</span></a>    <span class="n">wlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-340"><a href="#FindPeaksScipyArguments-340"><span class="linenos">340</span></a>    <span class="n">rel_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="FindPeaksScipyArguments-341"><a href="#FindPeaksScipyArguments-341"><span class="linenos">341</span></a>    <span class="n">plateau_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FindPeaksScipyArguments-339"><a href="#FindPeaksScipyArguments-339"><span class="linenos">339</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FindPeaksScipyArguments</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="FindPeaksScipyArguments-340"><a href="#FindPeaksScipyArguments-340"><span class="linenos">340</span></a>    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-341"><a href="#FindPeaksScipyArguments-341"><span class="linenos">341</span></a>    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-342"><a href="#FindPeaksScipyArguments-342"><span class="linenos">342</span></a>    <span class="n">distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-343"><a href="#FindPeaksScipyArguments-343"><span class="linenos">343</span></a>    <span class="n">prominence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-344"><a href="#FindPeaksScipyArguments-344"><span class="linenos">344</span></a>    <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-345"><a href="#FindPeaksScipyArguments-345"><span class="linenos">345</span></a>    <span class="n">wlen</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-346"><a href="#FindPeaksScipyArguments-346"><span class="linenos">346</span></a>    <span class="n">rel_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="FindPeaksScipyArguments-347"><a href="#FindPeaksScipyArguments-347"><span class="linenos">347</span></a>    <span class="n">plateau_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
@@ -1200,63 +1215,63 @@ match_timestep : bool, optional
 
     </div>
     <a class="headerlink" href="#GuiConfig"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig-523"><a href="#GuiConfig-523"><span class="linenos">523</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="GuiConfig-524"><a href="#GuiConfig-524"><span class="linenos">524</span></a>    <span class="n">data_and_tier_height_ratios</span><span class="p">:</span> <span class="n">HeightRatios</span>
-</span><span id="GuiConfig-525"><a href="#GuiConfig-525"><span class="linenos">525</span></a>    <span class="n">general_axes_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">AxesType</span><span class="p">,</span> <span class="n">AxesParams</span><span class="p">]</span>
-</span><span id="GuiConfig-526"><a href="#GuiConfig-526"><span class="linenos">526</span></a>    <span class="n">general_axes_params</span><span class="p">:</span> <span class="n">GeneralAxesParams</span>
-</span><span id="GuiConfig-527"><a href="#GuiConfig-527"><span class="linenos">527</span></a>    <span class="n">data_axes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AxesDefinition</span><span class="p">]</span>
-</span><span id="GuiConfig-528"><a href="#GuiConfig-528"><span class="linenos">528</span></a>    <span class="n">pervasive_tiers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</span><span id="GuiConfig-529"><a href="#GuiConfig-529"><span class="linenos">529</span></a>    <span class="n">xlim</span><span class="p">:</span> <span class="n">FloatPair</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="GuiConfig-530"><a href="#GuiConfig-530"><span class="linenos">530</span></a>    <span class="n">auto_xlim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="GuiConfig-531"><a href="#GuiConfig-531"><span class="linenos">531</span></a>    <span class="n">default_font_size</span><span class="p">:</span> <span class="nb">int</span>
-</span><span id="GuiConfig-532"><a href="#GuiConfig-532"><span class="linenos">532</span></a>    <span class="n">color_scheme</span><span class="p">:</span> <span class="n">GuiColorScheme</span> <span class="o">=</span> <span class="n">GuiColorScheme</span><span class="o">.</span><span class="n">FOLLOW_SYSTEM</span>
-</span><span id="GuiConfig-533"><a href="#GuiConfig-533"><span class="linenos">533</span></a>
-</span><span id="GuiConfig-534"><a href="#GuiConfig-534"><span class="linenos">534</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">plotted_modality_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="GuiConfig-535"><a href="#GuiConfig-535"><span class="linenos">535</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="GuiConfig-536"><a href="#GuiConfig-536"><span class="linenos">536</span></a><span class="sd">        Return a set of the plotted modalities&#39; names.</span>
-</span><span id="GuiConfig-537"><a href="#GuiConfig-537"><span class="linenos">537</span></a>
-</span><span id="GuiConfig-538"><a href="#GuiConfig-538"><span class="linenos">538</span></a><span class="sd">        This is run across all of the data axes. If you want the names plotted</span>
-</span><span id="GuiConfig-539"><a href="#GuiConfig-539"><span class="linenos">539</span></a><span class="sd">        on a given axes, look them up from the `AxesDefinition`.</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig-530"><a href="#GuiConfig-530"><span class="linenos">530</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GuiConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="GuiConfig-531"><a href="#GuiConfig-531"><span class="linenos">531</span></a>    <span class="n">data_and_tier_height_ratios</span><span class="p">:</span> <span class="n">HeightRatios</span>
+</span><span id="GuiConfig-532"><a href="#GuiConfig-532"><span class="linenos">532</span></a>    <span class="n">general_axes_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">AxesType</span><span class="p">,</span> <span class="n">AxesParams</span><span class="p">]</span>
+</span><span id="GuiConfig-533"><a href="#GuiConfig-533"><span class="linenos">533</span></a>    <span class="n">general_axes_params</span><span class="p">:</span> <span class="n">GeneralAxesParams</span>
+</span><span id="GuiConfig-534"><a href="#GuiConfig-534"><span class="linenos">534</span></a>    <span class="n">data_axes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">AxesDefinition</span><span class="p">]</span>
+</span><span id="GuiConfig-535"><a href="#GuiConfig-535"><span class="linenos">535</span></a>    <span class="n">pervasive_tiers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="GuiConfig-536"><a href="#GuiConfig-536"><span class="linenos">536</span></a>    <span class="n">xlim</span><span class="p">:</span> <span class="n">FloatPair</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="GuiConfig-537"><a href="#GuiConfig-537"><span class="linenos">537</span></a>    <span class="n">auto_xlim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="GuiConfig-538"><a href="#GuiConfig-538"><span class="linenos">538</span></a>    <span class="n">default_font_size</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="GuiConfig-539"><a href="#GuiConfig-539"><span class="linenos">539</span></a>    <span class="n">color_scheme</span><span class="p">:</span> <span class="n">GuiColorScheme</span> <span class="o">=</span> <span class="n">GuiColorScheme</span><span class="o">.</span><span class="n">FOLLOW_SYSTEM</span>
 </span><span id="GuiConfig-540"><a href="#GuiConfig-540"><span class="linenos">540</span></a>
-</span><span id="GuiConfig-541"><a href="#GuiConfig-541"><span class="linenos">541</span></a><span class="sd">        Returns</span>
-</span><span id="GuiConfig-542"><a href="#GuiConfig-542"><span class="linenos">542</span></a><span class="sd">        -------</span>
-</span><span id="GuiConfig-543"><a href="#GuiConfig-543"><span class="linenos">543</span></a><span class="sd">        set[str]</span>
-</span><span id="GuiConfig-544"><a href="#GuiConfig-544"><span class="linenos">544</span></a><span class="sd">            Set of strings containing the plotted modalities&#39; names.</span>
-</span><span id="GuiConfig-545"><a href="#GuiConfig-545"><span class="linenos">545</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="GuiConfig-546"><a href="#GuiConfig-546"><span class="linenos">546</span></a>        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="GuiConfig-547"><a href="#GuiConfig-547"><span class="linenos">547</span></a>        <span class="k">for</span> <span class="n">axes_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-</span><span id="GuiConfig-548"><a href="#GuiConfig-548"><span class="linenos">548</span></a>            <span class="k">if</span> <span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="GuiConfig-549"><a href="#GuiConfig-549"><span class="linenos">549</span></a>                <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span><span class="p">)</span>
-</span><span id="GuiConfig-550"><a href="#GuiConfig-550"><span class="linenos">550</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-</span><span id="GuiConfig-551"><a href="#GuiConfig-551"><span class="linenos">551</span></a>
-</span><span id="GuiConfig-552"><a href="#GuiConfig-552"><span class="linenos">552</span></a>    <span class="c1"># TODO make a computed callback for getting params for a given axes so that</span>
-</span><span id="GuiConfig-553"><a href="#GuiConfig-553"><span class="linenos">553</span></a>    <span class="c1"># globals don&#39;t need to be copied over</span>
-</span><span id="GuiConfig-554"><a href="#GuiConfig-554"><span class="linenos">554</span></a>
-</span><span id="GuiConfig-555"><a href="#GuiConfig-555"><span class="linenos">555</span></a>    <span class="c1"># def model_post_init(self, __context: Any) -&gt; None:</span>
-</span><span id="GuiConfig-556"><a href="#GuiConfig-556"><span class="linenos">556</span></a>    <span class="c1">#     if &#39;global&#39; in self.data_axes:</span>
-</span><span id="GuiConfig-557"><a href="#GuiConfig-557"><span class="linenos">557</span></a>    <span class="c1">#         for axes in self.data_axes:</span>
-</span><span id="GuiConfig-558"><a href="#GuiConfig-558"><span class="linenos">558</span></a>    <span class="c1">#             update axes params with global</span>
-</span><span id="GuiConfig-559"><a href="#GuiConfig-559"><span class="linenos">559</span></a>    <span class="c1">#         delete global? or move it to a different place?</span>
-</span><span id="GuiConfig-560"><a href="#GuiConfig-560"><span class="linenos">560</span></a>    <span class="c1">#     return super().model_post_init(__context)</span>
+</span><span id="GuiConfig-541"><a href="#GuiConfig-541"><span class="linenos">541</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">plotted_modality_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="GuiConfig-542"><a href="#GuiConfig-542"><span class="linenos">542</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="GuiConfig-543"><a href="#GuiConfig-543"><span class="linenos">543</span></a><span class="sd">        Return a set of the plotted modalities&#39; names.</span>
+</span><span id="GuiConfig-544"><a href="#GuiConfig-544"><span class="linenos">544</span></a>
+</span><span id="GuiConfig-545"><a href="#GuiConfig-545"><span class="linenos">545</span></a><span class="sd">        This is run across all of the data axes. If you want the names plotted</span>
+</span><span id="GuiConfig-546"><a href="#GuiConfig-546"><span class="linenos">546</span></a><span class="sd">        on a given axes, look them up from the `AxesDefinition`.</span>
+</span><span id="GuiConfig-547"><a href="#GuiConfig-547"><span class="linenos">547</span></a>
+</span><span id="GuiConfig-548"><a href="#GuiConfig-548"><span class="linenos">548</span></a><span class="sd">        Returns</span>
+</span><span id="GuiConfig-549"><a href="#GuiConfig-549"><span class="linenos">549</span></a><span class="sd">        -------</span>
+</span><span id="GuiConfig-550"><a href="#GuiConfig-550"><span class="linenos">550</span></a><span class="sd">        set[str]</span>
+</span><span id="GuiConfig-551"><a href="#GuiConfig-551"><span class="linenos">551</span></a><span class="sd">            Set of strings containing the plotted modalities&#39; names.</span>
+</span><span id="GuiConfig-552"><a href="#GuiConfig-552"><span class="linenos">552</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="GuiConfig-553"><a href="#GuiConfig-553"><span class="linenos">553</span></a>        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="GuiConfig-554"><a href="#GuiConfig-554"><span class="linenos">554</span></a>        <span class="k">for</span> <span class="n">axes_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+</span><span id="GuiConfig-555"><a href="#GuiConfig-555"><span class="linenos">555</span></a>            <span class="k">if</span> <span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="GuiConfig-556"><a href="#GuiConfig-556"><span class="linenos">556</span></a>                <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span><span class="p">)</span>
+</span><span id="GuiConfig-557"><a href="#GuiConfig-557"><span class="linenos">557</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+</span><span id="GuiConfig-558"><a href="#GuiConfig-558"><span class="linenos">558</span></a>
+</span><span id="GuiConfig-559"><a href="#GuiConfig-559"><span class="linenos">559</span></a>    <span class="c1"># TODO make a computed callback for getting params for a given axes so that</span>
+</span><span id="GuiConfig-560"><a href="#GuiConfig-560"><span class="linenos">560</span></a>    <span class="c1"># globals don&#39;t need to be copied over</span>
 </span><span id="GuiConfig-561"><a href="#GuiConfig-561"><span class="linenos">561</span></a>
-</span><span id="GuiConfig-562"><a href="#GuiConfig-562"><span class="linenos">562</span></a>    <span class="nd">@property</span>
-</span><span id="GuiConfig-563"><a href="#GuiConfig-563"><span class="linenos">563</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">number_of_data_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="GuiConfig-564"><a href="#GuiConfig-564"><span class="linenos">564</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="GuiConfig-565"><a href="#GuiConfig-565"><span class="linenos">565</span></a><span class="sd">        Number of data axes. </span>
-</span><span id="GuiConfig-566"><a href="#GuiConfig-566"><span class="linenos">566</span></a>
-</span><span id="GuiConfig-567"><a href="#GuiConfig-567"><span class="linenos">567</span></a><span class="sd">        DEPRECATED: This property will be removed as data axes list should not</span>
-</span><span id="GuiConfig-568"><a href="#GuiConfig-568"><span class="linenos">568</span></a><span class="sd">        contain any extra information like a `global` directive.</span>
-</span><span id="GuiConfig-569"><a href="#GuiConfig-569"><span class="linenos">569</span></a>
-</span><span id="GuiConfig-570"><a href="#GuiConfig-570"><span class="linenos">570</span></a><span class="sd">        Returns</span>
-</span><span id="GuiConfig-571"><a href="#GuiConfig-571"><span class="linenos">571</span></a><span class="sd">        -------</span>
-</span><span id="GuiConfig-572"><a href="#GuiConfig-572"><span class="linenos">572</span></a><span class="sd">        int</span>
-</span><span id="GuiConfig-573"><a href="#GuiConfig-573"><span class="linenos">573</span></a><span class="sd">            The number of data axes.</span>
-</span><span id="GuiConfig-574"><a href="#GuiConfig-574"><span class="linenos">574</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="GuiConfig-575"><a href="#GuiConfig-575"><span class="linenos">575</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
-</span><span id="GuiConfig-576"><a href="#GuiConfig-576"><span class="linenos">576</span></a>            <span class="k">if</span> <span class="s1">&#39;global&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
-</span><span id="GuiConfig-577"><a href="#GuiConfig-577"><span class="linenos">577</span></a>                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span id="GuiConfig-578"><a href="#GuiConfig-578"><span class="linenos">578</span></a>            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span>
-</span><span id="GuiConfig-579"><a href="#GuiConfig-579"><span class="linenos">579</span></a>        <span class="k">return</span> <span class="mi">0</span>
+</span><span id="GuiConfig-562"><a href="#GuiConfig-562"><span class="linenos">562</span></a>    <span class="c1"># def model_post_init(self, __context: Any) -&gt; None:</span>
+</span><span id="GuiConfig-563"><a href="#GuiConfig-563"><span class="linenos">563</span></a>    <span class="c1">#     if &#39;global&#39; in self.data_axes:</span>
+</span><span id="GuiConfig-564"><a href="#GuiConfig-564"><span class="linenos">564</span></a>    <span class="c1">#         for axes in self.data_axes:</span>
+</span><span id="GuiConfig-565"><a href="#GuiConfig-565"><span class="linenos">565</span></a>    <span class="c1">#             update axes params with global</span>
+</span><span id="GuiConfig-566"><a href="#GuiConfig-566"><span class="linenos">566</span></a>    <span class="c1">#         delete global? or move it to a different place?</span>
+</span><span id="GuiConfig-567"><a href="#GuiConfig-567"><span class="linenos">567</span></a>    <span class="c1">#     return super().model_post_init(__context)</span>
+</span><span id="GuiConfig-568"><a href="#GuiConfig-568"><span class="linenos">568</span></a>
+</span><span id="GuiConfig-569"><a href="#GuiConfig-569"><span class="linenos">569</span></a>    <span class="nd">@property</span>
+</span><span id="GuiConfig-570"><a href="#GuiConfig-570"><span class="linenos">570</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">number_of_data_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="GuiConfig-571"><a href="#GuiConfig-571"><span class="linenos">571</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="GuiConfig-572"><a href="#GuiConfig-572"><span class="linenos">572</span></a><span class="sd">        Number of data axes. </span>
+</span><span id="GuiConfig-573"><a href="#GuiConfig-573"><span class="linenos">573</span></a>
+</span><span id="GuiConfig-574"><a href="#GuiConfig-574"><span class="linenos">574</span></a><span class="sd">        DEPRECATED: This property will be removed as data axes list should not</span>
+</span><span id="GuiConfig-575"><a href="#GuiConfig-575"><span class="linenos">575</span></a><span class="sd">        contain any extra information like a `global` directive.</span>
+</span><span id="GuiConfig-576"><a href="#GuiConfig-576"><span class="linenos">576</span></a>
+</span><span id="GuiConfig-577"><a href="#GuiConfig-577"><span class="linenos">577</span></a><span class="sd">        Returns</span>
+</span><span id="GuiConfig-578"><a href="#GuiConfig-578"><span class="linenos">578</span></a><span class="sd">        -------</span>
+</span><span id="GuiConfig-579"><a href="#GuiConfig-579"><span class="linenos">579</span></a><span class="sd">        int</span>
+</span><span id="GuiConfig-580"><a href="#GuiConfig-580"><span class="linenos">580</span></a><span class="sd">            The number of data axes.</span>
+</span><span id="GuiConfig-581"><a href="#GuiConfig-581"><span class="linenos">581</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="GuiConfig-582"><a href="#GuiConfig-582"><span class="linenos">582</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
+</span><span id="GuiConfig-583"><a href="#GuiConfig-583"><span class="linenos">583</span></a>            <span class="k">if</span> <span class="s1">&#39;global&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
+</span><span id="GuiConfig-584"><a href="#GuiConfig-584"><span class="linenos">584</span></a>                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="GuiConfig-585"><a href="#GuiConfig-585"><span class="linenos">585</span></a>            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span>
+</span><span id="GuiConfig-586"><a href="#GuiConfig-586"><span class="linenos">586</span></a>        <span class="k">return</span> <span class="mi">0</span>
 </span></pre></div>
 
 
@@ -1365,23 +1380,23 @@ match_timestep : bool, optional
 
     </div>
     <a class="headerlink" href="#GuiConfig.plotted_modality_names"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig.plotted_modality_names-534"><a href="#GuiConfig.plotted_modality_names-534"><span class="linenos">534</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">plotted_modality_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span><span id="GuiConfig.plotted_modality_names-535"><a href="#GuiConfig.plotted_modality_names-535"><span class="linenos">535</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="GuiConfig.plotted_modality_names-536"><a href="#GuiConfig.plotted_modality_names-536"><span class="linenos">536</span></a><span class="sd">        Return a set of the plotted modalities&#39; names.</span>
-</span><span id="GuiConfig.plotted_modality_names-537"><a href="#GuiConfig.plotted_modality_names-537"><span class="linenos">537</span></a>
-</span><span id="GuiConfig.plotted_modality_names-538"><a href="#GuiConfig.plotted_modality_names-538"><span class="linenos">538</span></a><span class="sd">        This is run across all of the data axes. If you want the names plotted</span>
-</span><span id="GuiConfig.plotted_modality_names-539"><a href="#GuiConfig.plotted_modality_names-539"><span class="linenos">539</span></a><span class="sd">        on a given axes, look them up from the `AxesDefinition`.</span>
-</span><span id="GuiConfig.plotted_modality_names-540"><a href="#GuiConfig.plotted_modality_names-540"><span class="linenos">540</span></a>
-</span><span id="GuiConfig.plotted_modality_names-541"><a href="#GuiConfig.plotted_modality_names-541"><span class="linenos">541</span></a><span class="sd">        Returns</span>
-</span><span id="GuiConfig.plotted_modality_names-542"><a href="#GuiConfig.plotted_modality_names-542"><span class="linenos">542</span></a><span class="sd">        -------</span>
-</span><span id="GuiConfig.plotted_modality_names-543"><a href="#GuiConfig.plotted_modality_names-543"><span class="linenos">543</span></a><span class="sd">        set[str]</span>
-</span><span id="GuiConfig.plotted_modality_names-544"><a href="#GuiConfig.plotted_modality_names-544"><span class="linenos">544</span></a><span class="sd">            Set of strings containing the plotted modalities&#39; names.</span>
-</span><span id="GuiConfig.plotted_modality_names-545"><a href="#GuiConfig.plotted_modality_names-545"><span class="linenos">545</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="GuiConfig.plotted_modality_names-546"><a href="#GuiConfig.plotted_modality_names-546"><span class="linenos">546</span></a>        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="GuiConfig.plotted_modality_names-547"><a href="#GuiConfig.plotted_modality_names-547"><span class="linenos">547</span></a>        <span class="k">for</span> <span class="n">axes_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-</span><span id="GuiConfig.plotted_modality_names-548"><a href="#GuiConfig.plotted_modality_names-548"><span class="linenos">548</span></a>            <span class="k">if</span> <span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="GuiConfig.plotted_modality_names-549"><a href="#GuiConfig.plotted_modality_names-549"><span class="linenos">549</span></a>                <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span><span class="p">)</span>
-</span><span id="GuiConfig.plotted_modality_names-550"><a href="#GuiConfig.plotted_modality_names-550"><span class="linenos">550</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig.plotted_modality_names-541"><a href="#GuiConfig.plotted_modality_names-541"><span class="linenos">541</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">plotted_modality_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="GuiConfig.plotted_modality_names-542"><a href="#GuiConfig.plotted_modality_names-542"><span class="linenos">542</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="GuiConfig.plotted_modality_names-543"><a href="#GuiConfig.plotted_modality_names-543"><span class="linenos">543</span></a><span class="sd">        Return a set of the plotted modalities&#39; names.</span>
+</span><span id="GuiConfig.plotted_modality_names-544"><a href="#GuiConfig.plotted_modality_names-544"><span class="linenos">544</span></a>
+</span><span id="GuiConfig.plotted_modality_names-545"><a href="#GuiConfig.plotted_modality_names-545"><span class="linenos">545</span></a><span class="sd">        This is run across all of the data axes. If you want the names plotted</span>
+</span><span id="GuiConfig.plotted_modality_names-546"><a href="#GuiConfig.plotted_modality_names-546"><span class="linenos">546</span></a><span class="sd">        on a given axes, look them up from the `AxesDefinition`.</span>
+</span><span id="GuiConfig.plotted_modality_names-547"><a href="#GuiConfig.plotted_modality_names-547"><span class="linenos">547</span></a>
+</span><span id="GuiConfig.plotted_modality_names-548"><a href="#GuiConfig.plotted_modality_names-548"><span class="linenos">548</span></a><span class="sd">        Returns</span>
+</span><span id="GuiConfig.plotted_modality_names-549"><a href="#GuiConfig.plotted_modality_names-549"><span class="linenos">549</span></a><span class="sd">        -------</span>
+</span><span id="GuiConfig.plotted_modality_names-550"><a href="#GuiConfig.plotted_modality_names-550"><span class="linenos">550</span></a><span class="sd">        set[str]</span>
+</span><span id="GuiConfig.plotted_modality_names-551"><a href="#GuiConfig.plotted_modality_names-551"><span class="linenos">551</span></a><span class="sd">            Set of strings containing the plotted modalities&#39; names.</span>
+</span><span id="GuiConfig.plotted_modality_names-552"><a href="#GuiConfig.plotted_modality_names-552"><span class="linenos">552</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="GuiConfig.plotted_modality_names-553"><a href="#GuiConfig.plotted_modality_names-553"><span class="linenos">553</span></a>        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="GuiConfig.plotted_modality_names-554"><a href="#GuiConfig.plotted_modality_names-554"><span class="linenos">554</span></a>        <span class="k">for</span> <span class="n">axes_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+</span><span id="GuiConfig.plotted_modality_names-555"><a href="#GuiConfig.plotted_modality_names-555"><span class="linenos">555</span></a>            <span class="k">if</span> <span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="GuiConfig.plotted_modality_names-556"><a href="#GuiConfig.plotted_modality_names-556"><span class="linenos">556</span></a>                <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">axes_def</span><span class="o">.</span><span class="n">modalities</span><span class="p">)</span>
+</span><span id="GuiConfig.plotted_modality_names-557"><a href="#GuiConfig.plotted_modality_names-557"><span class="linenos">557</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1408,24 +1423,24 @@ on a given axes, look them up from the <code>AxesDefinition</code>.</p>
 
     </div>
     <a class="headerlink" href="#GuiConfig.number_of_data_axes"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig.number_of_data_axes-562"><a href="#GuiConfig.number_of_data_axes-562"><span class="linenos">562</span></a>    <span class="nd">@property</span>
-</span><span id="GuiConfig.number_of_data_axes-563"><a href="#GuiConfig.number_of_data_axes-563"><span class="linenos">563</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">number_of_data_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="GuiConfig.number_of_data_axes-564"><a href="#GuiConfig.number_of_data_axes-564"><span class="linenos">564</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="GuiConfig.number_of_data_axes-565"><a href="#GuiConfig.number_of_data_axes-565"><span class="linenos">565</span></a><span class="sd">        Number of data axes. </span>
-</span><span id="GuiConfig.number_of_data_axes-566"><a href="#GuiConfig.number_of_data_axes-566"><span class="linenos">566</span></a>
-</span><span id="GuiConfig.number_of_data_axes-567"><a href="#GuiConfig.number_of_data_axes-567"><span class="linenos">567</span></a><span class="sd">        DEPRECATED: This property will be removed as data axes list should not</span>
-</span><span id="GuiConfig.number_of_data_axes-568"><a href="#GuiConfig.number_of_data_axes-568"><span class="linenos">568</span></a><span class="sd">        contain any extra information like a `global` directive.</span>
-</span><span id="GuiConfig.number_of_data_axes-569"><a href="#GuiConfig.number_of_data_axes-569"><span class="linenos">569</span></a>
-</span><span id="GuiConfig.number_of_data_axes-570"><a href="#GuiConfig.number_of_data_axes-570"><span class="linenos">570</span></a><span class="sd">        Returns</span>
-</span><span id="GuiConfig.number_of_data_axes-571"><a href="#GuiConfig.number_of_data_axes-571"><span class="linenos">571</span></a><span class="sd">        -------</span>
-</span><span id="GuiConfig.number_of_data_axes-572"><a href="#GuiConfig.number_of_data_axes-572"><span class="linenos">572</span></a><span class="sd">        int</span>
-</span><span id="GuiConfig.number_of_data_axes-573"><a href="#GuiConfig.number_of_data_axes-573"><span class="linenos">573</span></a><span class="sd">            The number of data axes.</span>
-</span><span id="GuiConfig.number_of_data_axes-574"><a href="#GuiConfig.number_of_data_axes-574"><span class="linenos">574</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="GuiConfig.number_of_data_axes-575"><a href="#GuiConfig.number_of_data_axes-575"><span class="linenos">575</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
-</span><span id="GuiConfig.number_of_data_axes-576"><a href="#GuiConfig.number_of_data_axes-576"><span class="linenos">576</span></a>            <span class="k">if</span> <span class="s1">&#39;global&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
-</span><span id="GuiConfig.number_of_data_axes-577"><a href="#GuiConfig.number_of_data_axes-577"><span class="linenos">577</span></a>                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-</span><span id="GuiConfig.number_of_data_axes-578"><a href="#GuiConfig.number_of_data_axes-578"><span class="linenos">578</span></a>            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span>
-</span><span id="GuiConfig.number_of_data_axes-579"><a href="#GuiConfig.number_of_data_axes-579"><span class="linenos">579</span></a>        <span class="k">return</span> <span class="mi">0</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GuiConfig.number_of_data_axes-569"><a href="#GuiConfig.number_of_data_axes-569"><span class="linenos">569</span></a>    <span class="nd">@property</span>
+</span><span id="GuiConfig.number_of_data_axes-570"><a href="#GuiConfig.number_of_data_axes-570"><span class="linenos">570</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">number_of_data_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span id="GuiConfig.number_of_data_axes-571"><a href="#GuiConfig.number_of_data_axes-571"><span class="linenos">571</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="GuiConfig.number_of_data_axes-572"><a href="#GuiConfig.number_of_data_axes-572"><span class="linenos">572</span></a><span class="sd">        Number of data axes. </span>
+</span><span id="GuiConfig.number_of_data_axes-573"><a href="#GuiConfig.number_of_data_axes-573"><span class="linenos">573</span></a>
+</span><span id="GuiConfig.number_of_data_axes-574"><a href="#GuiConfig.number_of_data_axes-574"><span class="linenos">574</span></a><span class="sd">        DEPRECATED: This property will be removed as data axes list should not</span>
+</span><span id="GuiConfig.number_of_data_axes-575"><a href="#GuiConfig.number_of_data_axes-575"><span class="linenos">575</span></a><span class="sd">        contain any extra information like a `global` directive.</span>
+</span><span id="GuiConfig.number_of_data_axes-576"><a href="#GuiConfig.number_of_data_axes-576"><span class="linenos">576</span></a>
+</span><span id="GuiConfig.number_of_data_axes-577"><a href="#GuiConfig.number_of_data_axes-577"><span class="linenos">577</span></a><span class="sd">        Returns</span>
+</span><span id="GuiConfig.number_of_data_axes-578"><a href="#GuiConfig.number_of_data_axes-578"><span class="linenos">578</span></a><span class="sd">        -------</span>
+</span><span id="GuiConfig.number_of_data_axes-579"><a href="#GuiConfig.number_of_data_axes-579"><span class="linenos">579</span></a><span class="sd">        int</span>
+</span><span id="GuiConfig.number_of_data_axes-580"><a href="#GuiConfig.number_of_data_axes-580"><span class="linenos">580</span></a><span class="sd">            The number of data axes.</span>
+</span><span id="GuiConfig.number_of_data_axes-581"><a href="#GuiConfig.number_of_data_axes-581"><span class="linenos">581</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="GuiConfig.number_of_data_axes-582"><a href="#GuiConfig.number_of_data_axes-582"><span class="linenos">582</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
+</span><span id="GuiConfig.number_of_data_axes-583"><a href="#GuiConfig.number_of_data_axes-583"><span class="linenos">583</span></a>            <span class="k">if</span> <span class="s1">&#39;global&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">:</span>
+</span><span id="GuiConfig.number_of_data_axes-584"><a href="#GuiConfig.number_of_data_axes-584"><span class="linenos">584</span></a>                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="GuiConfig.number_of_data_axes-585"><a href="#GuiConfig.number_of_data_axes-585"><span class="linenos">585</span></a>            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_axes</span><span class="p">)</span>
+</span><span id="GuiConfig.number_of_data_axes-586"><a href="#GuiConfig.number_of_data_axes-586"><span class="linenos">586</span></a>        <span class="k">return</span> <span class="mi">0</span>
 </span></pre></div>
 
 
@@ -1598,11 +1613,11 @@ individual DataObject's FileInformation fields.</p>
 
     </div>
     <a class="headerlink" href="#PeakDetectionParams"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PeakDetectionParams-344"><a href="#PeakDetectionParams-344"><span class="linenos">344</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PeakDetectionParams</span><span class="p">(</span><span class="n">PointAnnotationParams</span><span class="p">):</span>
-</span><span id="PeakDetectionParams-345"><a href="#PeakDetectionParams-345"><span class="linenos">345</span></a>    <span class="n">modality_pattern</span><span class="p">:</span> <span class="n">SearchPattern</span>
-</span><span id="PeakDetectionParams-346"><a href="#PeakDetectionParams-346"><span class="linenos">346</span></a>    <span class="n">number_of_ignored_frames</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span id="PeakDetectionParams-347"><a href="#PeakDetectionParams-347"><span class="linenos">347</span></a>    <span class="n">distance_in_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="PeakDetectionParams-348"><a href="#PeakDetectionParams-348"><span class="linenos">348</span></a>    <span class="n">find_peaks_args</span><span class="p">:</span> <span class="n">FindPeaksScipyArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PeakDetectionParams-350"><a href="#PeakDetectionParams-350"><span class="linenos">350</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PeakDetectionParams</span><span class="p">(</span><span class="n">PointAnnotationParams</span><span class="p">):</span>
+</span><span id="PeakDetectionParams-351"><a href="#PeakDetectionParams-351"><span class="linenos">351</span></a>    <span class="n">modality_pattern</span><span class="p">:</span> <span class="n">SearchPattern</span>
+</span><span id="PeakDetectionParams-352"><a href="#PeakDetectionParams-352"><span class="linenos">352</span></a>    <span class="n">number_of_ignored_frames</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="PeakDetectionParams-353"><a href="#PeakDetectionParams-353"><span class="linenos">353</span></a>    <span class="n">distance_in_seconds</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PeakDetectionParams-354"><a href="#PeakDetectionParams-354"><span class="linenos">354</span></a>    <span class="n">find_peaks_args</span><span class="p">:</span> <span class="n">FindPeaksScipyArguments</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
@@ -1695,10 +1710,10 @@ individual DataObject's FileInformation fields.</p>
 
     </div>
     <a class="headerlink" href="#PointAnnotationParams"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PointAnnotationParams-327"><a href="#PointAnnotationParams-327"><span class="linenos">327</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PointAnnotationParams</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="PointAnnotationParams-328"><a href="#PointAnnotationParams-328"><span class="linenos">328</span></a>    <span class="n">normalisation</span><span class="p">:</span> <span class="n">TimeseriesNormalisation</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="PointAnnotationParams-329"><a href="#PointAnnotationParams-329"><span class="linenos">329</span></a>    <span class="n">time_min</span><span class="p">:</span> <span class="n">TimeLimit</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="PointAnnotationParams-330"><a href="#PointAnnotationParams-330"><span class="linenos">330</span></a>    <span class="n">time_max</span><span class="p">:</span> <span class="n">TimeLimit</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PointAnnotationParams-333"><a href="#PointAnnotationParams-333"><span class="linenos">333</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PointAnnotationParams</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="PointAnnotationParams-334"><a href="#PointAnnotationParams-334"><span class="linenos">334</span></a>    <span class="n">normalisation</span><span class="p">:</span> <span class="n">TimeseriesNormalisation</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PointAnnotationParams-335"><a href="#PointAnnotationParams-335"><span class="linenos">335</span></a>    <span class="n">time_min</span><span class="p">:</span> <span class="n">TimeLimit</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="PointAnnotationParams-336"><a href="#PointAnnotationParams-336"><span class="linenos">336</span></a>    <span class="n">time_max</span><span class="p">:</span> <span class="n">TimeLimit</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 
@@ -2212,18 +2227,18 @@ it's passed as keyword arguments to the SearchPattern constructor.</li>
 
     </div>
     <a class="headerlink" href="#SimulationConfig"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="SimulationConfig-453"><a href="#SimulationConfig-453"><span class="linenos">453</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
-</span><span id="SimulationConfig-454"><a href="#SimulationConfig-454"><span class="linenos">454</span></a>    <span class="n">output_directory</span><span class="p">:</span> <span class="n">Path</span>
-</span><span id="SimulationConfig-455"><a href="#SimulationConfig-455"><span class="linenos">455</span></a>    <span class="n">overwrite_plots</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SimulationConfig-456"><a href="#SimulationConfig-456"><span class="linenos">456</span></a>    <span class="n">logging_notice_base</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span id="SimulationConfig-457"><a href="#SimulationConfig-457"><span class="linenos">457</span></a>    <span class="n">sounds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</span><span id="SimulationConfig-458"><a href="#SimulationConfig-458"><span class="linenos">458</span></a>    <span class="n">perturbations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
-</span><span id="SimulationConfig-459"><a href="#SimulationConfig-459"><span class="linenos">459</span></a>    <span class="n">contour_distance</span><span class="p">:</span> <span class="n">ContourDistanceParams</span>
-</span><span id="SimulationConfig-460"><a href="#SimulationConfig-460"><span class="linenos">460</span></a>    <span class="n">contour_shape</span><span class="p">:</span> <span class="n">SplineShapeParams</span>
-</span><span id="SimulationConfig-461"><a href="#SimulationConfig-461"><span class="linenos">461</span></a>    <span class="n">demonstration_contour_plot</span><span class="p">:</span> <span class="n">SimulationDemonstrationPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SimulationConfig-462"><a href="#SimulationConfig-462"><span class="linenos">462</span></a>    <span class="n">mci_perturbation_series_plot</span><span class="p">:</span> <span class="n">SimulationPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SimulationConfig-463"><a href="#SimulationConfig-463"><span class="linenos">463</span></a>    <span class="n">distance_metric_ray_plot</span><span class="p">:</span> <span class="n">RayPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</span><span id="SimulationConfig-464"><a href="#SimulationConfig-464"><span class="linenos">464</span></a>    <span class="n">shape_metric_ray_plot</span><span class="p">:</span> <span class="n">RayPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SimulationConfig-460"><a href="#SimulationConfig-460"><span class="linenos">460</span></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationConfig</span><span class="p">(</span><span class="n">UpdatableBaseModel</span><span class="p">):</span>
+</span><span id="SimulationConfig-461"><a href="#SimulationConfig-461"><span class="linenos">461</span></a>    <span class="n">output_directory</span><span class="p">:</span> <span class="n">Path</span>
+</span><span id="SimulationConfig-462"><a href="#SimulationConfig-462"><span class="linenos">462</span></a>    <span class="n">overwrite_plots</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SimulationConfig-463"><a href="#SimulationConfig-463"><span class="linenos">463</span></a>    <span class="n">logging_notice_base</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="SimulationConfig-464"><a href="#SimulationConfig-464"><span class="linenos">464</span></a>    <span class="n">sounds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="SimulationConfig-465"><a href="#SimulationConfig-465"><span class="linenos">465</span></a>    <span class="n">perturbations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+</span><span id="SimulationConfig-466"><a href="#SimulationConfig-466"><span class="linenos">466</span></a>    <span class="n">contour_distance</span><span class="p">:</span> <span class="n">ContourDistanceParams</span>
+</span><span id="SimulationConfig-467"><a href="#SimulationConfig-467"><span class="linenos">467</span></a>    <span class="n">contour_shape</span><span class="p">:</span> <span class="n">SplineShapeParams</span>
+</span><span id="SimulationConfig-468"><a href="#SimulationConfig-468"><span class="linenos">468</span></a>    <span class="n">demonstration_contour_plot</span><span class="p">:</span> <span class="n">SimulationDemonstrationPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SimulationConfig-469"><a href="#SimulationConfig-469"><span class="linenos">469</span></a>    <span class="n">mci_perturbation_series_plot</span><span class="p">:</span> <span class="n">SimulationPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SimulationConfig-470"><a href="#SimulationConfig-470"><span class="linenos">470</span></a>    <span class="n">distance_metric_ray_plot</span><span class="p">:</span> <span class="n">RayPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="SimulationConfig-471"><a href="#SimulationConfig-471"><span class="linenos">471</span></a>    <span class="n">shape_metric_ray_plot</span><span class="p">:</span> <span class="n">RayPlotParams</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span></pre></div>
 
 

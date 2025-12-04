@@ -31,7 +31,13 @@
             <h2>API Documentation</h2>
                 <ul class="memberlist">
             <li>
-                    <a class="function" href="#calculate_intensity">calculate_intensity</a>
+                    <a class="function" href="#calculate_intensity_metric">calculate_intensity_metric</a>
+            </li>
+            <li>
+                    <a class="function" href="#create_intensities">create_intensities</a>
+            </li>
+            <li>
+                    <a class="function" href="#add_intensity">add_intensity</a>
             </li>
     </ul>
 
@@ -49,107 +55,244 @@
                     <h1 class="modulename">
 <a href="./../../patkit.html">patkit</a><wbr>.<a href="./../metrics.html">metrics</a><wbr>.calculate_intensity    </h1>
 
-                
+                        <div class="docstring"><p>Calculate and add Intensity to a Recording.</p>
+</div>
+
                         <input id="mod-calculate_intensity-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-calculate_intensity-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1">#</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="c1">#</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="c1"># (see https://github.com/giuthas/patkit/).</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="c1">#</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="c1"># This program is free software: you can redistribute it and/or modify</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># it under the terms of the GNU General Public License as published by</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="c1"># (at your option) any later version.</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1">#</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="c1"># This program is distributed in the hope that it will be useful,</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="c1"># GNU General Public License for more details.</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="c1">#</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="c1"># You should have received a copy of the GNU General Public License</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="c1"># along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="c1">#</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="c1"># The example data packaged with this program is licensed under the</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="c1"># Creative Commons Attribution-NonCommercial-ShareAlike 4.0</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="c1"># International (CC BY-NC-SA 4.0) License. You should have received a</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="c1"># copy of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="c1"># International (CC BY-NC-SA 4.0) License along with the data. If not,</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="c1"># see &lt;https://creativecommons.org/licenses/by-nc-sa/4.0/&gt; for details.</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="c1">#</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="c1"># When using the toolkit for scientific publications, please cite the</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="c1"># articles listed in README.md. They can also be found in</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="c1"># citations.bib in BibTeX format.</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="c1">#</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="c1"># Numpy and scipy</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="c1"># local modules</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Modality</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="n">_pd_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;patkit.intensity&#39;</span><span class="p">)</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_intensity</span><span class="p">(</span><span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    Calculate overall intensity on the Modality as a function of time.</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">    Parameters</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">    ----------</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">    parent_modality : Modality</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">        Modality containing grayscale data.</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">    Returns</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    -------</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">    np.ndarray</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">        Overall intensity as a function of time.</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">data</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="c1"># TODO: Compare this to the PD similarity matrix used by Gabor et al.</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="c1">#</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="c1">#</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="c1"># (see https://github.com/giuthas/patkit/).</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="c1">#</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="c1"># This program is free software: you can redistribute it and/or modify</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="c1"># it under the terms of the GNU General Public License as published by</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="c1"># the Free Software Foundation, either version 3 of the License, or</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="c1"># (at your option) any later version.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="c1">#</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="c1"># This program is distributed in the hope that it will be useful,</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="c1"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="c1"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="c1"># GNU General Public License for more details.</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="c1">#</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="c1"># You should have received a copy of the GNU General Public License</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="c1"># along with this program. If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="c1">#</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="c1"># The example data packaged with this program is licensed under the</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="c1"># Creative Commons Attribution-NonCommercial-ShareAlike 4.0</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="c1"># International (CC BY-NC-SA 4.0) License. You should have received a</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="c1"># copy of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="c1"># International (CC BY-NC-SA 4.0) License along with the data. If not,</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a><span class="c1"># see &lt;https://creativecommons.org/licenses/by-nc-sa/4.0/&gt; for details.</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="c1">#</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="c1"># When using the toolkit for scientific publications, please cite the</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="c1"># articles listed in README.md. They can also be found in</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="c1"># citations.bib in BibTeX format.</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="c1">#</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="sd">Calculate and add Intensity to a Recording.</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="n">FileInformation</span><span class="p">,</span> <span class="n">Modality</span><span class="p">,</span> <span class="n">ModalityData</span><span class="p">,</span> <span class="n">Recording</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="p">)</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.modalities</span><span class="w"> </span><span class="kn">import</span> <span class="n">RawUltrasound</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.intensity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Intensity</span><span class="p">,</span> <span class="n">IntensityParameters</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;patkit.intensity&#39;</span><span class="p">)</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_intensity_metric</span><span class="p">(</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>    <span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">    Calculate overall intensity on the Modality as a function of time.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">    Currently works on video Modalities, but not audio.</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">    Parameters</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a><span class="sd">    ----------</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    parent_modality : Modality</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">        Modality containing grayscale data.</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">    Returns</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">    -------</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="sd">    tuple[np.ndarray, np.ndarray]</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd">        Overall intensity as a function of time and the timevector.</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">data</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">timevector</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="k">def</span><span class="w"> </span><span class="nf">create_intensities</span><span class="p">(</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">,</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>        <span class="n">to_be_computed</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IntensityParameters</span><span class="p">]</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Intensity</span><span class="p">]:</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a><span class="sd">    Create Intensity Modalities for each of the entries in `to_be_computed`.</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a><span class="sd">    Parameters</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="sd">    ----------</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="sd">    parent_modality : Modality</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="sd">        The Modality the Intensities will be computed on. </span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    to_be_computed : dict[str, IntensityParameters]</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">        The parameters for the Intensities to be created.</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">    Returns</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    -------</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">    list[Intensity]</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">        The created Intensity Modalities.</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    Raises</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    ------</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">    NotImplementedError</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">        If run on anything but RawUltrasound at the moment.</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_modality</span><span class="p">,</span> <span class="n">RawUltrasound</span><span class="p">):</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>            <span class="s2">&quot;Calculating intensity for anything else than RawUltrasound is &quot;</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>            <span class="s2">&quot;not yet implemented.&quot;</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="p">)</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">sampling_rate</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>    <span class="n">intensities</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">to_be_computed</span><span class="p">:</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="n">intensity_data</span><span class="p">,</span> <span class="n">timevector</span> <span class="o">=</span> <span class="n">calculate_intensity_metric</span><span class="p">(</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="n">parent_modality</span><span class="o">=</span><span class="n">parent_modality</span><span class="p">)</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>        <span class="n">modality_data</span> <span class="o">=</span> <span class="n">ModalityData</span><span class="p">(</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>            <span class="n">data</span><span class="o">=</span><span class="n">intensity_data</span><span class="p">,</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>            <span class="n">sampling_rate</span><span class="o">=</span><span class="n">sampling_rate</span><span class="p">,</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>            <span class="n">timevector</span><span class="o">=</span><span class="n">timevector</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="p">)</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>        <span class="k">if</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">:</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>            <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>                <span class="n">patkit_path</span><span class="o">=</span><span class="n">parent_modality</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">)</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>            <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">()</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="n">new_intensity</span> <span class="o">=</span> <span class="n">Intensity</span><span class="p">(</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>                <span class="n">container</span><span class="o">=</span><span class="n">parent_modality</span><span class="o">.</span><span class="n">container</span><span class="p">,</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>                <span class="n">metadata</span><span class="o">=</span><span class="n">to_be_computed</span><span class="p">[</span><span class="n">item</span><span class="p">],</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>                <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>                <span class="n">parsed_data</span><span class="o">=</span><span class="n">modality_data</span><span class="p">,</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="p">)</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>        <span class="n">intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_intensity</span><span class="p">)</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>    <span class="k">return</span> <span class="n">intensities</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_intensity</span><span class="p">(</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>    <span class="n">recording</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>    <span class="n">modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">,</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>    <span class="n">preload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="n">release_data_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a><span class="sd">    Calculate Intensity and add it to the Recording.</span>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a><span class="sd">    Parameters</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a><span class="sd">    ----------</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a><span class="sd">    recording : Recording</span>
+</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a><span class="sd">        The Recording the new Intensity will be added to.</span>
+</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a><span class="sd">    modality : Modality</span>
+</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a><span class="sd">        The Modality the new Intensity will be calculated on.</span>
+</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a><span class="sd">    preload : bool, optional</span>
+</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a><span class="sd">        Should the Intensity be calculated on creation (preloaded) or only on</span>
+</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a><span class="sd">        access, by default True</span>
+</span><span id="L-148"><a href="#L-148"><span class="linenos">148</span></a><span class="sd">    release_data_memory : bool, optional</span>
+</span><span id="L-149"><a href="#L-149"><span class="linenos">149</span></a><span class="sd">        Should the data attribute of the Modality be set to None after use, by</span>
+</span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="sd">        default True</span>
+</span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
+</span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="sd">    Raises</span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">    ------</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a><span class="sd">    NotImplementedError</span>
+</span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">        Running with preload set to False has not yet been implemented.</span>
+</span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">preload</span><span class="p">:</span>
+</span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Looks like somebody is trying to leave Intensity to be &quot;</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>                   <span class="s2">&quot;calculated on the fly. This is not yet supported.&quot;</span><span class="p">)</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>    <span class="k">if</span> <span class="n">recording</span><span class="o">.</span><span class="n">excluded</span><span class="p">:</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>            <span class="s2">&quot;Recording </span><span class="si">%s</span><span class="s2"> excluded from processing.&quot;</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">recording</span><span class="p">:</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data modality &#39;</span><span class="si">%s</span><span class="s2">&#39; not found in recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>                     <span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>        <span class="n">all_requested</span> <span class="o">=</span> <span class="n">Intensity</span><span class="o">.</span><span class="n">get_names_and_meta</span><span class="p">(</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>            <span class="n">modality</span><span class="p">,</span> <span class="n">release_data_memory</span><span class="p">)</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>        <span class="n">missing_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">all_requested</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>            <span class="n">recording</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>        <span class="n">to_be_computed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>                              <span class="n">value</span> <span class="ow">in</span> <span class="n">all_requested</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>                              <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">missing_keys</span><span class="p">)</span>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>        <span class="n">data_modality</span> <span class="o">=</span> <span class="n">recording</span><span class="p">[</span><span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>        <span class="k">if</span> <span class="n">to_be_computed</span><span class="p">:</span>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>            <span class="n">intensities</span> <span class="o">=</span> <span class="n">create_intensities</span><span class="p">(</span><span class="n">data_modality</span><span class="p">,</span> <span class="n">to_be_computed</span><span class="p">)</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>            <span class="k">for</span> <span class="n">intensity</span> <span class="ow">in</span> <span class="n">intensities</span><span class="p">:</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>                <span class="n">recording</span><span class="o">.</span><span class="n">add_modality</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added &#39;</span><span class="si">%s</span><span class="s2">&#39; to recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>                             <span class="n">intensity</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>                <span class="s2">&quot;Nothing to compute in Intensity for Recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>                <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
 </span></pre></div>
 
 
             </section>
-                <section id="calculate_intensity">
-                            <input id="calculate_intensity-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+                <section id="calculate_intensity_metric">
+                            <input id="calculate_intensity_metric-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">calculate_intensity</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">parent_modality</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span></span><span class="return-annotation">) -> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>:</span></span>
+        <span class="name">calculate_intensity_metric</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">parent_modality</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span></span><span class="return-annotation">) -> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>:</span></span>
 
-                <label class="view-source-button" for="calculate_intensity-view-source"><span>View Source</span></label>
+                <label class="view-source-button" for="calculate_intensity_metric-view-source"><span>View Source</span></label>
 
     </div>
-    <a class="headerlink" href="#calculate_intensity"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="calculate_intensity-45"><a href="#calculate_intensity-45"><span class="linenos">45</span></a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_intensity</span><span class="p">(</span><span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-</span><span id="calculate_intensity-46"><a href="#calculate_intensity-46"><span class="linenos">46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="calculate_intensity-47"><a href="#calculate_intensity-47"><span class="linenos">47</span></a><span class="sd">    Calculate overall intensity on the Modality as a function of time.</span>
-</span><span id="calculate_intensity-48"><a href="#calculate_intensity-48"><span class="linenos">48</span></a>
-</span><span id="calculate_intensity-49"><a href="#calculate_intensity-49"><span class="linenos">49</span></a><span class="sd">    Parameters</span>
-</span><span id="calculate_intensity-50"><a href="#calculate_intensity-50"><span class="linenos">50</span></a><span class="sd">    ----------</span>
-</span><span id="calculate_intensity-51"><a href="#calculate_intensity-51"><span class="linenos">51</span></a><span class="sd">    parent_modality : Modality</span>
-</span><span id="calculate_intensity-52"><a href="#calculate_intensity-52"><span class="linenos">52</span></a><span class="sd">        Modality containing grayscale data.</span>
-</span><span id="calculate_intensity-53"><a href="#calculate_intensity-53"><span class="linenos">53</span></a>
-</span><span id="calculate_intensity-54"><a href="#calculate_intensity-54"><span class="linenos">54</span></a><span class="sd">    Returns</span>
-</span><span id="calculate_intensity-55"><a href="#calculate_intensity-55"><span class="linenos">55</span></a><span class="sd">    -------</span>
-</span><span id="calculate_intensity-56"><a href="#calculate_intensity-56"><span class="linenos">56</span></a><span class="sd">    np.ndarray</span>
-</span><span id="calculate_intensity-57"><a href="#calculate_intensity-57"><span class="linenos">57</span></a><span class="sd">        Overall intensity as a function of time.</span>
-</span><span id="calculate_intensity-58"><a href="#calculate_intensity-58"><span class="linenos">58</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="calculate_intensity-59"><a href="#calculate_intensity-59"><span class="linenos">59</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">data</span>
-</span><span id="calculate_intensity-60"><a href="#calculate_intensity-60"><span class="linenos">60</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</span><span id="calculate_intensity-61"><a href="#calculate_intensity-61"><span class="linenos">61</span></a>    <span class="c1"># TODO: Compare this to the PD similarity matrix used by Gabor et al.</span>
+    <a class="headerlink" href="#calculate_intensity_metric"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="calculate_intensity_metric-50"><a href="#calculate_intensity_metric-50"><span class="linenos">50</span></a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_intensity_metric</span><span class="p">(</span>
+</span><span id="calculate_intensity_metric-51"><a href="#calculate_intensity_metric-51"><span class="linenos">51</span></a>    <span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span>
+</span><span id="calculate_intensity_metric-52"><a href="#calculate_intensity_metric-52"><span class="linenos">52</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+</span><span id="calculate_intensity_metric-53"><a href="#calculate_intensity_metric-53"><span class="linenos">53</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="calculate_intensity_metric-54"><a href="#calculate_intensity_metric-54"><span class="linenos">54</span></a><span class="sd">    Calculate overall intensity on the Modality as a function of time.</span>
+</span><span id="calculate_intensity_metric-55"><a href="#calculate_intensity_metric-55"><span class="linenos">55</span></a>
+</span><span id="calculate_intensity_metric-56"><a href="#calculate_intensity_metric-56"><span class="linenos">56</span></a><span class="sd">    Currently works on video Modalities, but not audio.</span>
+</span><span id="calculate_intensity_metric-57"><a href="#calculate_intensity_metric-57"><span class="linenos">57</span></a>
+</span><span id="calculate_intensity_metric-58"><a href="#calculate_intensity_metric-58"><span class="linenos">58</span></a><span class="sd">    Parameters</span>
+</span><span id="calculate_intensity_metric-59"><a href="#calculate_intensity_metric-59"><span class="linenos">59</span></a><span class="sd">    ----------</span>
+</span><span id="calculate_intensity_metric-60"><a href="#calculate_intensity_metric-60"><span class="linenos">60</span></a><span class="sd">    parent_modality : Modality</span>
+</span><span id="calculate_intensity_metric-61"><a href="#calculate_intensity_metric-61"><span class="linenos">61</span></a><span class="sd">        Modality containing grayscale data.</span>
+</span><span id="calculate_intensity_metric-62"><a href="#calculate_intensity_metric-62"><span class="linenos">62</span></a>
+</span><span id="calculate_intensity_metric-63"><a href="#calculate_intensity_metric-63"><span class="linenos">63</span></a><span class="sd">    Returns</span>
+</span><span id="calculate_intensity_metric-64"><a href="#calculate_intensity_metric-64"><span class="linenos">64</span></a><span class="sd">    -------</span>
+</span><span id="calculate_intensity_metric-65"><a href="#calculate_intensity_metric-65"><span class="linenos">65</span></a><span class="sd">    tuple[np.ndarray, np.ndarray]</span>
+</span><span id="calculate_intensity_metric-66"><a href="#calculate_intensity_metric-66"><span class="linenos">66</span></a><span class="sd">        Overall intensity as a function of time and the timevector.</span>
+</span><span id="calculate_intensity_metric-67"><a href="#calculate_intensity_metric-67"><span class="linenos">67</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="calculate_intensity_metric-68"><a href="#calculate_intensity_metric-68"><span class="linenos">68</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">data</span>
+</span><span id="calculate_intensity_metric-69"><a href="#calculate_intensity_metric-69"><span class="linenos">69</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="calculate_intensity_metric-70"><a href="#calculate_intensity_metric-70"><span class="linenos">70</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">timevector</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Calculate overall intensity on the Modality as a function of time.</p>
+
+<p>Currently works on video Modalities, but not audio.</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -161,7 +304,203 @@ Modality containing grayscale data.</li>
 <h6 id="returns">Returns</h6>
 
 <ul>
-<li><strong>np.ndarray</strong>: Overall intensity as a function of time.</li>
+<li><strong>tuple[np.ndarray, np.ndarray]</strong>: Overall intensity as a function of time and the timevector.</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="create_intensities">
+                            <input id="create_intensities-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">create_intensities</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">parent_modality</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span>,</span><span class="param">	<span class="n">to_be_computed</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n"><a href="intensity.html#IntensityParameters">patkit.metrics.intensity.IntensityParameters</a></span><span class="p">]</span></span><span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="n"><a href="intensity.html#Intensity">patkit.metrics.intensity.Intensity</a></span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="create_intensities-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#create_intensities"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="create_intensities-73"><a href="#create_intensities-73"><span class="linenos"> 73</span></a><span class="k">def</span><span class="w"> </span><span class="nf">create_intensities</span><span class="p">(</span>
+</span><span id="create_intensities-74"><a href="#create_intensities-74"><span class="linenos"> 74</span></a>        <span class="n">parent_modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">,</span>
+</span><span id="create_intensities-75"><a href="#create_intensities-75"><span class="linenos"> 75</span></a>        <span class="n">to_be_computed</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IntensityParameters</span><span class="p">]</span>
+</span><span id="create_intensities-76"><a href="#create_intensities-76"><span class="linenos"> 76</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Intensity</span><span class="p">]:</span>
+</span><span id="create_intensities-77"><a href="#create_intensities-77"><span class="linenos"> 77</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="create_intensities-78"><a href="#create_intensities-78"><span class="linenos"> 78</span></a><span class="sd">    Create Intensity Modalities for each of the entries in `to_be_computed`.</span>
+</span><span id="create_intensities-79"><a href="#create_intensities-79"><span class="linenos"> 79</span></a>
+</span><span id="create_intensities-80"><a href="#create_intensities-80"><span class="linenos"> 80</span></a><span class="sd">    Parameters</span>
+</span><span id="create_intensities-81"><a href="#create_intensities-81"><span class="linenos"> 81</span></a><span class="sd">    ----------</span>
+</span><span id="create_intensities-82"><a href="#create_intensities-82"><span class="linenos"> 82</span></a><span class="sd">    parent_modality : Modality</span>
+</span><span id="create_intensities-83"><a href="#create_intensities-83"><span class="linenos"> 83</span></a><span class="sd">        The Modality the Intensities will be computed on. </span>
+</span><span id="create_intensities-84"><a href="#create_intensities-84"><span class="linenos"> 84</span></a><span class="sd">    to_be_computed : dict[str, IntensityParameters]</span>
+</span><span id="create_intensities-85"><a href="#create_intensities-85"><span class="linenos"> 85</span></a><span class="sd">        The parameters for the Intensities to be created.</span>
+</span><span id="create_intensities-86"><a href="#create_intensities-86"><span class="linenos"> 86</span></a>
+</span><span id="create_intensities-87"><a href="#create_intensities-87"><span class="linenos"> 87</span></a><span class="sd">    Returns</span>
+</span><span id="create_intensities-88"><a href="#create_intensities-88"><span class="linenos"> 88</span></a><span class="sd">    -------</span>
+</span><span id="create_intensities-89"><a href="#create_intensities-89"><span class="linenos"> 89</span></a><span class="sd">    list[Intensity]</span>
+</span><span id="create_intensities-90"><a href="#create_intensities-90"><span class="linenos"> 90</span></a><span class="sd">        The created Intensity Modalities.</span>
+</span><span id="create_intensities-91"><a href="#create_intensities-91"><span class="linenos"> 91</span></a>
+</span><span id="create_intensities-92"><a href="#create_intensities-92"><span class="linenos"> 92</span></a><span class="sd">    Raises</span>
+</span><span id="create_intensities-93"><a href="#create_intensities-93"><span class="linenos"> 93</span></a><span class="sd">    ------</span>
+</span><span id="create_intensities-94"><a href="#create_intensities-94"><span class="linenos"> 94</span></a><span class="sd">    NotImplementedError</span>
+</span><span id="create_intensities-95"><a href="#create_intensities-95"><span class="linenos"> 95</span></a><span class="sd">        If run on anything but RawUltrasound at the moment.</span>
+</span><span id="create_intensities-96"><a href="#create_intensities-96"><span class="linenos"> 96</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="create_intensities-97"><a href="#create_intensities-97"><span class="linenos"> 97</span></a>
+</span><span id="create_intensities-98"><a href="#create_intensities-98"><span class="linenos"> 98</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_modality</span><span class="p">,</span> <span class="n">RawUltrasound</span><span class="p">):</span>
+</span><span id="create_intensities-99"><a href="#create_intensities-99"><span class="linenos"> 99</span></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+</span><span id="create_intensities-100"><a href="#create_intensities-100"><span class="linenos">100</span></a>            <span class="s2">&quot;Calculating intensity for anything else than RawUltrasound is &quot;</span>
+</span><span id="create_intensities-101"><a href="#create_intensities-101"><span class="linenos">101</span></a>            <span class="s2">&quot;not yet implemented.&quot;</span>
+</span><span id="create_intensities-102"><a href="#create_intensities-102"><span class="linenos">102</span></a>        <span class="p">)</span>
+</span><span id="create_intensities-103"><a href="#create_intensities-103"><span class="linenos">103</span></a>
+</span><span id="create_intensities-104"><a href="#create_intensities-104"><span class="linenos">104</span></a>    <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">sampling_rate</span>
+</span><span id="create_intensities-105"><a href="#create_intensities-105"><span class="linenos">105</span></a>
+</span><span id="create_intensities-106"><a href="#create_intensities-106"><span class="linenos">106</span></a>    <span class="n">intensities</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="create_intensities-107"><a href="#create_intensities-107"><span class="linenos">107</span></a>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">to_be_computed</span><span class="p">:</span>
+</span><span id="create_intensities-108"><a href="#create_intensities-108"><span class="linenos">108</span></a>        <span class="n">intensity_data</span><span class="p">,</span> <span class="n">timevector</span> <span class="o">=</span> <span class="n">calculate_intensity_metric</span><span class="p">(</span>
+</span><span id="create_intensities-109"><a href="#create_intensities-109"><span class="linenos">109</span></a>            <span class="n">parent_modality</span><span class="o">=</span><span class="n">parent_modality</span><span class="p">)</span>
+</span><span id="create_intensities-110"><a href="#create_intensities-110"><span class="linenos">110</span></a>        <span class="n">modality_data</span> <span class="o">=</span> <span class="n">ModalityData</span><span class="p">(</span>
+</span><span id="create_intensities-111"><a href="#create_intensities-111"><span class="linenos">111</span></a>            <span class="n">data</span><span class="o">=</span><span class="n">intensity_data</span><span class="p">,</span>
+</span><span id="create_intensities-112"><a href="#create_intensities-112"><span class="linenos">112</span></a>            <span class="n">sampling_rate</span><span class="o">=</span><span class="n">sampling_rate</span><span class="p">,</span>
+</span><span id="create_intensities-113"><a href="#create_intensities-113"><span class="linenos">113</span></a>            <span class="n">timevector</span><span class="o">=</span><span class="n">timevector</span>
+</span><span id="create_intensities-114"><a href="#create_intensities-114"><span class="linenos">114</span></a>        <span class="p">)</span>
+</span><span id="create_intensities-115"><a href="#create_intensities-115"><span class="linenos">115</span></a>
+</span><span id="create_intensities-116"><a href="#create_intensities-116"><span class="linenos">116</span></a>        <span class="k">if</span> <span class="n">parent_modality</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">:</span>
+</span><span id="create_intensities-117"><a href="#create_intensities-117"><span class="linenos">117</span></a>            <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
+</span><span id="create_intensities-118"><a href="#create_intensities-118"><span class="linenos">118</span></a>                <span class="n">patkit_path</span><span class="o">=</span><span class="n">parent_modality</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">)</span>
+</span><span id="create_intensities-119"><a href="#create_intensities-119"><span class="linenos">119</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="create_intensities-120"><a href="#create_intensities-120"><span class="linenos">120</span></a>            <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">()</span>
+</span><span id="create_intensities-121"><a href="#create_intensities-121"><span class="linenos">121</span></a>        <span class="n">new_intensity</span> <span class="o">=</span> <span class="n">Intensity</span><span class="p">(</span>
+</span><span id="create_intensities-122"><a href="#create_intensities-122"><span class="linenos">122</span></a>                <span class="n">container</span><span class="o">=</span><span class="n">parent_modality</span><span class="o">.</span><span class="n">container</span><span class="p">,</span>
+</span><span id="create_intensities-123"><a href="#create_intensities-123"><span class="linenos">123</span></a>                <span class="n">metadata</span><span class="o">=</span><span class="n">to_be_computed</span><span class="p">[</span><span class="n">item</span><span class="p">],</span>
+</span><span id="create_intensities-124"><a href="#create_intensities-124"><span class="linenos">124</span></a>                <span class="n">file_info</span><span class="o">=</span><span class="n">file_info</span><span class="p">,</span>
+</span><span id="create_intensities-125"><a href="#create_intensities-125"><span class="linenos">125</span></a>                <span class="n">parsed_data</span><span class="o">=</span><span class="n">modality_data</span><span class="p">,</span>
+</span><span id="create_intensities-126"><a href="#create_intensities-126"><span class="linenos">126</span></a>        <span class="p">)</span>
+</span><span id="create_intensities-127"><a href="#create_intensities-127"><span class="linenos">127</span></a>        <span class="n">intensities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_intensity</span><span class="p">)</span>
+</span><span id="create_intensities-128"><a href="#create_intensities-128"><span class="linenos">128</span></a>    <span class="k">return</span> <span class="n">intensities</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Create Intensity Modalities for each of the entries in <code>to_be_computed</code>.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>parent_modality</strong> (Modality):
+The Modality the Intensities will be computed on.</li>
+<li><strong>to_be_computed</strong> (dict[str, IntensityParameters]):
+The parameters for the Intensities to be created.</li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<ul>
+<li><strong>list[Intensity]</strong>: The created Intensity Modalities.</li>
+</ul>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>NotImplementedError</strong>: If run on anything but RawUltrasound at the moment.</li>
+</ul>
+</div>
+
+
+                </section>
+                <section id="add_intensity">
+                            <input id="add_intensity-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_intensity</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">recording</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Recording">patkit.data_structures.data_structures.Recording</a></span>,</span><span class="param">	<span class="n">modality</span><span class="p">:</span> <span class="n"><a href="../data_structures/data_structures.html#Modality">patkit.data_structures.data_structures.Modality</a></span>,</span><span class="param">	<span class="n">preload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>,</span><span class="param">	<span class="n">release_data_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="add_intensity-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#add_intensity"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="add_intensity-131"><a href="#add_intensity-131"><span class="linenos">131</span></a><span class="k">def</span><span class="w"> </span><span class="nf">add_intensity</span><span class="p">(</span>
+</span><span id="add_intensity-132"><a href="#add_intensity-132"><span class="linenos">132</span></a>    <span class="n">recording</span><span class="p">:</span> <span class="n">Recording</span><span class="p">,</span>
+</span><span id="add_intensity-133"><a href="#add_intensity-133"><span class="linenos">133</span></a>    <span class="n">modality</span><span class="p">:</span> <span class="n">Modality</span><span class="p">,</span>
+</span><span id="add_intensity-134"><a href="#add_intensity-134"><span class="linenos">134</span></a>    <span class="n">preload</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="add_intensity-135"><a href="#add_intensity-135"><span class="linenos">135</span></a>    <span class="n">release_data_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span><span id="add_intensity-136"><a href="#add_intensity-136"><span class="linenos">136</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="add_intensity-137"><a href="#add_intensity-137"><span class="linenos">137</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="add_intensity-138"><a href="#add_intensity-138"><span class="linenos">138</span></a><span class="sd">    Calculate Intensity and add it to the Recording.</span>
+</span><span id="add_intensity-139"><a href="#add_intensity-139"><span class="linenos">139</span></a>
+</span><span id="add_intensity-140"><a href="#add_intensity-140"><span class="linenos">140</span></a><span class="sd">    Parameters</span>
+</span><span id="add_intensity-141"><a href="#add_intensity-141"><span class="linenos">141</span></a><span class="sd">    ----------</span>
+</span><span id="add_intensity-142"><a href="#add_intensity-142"><span class="linenos">142</span></a><span class="sd">    recording : Recording</span>
+</span><span id="add_intensity-143"><a href="#add_intensity-143"><span class="linenos">143</span></a><span class="sd">        The Recording the new Intensity will be added to.</span>
+</span><span id="add_intensity-144"><a href="#add_intensity-144"><span class="linenos">144</span></a><span class="sd">    modality : Modality</span>
+</span><span id="add_intensity-145"><a href="#add_intensity-145"><span class="linenos">145</span></a><span class="sd">        The Modality the new Intensity will be calculated on.</span>
+</span><span id="add_intensity-146"><a href="#add_intensity-146"><span class="linenos">146</span></a><span class="sd">    preload : bool, optional</span>
+</span><span id="add_intensity-147"><a href="#add_intensity-147"><span class="linenos">147</span></a><span class="sd">        Should the Intensity be calculated on creation (preloaded) or only on</span>
+</span><span id="add_intensity-148"><a href="#add_intensity-148"><span class="linenos">148</span></a><span class="sd">        access, by default True</span>
+</span><span id="add_intensity-149"><a href="#add_intensity-149"><span class="linenos">149</span></a><span class="sd">    release_data_memory : bool, optional</span>
+</span><span id="add_intensity-150"><a href="#add_intensity-150"><span class="linenos">150</span></a><span class="sd">        Should the data attribute of the Modality be set to None after use, by</span>
+</span><span id="add_intensity-151"><a href="#add_intensity-151"><span class="linenos">151</span></a><span class="sd">        default True</span>
+</span><span id="add_intensity-152"><a href="#add_intensity-152"><span class="linenos">152</span></a>
+</span><span id="add_intensity-153"><a href="#add_intensity-153"><span class="linenos">153</span></a><span class="sd">    Raises</span>
+</span><span id="add_intensity-154"><a href="#add_intensity-154"><span class="linenos">154</span></a><span class="sd">    ------</span>
+</span><span id="add_intensity-155"><a href="#add_intensity-155"><span class="linenos">155</span></a><span class="sd">    NotImplementedError</span>
+</span><span id="add_intensity-156"><a href="#add_intensity-156"><span class="linenos">156</span></a><span class="sd">        Running with preload set to False has not yet been implemented.</span>
+</span><span id="add_intensity-157"><a href="#add_intensity-157"><span class="linenos">157</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="add_intensity-158"><a href="#add_intensity-158"><span class="linenos">158</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">preload</span><span class="p">:</span>
+</span><span id="add_intensity-159"><a href="#add_intensity-159"><span class="linenos">159</span></a>        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Looks like somebody is trying to leave Intensity to be &quot;</span>
+</span><span id="add_intensity-160"><a href="#add_intensity-160"><span class="linenos">160</span></a>                   <span class="s2">&quot;calculated on the fly. This is not yet supported.&quot;</span><span class="p">)</span>
+</span><span id="add_intensity-161"><a href="#add_intensity-161"><span class="linenos">161</span></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="add_intensity-162"><a href="#add_intensity-162"><span class="linenos">162</span></a>
+</span><span id="add_intensity-163"><a href="#add_intensity-163"><span class="linenos">163</span></a>    <span class="k">if</span> <span class="n">recording</span><span class="o">.</span><span class="n">excluded</span><span class="p">:</span>
+</span><span id="add_intensity-164"><a href="#add_intensity-164"><span class="linenos">164</span></a>        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="add_intensity-165"><a href="#add_intensity-165"><span class="linenos">165</span></a>            <span class="s2">&quot;Recording </span><span class="si">%s</span><span class="s2"> excluded from processing.&quot;</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="add_intensity-166"><a href="#add_intensity-166"><span class="linenos">166</span></a>    <span class="k">elif</span> <span class="ow">not</span> <span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="n">recording</span><span class="p">:</span>
+</span><span id="add_intensity-167"><a href="#add_intensity-167"><span class="linenos">167</span></a>        <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data modality &#39;</span><span class="si">%s</span><span class="s2">&#39; not found in recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="add_intensity-168"><a href="#add_intensity-168"><span class="linenos">168</span></a>                     <span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="add_intensity-169"><a href="#add_intensity-169"><span class="linenos">169</span></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="add_intensity-170"><a href="#add_intensity-170"><span class="linenos">170</span></a>        <span class="n">all_requested</span> <span class="o">=</span> <span class="n">Intensity</span><span class="o">.</span><span class="n">get_names_and_meta</span><span class="p">(</span>
+</span><span id="add_intensity-171"><a href="#add_intensity-171"><span class="linenos">171</span></a>            <span class="n">modality</span><span class="p">,</span> <span class="n">release_data_memory</span><span class="p">)</span>
+</span><span id="add_intensity-172"><a href="#add_intensity-172"><span class="linenos">172</span></a>        <span class="n">missing_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">all_requested</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+</span><span id="add_intensity-173"><a href="#add_intensity-173"><span class="linenos">173</span></a>            <span class="n">recording</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</span><span id="add_intensity-174"><a href="#add_intensity-174"><span class="linenos">174</span></a>        <span class="n">to_be_computed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span>
+</span><span id="add_intensity-175"><a href="#add_intensity-175"><span class="linenos">175</span></a>                              <span class="n">value</span> <span class="ow">in</span> <span class="n">all_requested</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="add_intensity-176"><a href="#add_intensity-176"><span class="linenos">176</span></a>                              <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">missing_keys</span><span class="p">)</span>
+</span><span id="add_intensity-177"><a href="#add_intensity-177"><span class="linenos">177</span></a>
+</span><span id="add_intensity-178"><a href="#add_intensity-178"><span class="linenos">178</span></a>        <span class="n">data_modality</span> <span class="o">=</span> <span class="n">recording</span><span class="p">[</span><span class="n">modality</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span>
+</span><span id="add_intensity-179"><a href="#add_intensity-179"><span class="linenos">179</span></a>
+</span><span id="add_intensity-180"><a href="#add_intensity-180"><span class="linenos">180</span></a>        <span class="k">if</span> <span class="n">to_be_computed</span><span class="p">:</span>
+</span><span id="add_intensity-181"><a href="#add_intensity-181"><span class="linenos">181</span></a>            <span class="n">intensities</span> <span class="o">=</span> <span class="n">create_intensities</span><span class="p">(</span><span class="n">data_modality</span><span class="p">,</span> <span class="n">to_be_computed</span><span class="p">)</span>
+</span><span id="add_intensity-182"><a href="#add_intensity-182"><span class="linenos">182</span></a>
+</span><span id="add_intensity-183"><a href="#add_intensity-183"><span class="linenos">183</span></a>            <span class="k">for</span> <span class="n">intensity</span> <span class="ow">in</span> <span class="n">intensities</span><span class="p">:</span>
+</span><span id="add_intensity-184"><a href="#add_intensity-184"><span class="linenos">184</span></a>                <span class="n">recording</span><span class="o">.</span><span class="n">add_modality</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+</span><span id="add_intensity-185"><a href="#add_intensity-185"><span class="linenos">185</span></a>                <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added &#39;</span><span class="si">%s</span><span class="s2">&#39; to recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="add_intensity-186"><a href="#add_intensity-186"><span class="linenos">186</span></a>                             <span class="n">intensity</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="add_intensity-187"><a href="#add_intensity-187"><span class="linenos">187</span></a>        <span class="k">else</span><span class="p">:</span>
+</span><span id="add_intensity-188"><a href="#add_intensity-188"><span class="linenos">188</span></a>            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="add_intensity-189"><a href="#add_intensity-189"><span class="linenos">189</span></a>                <span class="s2">&quot;Nothing to compute in Intensity for Recording: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
+</span><span id="add_intensity-190"><a href="#add_intensity-190"><span class="linenos">190</span></a>                <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Calculate Intensity and add it to the Recording.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>recording</strong> (Recording):
+The Recording the new Intensity will be added to.</li>
+<li><strong>modality</strong> (Modality):
+The Modality the new Intensity will be calculated on.</li>
+<li><strong>preload</strong> (bool, optional):
+Should the Intensity be calculated on creation (preloaded) or only on
+access, by default True</li>
+<li><strong>release_data_memory</strong> (bool, optional):
+Should the data attribute of the Modality be set to None after use, by
+default True</li>
+</ul>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>NotImplementedError</strong>: Running with preload set to False has not yet been implemented.</li>
 </ul>
 </div>
 
