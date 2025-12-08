@@ -179,7 +179,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Bugs
 
 - Exclusion lists are disabled until reimplementation in most likely version
-  0.20.
+  0.20. -- Updated: most likely in version 0.28.
 
 
 ## [0.15.2] - 2025-04-22
