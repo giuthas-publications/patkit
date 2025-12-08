@@ -104,6 +104,8 @@ def get_config_dir(path: Path) -> Path:
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
             path = path.parent
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SIMULATION:
+            path = path.parent
         case PatkitSuffix.META:
             print("Loading based of a single saved trial planned for "
                     "a later release. For now loading the whole directory.")
