@@ -141,14 +141,16 @@ class Configuration:
         # self._plot_yaml = load_plot_params(config['plotting_parameter_file'])
         # self._plot_config = PlotConfig(**self._plot_yaml.data)
 
-    def __repr__(self) -> str:
-        return (
-            f"Configuration("
-            f"\nmain_config={self._config_paths.model_dump()})"
-            f"\ndata_run={self._data_config.model_dump()}"
-            f"\ngui={self._gui_config.model_dump()}"
-            f"\npublish={self._publish_config.model_dump()})"
-        )
+    # TODO 0.28: Implement this for better tracing and/or ease of saving.
+    # def __repr__(self) -> str:
+    #     return (
+    #         f"Configuration("
+    #         f"\nmain config file={self._config_paths.path})"
+    #         f"\ndata_run={self._data_config.model_dump()}"
+    #         f"\ngui={self._gui_config.model_dump()}"
+    #         f"\npublish={self._publish_config.model_dump()})"
+    #         f"\nsimulate={self._simulation_config.model_dump()})"
+    #     )
 
     @property
     def config_paths(self) -> ConfigPaths:
