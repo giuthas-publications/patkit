@@ -28,7 +28,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 
 - 0.20 will add display of timestamps of cursor, placed cursor, and displayed
-  image.
+  image as well as an indicator for default mode vs exercise mode.
 - 0.21 will add a configuration option for specifying which tiers TextGrids
   should have when they are missing from the dataset and get generated on the
   fly.
@@ -52,7 +52,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-## [0.19.0] - 2025-11-26
+## [0.19.0] - 2025-12-08
 
 ### Highlights
 
@@ -62,6 +62,11 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - Basic version of Intensity Modality calculates intensity as sum of pixel
   values.
+
+### Fixed
+
+- Simulation had broken down with recent updates, but works again.
+- Also some updated to reporting in simulation.
 
 
 ## [0.18.2] - 2025-08-08
