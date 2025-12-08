@@ -163,13 +163,18 @@ def initialise_config(
 
     # TODO 0.20 check if this deals correctly with symlinks
     path = path.resolve()
-    if path.is_file():
+    if not path.exists():
+        message = (
+            f"Path does not exist: {path}."
+        )
+        logger.error(message)
+        sys.exit()
+    elif path.is_file():
         path = get_config_dir(path)
     elif not path.is_dir():
         message = (
-            f"Unknown path type {path}."
+            f"Unknown path type: {path}."
         )
-        print(message)
         logger.error(message)
         sys.exit()
 
