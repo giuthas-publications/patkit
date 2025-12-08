@@ -59,4 +59,4 @@ patkit recorded_data/tongue_data_1_2/ -e recorded_data/tongue_data_1_2/exclusion
 # github.com/giuthas/patkit/example_configs
 # It will generate some simulation plots in the directory ultrafest24
 # which will be created if it does not exist.
-patkit simulate example_configs/ultrafest24/configuration.yaml
+patkit simulate example_configs/ultrafest24/

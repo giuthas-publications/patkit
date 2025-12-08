@@ -42,7 +42,6 @@ import click
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
-from typing_extensions import override
 
 from patkit.constants import ComparisonMember
 from patkit.configuration import SimulationConfig
@@ -305,6 +304,8 @@ def save_result_figures(
     save_dir = sim_configuration.output_directory
     perturbations = sim_configuration.perturbations
 
+    saved_figures = False
+
     if sim_configuration.distance_metric_ray_plot is not None:
         ray_plot_params = sim_configuration.distance_metric_ray_plot
         for distance_metric_result in distance_metric_results:
@@ -322,6 +323,7 @@ def save_result_figures(
                     )
                     plt.tight_layout()
                     pdf.savefig(plt.gcf())
+                    saved_figures = True
 
     if sim_configuration.shape_metric_ray_plot is not None:
         ray_plot_params = sim_configuration.shape_metric_ray_plot
@@ -339,6 +341,7 @@ def save_result_figures(
                     )
                     plt.tight_layout()
                     pdf.savefig(plt.gcf())
+                    saved_figures = True
 
     if sim_configuration.mci_perturbation_series_plot:
         mci_config = sim_configuration.mci_perturbation_series_plot
@@ -353,6 +356,7 @@ def save_result_figures(
                     figure_size=mci_config.figure_size,
                 )
                 pdf.savefig(plt.gcf())
+                saved_figures = True
 
     if sim_configuration.demonstration_contour_plot is not None:
         plot_params = sim_configuration.demonstration_contour_plot
@@ -367,7 +371,10 @@ def save_result_figures(
                     figure_size=plot_params.figure_size,
                 )
                 pdf.savefig(plt.gcf())
+                saved_figures = True
 
+    if saved_figures:
+        print(f"Saved simulation figures in {save_dir}.")
 
 def _determine_plot_writing(save_path, sim_configuration):
     if save_path.exists():
