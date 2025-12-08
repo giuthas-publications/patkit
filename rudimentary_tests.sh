@@ -60,3 +60,6 @@ patkit recorded_data/tongue_data_1_2/ -e recorded_data/tongue_data_1_2/exclusion
 # It will generate some simulation plots in the directory ultrafest24
 # which will be created if it does not exist.
 patkit simulate example_configs/ultrafest24/
+
+# Same, explicitly specifying the  simulation configuration file.
+patkit simulate example_configs/ultrafest24/patkit-simulation.yaml
