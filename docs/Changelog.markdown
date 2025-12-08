@@ -131,7 +131,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Fixed
 
 - Simulation had broken down with recent updates, but works again.
-- Also some updated to reporting in simulation.
+- Also some updates to reporting in simulation.
 
 
 ## [0.18.2] - 2025-08-08
