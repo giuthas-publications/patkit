@@ -442,6 +442,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
+        # TODO 0.20: select the color based on dark/light mode.
         self.figure.canvas.draw_idle()
 
         if self.display_tongue:
