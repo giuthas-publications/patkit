@@ -536,6 +536,8 @@ class GuiConfig(UpdatableBaseModel):
     auto_xlim: bool | None = None
     default_font_size: int
     color_scheme: GuiColorScheme = GuiColorScheme.FOLLOW_SYSTEM
+    display_image_info: bool = True
+    display_curve_values: bool = True
 
     def plotted_modality_names(self) -> set[str]:
         """

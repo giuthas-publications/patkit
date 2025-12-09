@@ -782,6 +782,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
+            # TODO 0.20: implement these
+            if self.gui_config.display_image_info:
+                # image time, image index
+                pass
+            if self.gui_config.display_curve_values:
+                # curve values at intersections
+                pass
+
             # if self.image_type == GuiImageType.FRAME:
             #     self.kymography_clicker = clicker(
             #         ax=self.ultra_axes,
