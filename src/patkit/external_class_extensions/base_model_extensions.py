@@ -34,16 +34,10 @@ Extensions to Pydantic BaseModel.
 """
 
 import logging
-from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, model_validator
 
 _logger = logging.getLogger('patkit.base_model_extensions')
-
-# TODO: write a method that will dump the model in a dict with human readable
-# keys. ie. replace underscores with spaces. then make another one that will
-# convert in the other direction for the dict to be feedable to inheritors of
-# UpdatableBaseModel.
 
 
 class PatkitBaseModel(BaseModel):
@@ -57,7 +51,7 @@ class PatkitBaseModel(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def empty_str_to_none(cls, input_string: str) -> Optional[str]:
+    def empty_str_to_none(cls, input_string: str) -> str | None:
         """
         Validate empty strings to None, but non-empties to themselves.
 
@@ -93,7 +87,7 @@ class UpdatableBaseModel(PatkitBaseModel):
         Parameters
         ----------
         data : dict
-            Only valid key, value pairs are accepted. 
+            Only valid key, value pairs are accepted.
 
         Returns
         -------
