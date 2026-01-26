@@ -52,8 +52,8 @@ def run_cli(
     patkit - Phonetic Analysis ToolKIT
 
     Patkit collects tools for phonetic analysis of speech data. It includes
-    tools for analysing audio and articulatory data, a commandline interface, an
-    annotator GUI, and a Python programming API. See documentation for more
+    tools for analysing audio and articulatory data, a commandline interface,
+    an annotator GUI, and a Python programming API. See documentation for more
     details.
 
     By default, patkit will open the given path in the annotator GUI.

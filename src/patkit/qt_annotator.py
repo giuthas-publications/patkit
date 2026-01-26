@@ -42,8 +42,9 @@ from pathlib import Path
 
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.transforms import Bbox
+import numpy as np
 
 from icecream import ic
 from matplotlib.figure import Figure
@@ -259,13 +260,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.action_quit.triggered.connect(self.quit)
 
-        ## Go to recording
+        # Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
         self.goButton.clicked.connect(self.go_to_callback)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
-        ## PD categories
+        # PD categories
         # TODO 1.0: these could be optional instead of the below ones
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
         # self.categoryRB_2.toggled.connect(self.pd_category_cb)
@@ -273,7 +274,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
-        ## Tongue position
+        # Tongue position
         self.positionRB_1.toggled.connect(self.tongue_position_cb)
         self.positionRB_2.toggled.connect(self.tongue_position_cb)
         self.positionRB_3.toggled.connect(self.tongue_position_cb)
@@ -285,7 +286,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # plt.style.use('dark_background')
         plt.style.use('tableau-colorblind10')
-        self.figure = Figure()
+        self.figure = Figure(layout="constrained")
         self.canvas = FigureCanvas(self.figure)
         self.mplWindowVerticalLayout.addWidget(self.canvas)
         self.data_axes = []
@@ -314,7 +315,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             ncols=1,
             hspace=0,
             wspace=0,
-            height_ratios=height_ratios)
+            height_ratios=height_ratios,
+        )
         self.tier_grid_spec = None
 
         number_of_data_axes = self.gui_config.number_of_data_axes
@@ -363,7 +365,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.multicursor = None
 
         self.image_updater()
-        self.show()
+        self.showMaximized()
+        # self.show()
         self.ultra_canvas.draw_idle()
         self.update()
 
@@ -501,7 +504,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 if (
                     not data_axes_params.auto_ylim and
                     not axes_params.auto_ylim
-                    ):
+                ):
                     ylim = (-0.05, 1.05)
                 else:
                     ylim = None
@@ -597,6 +600,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     self.tier_grid_spec[axes_counter],
                     sharex=self.data_axes[0])
                 axes.set_yticks([])
+                # if len(self.data_axes) > 0:
+                #     (_, y0, _, height) = axes.get_position().bounds
+                #     (x0, _, width, _) = self.data_axes[0].get_position().bounds
+                #     bounding_box = Bbox.from_extents(x0, y0, width, height)
+                #     axes.set_position(bounding_box)
                 self.tier_axes.append(axes)
 
         for axes in self.data_axes:
@@ -724,7 +732,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.tier_axes:
             self.tier_axes[-1].set_xlabel("Time (s), go-signal at 0 s.")
 
-        self.figure.tight_layout()
+        # self.figure.tight_layout()
 
         if self.current.annotations['selected_time'] > -1:
             for axes in self.data_axes:
@@ -1434,7 +1442,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             timevector = (
                 self.current.modalities['RawUltrasound'].timevector)
             distances = np.abs(timevector - stimulus_onset - event.xdata)
-            self.current.annotations['frame_selection_index'] = np.argmin(distances)
+            self.current.annotations['frame_selection_index'] = np.argmin(
+                distances)
             self.current.annotations['selected_time'] = event.xdata
         if 'MonoAudio' in self.current.modalities:
             timevector = (
