@@ -30,7 +30,7 @@
 # citations.bib in BibTeX format.
 #
 """
-Enum extensions that are compatible with the standard library's `enum`. 
+Enum extensions that are compatible with the standard library's `enum`.
 
 Original UnionEnum implementation licensed with
 # MIT License
@@ -93,14 +93,14 @@ class ValueComparedEnumMeta(EnumMeta):
     EnumMeta where `in` matches also value of member matching compared item.
 
     Usage:
-    ``` 
+    ```
     class MyEnum(Enum, metaclass=ValueComparedEnumMeta):
         FOO = 'bar'
 
     search_value = 'bar'
     if search_value in MyEnum:
         print('It is!')
-    ``` 
+    ```
     """
     def __contains__(cls, item):
         members_dict = dict(cls.__members__)
@@ -158,7 +158,11 @@ class UnionEnumMeta(ValueComparedEnumMeta):
         ...    ALIAS = 1
         >>> UnionAB = enum_union(EnumA, EnumB)
         >>> UnionAB.__members__
-        mappingproxy({'A': <EnumA.A: 1>, 'B': <EnumB.B: 2>, 'ALIAS': <EnumA.A: 1>})
+        mappingproxy({
+            'A': <EnumA.A: 1>,
+            'B': <EnumB.B: 2>,
+            'ALIAS': <EnumA.A: 1>
+        })
 
         >>> list(UnionAB)
         [<EnumA.A: 1>, <EnumB.B: 2>]
