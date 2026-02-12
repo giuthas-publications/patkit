@@ -1,7 +1,7 @@
 
 [project]
 name = "patkit"
-version = "0.19.0"
+version = "0.20.0.alpha"
 description = "Phonetic Analysis ToolKit: Tools for processing phonetic data"
 authors = [
   {email = "giuthas@gmail.com"},
