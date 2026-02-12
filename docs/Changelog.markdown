@@ -52,6 +52,18 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
+## [0.20.0.alpha.0] - 2026-02-12
+
+### Highlights
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
+
+### Fixed
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
+
 ## [0.19.0] - 2025-12-08
 
 ### Highlights
