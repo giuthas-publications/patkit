@@ -37,9 +37,10 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 from patkit.data_structures import Session
 
+
 class UiMainWindow(object):
     def setupUi(self, main_window):
-        #### Main elements and sizing
+        # Main elements and sizing
         main_window.setObjectName("MainWindow")
         main_window.resize(1087, 795)
         main_window.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
@@ -63,7 +64,7 @@ class UiMainWindow(object):
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
         self.horizontalLayout.addWidget(self.mplwindow)
 
-        ### Top navigation buttons and widgets
+        # Top navigation buttons and widgets
         self.side_panel = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
@@ -100,7 +101,7 @@ class UiMainWindow(object):
         self.go_to_layout.addWidget(self.goButton)
         self.side_panel_layout.addWidget(self.go_to_group)
 
-        ### List view
+        # List view
         self.database_view = QtWidgets.QListView(self.side_panel)
         self.database_model = QtGui.QStandardItemModel()
         self.database_view.setModel(self.database_model)
@@ -109,7 +110,7 @@ class UiMainWindow(object):
         self.database_view.clicked[QtCore.QModelIndex].connect(
             main_window.on_database_view_clicked)
 
-        ### Ultrasound frame display
+        # Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
@@ -129,7 +130,7 @@ class UiMainWindow(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.side_panel_layout.addWidget(self.ultrasoundFrame)
 
-        ### Annotation radio buttons
+        # Annotation radio buttons
         self.positionRB = QtWidgets.QGroupBox(self.side_panel)
         self.positionRB.setObjectName("positionRB")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
@@ -156,12 +157,12 @@ class UiMainWindow(object):
 
         main_window.setCentralWidget(self.centralwidget)
 
-        ### Menu bar
+        # Menu bar
         self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
 
-        ### Menus
+        # Menus
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
         self.menu_export = QtWidgets.QMenu(self.menubar)
@@ -177,14 +178,14 @@ class UiMainWindow(object):
         self.menu_script.setObjectName("menu_script")
         main_window.setMenuBar(self.menubar)
 
-        ### Statusbar
+        # Statusbar
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
-        ## Menu items
+        # Menu items
 
-        ### File menu
+        # File menu
         self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
         self.action_open = QtGui.QAction(main_window)
@@ -209,7 +210,7 @@ class UiMainWindow(object):
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_quit)
 
-        ### Exercise menu actions
+        # Exercise menu actions
         self.action_run_as_exercise = QtGui.QAction(main_window)
         self.action_run_as_exercise.setObjectName("action_run_as_exercise")
         self.action_create_exercise = QtGui.QAction(main_window)
@@ -221,7 +222,8 @@ class UiMainWindow(object):
         self.action_save_answer = QtGui.QAction(main_window)
         self.action_save_answer.setObjectName("action_save_answer")
         self.action_compare_to_example = QtGui.QAction(main_window)
-        self.action_compare_to_example.setObjectName("action_compare_to_example")
+        self.action_compare_to_example.setObjectName(
+            "action_compare_to_example")
         self.action_show_example = QtGui.QAction(main_window)
         self.action_show_example.setObjectName("action_show_example")
 
@@ -244,7 +246,7 @@ class UiMainWindow(object):
         self.action_show_example.setCheckable(True)
         self.action_show_example.setChecked(False)
 
-        ### Export menu actions
+        # Export menu actions
         self.action_export_analysis = QtGui.QAction(main_window)
         self.action_export_analysis.setEnabled(False)
         self.action_export_analysis.setObjectName("action_export_analysis")
@@ -278,7 +280,7 @@ class UiMainWindow(object):
         self.menu_export.addAction(self.action_export_main_figure)
         self.menu_export.addAction(self.action_export_ultrasound_frame)
 
-        ### Navigation menu actions
+        # Navigation menu actions
         self.action_next = QtGui.QAction(main_window)
         self.action_next.setObjectName("action_next")
         self.action_previous = QtGui.QAction(main_window)
@@ -294,7 +296,7 @@ class UiMainWindow(object):
         self.menu_navigation.addAction(self.action_next_frame)
         self.menu_navigation.addAction(self.action_previous_frame)
 
-        ### Script menu actions
+        # Script menu actions
         self.actionShow_interpreter = QtGui.QAction(main_window)
         self.actionShow_interpreter.setObjectName("actionShow_interpreter")
         self.actionRun_file = QtGui.QAction(main_window)
@@ -303,7 +305,7 @@ class UiMainWindow(object):
         # self.menu_script.addAction(self.actionShow_interpreter)
         # self.menu_script.addAction(self.actionRun_file)
 
-        ### Menubar setup
+        # Menubar setup
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
@@ -374,7 +376,8 @@ class UiMainWindow(object):
         self.action_next_frame.setShortcut(_translate("MainWindow", "Right"))
         self.action_previous_frame.setText(
             _translate("MainWindow", "Previous Frame"))
-        self.action_previous_frame.setShortcut(_translate("MainWindow", "Left"))
+        self.action_previous_frame.setShortcut(
+            _translate("MainWindow", "Left"))
         self.action_export_main_figure.setText(
             _translate("MainWindow", "Export main figure...")
         )
@@ -425,7 +428,7 @@ class UiMainWindow(object):
         Parameters
         ----------
         session : Session
-            Use the recordings in the given Session to replace the old ones. 
+            Use the recordings in the given Session to replace the old ones.
         """
         self.database_model.clear()
         self.add_items_to_database_view(session)
