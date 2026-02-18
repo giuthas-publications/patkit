@@ -50,8 +50,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   code testing, documentation and finally a 1.0 release.
 
 
-
-## [0.20.0] - 2025-12-12
+## [0.20.0] - 2026-02-23
 
 ### Highlights
 
@@ -116,6 +115,19 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - ctrl+'i' and ctrl+'a' zoom but ctrl+'o' is bound to opening a recording
   session. The fix will be removing the first two bindings which are
   unintentional.
+
+
+## [0.20.0-alpha.1] - 2026-02-12
+
+### Highlights
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
+
+### Fixed
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
 
 ## [0.19.0] - 2025-12-08
 

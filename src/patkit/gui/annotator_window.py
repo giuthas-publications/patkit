@@ -428,7 +428,7 @@ class UiMainWindow(object):
         Parameters
         ----------
         session : Session
-            Use the recordings in the given Session to replace the old ones. 
+            Use the recordings in the given Session to replace the old ones.
         """
         self.database_model.clear()
         self.add_items_to_database_view(session)
