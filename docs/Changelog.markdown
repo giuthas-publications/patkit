@@ -27,27 +27,27 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.21 will add a configuration option for specifying which tiers TextGrids
+- 0.21 adds exporting of all figures of a Session as a single multi-page pdf.
+- 0.22.x updates the exercise functionality 
+  - this is mainly saving and loading of exercise answers, and possibly some
+    more detailed configuration.
+- 0.23 will add audio playback
+- 0.24 will add a configuration option for specifying which tiers TextGrids
   should have when they are missing from the dataset and get generated on the
   fly.
-- 0.22 is planned to add more complex intensity options with attempts to
-  normalise intensity drift in ultrasound
-- 0.23 adds exporting of all figures of a Session as a single multi-page pdf.
-- 0.24.x releases will add displaying the model answer, saving and loading of
-  exercise answers, and possibly some more detailed configuration.
-- 0.25 will add audio playback
-- 0.26 will improve the annotation GUI
-- 0.27 is planned to be a data structure update giving support for multiple
+- 0.25 will improve the annotation GUI by adding missing features like interval
+  selection
+- 0.26 will update configuration handling.
+- 0.27 adds simple ways of opening different kinds of data
+- 0.28 is planned to be a data structure update giving support for multiple
   data sources per trial.
-- 0.28 will update configuration handling.
-- 0.29 will provide added contours for spline metrics simulation
-- 0.30 will add further GUI features
-- 0.31 is planned to be an implementation of kymography. This might get moved
-  to a release after 0.23.
-- After 0.31 there are planned updates to CLI, GUI, ultrasound frame
-  interpolation, processing speed by implementing multiprocessing, new
-  algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
-  code testing, documentation and finally a 1.0 release.
+- 0.29 will improve data processing speeds with parallelisation
+- 0.30 will add the optic flow algorithm
+- 0.31 is planned to add PCA analysis of ultrasound images
+- 0.32 will add automatic code tests (both integration and some unit testing)
+- After this we'll be at 1.0.0-alpha and 1.0.0-beta before release of 1.0.
+  - There will be a feature freeze at this point.
+  - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
 ## [0.20.0] - 2026-02-23
@@ -55,6 +55,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Highlights
 
 - Cursor timestamps and displayed image info are now shown in the GUI.
+- Roadmap to 1.0 has been updated above.
 
 ### Added
 
@@ -68,7 +69,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Bugs
 
 Only new bugs will be listed here. Bugs found in previous versions that have
-not yet been fixed are listed in [Bugs](Bugs.markdown).
+not yet been fixed are listed in [Bugs](Bugs.markdown). Fixed bugs will be
+listed under Fixed as before.
 
 
 ## [0.20.0-alpha.1] - 2026-02-12
