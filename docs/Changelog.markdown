@@ -27,10 +27,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.21.x updates the exercise functionality 
+- 0.21 will add audio playback
+- 0.22.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
     more detailed configuration.
-- 0.22 will add audio playback
 - 0.23 will improve the annotation GUI by adding missing features like interval
   selection
 - 0.24 will update configuration handling.
