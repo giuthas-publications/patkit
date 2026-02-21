@@ -48,6 +48,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Highlights
 
 - Cursor timestamps and displayed image info are now shown in the GUI.
+- Brought 'previous' and 'next' buttons back.
 - Roadmap to 1.0 has been updated above.
 
 ### Added
@@ -56,6 +57,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Toggleable display of timestamp of displayed image and its frame number on the
   image.
 - Status: Default/Exercise is now displayed in the GUI.
+- Brought 'previous' and 'next' buttons back.
 - Meta addition: The 'Bugs' section below will now track all know bugs. This is
   subject to change if the practice proves too cumbersome.
 
@@ -64,6 +66,11 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 Only new bugs will be listed here. Bugs found in previous versions that have
 not yet been fixed are listed in [Bugs](Bugs.markdown). Fixed bugs will be
 listed under Fixed as before.
+
+### Fixed
+
+- Moved back to `tight` layout due to issues in axes not lining up vertically
+  with each other.
 
 
 ## [0.20.0-alpha.1] - 2026-02-12
