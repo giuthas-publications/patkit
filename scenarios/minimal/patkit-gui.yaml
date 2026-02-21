@@ -39,9 +39,9 @@ data_axes:
       - l2
     sharex: True
     normalisation: both # none, peak, bottom, both
-  spectrogram2:
-    sharex: True
   wav:
+    sharex: True
+  spectrogram2:
     sharex: True
   # density:
   #   sharex: False
