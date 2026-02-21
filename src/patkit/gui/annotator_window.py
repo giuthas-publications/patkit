@@ -99,6 +99,15 @@ class UiMainWindow(object):
         self.goButton.setMaximumSize(QtCore.QSize(80, 16777215))
         self.goButton.setObjectName("goButton")
         self.go_to_layout.addWidget(self.goButton)
+
+        self.previous_button = QtWidgets.QPushButton(self.go_to_group)
+        self.previous_button.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.previous_button.setObjectName("previous_button")
+        self.go_to_layout.addWidget(self.previous_button)
+        self.next_button = QtWidgets.QPushButton(self.go_to_group)
+        self.next_button.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.next_button.setObjectName("next_button")
+        self.go_to_layout.addWidget(self.next_button)
         self.side_panel_layout.addWidget(self.go_to_group)
 
         # List view
@@ -322,6 +331,8 @@ class UiMainWindow(object):
             _translate("MainWindow", "PATKIT Annotator"))
         self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
+        self.previous_button.setText(_translate("MainWindow", "Previous"))
+        self.next_button.setText(_translate("MainWindow", "Next"))
         self.positionRB.setTitle(
             _translate("MainWindow", "Customised Metadata: TonguePosition")
         )
