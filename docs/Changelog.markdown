@@ -27,24 +27,17 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.21 adds exporting of all figures of a Session as a single multi-page pdf.
-- 0.22.x updates the exercise functionality 
+- 0.21.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
     more detailed configuration.
-- 0.23 will add audio playback
-- 0.24 will add a configuration option for specifying which tiers TextGrids
-  should have when they are missing from the dataset and get generated on the
-  fly.
-- 0.25 will improve the annotation GUI by adding missing features like interval
+- 0.22 will add audio playback
+- 0.23 will improve the annotation GUI by adding missing features like interval
   selection
-- 0.26 will update configuration handling.
-- 0.27 adds simple ways of opening different kinds of data
-- 0.28 is planned to be a data structure update giving support for multiple
+- 0.24 will update configuration handling.
+- 0.25 adds simple ways of opening different kinds of data
+- 0.26 is planned to be a data structure update giving support for multiple
   data sources per trial.
-- 0.29 will improve data processing speeds with parallelisation
-- 0.30 will add the optic flow algorithm
-- 0.31 is planned to add PCA analysis of ultrasound images
-- 0.32 will add automatic code tests (both integration and some unit testing)
+- 0.27 will add automatic code tests (both integration and some unit testing)
 - After this we'll be at 1.0.0-alpha and 1.0.0-beta before release of 1.0.
   - There will be a feature freeze at this point.
   - The alpha and beta versions will be mainly quality assurance and code clean up.
