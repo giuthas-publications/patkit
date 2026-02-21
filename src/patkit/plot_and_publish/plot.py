@@ -177,6 +177,8 @@ def plot_timeseries(axes: Axes,
     axes.set_xlim(xlim)
 
     if ylim:
+        y_range = ylim[1]-ylim[0]
+        ylim = [ylim[0] - .05*y_range, ylim[1] + .05*y_range]
         axes.set_ylim(ylim)
     else:
         y_limits = list(axes.get_ylim())
@@ -193,14 +195,14 @@ def plot_timeseries(axes: Axes,
     return timeseries
 
 
-def mark_peaks(
-        axes: Axes,
-        modality: Modality,
-        xlim: tuple[float, float] = None,
-        display_prominence_values: bool = False,
-        colors: ColorType | Sequence[ColorType] | None = 'sandybrown',
-        time_offset: float = 0.0
-) -> LineCollection | None:
+def mark_peaks(*
+               axes: Axes,
+               modality: Modality,
+               xlim: tuple[float, float] = None,
+               display_prominence_values: bool = False,
+               colors: ColorType | Sequence[ColorType] | None = 'sandybrown',
+               time_offset: float = 0.0
+               ) -> LineCollection | None:
     """
     Mark peak annotations from the modality on the axes.
 
@@ -375,16 +377,16 @@ def plot_wav(
 
     match mode:
         case GuiColorScheme.DARK:
-            color="lightgrey"
+            color = "lightgrey"
         case GuiColorScheme.LIGHT:
-            color="k"
+            color = "k"
         case GuiColorScheme.FOLLOW_SYSTEM:
             _logger.warning(
                 "GuiColorScheme FOLLOW_SYSTEM encountered in plot.")
             _logger.warning(
                 "Can't actually deal with following the system in plot, "
                 "so just going dark.")
-    
+
     if picker:
         line = ax.plot(wav_time, normalised_wav,
                        color=color, lw=.25, picker=picker)
@@ -394,7 +396,7 @@ def plot_wav(
     ax.axvline(x=0, color="dimgrey", lw=1, linestyle=(0, (5, 10)))
 
     ax.set_xlim(xlim)
-    ax.set_ylim((-1.1, 1.1))
+    ax.set_ylim((-1.2, 1.2))
     ax.set_ylabel("Wave")
 
     return line

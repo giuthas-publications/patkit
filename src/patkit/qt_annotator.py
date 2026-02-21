@@ -264,6 +264,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
         self.goButton.clicked.connect(self.go_to_callback)
+        self.previous_button.clicked.connect(self.prev)
+        self.next_button.clicked.connect(self.next)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
         # PD categories
@@ -286,7 +288,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # plt.style.use('dark_background')
         plt.style.use('tableau-colorblind10')
-        self.figure = Figure(layout="constrained")
+        self.figure = Figure(layout="tight")
         self.canvas = FigureCanvas(self.figure)
         self.mplWindowVerticalLayout.addWidget(self.canvas)
         self.data_axes = []
@@ -499,13 +501,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if ylim is None:
             if data_axes_params is None and axes_params is None:
-                ylim = (-0.05, 1.05)
+                ylim = (-0.075, 1.075)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
                 if (
                     not data_axes_params.auto_ylim and
                     not axes_params.auto_ylim
                 ):
-                    ylim = (-0.05, 1.05)
+                    ylim = (-0.075, 1.075)
                 else:
                     ylim = None
             elif axes_params.ylim is None:
@@ -515,6 +517,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # TODO 0.20: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
+        # This adjust y_limits in case the graphs are offset from each other.
         y_offset = 0
         if axes_params.y_offset is not None:
             y_offset = axes_params.y_offset
