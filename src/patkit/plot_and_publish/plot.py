@@ -104,7 +104,7 @@ def plot_timeseries(axes: Axes,
     Plot a timeseries.
 
     The timeseries most likely comes from a Modality, but that is left up to
-    the caller. 
+    the caller.
 
     Parameters
     ----------
@@ -216,7 +216,7 @@ def mark_peaks(*
         A timeseries modality with peak annotations.
     xlim : Tuple[float, float], optional
         Limits of drawing, by default None. This is useful in avoiding GUI
-        hiccups by not drawing outside of the current limits. 
+        hiccups by not drawing outside of the current limits.
     display_prominence_values : bool, optional
         If prominence values should be plotted next to the peaks, by default
         False
@@ -278,8 +278,8 @@ def plot_patgrid_tier(
     """
     Plot a textgrid tier on the axis and return animator objects.
 
-    This is used both for displaying tiers as part of the tier display 
-    and for decorating other plots with either just the boundary lines 
+    This is used both for displaying tiers as part of the tier display
+    and for decorating other plots with either just the boundary lines
     or both boundaries and the annotation text.
 
     Arguments:
@@ -292,7 +292,7 @@ def plot_patgrid_tier(
     draw_text -- boolean value indicating if each segment's text should
         be drawn on the plot. Default is True.
     draggable --
-    text_y -- 
+    text_y --
 
     Returns a line object for the segment line, so that it
     can be included in the legend.
