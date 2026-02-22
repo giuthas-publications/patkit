@@ -501,13 +501,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if ylim is None:
             if data_axes_params is None and axes_params is None:
-                ylim = (-0.075, 1.075)
+                ylim = None  # (-0.075, 1.075)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
                 if (
                     not data_axes_params.auto_ylim and
                     not axes_params.auto_ylim
                 ):
-                    ylim = (-0.075, 1.075)
+                    ylim = None  # (-0.075, 1.075)
                 else:
                     ylim = None
             elif axes_params.ylim is None:
@@ -645,6 +645,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         axes_counter = 0
         for axes_name in self.gui_config.data_axes:
+            self.data_axes[axes_counter].grid(False)
             match axes_name:
                 case "spectrogram":
                     if self.gui_config.data_axes[axes_name].ylim is not None:
@@ -691,6 +692,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         iterator = zip(self.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
+            axis.grid(False)
             boundaries_by_axis = []
 
             boundary_set, _ = plot_patgrid_tier(

@@ -176,18 +176,25 @@ def plot_timeseries(axes: Axes,
 
     axes.set_xlim(xlim)
 
-    if ylim:
+    if ylim is not None:
+        axes.set_yticks(ylim)
         y_range = ylim[1]-ylim[0]
         ylim = [ylim[0] - .05*y_range, ylim[1] + .05*y_range]
         axes.set_ylim(ylim)
     else:
-        y_limits = list(axes.get_ylim())
-        if normalise:
-            if normalise.peak:
-                y_limits[1] = 1.05
-            elif normalise.bottom:
-                y_limits[0] = -0.05
-        axes.set_ylim(y_limits)
+        # ylim = list(axes.get_ylim())
+        ylim = (np.min(plot_data), np.max(plot_data))
+        axes.set_yticks(ylim)
+
+        y_range = ylim[1]-ylim[0]
+        ylim = [ylim[0] - .05*y_range, ylim[1] + .05*y_range]
+        axes.set_ylim(ylim)
+        # if normalise:
+        #     if normalise.peak:
+        #         y_limits[1] = 1.05
+        #     elif normalise.bottom:
+        #         y_limits[0] = -0.05
+        axes.set_ylim(ylim)
 
     if ylabel:
         axes.set_ylabel(ylabel)
@@ -396,6 +403,7 @@ def plot_wav(
     ax.axvline(x=0, color="dimgrey", lw=1, linestyle=(0, (5, 10)))
 
     ax.set_xlim(xlim)
+    ax.set_yticks((-1.0, 0.0, 1.0))
     ax.set_ylim((-1.2, 1.2))
     ax.set_ylabel("Wave")
 
