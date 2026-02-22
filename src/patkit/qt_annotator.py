@@ -583,7 +583,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.3: Add a check to draw plots which adds the model textgrid
+        # TODO 0.22: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
             print(
@@ -738,20 +738,38 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.tier_axes:
             self.tier_axes[-1].set_xlabel("Time (s), go-signal at 0 s.")
 
-        # self.figure.tight_layout()
-
         if self.current.annotations['selected_time'] > -1:
             old_ticks = self.data_axes[0].get_xticks()
             self.data_axes[0].set_xticks(
                 [
                     old_ticks[1],
+                    old_ticks[-2],
                     self.current.annotations['selected_time'],
-                    old_ticks[-2]
                 ]
             )
             for axes in self.data_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
+                lines = axes.get_lines()
+                colors = []
+                yticks = axes.get_yticks()
+                for line in lines:
+                    if len(line.get_xdata()) <= 2:
+                        continue
+                    index = np.argmin(np.abs(
+                        line.get_xdata() -
+                        self.current.annotations['selected_time']
+                    ))
+                    y_value = line.get_ydata()[index]
+                    axes.axhline(y=y_value,
+                                 linestyle=':', color="deepskyblue", lw=1)
+                    yticks = np.append(yticks, y_value)
+                    colors.append(line.get_color())
+                axes.set_yticks(yticks)
+                labels = axes.get_yticklabels()
+                for i, color in enumerate(colors):
+                    labels[i+2].set_color(color)
+
             self.data_axes[-1].axvline(
                 x=self.current.annotations['selected_time'],
                 linestyle=':', color="white", lw=1)
