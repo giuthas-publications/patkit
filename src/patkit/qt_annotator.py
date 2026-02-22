@@ -612,6 +612,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         for axes in self.data_axes:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
+        self.data_axes[0].xaxis.set_tick_params(top=True, labeltop=True)
 
         for axes in self.tier_axes[:-1]:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
@@ -740,6 +741,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.figure.tight_layout()
 
         if self.current.annotations['selected_time'] > -1:
+            old_ticks = self.data_axes[0].get_xticks()
+            self.data_axes[0].set_xticks(
+                [
+                    old_ticks[1],
+                    self.current.annotations['selected_time'],
+                    old_ticks[-2]
+                ]
+            )
             for axes in self.data_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
@@ -749,6 +758,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             for axes in self.tier_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
+        else:
+            old_ticks = self.data_axes[0].get_xticks()
+            self.data_axes[0].set_xticks(
+                [
+                    old_ticks[1],
+                    old_ticks[-2]
+                ]
+            )
 
     def draw_ultra_frame(self):
         """
