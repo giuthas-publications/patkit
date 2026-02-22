@@ -27,6 +27,10 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
+- 0.20.1 will update ultrasound and exercise status display 
+<!-- - Toggleable display of timestamp of displayed image and its frame number on the
+  image.
+- Status: Default/Exercise is now displayed in the GUI. -->
 - 0.21 will add audio playback
 - 0.22.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
@@ -54,9 +58,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 
 - Display of cursor timestamp next to the cursor.
-- Toggleable display of timestamp of displayed image and its frame number on the
-  image.
-- Status: Default/Exercise is now displayed in the GUI.
 - Brought 'previous' and 'next' buttons back.
 - Meta addition: The 'Bugs' section below will now track all know bugs. This is
   subject to change if the practice proves too cumbersome.
