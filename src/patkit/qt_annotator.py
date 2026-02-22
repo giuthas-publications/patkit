@@ -1433,6 +1433,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Callback for handling time selection on events.
         """
+        # TODO 0.23: swap None for -1 here and fix everything that breaks. this
+        # will include zooming. probably a good idea to change the dict here
+        # into a dataclass as well.
         if not event.xdata:
             self.current.annotations['selected_time'] = -1
             self.current.annotations['selection_index'] = -1
@@ -1450,16 +1453,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             "Inside onpick - subplot: %d, x=%f",
             subplot, event.xdata)
 
-        # if subplot == 1:
-        #     self.current.annotations['selected_time'] = event.pickx
-
         audio = self.current.modalities['MonoAudio']
         if audio.go_signal is None:
             stimulus_onset = 0
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.20: Remove hardcoding of modality names?
+        # TODO 0.24: Remove hardcoding of modality names?
         if 'RawUltrasound' in self.current.modalities:
             timevector = (
                 self.current.modalities['RawUltrasound'].timevector)
