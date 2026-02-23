@@ -123,7 +123,7 @@ def simulate(path: Path):
     PATH to a `.yaml` file which contains the parameters for running the
     simulation.
     """
-    # TODO 0.20: simulate command will not work if given the actual config file
+    # TODO 0.24: simulate command will not work if given the actual config file
     # instead of containing dir
     config, _ = initialise_config(path=path, require_simulation=True)
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(

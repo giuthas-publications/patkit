@@ -45,7 +45,7 @@ from typing_extensions import Self
 
 from patkit.constants import IntervalCategory, PATKIT_EPSILON
 
-# TODO 0.20: clean up the way epsilon is used and how it's type hinted and
+# TODO 0.24: clean up the way epsilon is used and how it's type hinted and
 # documented.
 
 

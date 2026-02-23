@@ -88,19 +88,19 @@ def get_config_dir(path: Path) -> Path:
     match path.suffix:
         case SourceSuffix.TEXTGRID:
             print("Direct TextGrid loading planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case SourceSuffix.WAV:
             print("Direct wav loading planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case SourceSuffix.AAA_ULTRA:
             print("Direct AAA ultrasound data loading planned for "
-                    "implementation by 1.0.")
+                  "implementation by 1.0.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
             print("Loading based on a manifest file planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
             path = path.parent
@@ -108,7 +108,7 @@ def get_config_dir(path: Path) -> Path:
             path = path.parent
         case PatkitSuffix.META:
             print("Loading based of a single saved trial planned for "
-                    "a later release. For now loading the whole directory.")
+                  "a later release. For now loading the whole directory.")
             path = path.parent
         case _:
             message = (
@@ -163,7 +163,7 @@ def initialise_config(
     """
     logger = set_logging_level(logging_level)
 
-    # TODO 0.20 check if this deals correctly with symlinks
+    # TODO 0.25 check if this deals correctly with symlinks
     path = path.resolve()
     if not path.exists():
         message = (
@@ -249,7 +249,7 @@ def initialise_patkit(
         session = load_data(config)
         log_elapsed_time(logger)
 
-        # TODO 0.20: resolve this
+        # TODO 0.24: resolve this
         # exclusion_list = None
         # if exclusion_file is not None:
         #     exclusion_file = path_from_name(exclusion_file)

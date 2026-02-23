@@ -448,7 +448,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
-        # TODO 0.20: select the color based on dark/light mode.
+        # TODO 0.23: select the color based on dark/light mode.
         self.figure.canvas.draw_idle()
 
         if self.display_tongue:
@@ -516,7 +516,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             else:
                 ylim = axes_params.ylim
 
-        # TODO 0.20: this needs to work together with normalisation, maybe this
+        # TODO 0.23: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
         # This adjust y_limits in case the graphs are offset from each other.
         y_offset = 0
@@ -861,7 +861,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
-            # TODO 0.20: implement these
+            # TODO 0.20.1: implement these
             if self.gui_config.display_image_info:
                 # image time, image index
                 pass
@@ -968,7 +968,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.20: This should not be hard coded
+        # TODO 0.24: This should not be hard coded
         if 'PD l1 on RawUltrasound' in self.current.modalities:
             pd_metrics = self.current.modalities['PD l1 on RawUltrasound']
             ultra_time = pd_metrics.timevector - stimulus_onset
@@ -979,7 +979,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Move the data cursor to the next frame.
         """
-        # TODO 0.20: Remove hard coding again
+        # TODO 0.24: Remove hard coding again
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
