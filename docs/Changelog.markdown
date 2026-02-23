@@ -30,6 +30,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - 0.20.1 will update ultrasound and exercise status display 
 <!-- - Toggleable display of timestamp of displayed image and its frame number on the
   image.
+  and displayed image info are
 - Status: Default/Exercise is now displayed in the GUI. -->
 - 0.21 will add audio playback
 - 0.22.x updates the exercise functionality 
@@ -47,12 +48,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.20.0] - 2026-02-23
+## [0.20.0] - 2026-02-22
 
 ### Highlights
 
-- Cursor timestamps and displayed image info are now shown in the GUI.
-- Brought 'previous' and 'next' buttons back.
+- Cursor timestamp is now shown in the GUI.
+- Curve values and clicked frequency in spectrogram highlighted in GUI.
 - Roadmap to 1.0 has been updated above.
 
 ### Added
