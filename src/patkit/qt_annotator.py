@@ -394,6 +394,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'selected_time': -1.0,
             'selection_index': -1,
             'frame_selection_index': -1,
+            'selected_frequency': -1,
         }
 
     def _add_annotations(self):
@@ -747,7 +748,15 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     self.current.annotations['selected_time'],
                 ]
             )
+            xtick_labels = self.data_axes[0].get_xticklabels()
+            xtick_labels[2].set_color(color="deepskyblue")
+            xtick_labels = self.tier_axes[-1].get_xticklabels()
+            xtick_labels[2].set_color(color="deepskyblue")
             for axes in self.data_axes:
+                # Save ylim to restore after annotation lines have been drawn.
+                # This is done because at least spectrogram tends to go weird
+                # otherwise.
+                current_ylim = axes.get_ylim()
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
                 lines = axes.get_lines()
@@ -761,18 +770,40 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                         self.current.annotations['selected_time']
                     ))
                     y_value = line.get_ydata()[index]
+                    color = line.get_color()
                     axes.axhline(y=y_value,
-                                 linestyle=':', color="deepskyblue", lw=1)
+                                 linestyle=':', color=color, lw=1)
                     yticks = np.append(yticks, y_value)
-                    colors.append(line.get_color())
+                    colors.append(color)
                 axes.set_yticks(yticks)
-                labels = axes.get_yticklabels()
-                for i, color in enumerate(colors):
-                    labels[i+2].set_color(color)
 
-            self.data_axes[-1].axvline(
-                x=self.current.annotations['selected_time'],
-                linestyle=':', color="white", lw=1)
+                labels = axes.get_yticklabels()
+                ytick_lines = axes.yaxis.get_ticklines()
+                for i, color in enumerate(colors):
+                    ytick_lines[i*2+4].set_color(color)
+                    ytick_lines[i*2+5].set_color(color)
+                    labels[i+2].set_color(color)
+                axes.set_ylim(current_ylim)
+
+        if self.current.annotations['selected_frequency'] > -1:
+            for i, name in enumerate(self.gui_config.data_axes):
+                if "spectrogram" in name:
+                    axes = self.data_axes[i]
+                    yticks = axes.get_yticks()
+                    axes.set_yticks(np.append(
+                        yticks,
+                        self.current.annotations['selected_frequency']
+                    ))
+                    axes.axhline(
+                        y=self.current.annotations['selected_frequency'],
+                        linestyle=':', color="deepskyblue", lw=1
+                    )
+                    labels = axes.get_yticklabels()
+                    labels[2].set_color(color="deepskyblue")
+                    ytick_lines = axes.yaxis.get_ticklines()
+                    ytick_lines[4].set_color(color="deepskyblue")
+                    ytick_lines[5].set_color(color="deepskyblue")
+
             for axes in self.tier_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
@@ -1458,6 +1489,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.current.annotations['selected_time'] = -1
             self.current.annotations['selection_index'] = -1
             self.current.annotations['frame_selection_index'] = -1
+            self.current.annotations['selected_frequency'] = -1
             self.update()
             return
 
@@ -1468,8 +1500,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 break
 
         _logger.debug(
-            "Inside onpick - subplot: %d, x=%f",
-            subplot, event.xdata)
+            "Inside onpick - subplot: %d, x=%f, y=%f",
+            subplot, event.xdata, event.ydata)
 
         audio = self.current.modalities['MonoAudio']
         if audio.go_signal is None:
@@ -1491,6 +1523,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             distances = np.abs(timevector - stimulus_onset - event.xdata)
             self.current.annotations['selection_index'] = np.argmin(distances)
             self.current.annotations['selected_time'] = event.xdata
+
+        subplot_names = list(self.gui_config.data_axes.keys())
+        if subplot-1 < len(subplot_names):
+            if "spectrogram" in subplot_names[subplot-1]:
+                self.current.annotations['selected_frequency'] = event.ydata
+        else:
+            self.current.annotations['selected_frequency'] = -1
 
         _logger.debug(
             "Inside onpick - subplot: %d, ultra_index=%d, audio_index=%d, x=%f",

@@ -403,7 +403,7 @@ def plot_wav(
     ax.axvline(x=0, color="dimgrey", lw=1, linestyle=(0, (5, 10)))
 
     ax.set_xlim(xlim)
-    ax.set_yticks((-1.0, 0.0, 1.0))
+    ax.set_yticks((-1.0, 1.0))
     ax.set_ylim((-1.2, 1.2))
     ax.set_ylabel("Wave")
 
@@ -494,6 +494,7 @@ def plot_spectrogram2(
                         picker=picker)
 
     axes.set_ylim(ylim)
+    axes.yaxis.set_ticks(ylim)
     axes.set_ylabel(ylabel)
 
     return image
