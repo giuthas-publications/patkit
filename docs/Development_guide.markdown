@@ -94,9 +94,7 @@ In the fork repository:
      fulfilling all of the promises in the roadmap.
    - Check that there are no `# TODO [version number]:` comments (like `TODO 0.11:`) 
      left for the version being released. If you find any either finish them or move 
-     them to a later version. Mostly these should be just documentation, but one 
-     never knows.
-   - This is done in the `devel` branch.
+     them to a later version.
 2. Update documentation and bump version number.
    - Version number lives in [pyproject.toml](../pyproject.toml).
      - File version number will be different from program version number after
