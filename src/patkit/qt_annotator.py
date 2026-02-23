@@ -741,13 +741,23 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if self.current.annotations['selected_time'] > -1:
             old_ticks = self.data_axes[0].get_xticks()
-            self.data_axes[0].set_xticks(
-                [
-                    old_ticks[1],
-                    old_ticks[-2],
-                    self.current.annotations['selected_time'],
-                ]
-            )
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-2],
+                    ]
+                )
+            else:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[0],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-1],
+                    ]
+                )
+
             xtick_labels = self.data_axes[0].get_xticklabels()
             xtick_labels[2].set_color(color="deepskyblue")
             xtick_labels = self.tier_axes[-1].get_xticklabels()
@@ -784,6 +794,15 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     ytick_lines[i*2+5].set_color(color)
                     labels[i+2].set_color(color)
                 axes.set_ylim(current_ylim)
+        else:
+            old_ticks = self.data_axes[0].get_xticks()
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        old_ticks[-2]
+                    ]
+                )
 
         if self.current.annotations['selected_frequency'] > -1:
             for i, name in enumerate(self.gui_config.data_axes):
@@ -807,14 +826,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             for axes in self.tier_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
-        else:
-            old_ticks = self.data_axes[0].get_xticks()
-            self.data_axes[0].set_xticks(
-                [
-                    old_ticks[1],
-                    old_ticks[-2]
-                ]
-            )
 
     def draw_ultra_frame(self):
         """
