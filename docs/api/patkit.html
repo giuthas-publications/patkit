@@ -61,6 +61,9 @@
             <li>
                     <a class="variable" href="#LOG_CONFIG">LOG_CONFIG</a>
             </li>
+            <li>
+                    <a class="variable" href="#CONFIG_ANCHOR">CONFIG_ANCHOR</a>
+            </li>
     </ul>
 
 
@@ -87,8 +90,8 @@ The Recording and the Modality. Similarly, the commandline interface -- and
 the batch processing of data -- is handled by classes that extend CLI and 
 graphical annotation tools derive from Annotator.</p>
 
-<p>The following images are mainly used for debugging, and are too large to display
-here, but in case somebody is interested:</p>
+<p>The following images are mainly used for debugging, and are too large to
+display here, but in case somebody is interested:</p>
 
 <ul>
 <li><a href="packages_patkit.png" title="PATKIT Module hierarchy">PATKIT Module hierarchy</a></li>
@@ -101,7 +104,7 @@ here, but in case somebody is interested:</p>
                         <label class="view-source-button" for="mod-patkit-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1">#</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1"># Copyright (c) 2019-2026</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="c1">#</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
@@ -144,8 +147,8 @@ here, but in case somebody is interested:</p>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">the batch processing of data -- is handled by classes that extend CLI and </span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">graphical annotation tools derive from Annotator.</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">The following images are mainly used for debugging, and are too large to display</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">here, but in case somebody is interested:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">The following images are mainly used for debugging, and are too large to</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">display here, but in case somebody is interested:</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">- [PATKIT Module hierarchy](packages_patkit.png &quot;PATKIT Module hierarchy&quot;)</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">- [PATKIT Class hierarchies](classes_patkit.png &quot;PATKIT Class hierarchies&quot;)</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">&quot;&quot;&quot;</span>
@@ -162,18 +165,17 @@ here, but in case somebody is interested:</p>
 </span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
 </span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="c1"># Load logging config from json file.</span>
 </span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="n">LOG_CONFIG</span> <span class="o">=</span> <span class="s2">&quot;patkit_logging_configuration.json&quot;</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">with</span> <span class="n">resource_path</span><span class="p">(</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>        <span class="s1">&#39;patkit.default_configuration&#39;</span><span class="p">,</span> <span class="n">LOG_CONFIG</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="p">)</span> <span class="k">as</span> <span class="n">configuration_path</span><span class="p">:</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">configuration_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">configuration_file</span><span class="p">:</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="n">config_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">configuration_file</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="c1"># Create the module logger.</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="n">_patkit_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;patkit&#39;</span><span class="p">)</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="c1"># Log that the logger was configured.</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="n">_patkit_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Completed configuring logger.&#39;</span><span class="p">)</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="n">CONFIG_ANCHOR</span> <span class="o">=</span> <span class="s1">&#39;patkit.default_configuration&#39;</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="k">with</span> <span class="n">resource_path</span><span class="p">(</span><span class="n">CONFIG_ANCHOR</span><span class="p">,</span> <span class="n">LOG_CONFIG</span><span class="p">)</span> <span class="k">as</span> <span class="n">configuration_path</span><span class="p">:</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">configuration_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">configuration_file</span><span class="p">:</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="n">config_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">configuration_file</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="n">logging</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dictConfig</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="c1"># Create the module logger.</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="n">_patkit_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;patkit&#39;</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="c1"># Log that the logger was configured.</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="n">_patkit_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Completed configuring logger.&#39;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -186,6 +188,18 @@ here, but in case somebody is interested:</p>
         
     </div>
     <a class="headerlink" href="#LOG_CONFIG"></a>
+    
+    
+
+                </section>
+                <section id="CONFIG_ANCHOR">
+                    <div class="attr variable">
+            <span class="name">CONFIG_ANCHOR</span>        =
+<span class="default_value">&#39;<a href="patkit/default_configuration.html">patkit.default_configuration</a>&#39;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CONFIG_ANCHOR"></a>
     
     
 
