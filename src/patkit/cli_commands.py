@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -69,7 +69,9 @@ def open_in_annotator(
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
+    type=click.Path(
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
+    ), )
 def interact(
         path: Path
 ):
@@ -80,17 +82,16 @@ def interact(
     PATH to the data - maybe be a file or a directory.
     """
     config, logger = initialise_config(path=path, require_data=True)
-    configuration, session = initialise_patkit(
-        config=config,
-        logger=logger
-    )
-    run_interpreter(session=session, configuration=configuration)
+    session = initialise_patkit(config=config, logger=logger)
+    run_interpreter(session=session, configuration=config)
 
 
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
+    type=click.Path(
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
+    ), )
 def publish(path: Path):
     """
     Publish plots from the data in PATH.
@@ -101,9 +102,7 @@ def publish(path: Path):
     NOT IMPLEMENTED YET.
     """
     config, logger = initialise_config(path=path, require_publish=True)
-    session = initialise_patkit(
-        config=config, logger=logger
-    )
+    session = initialise_patkit(config=config, logger=logger)
     print(
         f"Loaded {session} but rest of publish is scheduled for "
         f"implementation in a later version."
@@ -123,7 +122,7 @@ def simulate(path: Path):
     PATH to a `.yaml` file which contains the parameters for running the
     simulation.
     """
-    # TODO 0.20: simulate command will not work if given the actual config file
+    # TODO 0.24: simulate command will not work if given the actual config file
     # instead of containing dir
     config, _ = initialise_config(path=path, require_simulation=True)
     contours, comparisons, sound_pairs = setup_contours_comparisons_soundpairs(

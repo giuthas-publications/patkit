@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -50,6 +50,7 @@ class ConfigPaths:
     """
     Configuration paths of patkit.
     """
+
     def __init__(self, path: Path):
         self.path = path
 
@@ -103,7 +104,7 @@ class Configuration:
         configuration_paths : ConfigPaths
             Paths to load the configuration from.
         """
-        # TODO 0.20 do reporting and logging on what gets loaded and where
+        # TODO 0.24 do reporting and logging on what gets loaded and where
         # from. this or similar for reporting
         # https://stackoverflow.com/questions/24469662/how-to-redirect-logger-output-into-pyqt-text-widget
         self._config_paths = configuration_paths
@@ -265,7 +266,7 @@ class Configuration:
         else:
             self._gui_config.update(self._gui_yaml.data)
 
-    # TODO 0.20 updating needs some attention or disabling. simulation missing
+    # TODO 0.25 updating needs some attention or disabling. simulation missing
     # at least
     def update_all_from_files(
             self, configuration_paths: ConfigPaths
@@ -275,7 +276,7 @@ class Configuration:
 
         This first updates the main configuration and then recursively updates
         the other configuration members.
-        
+
         NOTE: comment round tripping may/will be broken by running any of the
         update methods.
 

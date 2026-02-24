@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -49,8 +49,6 @@ from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
 from .intensity import Intensity, IntensityParameters
 from .pd import PD, PdParameters, ImageMask
 from .spline_metric import (SplineMetric, SplineMetricParameters)
-# TODO 0.19: This is not the correct way of dealing with constants
-# from ..constants import SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum
 
 # TODO: Decide if it is worth it to use typing.Annotated to document this.
 # metrics is a mapping between a modality name and its actual type and the

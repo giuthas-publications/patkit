@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -110,7 +110,7 @@ def generate_wav_recording_list(
         for basename in tqdm(basenames, desc="Generating Recordings")
     ]
 
-    # TODO 0.20 RESOLVE THIS
+    # TODO 0.24 RESOLVE THIS
     # if import_config and import_config.exclusion_list:
     #     apply_exclusion_list(recordings, import_config.exclusion_list)
 
@@ -151,7 +151,7 @@ def generate_audio_recording(
 
     file_info = FileInformation(
         recorded_path=directory,
-        recorded_data_file = wav_file,
+        recorded_data_file=wav_file,
         recorded_meta_file="",
     )
 
@@ -183,7 +183,7 @@ def add_modalities(
     for recording in tqdm(recording_list, desc="Adding Modalities"):
         if not recording.excluded:
             _logger.info("Adding modalities to recording for %s.",
-                             recording.basename)
+                         recording.basename)
 
             add_audio(
                 recording=recording,

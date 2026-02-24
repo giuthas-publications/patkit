@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -104,7 +104,7 @@ def plot_timeseries(axes: Axes,
     Plot a timeseries.
 
     The timeseries most likely comes from a Modality, but that is left up to
-    the caller. 
+    the caller.
 
     Parameters
     ----------
@@ -176,16 +176,25 @@ def plot_timeseries(axes: Axes,
 
     axes.set_xlim(xlim)
 
-    if ylim:
+    if ylim is not None:
+        axes.set_yticks(ylim)
+        y_range = ylim[1]-ylim[0]
+        ylim = [ylim[0] - .05*y_range, ylim[1] + .05*y_range]
         axes.set_ylim(ylim)
     else:
-        y_limits = list(axes.get_ylim())
-        if normalise:
-            if normalise.peak:
-                y_limits[1] = 1.05
-            elif normalise.bottom:
-                y_limits[0] = -0.05
-        axes.set_ylim(y_limits)
+        # ylim = list(axes.get_ylim())
+        ylim = (np.min(plot_data), np.max(plot_data))
+        axes.set_yticks(ylim)
+
+        y_range = ylim[1]-ylim[0]
+        ylim = [ylim[0] - .05*y_range, ylim[1] + .05*y_range]
+        axes.set_ylim(ylim)
+        # if normalise:
+        #     if normalise.peak:
+        #         y_limits[1] = 1.05
+        #     elif normalise.bottom:
+        #         y_limits[0] = -0.05
+        axes.set_ylim(ylim)
 
     if ylabel:
         axes.set_ylabel(ylabel)
@@ -193,14 +202,14 @@ def plot_timeseries(axes: Axes,
     return timeseries
 
 
-def mark_peaks(
-        axes: Axes,
-        modality: Modality,
-        xlim: tuple[float, float] = None,
-        display_prominence_values: bool = False,
-        colors: ColorType | Sequence[ColorType] | None = 'sandybrown',
-        time_offset: float = 0.0
-) -> LineCollection | None:
+def mark_peaks(*
+               axes: Axes,
+               modality: Modality,
+               xlim: tuple[float, float] = None,
+               display_prominence_values: bool = False,
+               colors: ColorType | Sequence[ColorType] | None = 'sandybrown',
+               time_offset: float = 0.0
+               ) -> LineCollection | None:
     """
     Mark peak annotations from the modality on the axes.
 
@@ -214,7 +223,7 @@ def mark_peaks(
         A timeseries modality with peak annotations.
     xlim : Tuple[float, float], optional
         Limits of drawing, by default None. This is useful in avoiding GUI
-        hiccups by not drawing outside of the current limits. 
+        hiccups by not drawing outside of the current limits.
     display_prominence_values : bool, optional
         If prominence values should be plotted next to the peaks, by default
         False
@@ -276,8 +285,8 @@ def plot_patgrid_tier(
     """
     Plot a textgrid tier on the axis and return animator objects.
 
-    This is used both for displaying tiers as part of the tier display 
-    and for decorating other plots with either just the boundary lines 
+    This is used both for displaying tiers as part of the tier display
+    and for decorating other plots with either just the boundary lines
     or both boundaries and the annotation text.
 
     Arguments:
@@ -290,7 +299,7 @@ def plot_patgrid_tier(
     draw_text -- boolean value indicating if each segment's text should
         be drawn on the plot. Default is True.
     draggable --
-    text_y -- 
+    text_y --
 
     Returns a line object for the segment line, so that it
     can be included in the legend.
@@ -375,16 +384,16 @@ def plot_wav(
 
     match mode:
         case GuiColorScheme.DARK:
-            color="lightgrey"
+            color = "lightgrey"
         case GuiColorScheme.LIGHT:
-            color="k"
+            color = "k"
         case GuiColorScheme.FOLLOW_SYSTEM:
             _logger.warning(
                 "GuiColorScheme FOLLOW_SYSTEM encountered in plot.")
             _logger.warning(
                 "Can't actually deal with following the system in plot, "
                 "so just going dark.")
-    
+
     if picker:
         line = ax.plot(wav_time, normalised_wav,
                        color=color, lw=.25, picker=picker)
@@ -394,7 +403,8 @@ def plot_wav(
     ax.axvline(x=0, color="dimgrey", lw=1, linestyle=(0, (5, 10)))
 
     ax.set_xlim(xlim)
-    ax.set_ylim((-1.1, 1.1))
+    ax.set_yticks((-1.0, 1.0))
+    ax.set_ylim((-1.2, 1.2))
     ax.set_ylabel("Wave")
 
     return line
@@ -484,6 +494,7 @@ def plot_spectrogram2(
                         picker=picker)
 
     axes.set_ylim(ylim)
+    axes.yaxis.set_ticks(ylim)
     axes.set_ylabel(ylabel)
 
     return image

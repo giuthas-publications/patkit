@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -42,8 +42,9 @@ from pathlib import Path
 
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.transforms import Bbox
+import numpy as np
 
 from icecream import ic
 from matplotlib.figure import Figure
@@ -259,13 +260,15 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.action_quit.triggered.connect(self.quit)
 
-        ## Go to recording
+        # Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
         self.goButton.clicked.connect(self.go_to_callback)
+        self.previous_button.clicked.connect(self.prev)
+        self.next_button.clicked.connect(self.next)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
-        ## PD categories
+        # PD categories
         # TODO 1.0: these could be optional instead of the below ones
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
         # self.categoryRB_2.toggled.connect(self.pd_category_cb)
@@ -273,7 +276,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
-        ## Tongue position
+        # Tongue position
         self.positionRB_1.toggled.connect(self.tongue_position_cb)
         self.positionRB_2.toggled.connect(self.tongue_position_cb)
         self.positionRB_3.toggled.connect(self.tongue_position_cb)
@@ -285,7 +288,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # plt.style.use('dark_background')
         plt.style.use('tableau-colorblind10')
-        self.figure = Figure()
+        self.figure = Figure(layout="tight")
         self.canvas = FigureCanvas(self.figure)
         self.mplWindowVerticalLayout.addWidget(self.canvas)
         self.data_axes = []
@@ -314,7 +317,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             ncols=1,
             hspace=0,
             wspace=0,
-            height_ratios=height_ratios)
+            height_ratios=height_ratios,
+        )
         self.tier_grid_spec = None
 
         number_of_data_axes = self.gui_config.number_of_data_axes
@@ -363,7 +367,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.multicursor = None
 
         self.image_updater()
-        self.show()
+        self.showMaximized()
+        # self.show()
         self.ultra_canvas.draw_idle()
         self.update()
 
@@ -389,6 +394,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'selected_time': -1.0,
             'selection_index': -1,
             'frame_selection_index': -1,
+            'selected_frequency': -1,
         }
 
     def _add_annotations(self):
@@ -442,6 +448,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
+        # TODO 0.23: select the color based on dark/light mode.
         self.figure.canvas.draw_idle()
 
         if self.display_tongue:
@@ -495,13 +502,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if ylim is None:
             if data_axes_params is None and axes_params is None:
-                ylim = (-0.05, 1.05)
+                ylim = None  # (-0.075, 1.075)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
                 if (
                     not data_axes_params.auto_ylim and
                     not axes_params.auto_ylim
-                    ):
-                    ylim = (-0.05, 1.05)
+                ):
+                    ylim = None  # (-0.075, 1.075)
                 else:
                     ylim = None
             elif axes_params.ylim is None:
@@ -509,8 +516,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             else:
                 ylim = axes_params.ylim
 
-        # TODO 0.20: this needs to work together with normalisation, maybe this
+        # TODO 0.23: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
+        # This adjust y_limits in case the graphs are offset from each other.
         y_offset = 0
         if axes_params.y_offset is not None:
             y_offset = axes_params.y_offset
@@ -576,7 +584,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.3: Add a check to draw plots which adds the model textgrid
+        # TODO 0.22: Add a check to draw plots which adds the model textgrid
         # to plotting
         if self.action_show_example.isChecked():
             print(
@@ -596,10 +604,16 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     self.tier_grid_spec[axes_counter],
                     sharex=self.data_axes[0])
                 axes.set_yticks([])
+                # if len(self.data_axes) > 0:
+                #     (_, y0, _, height) = axes.get_position().bounds
+                #     (x0, _, width, _) = self.data_axes[0].get_position().bounds
+                #     bounding_box = Bbox.from_extents(x0, y0, width, height)
+                #     axes.set_position(bounding_box)
                 self.tier_axes.append(axes)
 
         for axes in self.data_axes:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
+        self.data_axes[0].xaxis.set_tick_params(top=True, labeltop=True)
 
         for axes in self.tier_axes[:-1]:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
@@ -633,6 +647,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         axes_counter = 0
         for axes_name in self.gui_config.data_axes:
+            self.data_axes[axes_counter].grid(False)
             match axes_name:
                 case "spectrogram":
                     if self.gui_config.data_axes[axes_name].ylim is not None:
@@ -679,6 +694,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         iterator = zip(self.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
+            axis.grid(False)
             boundaries_by_axis = []
 
             boundary_set, _ = plot_patgrid_tier(
@@ -723,15 +739,90 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.tier_axes:
             self.tier_axes[-1].set_xlabel("Time (s), go-signal at 0 s.")
 
-        self.figure.tight_layout()
-
         if self.current.annotations['selected_time'] > -1:
+            old_ticks = self.data_axes[0].get_xticks()
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-2],
+                    ]
+                )
+            else:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[0],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-1],
+                    ]
+                )
+
+            xtick_labels = self.data_axes[0].get_xticklabels()
+            xtick_labels[1].set_color(color="deepskyblue")
+            xtick_labels = self.tier_axes[-1].get_xticklabels()
+            xtick_labels[1].set_color(color="deepskyblue")
             for axes in self.data_axes:
+                # Save ylim to restore after annotation lines have been drawn.
+                # This is done because at least spectrogram tends to go weird
+                # otherwise.
+                current_ylim = axes.get_ylim()
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
-            self.data_axes[-1].axvline(
-                x=self.current.annotations['selected_time'],
-                linestyle=':', color="white", lw=1)
+                lines = axes.get_lines()
+                colors = []
+                yticks = axes.get_yticks()
+                for line in lines:
+                    if len(line.get_xdata()) <= 2:
+                        continue
+                    index = np.argmin(np.abs(
+                        line.get_xdata() -
+                        self.current.annotations['selected_time']
+                    ))
+                    y_value = line.get_ydata()[index]
+                    color = line.get_color()
+                    axes.axhline(y=y_value,
+                                 linestyle=':', color=color, lw=1)
+                    yticks = np.append(yticks, y_value)
+                    colors.append(color)
+                axes.set_yticks(yticks)
+
+                labels = axes.get_yticklabels()
+                ytick_lines = axes.yaxis.get_ticklines()
+                for i, color in enumerate(colors):
+                    ytick_lines[i*2+4].set_color(color)
+                    ytick_lines[i*2+5].set_color(color)
+                    labels[i+2].set_color(color)
+                axes.set_ylim(current_ylim)
+        else:
+            old_ticks = self.data_axes[0].get_xticks()
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        old_ticks[-2]
+                    ]
+                )
+
+        if self.current.annotations['selected_frequency'] > -1:
+            for i, name in enumerate(self.gui_config.data_axes):
+                if "spectrogram" in name:
+                    axes = self.data_axes[i]
+                    yticks = axes.get_yticks()
+                    axes.set_yticks(np.append(
+                        yticks,
+                        self.current.annotations['selected_frequency']
+                    ))
+                    axes.axhline(
+                        y=self.current.annotations['selected_frequency'],
+                        linestyle=':', color="deepskyblue", lw=1
+                    )
+                    labels = axes.get_yticklabels()
+                    labels[2].set_color(color="deepskyblue")
+                    ytick_lines = axes.yaxis.get_ticklines()
+                    ytick_lines[4].set_color(color="deepskyblue")
+                    ytick_lines[5].set_color(color="deepskyblue")
+
             for axes in self.tier_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
@@ -780,6 +871,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
+
+            # TODO 0.20.1: implement these
+            if self.gui_config.display_image_info:
+                # image time, image index
+                pass
+            if self.gui_config.display_curve_values:
+                # curve values at intersections
+                pass
 
             # if self.image_type == GuiImageType.FRAME:
             #     self.kymography_clicker = clicker(
@@ -880,7 +979,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.20: This should not be hard coded
+        # TODO 0.24: This should not be hard coded
         if 'PD l1 on RawUltrasound' in self.current.modalities:
             pd_metrics = self.current.modalities['PD l1 on RawUltrasound']
             ultra_time = pd_metrics.timevector - stimulus_onset
@@ -891,7 +990,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Move the data cursor to the next frame.
         """
-        # TODO 0.20: Remove hard coding again
+        # TODO 0.24: Remove hard coding again
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
@@ -1394,10 +1493,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Callback for handling time selection on events.
         """
+        # TODO 0.23: swap None for -1 here and fix everything that breaks. this
+        # will include zooming. probably a good idea to change the dict here
+        # into a dataclass as well.
         if not event.xdata:
             self.current.annotations['selected_time'] = -1
             self.current.annotations['selection_index'] = -1
             self.current.annotations['frame_selection_index'] = -1
+            self.current.annotations['selected_frequency'] = -1
             self.update()
             return
 
@@ -1408,11 +1511,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 break
 
         _logger.debug(
-            "Inside onpick - subplot: %d, x=%f",
-            subplot, event.xdata)
-
-        # if subplot == 1:
-        #     self.current.annotations['selected_time'] = event.pickx
+            "Inside onpick - subplot: %d, x=%f, y=%f",
+            subplot, event.xdata, event.ydata)
 
         audio = self.current.modalities['MonoAudio']
         if audio.go_signal is None:
@@ -1420,12 +1520,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.20: Remove hardcoding of modality names?
+        # TODO 0.24: Remove hardcoding of modality names?
         if 'RawUltrasound' in self.current.modalities:
             timevector = (
                 self.current.modalities['RawUltrasound'].timevector)
             distances = np.abs(timevector - stimulus_onset - event.xdata)
-            self.current.annotations['frame_selection_index'] = np.argmin(distances)
+            self.current.annotations['frame_selection_index'] = np.argmin(
+                distances)
             self.current.annotations['selected_time'] = event.xdata
         if 'MonoAudio' in self.current.modalities:
             timevector = (
@@ -1433,6 +1534,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             distances = np.abs(timevector - stimulus_onset - event.xdata)
             self.current.annotations['selection_index'] = np.argmin(distances)
             self.current.annotations['selected_time'] = event.xdata
+
+        subplot_names = list(self.gui_config.data_axes.keys())
+        if subplot-1 < len(subplot_names):
+            if "spectrogram" in subplot_names[subplot-1]:
+                self.current.annotations['selected_frequency'] = event.ydata
+        else:
+            self.current.annotations['selected_frequency'] = -1
 
         _logger.debug(
             "Inside onpick - subplot: %d, ultra_index=%d, audio_index=%d, x=%f",

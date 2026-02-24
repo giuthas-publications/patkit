@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -536,6 +536,8 @@ class GuiConfig(UpdatableBaseModel):
     auto_xlim: bool | None = None
     default_font_size: int
     color_scheme: GuiColorScheme = GuiColorScheme.FOLLOW_SYSTEM
+    display_image_info: bool = True
+    display_curve_values: bool = True
 
     def plotted_modality_names(self) -> set[str]:
         """

@@ -1,5 +1,5 @@
 ##
-## Copyright (c) 2019-2025
+## Copyright (c) 2019-2026
 ## Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 ##
 ## This file is part of the Phonetic Analysis ToolKIT
@@ -41,9 +41,11 @@ patkit open scenarios/minimal/
 # Run 10 recordings and show in the GUI
 patkit scenarios/tongue_data_1_1/
 
-# TODO 0.20: Update the scenarios below and create a new minimal example.
 # The same but in interactive interpreter mode
-patkit interact recorded_data/minimal/
+patkit interact scenarios/minimal/
+
+####### TODO 0.24: reimplement the tests below
+# Update the scenarios below and create a new minimal example.
 
 # A bit more extensive with 10 files
 #   - Missing files

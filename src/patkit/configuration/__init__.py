@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -36,6 +36,7 @@ Direct use of config_dict, data_run_params, gui_params, and publish_params
 (from configuration_parsers) is deprecated since v0.8. Instead, use the
 interface provided by Configuration.
 """
+# TODO 1.0: check that the above is no longer necessary and remove it.
 
 from .configuration_parsers import (
     PathValidator
@@ -54,7 +55,7 @@ from .exclusion_list_functions import (
 __all__ = [
     "PathValidator", "ExclusionList", "DataConfig", "DownsampleParams",
     "FindPeaksScipyArguments", "GuiConfig", "PathStructure",
-    "PeakDetectionParams", "PointAnnotationParams", "SearchPattern", 
+    "PeakDetectionParams", "PointAnnotationParams", "SearchPattern",
     "SessionConfig", "SimulationConfig", "SplineConfig", "SplineDataConfig",
     "SplineImportConfig", "TimeseriesNormalisation", "Configuration",
     "ConfigPaths", "apply_exclusion_list", "load_exclusion_list",

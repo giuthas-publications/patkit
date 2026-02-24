@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -183,7 +183,7 @@ class PatkitConfigFile:
     of PATKIT trying to guess their names.
 
     DATA: specifications for processing data and deriving new Modalities and
-        Statistics. 
+        Statistics.
     GUI: specifications for gui elements - which graphs to display, color
         scheme etc.
     PUBLISH: specifications for publishing graphs
@@ -275,8 +275,8 @@ class SourceSuffix:
 #     """
 #     # TODO 1.1: This is one possibility for not having hardcoded file
 #     # suffixes.
-#     # Another is to let all the classes take care of it themselves and make it
-#     # into a Protocol (Python version of an interface).
+#     # Another is to let all the classes take care of it themselves
+#     # and make it into a Protocol (Python version of an interface).
 #     suffix = patkitSuffix.META
 #     if patkit_type == Recording:
 #         suffix = '.Recording' + suffix
@@ -305,17 +305,17 @@ class SplineMetaColumn(Enum):
     Basic metadata that any Spline should reasonably have.
 
     Accepted values:
-    - ignore: marks a column to be ignored, unlike the others below, 
+    - ignore: marks a column to be ignored, unlike the others below,
         can be used several times
-    - id: used to identify the speaker, 
+    - id: used to identify the speaker,
         often contained in a csv field called 'family name'
     - given names: appended to 'id' if not marked 'ignore'
     - date and time: dat3 and time of recording
     - prompt: prompt of recording, used to identify the recording with 'id'
     - annotation label: optional field containing annotation information
     - time in recording: timestamp of the frame this spline belongs to
-    - number of spline points: number of sample points in the spline used 
-        to parse the coordinates and possible confidence information    
+    - number of spline points: number of sample points in the spline used
+        to parse the coordinates and possible confidence information
     """
     IGNORE = "ignore"
     ID = "id"

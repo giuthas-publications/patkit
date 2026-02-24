@@ -63,7 +63,7 @@
                         <label class="view-source-button" for="mod-wav_recordings-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="c1">#</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Copyright (c) 2019-2026</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="c1">#</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
@@ -174,7 +174,7 @@
 </span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">for</span> <span class="n">basename</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">basenames</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Generating Recordings&quot;</span><span class="p">)</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="p">]</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="c1"># TODO 0.20 RESOLVE THIS</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="c1"># TODO 0.24 RESOLVE THIS</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="c1"># if import_config and import_config.exclusion_list:</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="c1">#     apply_exclusion_list(recordings, import_config.exclusion_list)</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
@@ -215,7 +215,7 @@
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a>    <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
 </span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a>        <span class="n">recorded_path</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
-</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">recorded_data_file</span> <span class="o">=</span> <span class="n">wav_file</span><span class="p">,</span>
+</span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>        <span class="n">recorded_data_file</span><span class="o">=</span><span class="n">wav_file</span><span class="p">,</span>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a>        <span class="n">recorded_meta_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>    <span class="p">)</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>
@@ -247,7 +247,7 @@
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>    <span class="k">for</span> <span class="n">recording</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">recording_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Adding Modalities&quot;</span><span class="p">):</span>
 </span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">recording</span><span class="o">.</span><span class="n">excluded</span><span class="p">:</span>
 </span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding modalities to recording for </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>                             <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>                         <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>
 </span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>            <span class="n">add_audio</span><span class="p">(</span>
 </span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>                <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">,</span>
@@ -327,7 +327,7 @@
 </span><span id="generate_wav_recording_list-111"><a href="#generate_wav_recording_list-111"><span class="linenos">111</span></a>        <span class="k">for</span> <span class="n">basename</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">basenames</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Generating Recordings&quot;</span><span class="p">)</span>
 </span><span id="generate_wav_recording_list-112"><a href="#generate_wav_recording_list-112"><span class="linenos">112</span></a>    <span class="p">]</span>
 </span><span id="generate_wav_recording_list-113"><a href="#generate_wav_recording_list-113"><span class="linenos">113</span></a>
-</span><span id="generate_wav_recording_list-114"><a href="#generate_wav_recording_list-114"><span class="linenos">114</span></a>    <span class="c1"># TODO 0.20 RESOLVE THIS</span>
+</span><span id="generate_wav_recording_list-114"><a href="#generate_wav_recording_list-114"><span class="linenos">114</span></a>    <span class="c1"># TODO 0.24 RESOLVE THIS</span>
 </span><span id="generate_wav_recording_list-115"><a href="#generate_wav_recording_list-115"><span class="linenos">115</span></a>    <span class="c1"># if import_config and import_config.exclusion_list:</span>
 </span><span id="generate_wav_recording_list-116"><a href="#generate_wav_recording_list-116"><span class="linenos">116</span></a>    <span class="c1">#     apply_exclusion_list(recordings, import_config.exclusion_list)</span>
 </span><span id="generate_wav_recording_list-117"><a href="#generate_wav_recording_list-117"><span class="linenos">117</span></a>
@@ -408,7 +408,7 @@ Recording objects sorted by date and time
 </span><span id="generate_audio_recording-152"><a href="#generate_audio_recording-152"><span class="linenos">152</span></a>
 </span><span id="generate_audio_recording-153"><a href="#generate_audio_recording-153"><span class="linenos">153</span></a>    <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
 </span><span id="generate_audio_recording-154"><a href="#generate_audio_recording-154"><span class="linenos">154</span></a>        <span class="n">recorded_path</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
-</span><span id="generate_audio_recording-155"><a href="#generate_audio_recording-155"><span class="linenos">155</span></a>        <span class="n">recorded_data_file</span> <span class="o">=</span> <span class="n">wav_file</span><span class="p">,</span>
+</span><span id="generate_audio_recording-155"><a href="#generate_audio_recording-155"><span class="linenos">155</span></a>        <span class="n">recorded_data_file</span><span class="o">=</span><span class="n">wav_file</span><span class="p">,</span>
 </span><span id="generate_audio_recording-156"><a href="#generate_audio_recording-156"><span class="linenos">156</span></a>        <span class="n">recorded_meta_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
 </span><span id="generate_audio_recording-157"><a href="#generate_audio_recording-157"><span class="linenos">157</span></a>    <span class="p">)</span>
 </span><span id="generate_audio_recording-158"><a href="#generate_audio_recording-158"><span class="linenos">158</span></a>
@@ -466,7 +466,7 @@ directory -- path to files</p>
 </span><span id="add_modalities-184"><a href="#add_modalities-184"><span class="linenos">184</span></a>    <span class="k">for</span> <span class="n">recording</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">recording_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Adding Modalities&quot;</span><span class="p">):</span>
 </span><span id="add_modalities-185"><a href="#add_modalities-185"><span class="linenos">185</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">recording</span><span class="o">.</span><span class="n">excluded</span><span class="p">:</span>
 </span><span id="add_modalities-186"><a href="#add_modalities-186"><span class="linenos">186</span></a>            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Adding modalities to recording for </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
-</span><span id="add_modalities-187"><a href="#add_modalities-187"><span class="linenos">187</span></a>                             <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
+</span><span id="add_modalities-187"><a href="#add_modalities-187"><span class="linenos">187</span></a>                         <span class="n">recording</span><span class="o">.</span><span class="n">basename</span><span class="p">)</span>
 </span><span id="add_modalities-188"><a href="#add_modalities-188"><span class="linenos">188</span></a>
 </span><span id="add_modalities-189"><a href="#add_modalities-189"><span class="linenos">189</span></a>            <span class="n">add_audio</span><span class="p">(</span>
 </span><span id="add_modalities-190"><a href="#add_modalities-190"><span class="linenos">190</span></a>                <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">,</span>
