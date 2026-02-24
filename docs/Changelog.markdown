@@ -27,11 +27,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.20.1 will update ultrasound and exercise status display 
-<!-- - Toggleable display of timestamp of displayed image and its frame number on the
-  image.
-  and displayed image info are
-- Status: Default/Exercise is now displayed in the GUI. -->
 - 0.21 will add audio playback
 - 0.22.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
@@ -46,6 +41,38 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - After this we'll be at 1.0.0-alpha and 1.0.0-beta before release of 1.0.
   - There will be a feature freeze at this point.
   - The alpha and beta versions will be mainly quality assurance and code clean up.
+
+
+## [0.20.1] - 2026-03-02
+
+### Highlights
+
+- Clearer indicators for exercise mode vs regular edit/analysis mode.
+- Better protection of the example answer in exercise mode.
+
+### Added
+
+- Clearer indicators for exercise mode vs regular edit/analysis mode.
+- Better protection of the example answer in exercise mode.
+- Toggleable display of timestamp of displayed image and its frame number on the
+  image.
+  and displayed image info are
+- Status: Default/Exercise is now displayed in the GUI.
+
+### Changed
+
+- Exercise mode is now separate from regular edit mode. 
+  - Flipping between new answer being worked on and the example answer does not
+    disable exercise mode.
+  - Instead, editing of example answer in exercise mode is disabled.
+
+### Bugs
+
+- [Old Bugs](Bugs.markdown).
+
+### Fixed
+
+- Some security issues were fixed by upgrading dependencies.
 
 
 ## [0.20.0] - 2026-02-24
