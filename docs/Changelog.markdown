@@ -73,6 +73,8 @@ listed under Fixed as before.
 
 - Moved back to `tight` layout due to issues in axes not lining up vertically
   with each other.
+- Commandline history now works in the interactive interpreter mode, because
+  somebody else fixed it in the libraries.
 
 
 ## [0.20.0-alpha.1] - 2026-02-12

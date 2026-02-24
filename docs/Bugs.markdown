@@ -9,8 +9,7 @@
   plot_categories = ["l$\infty$" if metric ==
 ```
   They are related to labelling curves with maths symbols rendered with LaTeX.
-- Exclusion lists are disabled until reimplementation in most likely version
-  0.20. -- Updated: most likely in version 0.28.
+- Exclusion lists are disabled until reimplementation in 0.24.
 
 ## Configuration
 - Undefined fields in config files should have a clearer error message. And so
@@ -22,10 +21,6 @@
 - When data run config and exclusion are at odds (especially sort) there should
   be an informative message to the user. This too will get better when the
   configuration system gets a makeover.
-
-## Commandline subcommands
-- Command history does not yet work when running PATKIT as an interactive
-  interpreter with `patkit interact`.
 
 ## GUI Graphs
 - When PATKIT first starts up, to start zooming you need to click on the main
@@ -43,8 +38,8 @@
 
 ## GUI commands
 - Saving TextGrids will overwrite the example answers to an exercise.
-- Ctrl+O crashes PATKIT probably because the directory opening code pre-dates
-  the new directory structure.
+- Ctrl+O does not update the GUI setup correctly because it does not read or
+  apply the config correctly.
 - ctrl+'i' and ctrl+'a' zoom but ctrl+'o' is bound to opening a recording
   session. The fix will be removing the first two bindings which are
   unintentional.
