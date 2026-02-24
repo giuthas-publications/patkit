@@ -48,7 +48,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.20.0] - 2026-02-22
+## [0.20.0] - 2026-02-24
 
 ### Highlights
 
