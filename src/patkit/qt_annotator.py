@@ -759,9 +759,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 )
 
             xtick_labels = self.data_axes[0].get_xticklabels()
-            xtick_labels[2].set_color(color="deepskyblue")
+            xtick_labels[1].set_color(color="deepskyblue")
             xtick_labels = self.tier_axes[-1].get_xticklabels()
-            xtick_labels[2].set_color(color="deepskyblue")
+            xtick_labels[1].set_color(color="deepskyblue")
             for axes in self.data_axes:
                 # Save ylim to restore after annotation lines have been drawn.
                 # This is done because at least spectrogram tends to go weird
