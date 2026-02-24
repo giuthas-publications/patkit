@@ -43,7 +43,7 @@ patkit scenarios/tongue_data_1_1/
 
 # TODO 0.20: Update the scenarios below and create a new minimal example.
 # The same but in interactive interpreter mode
-patkit interact recorded_data/minimal/
+patkit interact scenarios/minimal/
 
 # A bit more extensive with 10 files
 #   - Missing files

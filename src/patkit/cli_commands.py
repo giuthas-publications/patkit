@@ -69,7 +69,9 @@ def open_in_annotator(
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
+    type=click.Path(
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
+    ), )
 def interact(
         path: Path
 ):
@@ -80,17 +82,16 @@ def interact(
     PATH to the data - maybe be a file or a directory.
     """
     config, logger = initialise_config(path=path, require_data=True)
-    configuration, session = initialise_patkit(
-        config=config,
-        logger=logger
-    )
-    run_interpreter(session=session, configuration=configuration)
+    session = initialise_patkit(config=config, logger=logger)
+    run_interpreter(session=session, configuration=config)
 
 
 @click.command()
 @click.argument(
     "path",
-    type=click.Path(exists=True, dir_okay=True, file_okay=True), )
+    type=click.Path(
+        exists=True, dir_okay=True, file_okay=True, path_type=Path
+    ), )
 def publish(path: Path):
     """
     Publish plots from the data in PATH.
@@ -101,9 +102,7 @@ def publish(path: Path):
     NOT IMPLEMENTED YET.
     """
     config, logger = initialise_config(path=path, require_publish=True)
-    session = initialise_patkit(
-        config=config, logger=logger
-    )
+    session = initialise_patkit(config=config, logger=logger)
     print(
         f"Loaded {session} but rest of publish is scheduled for "
         f"implementation in a later version."
