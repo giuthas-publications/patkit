@@ -1083,7 +1083,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.2: these should be loaded from the new directory as
+            # TODO 0.22: these should be loaded from the new directory as
             # well
             # self.display_tongue = display_tongue
 
@@ -1120,7 +1120,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 0.18.2: does this save textgrids too and how does it interact
+        # TODO 0.22: does this save textgrids too and how does it interact
         # with saving answers and exercises.
         save_recording_session(self.session)
 
@@ -1128,7 +1128,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        # TODO 0.22: write a call back for asking for overwrite confirmation.
         if self.action_run_as_exercise.isChecked:
             return
 
@@ -1148,7 +1148,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
+        # TODO 0.22: write a call back for asking for overwrite confirmation.
         if self.action_run_as_exercise.isChecked:
             return
 
@@ -1179,7 +1179,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             )
             self.exercise.new_blank_answer(cursor=self.cursor)
 
-        # TODO 0.18.2: Update this as needed.
+        # TODO 0.22: Update this as needed.
         if self.action_run_as_exercise.isChecked():
             self.action_save_all_textgrids.setEnabled(False)
             self.action_save_current_textgrid.setEnabled(False)
@@ -1194,7 +1194,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Wrap a directory as an Exercise.
         """
-        # TODO 0.18.3
+        # TODO 0.22
         # ask for directory
         # ask for patkit/exercise dir
         # write patkit_v.yaml in exercise dir
