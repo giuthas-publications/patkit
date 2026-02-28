@@ -276,15 +276,15 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
-        # Tongue position
-        self.positionRB_1.toggled.connect(self.tongue_position_cb)
-        self.positionRB_2.toggled.connect(self.tongue_position_cb)
-        self.positionRB_3.toggled.connect(self.tongue_position_cb)
-        self.position_rbs = {
-            self.positionRB_1.text(): self.positionRB_1,
-            self.positionRB_2.text(): self.positionRB_2,
-            self.positionRB_3.text(): self.positionRB_3
-        }
+        # Tongue position annotation buttons.
+        # self.positionRB_1.toggled.connect(self.tongue_position_cb)
+        # self.positionRB_2.toggled.connect(self.tongue_position_cb)
+        # self.positionRB_3.toggled.connect(self.tongue_position_cb)
+        # self.position_rbs = {
+        #     self.positionRB_1.text(): self.positionRB_1,
+        #     self.positionRB_2.text(): self.positionRB_2,
+        #     self.positionRB_3.text(): self.positionRB_3
+        # }
 
         # plt.style.use('dark_background')
         plt.style.use('tableau-colorblind10')
@@ -459,10 +459,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates parts of the UI outwith the graphs.
         """
-        position_annotation = self.current.annotations['tonguePosition']
-        if position_annotation in self.position_rbs:
-            button_to_activate = self.position_rbs[position_annotation]
-            button_to_activate.setChecked(True)
+        # Annotation radio buttons.
+        # position_annotation = self.current.annotations['tonguePosition']
+        # if position_annotation in self.position_rbs:
+        #     button_to_activate = self.position_rbs[position_annotation]
+        #     button_to_activate.setChecked(True)
 
         self.go_to_line_edit.setText(str(self.index + 1))
 

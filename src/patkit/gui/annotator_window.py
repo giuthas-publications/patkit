@@ -62,9 +62,8 @@ class UiMainWindow(object):
         self.mplWindowVerticalLayout = QtWidgets.QVBoxLayout(self.mplwindow)
         self.mplWindowVerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
-        self.horizontalLayout.addWidget(self.mplwindow)
 
-        # Top navigation buttons and widgets
+        # Side panel
         self.side_panel = QtWidgets.QFrame(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
@@ -83,6 +82,10 @@ class UiMainWindow(object):
         self.side_panel_layout.setContentsMargins(0, 0, 0, 0)
         self.side_panel_layout.setObjectName("side_panel_layout")
 
+        # Mode selection
+        # self.mode_controls =
+
+        # Navigation buttons and widgets
         self.go_to_group = QtWidgets.QGroupBox(self.side_panel)
         self.go_to_group.setMaximumSize(QtCore.QSize(16777215, 80))
         self.go_to_group.setObjectName("groupBox")
@@ -139,30 +142,37 @@ class UiMainWindow(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.side_panel_layout.addWidget(self.ultrasoundFrame)
 
+        # TODO 1.1: Consider bringing these back as a e.g. a mode option like
+        # exercises. Or build a customisation example from them. They are
+        # connected with a section in translation code further below and in
+        # two places in qt_annotator.
+        #
         # Annotation radio buttons
-        self.positionRB = QtWidgets.QGroupBox(self.side_panel)
-        self.positionRB.setObjectName("positionRB")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_1.setAutoFillBackground(False)
-        self.positionRB_1.setObjectName("positionRB_1")
-        self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
-        self.tonguePositionRBs.setObjectName("tonguePositionRBs")
-        self.tonguePositionRBs.addButton(self.positionRB_1)
-        self.verticalLayout_5.addWidget(self.positionRB_1)
-        self.positionRB_2 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_2.setAutoFillBackground(False)
-        self.positionRB_2.setObjectName("positionRB_2")
-        self.tonguePositionRBs.addButton(self.positionRB_2)
-        self.verticalLayout_5.addWidget(self.positionRB_2)
-        self.positionRB_3 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_3.setAutoFillBackground(False)
-        self.positionRB_3.setObjectName("positionRB_3")
-        self.tonguePositionRBs.addButton(self.positionRB_3)
-        self.verticalLayout_5.addWidget(self.positionRB_3)
-        self.side_panel_layout.addWidget(self.positionRB)
+        # self.positionRB = QtWidgets.QGroupBox(self.side_panel)
+        # self.positionRB.setObjectName("positionRB")
+        # self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
+        # self.verticalLayout_5.setObjectName("verticalLayout_5")
+        # self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_1.setAutoFillBackground(False)
+        # self.positionRB_1.setObjectName("positionRB_1")
+        # self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
+        # self.tonguePositionRBs.setObjectName("tonguePositionRBs")
+        # self.tonguePositionRBs.addButton(self.positionRB_1)
+        # self.verticalLayout_5.addWidget(self.positionRB_1)
+        # self.positionRB_2 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_2.setAutoFillBackground(False)
+        # self.positionRB_2.setObjectName("positionRB_2")
+        # self.tonguePositionRBs.addButton(self.positionRB_2)
+        # self.verticalLayout_5.addWidget(self.positionRB_2)
+        # self.positionRB_3 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_3.setAutoFillBackground(False)
+        # self.positionRB_3.setObjectName("positionRB_3")
+        # self.tonguePositionRBs.addButton(self.positionRB_3)
+        # self.verticalLayout_5.addWidget(self.positionRB_3)
+        # self.side_panel_layout.addWidget(self.positionRB)
+
         self.horizontalLayout.addWidget(self.side_panel)
+        self.horizontalLayout.addWidget(self.mplwindow)
 
         main_window.setCentralWidget(self.centralwidget)
 
@@ -333,13 +343,15 @@ class UiMainWindow(object):
         self.goButton.setText(_translate("MainWindow", "Go"))
         self.previous_button.setText(_translate("MainWindow", "Previous"))
         self.next_button.setText(_translate("MainWindow", "Next"))
-        self.positionRB.setTitle(
-            _translate("MainWindow", "Customised Metadata: TonguePosition")
-        )
-        self.positionRB_1.setText(_translate("MainWindow", "High"))
-        self.positionRB_2.setText(_translate("MainWindow", "Low"))
-        self.positionRB_3.setText(
-            _translate("MainWindow", "Other / Not visible"))
+
+        # Annotation radio buttons
+        # self.positionRB.setTitle(
+        #     _translate("MainWindow", "Customised Metadata: TonguePosition")
+        # )
+        # self.positionRB_1.setText(_translate("MainWindow", "High"))
+        # self.positionRB_2.setText(_translate("MainWindow", "Low"))
+        # self.positionRB_3.setText(
+        #     _translate("MainWindow", "Other / Not visible"))
 
         self.menu_file.setTitle(_translate("MainWindow", "File"))
         self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
