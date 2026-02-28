@@ -190,6 +190,8 @@ class UiMainWindow(object):
         self.menu_exercise.setObjectName("menu_exercise")
         self.menu_image = QtWidgets.QMenu(self.menubar)
         self.menu_image.setObjectName("menu_image")
+        self.menu_mode = QtWidgets.QMenu(self.menubar)
+        self.menu_mode.setObjectName("menu_mode")
         self.menu_navigation = QtWidgets.QMenu(self.menubar)
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_script = QtWidgets.QMenu(self.menubar)
@@ -256,7 +258,7 @@ class UiMainWindow(object):
         self.menu_exercise.addAction(self.action_compare_to_example)
         self.menu_exercise.addAction(self.action_show_example)
 
-        # TODO: 0.18.1: Implement this?
+        # TODO: 0.22: Implement this?
         self.action_compare_to_example.setEnabled(False)
 
         self.action_run_as_exercise.setCheckable(True)
@@ -299,6 +301,22 @@ class UiMainWindow(object):
         self.menu_export.addAction(self.action_export_main_figure)
         self.menu_export.addAction(self.action_export_ultrasound_frame)
 
+        # Mode menu actions
+        self.mode_group = QtGui.QActionGroup(main_window)
+        self.action_exercise_mode = QtGui.QAction(main_window)
+        self.action_exercise_mode.setObjectName(
+            "action_exercise_mode"
+        )
+        self.action_annotator_mode = QtGui.QAction(main_window)
+        self.action_annotator_mode.setObjectName(
+            "action_annotator_mode"
+        )
+        self.mode_group.addAction(self.action_exercise_mode)
+        self.mode_group.addAction(self.action_annotator_mode)
+        self.menu_mode.addAction(self.action_exercise_mode)
+        self.menu_mode.addAction(self.action_annotator_mode)
+        self.action_annotator_mode.setChecked(True)
+
         # Navigation menu actions
         self.action_next = QtGui.QAction(main_window)
         self.action_next.setObjectName("action_next")
@@ -329,6 +347,7 @@ class UiMainWindow(object):
         self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
+        self.menubar.addAction(self.menu_mode.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
         self.menubar.addAction(self.menu_script.menuAction())
 
@@ -357,6 +376,7 @@ class UiMainWindow(object):
         self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
         self.menu_export.setTitle(_translate("MainWindow", "Export"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
+        self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
 
@@ -421,11 +441,17 @@ class UiMainWindow(object):
         self.action_save_current_textgrid.setText(
             _translate("MainWindow", "Save current TextGrid")
         )
+
         self.action_quit.setText(_translate("MainWindow", "Quit"))
         self.action_quit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
+
         self.action_export_distance_matrices.setText(
             _translate("MainWindow", "Export distance matrices...")
         )
+
+        self.action_exercise_mode.setText(_translate("MainWindow", "Exercise"))
+        self.action_annotator_mode.setText(
+            _translate("MainWindow", "Annotator"))
 
     def add_items_to_database_view(self, session: Session):
         """
