@@ -303,19 +303,21 @@ class UiMainWindow(object):
 
         # Mode menu actions
         self.mode_group = QtGui.QActionGroup(main_window)
-        self.action_exercise_mode = QtGui.QAction(main_window)
-        self.action_exercise_mode.setObjectName(
-            "action_exercise_mode"
-        )
         self.action_annotator_mode = QtGui.QAction(main_window)
         self.action_annotator_mode.setObjectName(
             "action_annotator_mode"
         )
-        self.mode_group.addAction(self.action_exercise_mode)
+        self.action_annotator_mode.setCheckable(True)
+        self.action_exercise_mode = QtGui.QAction(main_window)
+        self.action_exercise_mode.setObjectName(
+            "action_exercise_mode"
+        )
+        self.action_exercise_mode.setCheckable(True)
         self.mode_group.addAction(self.action_annotator_mode)
-        self.menu_mode.addAction(self.action_exercise_mode)
-        self.menu_mode.addAction(self.action_annotator_mode)
+        self.mode_group.addAction(self.action_exercise_mode)
         self.action_annotator_mode.setChecked(True)
+        self.menu_mode.addAction(self.action_annotator_mode)
+        self.menu_mode.addAction(self.action_exercise_mode)
 
         # Navigation menu actions
         self.action_next = QtGui.QAction(main_window)
