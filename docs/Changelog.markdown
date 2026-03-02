@@ -43,21 +43,15 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.20.1] - 2026-03-02
+## [0.20.1] - 2026-03-03
 
 ### Highlights
 
 - Clearer indicators for exercise mode vs regular edit/analysis mode.
-- Better protection of the example answer in exercise mode.
 
 ### Added
 
-- Clearer indicators for exercise mode vs regular edit/analysis mode.
-- Better protection of the example answer in exercise mode.
-- Toggleable display of timestamp of displayed image and its frame number on the
-  image.
-  and displayed image info are
-- Status: Default/Exercise is now displayed in the GUI.
+- Status: Annotator/Exercise is now displayed in the GUI.
 
 ### Changed
 
