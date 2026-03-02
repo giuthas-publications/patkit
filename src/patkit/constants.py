@@ -414,3 +414,11 @@ class OverwriteConfirmation(Enum):
     YES_TO_ALL = 'yes to all'
     NO = 'no'
     NO_TO_ALL = 'no to all'
+
+
+class AnnotatorMode(ListablePrintableEnum):
+    """
+    Modes of the PATKIT Annotator.
+    """
+    ANNOTATOR = "Annotator"
+    EXERCISE = "Exercise"

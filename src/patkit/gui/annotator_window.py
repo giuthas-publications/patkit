@@ -35,6 +35,7 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from patkit.constants import AnnotatorMode
 from patkit.data_structures import Session
 
 
@@ -83,7 +84,17 @@ class UiMainWindow(object):
         self.side_panel_layout.setObjectName("side_panel_layout")
 
         # Mode selection
-        # self.mode_controls =
+        self.mode_controls = QtWidgets.QGroupBox(self.side_panel)
+        self.mode_controls.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.mode_controls.setObjectName("mode_box")
+        self.mode_layout = QtWidgets.QHBoxLayout(self.mode_controls)
+        self.mode_layout.setContentsMargins(0, 0, 0, 0)
+        self.mode_layout.setObjectName("mode_layout")
+
+        self.mode_drop_down = QtWidgets.QComboBox(self.mode_controls)
+        self.mode_drop_down.addItems(list(AnnotatorMode.values()))
+        self.mode_layout.addWidget(self.mode_drop_down)
+        self.side_panel_layout.addWidget(self.mode_controls)
 
         # Navigation buttons and widgets
         self.go_to_group = QtWidgets.QGroupBox(self.side_panel)
@@ -360,6 +371,7 @@ class UiMainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(
             _translate("MainWindow", "PATKIT Annotator"))
+        self.mode_controls.setTitle(_translate("MainWindow", "Annotator Mode"))
         self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
         self.previous_button.setText(_translate("MainWindow", "Previous"))
