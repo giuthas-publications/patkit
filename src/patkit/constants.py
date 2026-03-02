@@ -416,7 +416,7 @@ class OverwriteConfirmation(Enum):
     NO_TO_ALL = 'no to all'
 
 
-class AnnotatorMode(ListablePrintableEnum):
+class AnnotatorMode(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
     """
     Modes of the PATKIT Annotator.
     """

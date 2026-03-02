@@ -201,8 +201,8 @@ class UiMainWindow(object):
         self.menu_exercise.setObjectName("menu_exercise")
         self.menu_image = QtWidgets.QMenu(self.menubar)
         self.menu_image.setObjectName("menu_image")
-        self.menu_mode = QtWidgets.QMenu(self.menubar)
-        self.menu_mode.setObjectName("menu_mode")
+        # self.menu_mode = QtWidgets.QMenu(self.menubar)
+        # self.menu_mode.setObjectName("menu_mode")
         self.menu_navigation = QtWidgets.QMenu(self.menubar)
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_script = QtWidgets.QMenu(self.menubar)
@@ -243,8 +243,6 @@ class UiMainWindow(object):
         self.menu_file.addAction(self.action_quit)
 
         # Exercise menu actions
-        self.action_run_as_exercise = QtGui.QAction(main_window)
-        self.action_run_as_exercise.setObjectName("action_run_as_exercise")
         self.action_create_exercise = QtGui.QAction(main_window)
         self.action_create_exercise.setObjectName("action_create_exercise")
         self.action_open_exercise = QtGui.QAction(main_window)
@@ -259,7 +257,6 @@ class UiMainWindow(object):
         self.action_show_example = QtGui.QAction(main_window)
         self.action_show_example.setObjectName("action_show_example")
 
-        self.menu_exercise.addAction(self.action_run_as_exercise)
         self.menu_exercise.addAction(self.action_create_exercise)
         self.menu_exercise.addAction(self.action_open_exercise)
         self.menu_exercise.addSeparator()
@@ -271,9 +268,6 @@ class UiMainWindow(object):
 
         # TODO: 0.22: Implement this?
         self.action_compare_to_example.setEnabled(False)
-
-        self.action_run_as_exercise.setCheckable(True)
-        self.action_run_as_exercise.setChecked(False)
 
         self.action_show_example.setCheckable(True)
         self.action_show_example.setChecked(False)
@@ -313,22 +307,22 @@ class UiMainWindow(object):
         self.menu_export.addAction(self.action_export_ultrasound_frame)
 
         # Mode menu actions
-        self.mode_group = QtGui.QActionGroup(main_window)
-        self.action_annotator_mode = QtGui.QAction(main_window)
-        self.action_annotator_mode.setObjectName(
-            "action_annotator_mode"
-        )
-        self.action_annotator_mode.setCheckable(True)
-        self.action_exercise_mode = QtGui.QAction(main_window)
-        self.action_exercise_mode.setObjectName(
-            "action_exercise_mode"
-        )
-        self.action_exercise_mode.setCheckable(True)
-        self.mode_group.addAction(self.action_annotator_mode)
-        self.mode_group.addAction(self.action_exercise_mode)
-        self.action_annotator_mode.setChecked(True)
-        self.menu_mode.addAction(self.action_annotator_mode)
-        self.menu_mode.addAction(self.action_exercise_mode)
+        # self.mode_group = QtGui.QActionGroup(main_window)
+        # self.action_annotator_mode = QtGui.QAction(main_window)
+        # self.action_annotator_mode.setObjectName(
+        #     "action_annotator_mode"
+        # )
+        # self.action_annotator_mode.setCheckable(True)
+        # self.action_exercise_mode = QtGui.QAction(main_window)
+        # self.action_exercise_mode.setObjectName(
+        #     "action_exercise_mode"
+        # )
+        # self.action_exercise_mode.setCheckable(True)
+        # self.mode_group.addAction(self.action_annotator_mode)
+        # self.mode_group.addAction(self.action_exercise_mode)
+        # self.action_annotator_mode.setChecked(True)
+        # self.menu_mode.addAction(self.action_annotator_mode)
+        # self.menu_mode.addAction(self.action_exercise_mode)
 
         # Navigation menu actions
         self.action_next = QtGui.QAction(main_window)
@@ -360,7 +354,7 @@ class UiMainWindow(object):
         self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
-        self.menubar.addAction(self.menu_mode.menuAction())
+        # self.menubar.addAction(self.menu_mode.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
         self.menubar.addAction(self.menu_script.menuAction())
 
@@ -390,14 +384,10 @@ class UiMainWindow(object):
         self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
         self.menu_export.setTitle(_translate("MainWindow", "Export"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
-        self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
+        # self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
 
-        self.action_run_as_exercise.setText(
-            _translate("MainWindow", "Run as exercise"))
-        self.action_run_as_exercise.setShortcut(
-            _translate("MainWindow", "Alt+E"))
         self.action_create_exercise.setText(
             _translate("MainWindow", "Create exercise..."))
         self.action_open_exercise.setText(
@@ -410,6 +400,8 @@ class UiMainWindow(object):
             _translate("MainWindow", "Compare to example"))
         self.action_show_example.setText(
             _translate("MainWindow", "Show example"))
+        self.action_show_example.setShortcut(
+            _translate("MainWindow", "Alt+E"))
 
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.action_open.setText(_translate("MainWindow", "Open..."))
@@ -463,9 +455,9 @@ class UiMainWindow(object):
             _translate("MainWindow", "Export distance matrices...")
         )
 
-        self.action_exercise_mode.setText(_translate("MainWindow", "Exercise"))
-        self.action_annotator_mode.setText(
-            _translate("MainWindow", "Annotator"))
+        # self.action_exercise_mode.setText(_translate("MainWindow", "Exercise"))
+        # self.action_annotator_mode.setText(
+        #     _translate("MainWindow", "Annotator"))
 
     def add_items_to_database_view(self, session: Session):
         """

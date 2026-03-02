@@ -67,7 +67,9 @@ from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
-from patkit.constants import GuiColorScheme, GuiImageType
+from patkit.constants import (
+    AnnotatorMode, GuiColorScheme, GuiImageType
+)
 from patkit.data_structures import Exercise, Session
 from patkit.export import (
     export_aggregate_image_and_meta,
@@ -128,7 +130,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            run_as_exercise: bool = False,
+            annotator_mode: AnnotatorMode = AnnotatorMode.ANNOTATOR,
     ):
         super().__init__()
         self.kymography_clicker = None
@@ -144,8 +146,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.display_tongue = display_tongue
 
-        self.action_run_as_exercise.setChecked(run_as_exercise)
-        if run_as_exercise:
+        self.mode_drop_down.setCurrentText(annotator_mode.value)
+        self.mode = annotator_mode
+        if annotator_mode is AnnotatorMode.EXERCISE:
             self.exercise = Exercise(session)
         else:
             self.exercise = None
@@ -196,6 +199,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             QKeySequence(self.tr("Ctrl+W", "File|Quit")), self)
         self.close_window_shortcut.activated.connect(self.quit)
 
+        # TODO 1.0: move the following block to annotator_window.py
         self.menu_select_image = self.menu_image.addMenu(
             "Select image")
         self.action_mean_image = QAction(
@@ -206,8 +210,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             text="Raw frame at cursor", parent=self.menu_select_image)
         self.action_mean_image.setCheckable(True)
         self.action_frame.setCheckable(True)
-        self.action_frame.setChecked(True)
         self.action_raw_frame.setCheckable(True)
+        self.action_frame.setChecked(True)
+
         self.menu_select_image.addAction(self.action_mean_image)
         self.menu_select_image.addAction(self.action_frame)
         self.menu_select_image.addAction(self.action_raw_frame)
@@ -231,8 +236,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
-        self.action_run_as_exercise.triggered.connect(
-            self.run_as_exercise)
+        self.mode_drop_down.currentTextChanged.connect(
+            self.mode_selection_changed)
+
         self.action_create_exercise.triggered.connect(
             self.create_exercise)
         self.action_open_exercise.triggered.connect(self.open_exercise)
@@ -437,7 +443,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates the graphs but not the buttons.
         """
-        if self.action_run_as_exercise.isChecked():
+        # TODO 0.20.1: CHECK THAT THIS WORKS
+        if self.mode is AnnotatorMode.EXERCISE:
             self.patgrid = self.exercise.current_answer[self.index]
         else:
             self.patgrid = self.current.patgrid
@@ -1130,7 +1137,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         Save the current TextGrid.
         """
         # TODO 0.22: write a call back for asking for overwrite confirmation.
-        if self.action_run_as_exercise.isChecked:
+        if self.mode is AnnotatorMode.EXERCISE:
             return
 
         if not self.current.textgrid_path:
@@ -1150,7 +1157,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         Save the all TextGrids in this Session.
         """
         # TODO 0.22: write a call back for asking for overwrite confirmation.
-        if self.action_run_as_exercise.isChecked:
+        if self.mode is AnnotatorMode.EXERCISE:
             return
 
         for recording in self.session:
@@ -1169,27 +1176,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 _logger.info(
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))
-
-    def run_as_exercise(self):
-        """
-        If `Run as Exercise` is checked, run current Session as an Exercise.
-        """
-        if self.action_run_as_exercise.isChecked() and self.exercise is None:
-            self.exercise = Exercise(
-                scenario=self.session,
-            )
-            self.exercise.new_blank_answer(cursor=self.cursor)
-
-        # TODO 0.22: Update this as needed.
-        if self.action_run_as_exercise.isChecked():
-            self.action_save_all_textgrids.setEnabled(False)
-            self.action_save_current_textgrid.setEnabled(False)
-        else:
-            self.action_save_all_textgrids.setEnabled(True)
-            self.action_save_current_textgrid.setEnabled(True)
-
-        self.update()
-        self.update_ui()
 
     def create_exercise(self):
         """
@@ -1688,6 +1674,56 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.gui_config.xlim is not None:
             self.gui_config.xlim = self.xlim
         self.update()
+
+    def annotator_mode(self) -> None:
+        """
+        Set the GUI correctly for regular annotator mode.
+        """
+        self.menu_exercise.setEnabled(False)
+        self.action_save_all_textgrids.setEnabled(True)
+        self.action_save_current_textgrid.setEnabled(True)
+
+        self.update()
+        self.update_ui()
+
+    def exercise_mode(self) -> None:
+        """
+        Set the GUI correctly for regular annotator mode.
+        """
+        self.menu_exercise.setEnabled(True)
+        if self.exercise is None:
+            self.exercise = Exercise(
+                scenario=self.session,
+            )
+            self.exercise.new_blank_answer(cursor=self.cursor)
+        self.action_save_all_textgrids.setEnabled(False)
+        self.action_save_current_textgrid.setEnabled(False)
+
+        self.update()
+        self.update_ui()
+
+    def mode_selection_changed(self, mode: str) -> None:
+        """
+        Callback for changing annotator mode.
+
+        Parameters
+        ----------
+        mode : str
+            The mode's name as a string.
+
+        Raises
+        ------
+        ValueError
+            If encountering an unimplemented mode an Error will be raised.
+        """
+        self.mode = AnnotatorMode(mode)
+        match self.mode:
+            case AnnotatorMode.ANNOTATOR:
+                self.annotator_mode()
+            case AnnotatorMode.EXERCISE:
+                self.exercise_mode()
+            case _:
+                raise ValueError(f"Unknown Annotator Mode requested: {mode}.")
 
     @property
     def no_modifiers(self) -> bool:
