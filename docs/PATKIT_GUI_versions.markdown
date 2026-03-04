@@ -6,6 +6,12 @@ This page shows the development of the GUI over different versions.
 
 ![PATKIT GUI](PATKIT_UI.png)
 
+## 0.20.1
+
+![PATKIT GUI 0.20.1](PATKIT_UI_0.20.1.png)
+
+![PATKIT GUI 0.20.1 in exercise mode](PATKIT_UI_0.20.1_exercise_mode.png)
+
 ## 0.20.0
 
 ![PATKIT GUI 0.20.0](PATKIT_UI_0.20.0.png)

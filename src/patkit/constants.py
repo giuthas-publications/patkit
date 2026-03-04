@@ -414,3 +414,19 @@ class OverwriteConfirmation(Enum):
     YES_TO_ALL = 'yes to all'
     NO = 'no'
     NO_TO_ALL = 'no to all'
+
+
+class AnnotatorMode(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Modes of the PATKIT Annotator.
+    """
+    ANALYSE = "Analyse"
+    EXERCISE = "Exercise"
+
+
+class ExerciseMode(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Modes of the PATKIT Annotator Exercises.
+    """
+    ANSWER = "Answer"
+    EXAMPLE = "Example"
