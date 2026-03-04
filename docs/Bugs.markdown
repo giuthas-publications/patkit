@@ -36,6 +36,10 @@
   for the future. This may eventually be solved just by matching splines with
   ultrasound frames and reporting when that becomes too unreliable.
 
+## GUI colours
+- The mode colours (Analyse vs Exercise, Answer vs Example) only work well in
+  dark mode as no light mode counterparts have been yet defined.
+
 ## GUI commands
 - Saving TextGrids will overwrite the example answers to an exercise.
 - Ctrl+O does not update the GUI setup correctly because it does not read or

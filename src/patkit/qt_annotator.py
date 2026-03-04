@@ -598,15 +598,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.22: Add a check to draw plots which adds the model textgrid
-        # to plotting
-        if self.mode is AnnotatorMode.EXERCISE:
-            if self.exercise_mode is ExerciseMode.ANSWER:
-                print(
-                    "I should be showing the model answer "
-                    "but don't yet know how."
-                )
-
         for axes in self.tier_axes:
             axes.remove()
         self.tier_axes = []
@@ -737,16 +728,20 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             tier_limits = [
                 self.xlim[0] + stimulus_onset, self.xlim[1] + stimulus_onset]
             tier_in_limits = tier.intersects(xlim=tier_limits)
-            for boundaries, interval in zip(
-                    boundaries_by_boundary, tier_in_limits, strict=True):
-                animator = BoundaryAnimator(
-                    main_window=self,
-                    boundaries=boundaries,
-                    segment=interval,
-                    epsilon=self.data_config.epsilon,
-                    time_offset=stimulus_onset)
-                animator.connect()
-                self.animators.append(animator)
+            if (
+                self.mode is AnnotatorMode.ANALYSE or
+                self.exercise_mode is ExerciseMode.ANSWER
+            ):
+                for boundaries, interval in zip(
+                        boundaries_by_boundary, tier_in_limits, strict=True):
+                    animator = BoundaryAnimator(
+                        main_window=self,
+                        boundaries=boundaries,
+                        segment=interval,
+                        epsilon=self.data_config.epsilon,
+                        time_offset=stimulus_onset)
+                    animator.connect()
+                    self.animators.append(animator)
         if self.tier_axes:
             self.tier_axes[-1].set_xlabel("Time (s), go-signal at 0 s.")
 

@@ -62,6 +62,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Bugs
 
+- The mode colours (Analyse vs Exercise, Answer vs Example) only work well in
+  dark mode as no light mode counterparts have been yet defined.
 - [Old Bugs](Bugs.markdown).
 
 ### Fixed
