@@ -21,7 +21,7 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
 
 ## Getting PATKIT
 
-[Detailed instructions](https://giuthas.github.io/patkit/Installing.markdown)
+[Detailed instructions](https://giuthas.github.io/patkit/Installing)
 
 ### Quick start guide: 
 
@@ -48,7 +48,7 @@ Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
 ## Current version and development plans
 
-See [Changelog](docs/Changelog.markdown), for what's new in the current version
+See [Changelog](https://giuthas.github.io/patkit/Changelog), for what's new in the current version
 and what's coming up.
 
 
@@ -76,17 +76,9 @@ releases at time of writing) have not been tested in any way.
 For the versions available, see the [tags on this
 repository](https://github.com/giuthas/patkit/tags).
 
-## Authors
+# Contributors
 
-* **Pertti Palo** - *The core of PATKIT* - [giuthas](https://github.com/giuthas)
-* **Scott Moisik** - *Optic flow* - [ScottMoisik](https://github.com/ScottMoisik)
-* **Matthew Faytak** - *Dimensionality reduction with PCA and LDA*
-  [mfaytak](https://github.com/mfaytak)
-* **Motoki Saito** - *Producing interpolated ultrasound images from raw data*
-  [msaito8623](https://github.com/msaito8623)
-
-List of [contributors](https://github.com/your/project/CONTRIBUTORS.markdown)
-will be updated once there are more people working on this project.
+List of [contributors](https://giuthas.github.io/patkit/Contributors)
 
 ## Copyright and License
 
@@ -107,7 +99,7 @@ Tongue and tongue spline example data Copyright (C) 2013-2020 Pertti Palo
 ### Program license
 
 PATKIT is licensed under [GPL
-3.0](https://github.com/giuthas/patkit/blob/master/LICENSE.markdown).
+3.0](https://github.com/giuthas/patkit/blob/main/LICENSE.markdown).
 
 This program (see below for data) is free software: you can
 redistribute it and/or modify it under the terms of the GNU General
@@ -126,7 +118,7 @@ along with this program.  If not, see
 ### Data license
 
 [Data
-License](https://github.com/giuthas/patkit/blob/master/DATA_LICENSE_by-nc-sa.markdown)
+License](https://github.com/giuthas/patkit/blob/main/DATA_LICENSE_by-nc-sa.markdown)
 
 The data in directories `larynx_data`, `tongue_data_1`,
 `tongue_data_1_2`, and `tongue_data_2` are licensed under the Creative
