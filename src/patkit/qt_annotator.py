@@ -446,7 +446,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates the graphs but not the buttons.
         """
-        # TODO 0.20.1: CHECK THAT THIS WORKS
         if (
             self.mode is AnnotatorMode.EXERCISE
             and self.exercise_mode is ExerciseMode.ANSWER
@@ -878,7 +877,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
 
-            # TODO 0.20.1: implement these
+            # TODO 0.24: implement these
             if self.gui_config.display_image_info:
                 # image time, image index
                 pass
