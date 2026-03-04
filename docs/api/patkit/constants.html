@@ -453,6 +453,30 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#AnnotatorMode">AnnotatorMode</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#AnnotatorMode.ANALYSE">ANALYSE</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AnnotatorMode.EXERCISE">EXERCISE</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#ExerciseMode">ExerciseMode</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#ExerciseMode.ANSWER">ANSWER</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#ExerciseMode.EXAMPLE">EXAMPLE</a>
+                        </li>
+                </ul>
+
+            </li>
     </ul>
 
 
@@ -899,6 +923,22 @@ and never are stored. In effect, they function as look-up tables.</p>
 </span><span id="L-414"><a href="#L-414"><span class="linenos">414</span></a>    <span class="n">YES_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;yes to all&#39;</span>
 </span><span id="L-415"><a href="#L-415"><span class="linenos">415</span></a>    <span class="n">NO</span> <span class="o">=</span> <span class="s1">&#39;no&#39;</span>
 </span><span id="L-416"><a href="#L-416"><span class="linenos">416</span></a>    <span class="n">NO_TO_ALL</span> <span class="o">=</span> <span class="s1">&#39;no to all&#39;</span>
+</span><span id="L-417"><a href="#L-417"><span class="linenos">417</span></a>
+</span><span id="L-418"><a href="#L-418"><span class="linenos">418</span></a>
+</span><span id="L-419"><a href="#L-419"><span class="linenos">419</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AnnotatorMode</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-420"><a href="#L-420"><span class="linenos">420</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-421"><a href="#L-421"><span class="linenos">421</span></a><span class="sd">    Modes of the PATKIT Annotator.</span>
+</span><span id="L-422"><a href="#L-422"><span class="linenos">422</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-423"><a href="#L-423"><span class="linenos">423</span></a>    <span class="n">ANALYSE</span> <span class="o">=</span> <span class="s2">&quot;Analyse&quot;</span>
+</span><span id="L-424"><a href="#L-424"><span class="linenos">424</span></a>    <span class="n">EXERCISE</span> <span class="o">=</span> <span class="s2">&quot;Exercise&quot;</span>
+</span><span id="L-425"><a href="#L-425"><span class="linenos">425</span></a>
+</span><span id="L-426"><a href="#L-426"><span class="linenos">426</span></a>
+</span><span id="L-427"><a href="#L-427"><span class="linenos">427</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ExerciseMode</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="L-428"><a href="#L-428"><span class="linenos">428</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-429"><a href="#L-429"><span class="linenos">429</span></a><span class="sd">    Modes of the PATKIT Annotator Exercises.</span>
+</span><span id="L-430"><a href="#L-430"><span class="linenos">430</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-431"><a href="#L-431"><span class="linenos">431</span></a>    <span class="n">ANSWER</span> <span class="o">=</span> <span class="s2">&quot;Answer&quot;</span>
+</span><span id="L-432"><a href="#L-432"><span class="linenos">432</span></a>    <span class="n">EXAMPLE</span> <span class="o">=</span> <span class="s2">&quot;Example&quot;</span>
 </span></pre></div>
 
 
@@ -906,7 +946,7 @@ and never are stored. In effect, they function as look-up tables.</p>
                 <section id="PATKIT_VERSION">
                     <div class="attr variable">
             <span class="name">PATKIT_VERSION</span>        =
-<span class="default_value">&#39;0.20.0&#39;</span>
+<span class="default_value">&#39;0.20.1&#39;</span>
 
         
     </div>
@@ -918,7 +958,7 @@ and never are stored. In effect, they function as look-up tables.</p>
                 <section id="PATKIT_FILE_VERSION">
                     <div class="attr variable">
             <span class="name">PATKIT_FILE_VERSION</span>        =
-<span class="default_value">&#39;0.20.0&#39;</span>
+<span class="default_value">&#39;0.20.1&#39;</span>
 
         
     </div>
@@ -2902,6 +2942,122 @@ to parse the coordinates and possible confidence information</li>
     
     
 
+                            </div>
+                </section>
+                <section id="AnnotatorMode">
+                            <input id="AnnotatorMode-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AnnotatorMode</span><wbr>(<span class="base"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></span>):
+
+                <label class="view-source-button" for="AnnotatorMode-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#AnnotatorMode"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AnnotatorMode-420"><a href="#AnnotatorMode-420"><span class="linenos">420</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AnnotatorMode</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="AnnotatorMode-421"><a href="#AnnotatorMode-421"><span class="linenos">421</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="AnnotatorMode-422"><a href="#AnnotatorMode-422"><span class="linenos">422</span></a><span class="sd">    Modes of the PATKIT Annotator.</span>
+</span><span id="AnnotatorMode-423"><a href="#AnnotatorMode-423"><span class="linenos">423</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="AnnotatorMode-424"><a href="#AnnotatorMode-424"><span class="linenos">424</span></a>    <span class="n">ANALYSE</span> <span class="o">=</span> <span class="s2">&quot;Analyse&quot;</span>
+</span><span id="AnnotatorMode-425"><a href="#AnnotatorMode-425"><span class="linenos">425</span></a>    <span class="n">EXERCISE</span> <span class="o">=</span> <span class="s2">&quot;Exercise&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Modes of the PATKIT Annotator.</p>
+</div>
+
+
+                            <div id="AnnotatorMode.ANALYSE" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ANALYSE</span>        =
+<span class="default_value">&lt;<a href="#AnnotatorMode.ANALYSE">AnnotatorMode.ANALYSE</a>: &#39;Analyse&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AnnotatorMode.ANALYSE"></a>
+    
+    
+
+                            </div>
+                            <div id="AnnotatorMode.EXERCISE" class="classattr">
+                                <div class="attr variable">
+            <span class="name">EXERCISE</span>        =
+<span class="default_value">&lt;<a href="#AnnotatorMode.EXERCISE">AnnotatorMode.EXERCISE</a>: &#39;Exercise&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AnnotatorMode.EXERCISE"></a>
+    
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></dt>
+                                <dd id="AnnotatorMode.values" class="function"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum.values">values</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="ExerciseMode">
+                            <input id="ExerciseMode-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">ExerciseMode</span><wbr>(<span class="base"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></span>):
+
+                <label class="view-source-button" for="ExerciseMode-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ExerciseMode"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ExerciseMode-428"><a href="#ExerciseMode-428"><span class="linenos">428</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ExerciseMode</span><span class="p">(</span><span class="n">ListablePrintableEnum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ValueComparedEnumMeta</span><span class="p">):</span>
+</span><span id="ExerciseMode-429"><a href="#ExerciseMode-429"><span class="linenos">429</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="ExerciseMode-430"><a href="#ExerciseMode-430"><span class="linenos">430</span></a><span class="sd">    Modes of the PATKIT Annotator Exercises.</span>
+</span><span id="ExerciseMode-431"><a href="#ExerciseMode-431"><span class="linenos">431</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="ExerciseMode-432"><a href="#ExerciseMode-432"><span class="linenos">432</span></a>    <span class="n">ANSWER</span> <span class="o">=</span> <span class="s2">&quot;Answer&quot;</span>
+</span><span id="ExerciseMode-433"><a href="#ExerciseMode-433"><span class="linenos">433</span></a>    <span class="n">EXAMPLE</span> <span class="o">=</span> <span class="s2">&quot;Example&quot;</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Modes of the PATKIT Annotator Exercises.</p>
+</div>
+
+
+                            <div id="ExerciseMode.ANSWER" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ANSWER</span>        =
+<span class="default_value">&lt;<a href="#ExerciseMode.ANSWER">ExerciseMode.ANSWER</a>: &#39;Answer&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ExerciseMode.ANSWER"></a>
+    
+    
+
+                            </div>
+                            <div id="ExerciseMode.EXAMPLE" class="classattr">
+                                <div class="attr variable">
+            <span class="name">EXAMPLE</span>        =
+<span class="default_value">&lt;<a href="#ExerciseMode.EXAMPLE">ExerciseMode.EXAMPLE</a>: &#39;Example&#39;&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#ExerciseMode.EXAMPLE"></a>
+    
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum">patkit.external_class_extensions.enum_extensions.ListablePrintableEnum</a></dt>
+                                <dd id="ExerciseMode.values" class="function"><a href="external_class_extensions/enum_extensions.html#ListablePrintableEnum.values">values</a></dd>
+
+            </div>
+                                </dl>
                             </div>
                 </section>
     </main>
