@@ -43,7 +43,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.20.1] - 2026-03-03
+## [0.20.1] - 2026-03-04
 
 ### Highlights
 
@@ -51,14 +51,15 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- Status: Annotator/Exercise is now displayed in the GUI.
+- Status of Analysis vs Exercise mode and Answer vs Example mode is now
+  displayed in the GUI as a dropdown and with colours.
 
 ### Changed
 
 - Exercise mode is now separate from regular edit mode. 
   - Flipping between new answer being worked on and the example answer does not
     disable exercise mode.
-  - Editing of example answer in exercise mode is disabled.
+  - Editing of example answer boudnaries in exercise mode is disabled.
 
 ### Bugs
 
