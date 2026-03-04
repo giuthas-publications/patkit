@@ -420,5 +420,13 @@ class AnnotatorMode(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
     """
     Modes of the PATKIT Annotator.
     """
-    ANNOTATOR = "Annotator"
+    ANALYSE = "Analyse"
     EXERCISE = "Exercise"
+
+
+class ExerciseMode(ListablePrintableEnum, metaclass=ValueComparedEnumMeta):
+    """
+    Modes of the PATKIT Annotator Exercises.
+    """
+    ANSWER = "Answer"
+    EXAMPLE = "Example"

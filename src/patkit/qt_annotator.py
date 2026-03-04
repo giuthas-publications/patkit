@@ -43,7 +43,6 @@ from pathlib import Path
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.transforms import Bbox
 import numpy as np
 
 from icecream import ic
@@ -68,7 +67,7 @@ from qbstyles import mpl_style
 
 from patkit.configuration import Configuration
 from patkit.constants import (
-    AnnotatorMode, GuiColorScheme, GuiImageType
+    AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType
 )
 from patkit.data_structures import Exercise, Session
 from patkit.export import (
@@ -130,7 +129,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            annotator_mode: AnnotatorMode = AnnotatorMode.ANNOTATOR,
+            annotator_mode: AnnotatorMode = AnnotatorMode.ANALYSE,
     ):
         super().__init__()
         self.kymography_clicker = None
@@ -148,6 +147,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.mode_drop_down.setCurrentText(annotator_mode.value)
         self.mode = annotator_mode
+        self.exercise_mode = ExerciseMode.ANSWER
         if annotator_mode is AnnotatorMode.EXERCISE:
             self.exercise = Exercise(session)
         else:
@@ -238,6 +238,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.mode_drop_down.currentTextChanged.connect(
             self.mode_selection_changed)
+        self.exercise_drop_down.currentTextChanged.connect(
+            self.exercise_selection_changed)
 
         self.action_create_exercise.triggered.connect(
             self.create_exercise)
@@ -372,6 +374,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.multicursor = None
 
+        self.mode_selection_changed(self.mode.value)
         self.image_updater()
         self.showMaximized()
         # self.show()
@@ -444,7 +447,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         Updates the graphs but not the buttons.
         """
         # TODO 0.20.1: CHECK THAT THIS WORKS
-        if self.mode is AnnotatorMode.EXERCISE:
+        if (
+            self.mode is AnnotatorMode.EXERCISE
+            and self.exercise_mode is ExerciseMode.ANSWER
+        ):
             self.patgrid = self.exercise.current_answer[self.index]
         else:
             self.patgrid = self.current.patgrid
@@ -594,10 +600,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # TODO 0.22: Add a check to draw plots which adds the model textgrid
         # to plotting
-        if self.action_show_example.isChecked():
-            print(
-                "I should be showing the model answer but don't yet know how."
-            )
+        if self.mode is AnnotatorMode.EXERCISE:
+            if self.exercise_mode is ExerciseMode.ANSWER:
+                print(
+                    "I should be showing the model answer "
+                    "but don't yet know how."
+                )
 
         for axes in self.tier_axes:
             axes.remove()
@@ -612,11 +620,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     self.tier_grid_spec[axes_counter],
                     sharex=self.data_axes[0])
                 axes.set_yticks([])
-                # if len(self.data_axes) > 0:
-                #     (_, y0, _, height) = axes.get_position().bounds
-                #     (x0, _, width, _) = self.data_axes[0].get_position().bounds
-                #     bounding_box = Bbox.from_extents(x0, y0, width, height)
-                #     axes.set_position(bounding_box)
                 self.tier_axes.append(axes)
 
         for axes in self.data_axes:
@@ -1206,9 +1209,113 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def show_example(self):
         """
-        On 'Show example' menu item being triggered, update the plots.
+        On 'Show example' menu item being triggered, update mode.
         """
+        if self.action_show_example.isChecked():
+            self.exercise_drop_down.setCurrentText(ExerciseMode.EXAMPLE.value)
+        else:
+            self.exercise_drop_down.setCurrentText(ExerciseMode.ANSWER.value)
+
+    def to_annotator_mode(self) -> None:
+        """
+        Set the GUI to regular annotator mode.
+        """
+        self.menu_exercise.setEnabled(False)
+        self.exercise_drop_down.setEnabled(False)
+        self.action_save_all_textgrids.setEnabled(True)
+        self.action_save_current_textgrid.setEnabled(True)
+
+        self.figure.patch.set_facecolor("black")
+
         self.update()
+        self.update_ui()
+
+    def to_exercise_mode(self) -> None:
+        """
+        Set the GUI to exercise mode.
+        """
+        self.menu_exercise.setEnabled(True)
+        self.exercise_drop_down.setEnabled(True)
+        if self.exercise is None:
+            self.exercise = Exercise(
+                scenario=self.session,
+            )
+            self.exercise.new_blank_answer(cursor=self.cursor)
+        self.action_save_all_textgrids.setEnabled(False)
+        self.action_save_current_textgrid.setEnabled(False)
+
+        self.figure.patch.set_facecolor("#001202")
+
+        self.update()
+        self.update_ui()
+
+    def mode_selection_changed(self, mode: str) -> None:
+        """
+        Callback for changing annotator mode.
+
+        Parameters
+        ----------
+        mode : str
+            The mode's name as a string.
+
+        Raises
+        ------
+        ValueError
+            If encountering an unimplemented mode an Error will be raised.
+        """
+        self.mode = AnnotatorMode(mode)
+        match self.mode:
+            case AnnotatorMode.ANALYSE:
+                self.to_annotator_mode()
+            case AnnotatorMode.EXERCISE:
+                self.to_exercise_mode()
+            case _:
+                raise ValueError(f"Unknown Annotator Mode requested: {mode}.")
+
+    def to_example_mode(self) -> None:
+        """
+        Set the GUI to showing example answer mode.
+        """
+        if not self.action_show_example.isChecked():
+            self.action_show_example.setChecked(True)
+        self.figure.patch.set_facecolor("#000212")
+
+        self.update()
+        self.update_ui()
+
+    def to_answer_mode(self) -> None:
+        """
+        Set the GUI to answering exercise mode.
+        """
+        if self.action_show_example.isChecked():
+            self.action_show_example.setChecked(False)
+        self.figure.patch.set_facecolor("#001202")
+
+        self.update()
+        self.update_ui()
+
+    def exercise_selection_changed(self, mode: str) -> None:
+        """
+        Callback for changing exercise mode.
+
+        Parameters
+        ----------
+        mode : str
+            The mode's name as a string.
+
+        Raises
+        ------
+        ValueError
+            If encountering an unimplemented mode an Error will be raised.
+        """
+        self.exercise_mode = ExerciseMode(mode)
+        match self.exercise_mode:
+            case ExerciseMode.EXAMPLE:
+                self.to_example_mode()
+            case ExerciseMode.ANSWER:
+                self.to_answer_mode()
+            case _:
+                raise ValueError(f"Unknown Exercise Mode requested: {mode}.")
 
     def export_figure(self):
         """
@@ -1263,7 +1370,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 filepath=path,
                 session=self.session,
                 recording=self.current,
-                selection_index=self.current.annotations['frame_selection_index'],
+                selection_index=self.current.annotations[
+                    'frame_selection_index'],
                 selection_time=self.current.annotations['selected_time'],
                 ultrasound=self.current['RawUltrasound'],
                 interpolation_params=interpolation_params
@@ -1674,56 +1782,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.gui_config.xlim is not None:
             self.gui_config.xlim = self.xlim
         self.update()
-
-    def annotator_mode(self) -> None:
-        """
-        Set the GUI correctly for regular annotator mode.
-        """
-        self.menu_exercise.setEnabled(False)
-        self.action_save_all_textgrids.setEnabled(True)
-        self.action_save_current_textgrid.setEnabled(True)
-
-        self.update()
-        self.update_ui()
-
-    def exercise_mode(self) -> None:
-        """
-        Set the GUI correctly for regular annotator mode.
-        """
-        self.menu_exercise.setEnabled(True)
-        if self.exercise is None:
-            self.exercise = Exercise(
-                scenario=self.session,
-            )
-            self.exercise.new_blank_answer(cursor=self.cursor)
-        self.action_save_all_textgrids.setEnabled(False)
-        self.action_save_current_textgrid.setEnabled(False)
-
-        self.update()
-        self.update_ui()
-
-    def mode_selection_changed(self, mode: str) -> None:
-        """
-        Callback for changing annotator mode.
-
-        Parameters
-        ----------
-        mode : str
-            The mode's name as a string.
-
-        Raises
-        ------
-        ValueError
-            If encountering an unimplemented mode an Error will be raised.
-        """
-        self.mode = AnnotatorMode(mode)
-        match self.mode:
-            case AnnotatorMode.ANNOTATOR:
-                self.annotator_mode()
-            case AnnotatorMode.EXERCISE:
-                self.exercise_mode()
-            case _:
-                raise ValueError(f"Unknown Annotator Mode requested: {mode}.")
 
     @property
     def no_modifiers(self) -> bool:

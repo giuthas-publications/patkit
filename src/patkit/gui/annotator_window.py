@@ -35,7 +35,7 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
-from patkit.constants import AnnotatorMode
+from patkit.constants import AnnotatorMode, ExerciseMode
 from patkit.data_structures import Session
 
 
@@ -94,6 +94,9 @@ class UiMainWindow(object):
         self.mode_drop_down = QtWidgets.QComboBox(self.mode_controls)
         self.mode_drop_down.addItems(list(AnnotatorMode.values()))
         self.mode_layout.addWidget(self.mode_drop_down)
+        self.exercise_drop_down = QtWidgets.QComboBox(self.mode_controls)
+        self.exercise_drop_down.addItems(list(ExerciseMode.values()))
+        self.mode_layout.addWidget(self.exercise_drop_down)
         self.side_panel_layout.addWidget(self.mode_controls)
 
         # Navigation buttons and widgets

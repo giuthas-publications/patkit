@@ -58,7 +58,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Exercise mode is now separate from regular edit mode. 
   - Flipping between new answer being worked on and the example answer does not
     disable exercise mode.
-  - Instead, editing of example answer in exercise mode is disabled.
+  - Editing of example answer in exercise mode is disabled.
 
 ### Bugs
 
