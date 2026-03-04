@@ -463,7 +463,7 @@ unreliable) before processing.
 
 ###  `spline-config.yaml`
 
-TODO 0.20: This will be updated in the next configuration update.
+TODO 0.24: This will be updated in the next configuration update.
 
 ```yaml
 import_config:
