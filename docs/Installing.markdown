@@ -9,7 +9,7 @@
   exotic for our purposes.
 - A Linux, a Mac, or a Windows machine should be fine as long as it is capable
   of running a recent version of Python.
-- If issues crop up, get in touch, and we'll see what can be done.
+- If issues crop up, please get in touch, and we'll see about fixing any issues.
 
 Currently, PATKIT is tested to work on
 - PopOS 24.04, which means any recent Ubuntu-like system should be fine.
@@ -30,8 +30,6 @@ Meanwhile `uv` and `pip` are valid options.
 
 ### Using uv
 
-Once the [PyPi](https://pypi.org/search/?q=patkit) package exists this
-simplifies to:
 - Install [uv](https://docs.astral.sh/uv/#getting-started).
 - On the commandline run `uv tool install patkit`.
 - Running [instructions](Running.markdown).

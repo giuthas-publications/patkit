@@ -27,7 +27,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.21 will add audio playback
 - 0.22.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
     more detailed configuration.
@@ -35,12 +34,30 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   selection
 - 0.24 will update configuration handling.
 - 0.25 adds simple ways of opening different kinds of data
-- 0.26 is planned to be a data structure update giving support for multiple
-  data sources per trial.
-- 0.27 will add automatic code tests (both integration and some unit testing)
 - After this we'll be at 1.0.0-alpha and 1.0.0-beta before release of 1.0.
   - There will be a feature freeze at this point.
   - The alpha and beta versions will be mainly quality assurance and code clean up.
+
+
+## [0.20.1] - 2026-03-04
+
+### Highlights
+
+- PATKIT can now.
+
+### Added
+
+
+### Changed
+
+
+### Bugs
+
+- [Old Bugs](Bugs.markdown).
+
+### Fixed
+
+- README links and other content is now more up to date.
 
 
 ## [0.20.2] - 2026-03-04
@@ -48,6 +65,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Fixed
 
 - Symlink to current PATKIT screenshot should work again in various docs.
+
 
 ## [0.20.1] - 2026-03-04
 

@@ -1,6 +1,6 @@
 # PATKIT - Phonetic Analysis ToolKIT 
 
-![PATKIT GUI](docs/PATKIT_UI.png)
+![PATKIT GUI](docs/PATKIT_UI_0.20.1.png)
 
 PATKIT provides tools for phonetic analysis of speech data. It includes a GUI
 for manual assessment/analysis/annotation (see picture above), command line
@@ -21,12 +21,10 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
 
 ## Getting PATKIT
 
-[Detailed instructions](docs/Installing_and_using.markdown).
+[Detailed instructions](docs/Installing.markdown).
 
 ### Quick start guide: 
 
-Check that [PyPi](https://pypi.org/search/?q=patkit) finds patkit and if it
-does:
 - Install [uv](https://docs.astral.sh/uv/#getting-started).
 - On the commandline run `uv tool install patkit`
 - Run `patkit --help` for instructions.
