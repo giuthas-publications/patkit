@@ -43,6 +43,12 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
+## [0.20.2] - 2026-03-04
+
+### Fixed
+
+- Symlink to current PATKIT screenshot should work again in various docs.
+
 ## [0.20.1] - 2026-03-04
 
 ### Highlights
