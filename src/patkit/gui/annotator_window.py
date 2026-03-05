@@ -38,6 +38,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from patkit.constants import AnnotatorMode, ExerciseMode
 from patkit.data_structures import Session
 
+from .player_controls import PlayerControls
+
 
 class UiMainWindow(object):
     def setupUi(self, main_window):
