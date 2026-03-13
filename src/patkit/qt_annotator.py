@@ -1818,4 +1818,5 @@ def run_annotator(
         session=session,
         display_tongue=True,
         config=config)
+    QCoreApplication.setApplicationName("PATKIT")
     sys.exit(app.exec())
