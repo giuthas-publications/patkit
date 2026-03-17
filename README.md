@@ -25,7 +25,10 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
 
 ### Quick start guide: 
 
-- Install [uv](https://docs.astral.sh/uv/#getting-started).
+- Install the package manager uv: 
+  - MacOS/Linux run `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  - Windows run `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+  - See [uv](https://docs.astral.sh/uv/#getting-started) for more details.
 - On the commandline run `uv tool install patkit`
 - Run `patkit --help` for instructions.
 - If you want to run the example data, get the `recorded_data` folder from

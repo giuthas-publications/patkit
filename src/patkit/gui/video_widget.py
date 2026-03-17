@@ -4,7 +4,7 @@
 from PyQt6.QtMultimediaWidgets import QVideoWidget
 from PyQt6.QtWidgets import QSizePolicy
 from PyQt6.QtGui import QPalette
-from PyQt6.QtCore import Qt, QOperatingSystemVersion, Slot
+from PyQt6.QtCore import Qt, QOperatingSystemVersion, pyqtSlot
 
 
 class VideoWidget(QVideoWidget):
@@ -33,7 +33,7 @@ class VideoWidget(QVideoWidget):
         else:
             super().keyPressEvent(event)
 
-    @Slot()
+    @pyqtSlot()
     def switchToFullScreen(self):
         self.setFullScreen(True)
 

@@ -13,13 +13,16 @@ from PyQt6.QtWidgets import (
     QSizePolicy, QSlider, QVBoxLayout, QWidget
 )
 from PyQt6.QtGui import QCursor, QPixmap
-from PyQt6.QtCore import QDir, QLocale, QStandardPaths, QTime, Qt, Signal, Slot
+from PyQt6.QtCore import (
+    QDir, QLocale, QStandardPaths, QTime, Qt, pyqtSignal, pyqtSlot
+)
 
-from .audio_levelmeter import AudioLevelMeter
-from .player_controls import PlayerControls
-from .video_widget import VideoWidget
+from audio_level_meter import AudioLevelMeter
+from player_controls import PlayerControls
+from video_widget import VideoWidget
 
 MP4 = 'video/mp4'
+WAV = 'audio/x-wav'
 
 
 @cache
@@ -35,11 +38,12 @@ def getSupportedMimeTypes():
 
 class Player(QWidget):
 
-    fullScreenChanged = Signal(bool)
+    fullScreenChanged = pyqtSignal(bool)
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.m_statusInfo = ""
+        self.m_trackInfo = ""
         self.m_mediaDevices = QMediaDevices()
         self.m_player = QMediaPlayer(self)
         self.m_audioOutput = QAudioOutput(self)
@@ -55,8 +59,8 @@ class Player(QWidget):
 
         self.m_videoWidget = VideoWidget(self)
         available_geometry = self.screen().availableGeometry()
-        self.m_videoWidget.setMinimumSize(available_geometry.width() / 2,
-                                          available_geometry.height() / 3)
+        self.m_videoWidget.setMinimumSize(int(available_geometry.width() / 2),
+                                          int(available_geometry.height() / 3))
         self.m_player.setVideoOutput(self.m_videoWidget)
 
         # audio level meter
@@ -182,37 +186,37 @@ class Player(QWidget):
 
         layout.addLayout(tracksLayout)
 
-        # metadata
-        metaDataLabel = QLabel("Metadata for file:")
-        layout.addWidget(metaDataLabel)
+        # # metadata
+        # metaDataLabel = QLabel("Metadata for file:")
+        # layout.addWidget(metaDataLabel)
 
-        metaDataLayout = QGridLayout()
-        metaDataCount = QMediaMetaData.NumMetaData
-        self.m_metaDataLabels = [None] * metaDataCount
-        self.m_metaDataFields = [None] * metaDataCount
-        key = QMediaMetaData.Key.Title.value
-        for i in range(0, round((metaDataCount + 2) / 3)):
-            for j in range(0, 6, 2):
-                labelText = QMediaMetaData.metaDataKeyToString(
-                    QMediaMetaData.Key(key))
-                self.m_metaDataLabels[key] = QLabel(labelText)
-                if (key == QMediaMetaData.Key.ThumbnailImage
-                        or key == QMediaMetaData.Key.CoverArtImage):
-                    self.m_metaDataFields[key] = QLabel()
-                else:
-                    lineEdit = QLineEdit()
-                    lineEdit.setReadOnly(True)
-                    self.m_metaDataFields[key] = lineEdit
+        # metaDataLayout = QGridLayout()
+        # metaDataCount = len(QMediaMetaData.keys())
+        # self.m_metaDataLabels = [None] * metaDataCount
+        # self.m_metaDataFields = [None] * metaDataCount
+        # key = QMediaMetaData.Key.Title.value
+        # for i in range(0, round((metaDataCount + 2) / 3)):
+        #     for j in range(0, 6, 2):
+        #         labelText = QMediaMetaData.metaDataKeyToString(
+        #             QMediaMetaData.Key(key))
+        #         self.m_metaDataLabels[key] = QLabel(labelText)
+        #         if (key == QMediaMetaData.Key.ThumbnailImage
+        #                 or key == QMediaMetaData.Key.CoverArtImage):
+        #             self.m_metaDataFields[key] = QLabel()
+        #         else:
+        #             lineEdit = QLineEdit()
+        #             lineEdit.setReadOnly(True)
+        #             self.m_metaDataFields[key] = lineEdit
 
-                self.m_metaDataLabels[key].setDisabled(True)
-                self.m_metaDataFields[key].setDisabled(True)
-                metaDataLayout.addWidget(self.m_metaDataLabels[key], i, j)
-                metaDataLayout.addWidget(self.m_metaDataFields[key], i, j + 1)
-                key += 1
-                if key == QMediaMetaData.NumMetaData:
-                    break
+        #         self.m_metaDataLabels[key].setDisabled(True)
+        #         self.m_metaDataFields[key].setDisabled(True)
+        #         metaDataLayout.addWidget(self.m_metaDataLabels[key], i, j)
+        #         metaDataLayout.addWidget(self.m_metaDataFields[key], i, j + 1)
+        #         key += 1
+        #         if key == QMediaMetaData.NumMetaData:
+        #             break
 
-        layout.addLayout(metaDataLayout)
+        # layout.addLayout(metaDataLayout)
 
         if not self.isPlayerAvailable():
             QMessageBox.warning(
@@ -229,7 +233,7 @@ class Player(QWidget):
         self.m_audioLevelMeter.closeRequest()
         event.accept()
 
-    @Slot()
+    @pyqtSlot()
     def _updatePitchCompensation(self):
         self.m_pitchCompensationButton.setChecked(
             self.m_player.pitchCompensation())
@@ -237,13 +241,13 @@ class Player(QWidget):
     def isPlayerAvailable(self):
         return self.m_player.isAvailable()
 
-    @Slot()
+    @pyqtSlot()
     def open(self):
         fileDialog = QFileDialog(self)
         fileDialog.setAcceptMode(QFileDialog.AcceptMode.AcceptOpen)
         fileDialog.setWindowTitle("Open Files")
         fileDialog.setMimeTypeFilters(getSupportedMimeTypes())
-        fileDialog.selectMimeTypeFilter(MP4)
+        fileDialog.selectMimeTypeFilter(WAV)
         movieDirs = QStandardPaths.standardLocations(
             QStandardPaths.StandardLocation.MoviesLocation)
         fileDialog.setDirectory(movieDirs[0] if movieDirs else QDir.homePath())
@@ -253,68 +257,69 @@ class Player(QWidget):
     def openUrl(self, url):
         self.m_player.setSource(url)
 
-    @Slot("qlonglong")
+    @pyqtSlot("qlonglong")
     def durationChanged(self, duration):
         self.m_duration = duration / 1000
         self.m_slider.setMaximum(duration)
 
-    @Slot("qlonglong")
+    @pyqtSlot("qlonglong")
     def positionChanged(self, progress):
         if not self.m_slider.isSliderDown():
             self.m_slider.setValue(progress)
         self.updateDurationInfo(progress / 1000)
 
-    @Slot()
+    @pyqtSlot()
     def metaDataChanged(self):
-        metaData = self.m_player.metaData()
-        artist = metaData.value(QMediaMetaData.Key.AlbumArtist)
-        title = metaData.value(QMediaMetaData.Key.Title)
-        trackInfo = QApplication.applicationName()
-        if artist and title:
-            trackInfo = f"{artist} - {title}"
-        elif artist:
-            trackInfo = artist
-        elif title:
-            trackInfo = title
-        self.setTrackInfo(trackInfo)
+        pass
+        # metaData = self.m_player.metaData()
+        # artist = metaData.value(QMediaMetaData.Key.AlbumArtist)
+        # title = metaData.value(QMediaMetaData.Key.Title)
+        # trackInfo = QApplication.applicationName()
+        # if artist and title:
+        #     trackInfo = f"{artist} - {title}"
+        # elif artist:
+        #     trackInfo = artist
+        # elif title:
+        #     trackInfo = title
+        # self.setTrackInfo(trackInfo)
 
-        for i in range(0, QMediaMetaData.NumMetaData):
-            field = self.m_metaDataFields[i]
-            if isinstance(field, QLineEdit):
-                field.clear()
-            elif isinstance(field, QLabel):
-                field.clear()
-            self.m_metaDataFields[i].setDisabled(True)
-            self.m_metaDataLabels[i].setDisabled(True)
+        # for i in range(0, QMediaMetaData.NumMetaData):
+        #     field = self.m_metaDataFields[i]
+        #     if isinstance(field, QLineEdit):
+        #         field.clear()
+        #     elif isinstance(field, QLabel):
+        #         field.clear()
+        #     self.m_metaDataFields[i].setDisabled(True)
+        #     self.m_metaDataLabels[i].setDisabled(True)
 
-        for key in metaData.keys():
-            i = key.value
-            field = self.m_metaDataFields[i]
-            if (
-                key == QMediaMetaData.Key.CoverArtImage
-                or key == QMediaMetaData.Key.ThumbnailImage
-            ):
-                if isinstance(field, QLabel):
-                    field.setPixmap(QPixmap.fromImage(metaData.value(key)))
-            elif isinstance(field, QLineEdit):
-                field.setText(metaData.stringValue(key))
+        # for key in metaData.keys():
+        #     i = key.value
+        #     field = self.m_metaDataFields[i]
+        #     if (
+        #         key == QMediaMetaData.Key.CoverArtImage
+        #         or key == QMediaMetaData.Key.ThumbnailImage
+        #     ):
+        #         if isinstance(field, QLabel):
+        #             field.setPixmap(QPixmap.fromImage(metaData.value(key)))
+        #     elif isinstance(field, QLineEdit):
+        #         field.setText(metaData.stringValue(key))
 
-            self.m_metaDataFields[i].setDisabled(False)
-            self.m_metaDataLabels[i].setDisabled(False)
+        #     self.m_metaDataFields[i].setDisabled(False)
+        #     self.m_metaDataLabels[i].setDisabled(False)
 
-        tracks = self.m_player.videoTracks()
-        currentVideoTrack = self.m_player.activeVideoTrack()
-        if currentVideoTrack >= 0 and currentVideoTrack < len(tracks):
-            track = tracks[currentVideoTrack]
-            trackKeys = track.keys()
-            for key in trackKeys:
-                i = key.value
-                field = self.m_metaDataFields[i]
-                if isinstance(field, QLineEdit):
-                    stringValue = track.stringValue(key)
-                    field.setText(stringValue)
-                self.m_metaDataFields[i].setDisabled(True)
-                self.m_metaDataLabels[i].setDisabled(True)
+        # tracks = self.m_player.videoTracks()
+        # currentVideoTrack = self.m_player.activeVideoTrack()
+        # if currentVideoTrack >= 0 and currentVideoTrack < len(tracks):
+        #     track = tracks[currentVideoTrack]
+        #     trackKeys = track.keys()
+        #     for key in trackKeys:
+        #         i = key.value
+        #         field = self.m_metaDataFields[i]
+        #         if isinstance(field, QLineEdit):
+        #             stringValue = track.stringValue(key)
+        #             field.setText(stringValue)
+        #         self.m_metaDataFields[i].setDisabled(True)
+        #         self.m_metaDataLabels[i].setDisabled(True)
 
     def trackName(self, metaData, index):
         name = ""
@@ -333,7 +338,7 @@ class Player(QWidget):
                 name = f"{title} - [{langName}]"
         return name
 
-    @Slot()
+    @pyqtSlot()
     def tracksChanged(self):
         self.m_audioTracks.clear()
         self.m_videoTracks.clear()
@@ -361,15 +366,15 @@ class Player(QWidget):
         self.m_subtitleTracks.setCurrentIndex(
             self.m_player.activeSubtitleTrack() + 1)
 
-    @Slot()
+    @pyqtSlot()
     def previousClicked(self):
         self.m_player.setPosition(0)
 
-    @Slot(int)
+    @pyqtSlot(int)
     def seek(self, mseconds):
         self.m_player.setPosition(mseconds)
 
-    @Slot(QMediaPlayer.MediaStatus)
+    @pyqtSlot(QMediaPlayer.MediaStatus)
     def statusChanged(self, status):
         self.handleCursor(status)
         # handle status message
@@ -398,7 +403,7 @@ class Player(QWidget):
         else:
             self.unsetCursor()
 
-    @Slot("float")
+    @pyqtSlot("float")
     def bufferingProgress(self, progressV):
         progress = round(progressV * 100.0)
         if self.m_player.mediaStatus() == QMediaPlayer.MediaStatus.StalledMedia:
@@ -406,7 +411,7 @@ class Player(QWidget):
         else:
             self.setStatusInfo(f"Buffering {progress}%")
 
-    @Slot(bool)
+    @pyqtSlot(bool)
     def videoAvailableChanged(self, available):
         if not available:
             self.m_fullScreenButton.clicked.disconnect(
@@ -422,17 +427,17 @@ class Player(QWidget):
             if self.m_fullScreenButton.isChecked():
                 self.m_videoWidget.setFullScreen(True)
 
-    @Slot()
+    @pyqtSlot()
     def selectAudioStream(self):
         stream = self.m_audioTracks.currentData()
         self.m_player.setActiveAudioTrack(stream)
 
-    @Slot()
+    @pyqtSlot()
     def selectVideoStream(self):
         stream = self.m_videoTracks.currentData()
         self.m_player.setActiveVideoTrack(stream)
 
-    @Slot()
+    @pyqtSlot()
     def selectSubtitleStream(self):
         stream = self.m_subtitleTracks.currentData()
         self.m_player.setActiveSubtitleTrack(stream)
@@ -451,7 +456,7 @@ class Player(QWidget):
             title += f" | {self.m_statusInfo}"
         self.setWindowTitle(title)
 
-    @Slot()
+    @pyqtSlot()
     def displayErrorMessage(self):
         if self.m_player.error() != QMediaPlayer.Error.NoError:
             self.setStatusInfo(self.m_player.errorString())
@@ -460,17 +465,21 @@ class Player(QWidget):
         tStr = ""
         if currentInfo or self.m_duration:
             currentTime = QTime(
-                (currentInfo / 3600) % 60, (currentInfo / 60) % 60,
-                currentInfo % 60, (currentInfo * 1000) % 1000)
+                int((currentInfo / 3600) % 60),
+                int((currentInfo / 60) % 60),
+                int(currentInfo % 60),
+                int((currentInfo * 1000) % 1000))
             totalTime = QTime(
-                (self.m_duration / 3600) % 60, (self.m_duration / 60) % 60,
-                self.m_duration % 60, (self.m_duration * 1000) % 1000)
+                int((self.m_duration / 3600) % 60),
+                int((self.m_duration / 60) % 60),
+                int(self.m_duration % 60),
+                int((self.m_duration * 1000) % 1000))
             format = "hh:mm:ss" if self.m_duration > 3600 else "mm:ss"
             tStr = currentTime.toString(
                 format) + " / " + totalTime.toString(format)
         self.m_labelDuration.setText(tStr)
 
-    @Slot()
+    @pyqtSlot()
     def updateAudioDevices(self):
         self.m_audioOutputCombo.clear()
 
@@ -479,7 +488,7 @@ class Player(QWidget):
             self.m_audioOutputCombo.addItem(
                 deviceInfo.description(), deviceInfo)
 
-    @Slot(int)
+    @pyqtSlot(int)
     def audioOutputChanged(self, index):
         device = self.m_audioOutputCombo.itemData(index)
         self.m_player.audioOutput().setDevice(device)

@@ -39,14 +39,17 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.20.1] - 2026-03-04
+## [0.21.0] - 2026-03-04
 
 ### Highlights
 
-- PATKIT can now.
+- PATKIT can now play the recorded sounds.
 
 ### Added
 
+- Sound playback for 
+  - whole file
+  - from cursor to end
 
 ### Changed
 
