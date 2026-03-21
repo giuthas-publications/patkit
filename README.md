@@ -45,7 +45,7 @@ sudo apt-get install -y libxcb-cursor-dev
 ```
 Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
-##
+## Documentation
 
 [Documentation](https://giuthas.github.io/patkit/)
 
@@ -57,7 +57,7 @@ and what's coming up.
 
 ## What's included
 
-TODO 0.15: give a quick description of included data and goodies here.
+TODO 0.22: give a quick description of included data and goodies here.
 TODO 1.0: Move the data elsewhere to be optionally loaded.
 
 ## Contributing
