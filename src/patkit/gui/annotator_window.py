@@ -138,6 +138,9 @@ class UiMainWindow(object):
         self.database_view.clicked[QtCore.QModelIndex].connect(
             main_window.on_database_view_clicked)
 
+        self.play_controls = PlayerControls(self.side_panel)
+        self.side_panel_layout.addWidget(self.play_controls)
+
         # Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
