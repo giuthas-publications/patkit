@@ -16,160 +16,160 @@ class PlayerControls(QWidget):
     pause = pyqtSignal()
     stop = pyqtSignal()
     previous = pyqtSignal()
-    changeVolume = pyqtSignal(float)
-    changeMuting = pyqtSignal(bool)
-    changeRate = pyqtSignal(float)
+    change_volume = pyqtSignal(float)
+    change_muting = pyqtSignal(bool)
+    change_rate = pyqtSignal(float)
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
         style = self.style()
-        self.m_playerState = QMediaPlayer.PlaybackState.StoppedState
-        self.m_playerMuted = False
+        self.player_state = QMediaPlayer.PlaybackState.StoppedState
+        self.player_muted = False
 
-        self.m_playButton = QToolButton(self)
-        self.m_playButton.setIcon(style.standardIcon(
+        self.play_button = QToolButton(self)
+        self.play_button.setIcon(style.standardIcon(
             QStyle.StandardPixmap.SP_MediaPlay))
-        self.m_playButton.setToolTip("Play")
-        self.m_playButton.clicked.connect(self.playClicked)
+        self.play_button.setToolTip("Play")
+        self.play_button.clicked.connect(self.play_clicked)
 
-        self.m_pauseButton = QToolButton(self)
-        self.m_pauseButton.setIcon(style.standardIcon(
+        self.pause_button = QToolButton(self)
+        self.pause_button.setIcon(style.standardIcon(
             QStyle.StandardPixmap.SP_MediaPause))
-        self.m_pauseButton.setToolTip("Pause")
-        self.m_pauseButton.clicked.connect(self.pauseClicked)
+        self.pause_button.setToolTip("Pause")
+        self.pause_button.clicked.connect(self.pause_clicked)
 
-        self.m_stopButton = QToolButton(self)
-        self.m_stopButton.setIcon(style.standardIcon(
+        self.stop_button = QToolButton(self)
+        self.stop_button.setIcon(style.standardIcon(
             QStyle.StandardPixmap.SP_MediaStop))
-        self.m_stopButton.setToolTip("Stop")
-        self.m_stopButton.clicked.connect(self.stop)
+        self.stop_button.setToolTip("Stop")
+        self.stop_button.clicked.connect(self.stop)
 
-        self.m_previousButton = QToolButton(self)
-        self.m_previousButton.setIcon(
+        self.previous_button = QToolButton(self)
+        self.previous_button.setIcon(
             style.standardIcon(QStyle.StandardPixmap.SP_MediaSkipBackward)
         )  # noqa: E501
-        self.m_previousButton.setToolTip("Rewind")
-        self.m_previousButton.clicked.connect(self.previous)
+        self.previous_button.setToolTip("Rewind")
+        self.previous_button.clicked.connect(self.previous)
 
-        self.m_muteButton = QToolButton(self)
-        self.m_muteButton.setIcon(style.standardIcon(
+        self.mute_button = QToolButton(self)
+        self.mute_button.setIcon(style.standardIcon(
             QStyle.StandardPixmap.SP_MediaVolume))
-        self.m_muteButton.setToolTip("Mute")
-        self.m_muteButton.clicked.connect(self.muteClicked)
+        self.mute_button.setToolTip("Mute")
+        self.mute_button.clicked.connect(self.mute_clicked)
 
-        self.m_volumeSlider = QSlider(Qt.Orientation.Horizontal, self)
-        self.m_volumeSlider.setRange(0, 100)
-        sp = self.m_volumeSlider.sizePolicy()
+        self.volume_slider = QSlider(Qt.Orientation.Horizontal, self)
+        self.volume_slider.setRange(0, 100)
+        sp = self.volume_slider.sizePolicy()
         sp.setHorizontalPolicy(QSizePolicy.Policy.MinimumExpanding)
-        self.m_volumeSlider.setSizePolicy(sp)
-        self.m_volumeSlider.valueChanged.connect(
-            self.onVolumeSliderValueChanged)
+        self.volume_slider.setSizePolicy(sp)
+        self.volume_slider.valueChanged.connect(
+            self.on_volume_slider_value_changed)
 
-        self.m_rateBox = QComboBox(self)
-        self.m_rateBox.setToolTip("Rate")
-        self.m_rateBox.addItem("0.5x", 0.5)
-        self.m_rateBox.addItem("1.0x", 1.0)
-        self.m_rateBox.addItem("2.0x", 2.0)
-        self.m_rateBox.setCurrentIndex(1)
+        self.rate_box = QComboBox(self)
+        self.rate_box.setToolTip("Rate")
+        self.rate_box.addItem("0.5x", 0.5)
+        self.rate_box.addItem("1.0x", 1.0)
+        self.rate_box.addItem("2.0x", 2.0)
+        self.rate_box.setCurrentIndex(1)
 
-        self.m_rateBox.activated.connect(self.updateRate)
+        self.rate_box.activated.connect(self.update_rate)
 
         self._doSetState(QMediaPlayer.PlaybackState.StoppedState, True)
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.m_previousButton)
-        layout.addWidget(self.m_playButton)
-        layout.addWidget(self.m_pauseButton)
-        layout.addWidget(self.m_stopButton)
-        layout.addWidget(self.m_muteButton)
-        layout.addWidget(self.m_volumeSlider)
-        layout.addWidget(self.m_rateBox)
+        layout.addWidget(self.previous_button)
+        layout.addWidget(self.play_button)
+        layout.addWidget(self.pause_button)
+        layout.addWidget(self.stop_button)
+        layout.addWidget(self.mute_button)
+        layout.addWidget(self.volume_slider)
+        layout.addWidget(self.rate_box)
 
     def state(self):
-        return self.m_playerState
+        return self.player_state
 
     @pyqtSlot(QMediaPlayer.PlaybackState)
     def setState(self, state):
         self._doSetState(state, False)
 
     def _doSetState(self, state, force):
-        if state != self.m_playerState or force:
-            self.m_playerState = state
+        if state != self.player_state or force:
+            self.player_state = state
 
             baseColor = self.palette().color(QPalette.ColorRole.Base)
             inactiveStyleSheet = f"background-color: {baseColor.name()}"
             defaultStyleSheet = ""
 
             if state == QMediaPlayer.PlaybackState.StoppedState:
-                self.m_stopButton.setStyleSheet(inactiveStyleSheet)
-                self.m_playButton.setStyleSheet(defaultStyleSheet)
-                self.m_pauseButton.setStyleSheet(defaultStyleSheet)
+                self.stop_button.setStyleSheet(inactiveStyleSheet)
+                self.play_button.setStyleSheet(defaultStyleSheet)
+                self.pause_button.setStyleSheet(defaultStyleSheet)
             elif state == QMediaPlayer.PlaybackState.PlayingState:
-                self.m_stopButton.setStyleSheet(defaultStyleSheet)
-                self.m_playButton.setStyleSheet(inactiveStyleSheet)
-                self.m_pauseButton.setStyleSheet(defaultStyleSheet)
+                self.stop_button.setStyleSheet(defaultStyleSheet)
+                self.play_button.setStyleSheet(inactiveStyleSheet)
+                self.pause_button.setStyleSheet(defaultStyleSheet)
             elif state == QMediaPlayer.PlaybackState.PausedState:
-                self.m_stopButton.setStyleSheet(defaultStyleSheet)
-                self.m_playButton.setStyleSheet(defaultStyleSheet)
-                self.m_pauseButton.setStyleSheet(inactiveStyleSheet)
+                self.stop_button.setStyleSheet(defaultStyleSheet)
+                self.play_button.setStyleSheet(defaultStyleSheet)
+                self.pause_button.setStyleSheet(inactiveStyleSheet)
 
     def volume(self):
         linearVolume = QtAudio.convertVolume(
-            self.m_volumeSlider.value() / 100.0,
+            self.volume_slider.value() / 100.0,
             QtAudio.VolumeScale.LogarithmicVolumeScale,
             QtAudio.VolumeScale.LinearVolumeScale
         )
         return linearVolume
 
     @pyqtSlot("float")
-    def setVolume(self, volume):
+    def set_volume(self, volume):
         logarithmicVolume = QtAudio.convertVolume(
             volume,
             QtAudio.VolumeScale.LinearVolumeScale,
             QtAudio.VolumeScale.LogarithmicVolumeScale)
-        self.m_volumeSlider.setValue(round(logarithmicVolume * 100.0))
+        self.volume_slider.setValue(round(logarithmicVolume * 100.0))
 
     def isMuted(self):
-        return self.m_playerMuted
+        return self.player_muted
 
     @pyqtSlot(bool)
-    def setMuted(self, muted):
-        if muted != self.m_playerMuted:
-            self.m_playerMuted = muted
+    def set_muted(self, muted):
+        if muted != self.player_muted:
+            self.player_muted = muted
             sp = (QStyle.StandardPixmap.SP_MediaVolumeMuted
                   if muted else QStyle.StandardPixmap.SP_MediaVolume)
-            self.m_muteButton.setIcon(self.style().standardIcon(sp))
+            self.mute_button.setIcon(self.style().standardIcon(sp))
 
     @pyqtSlot()
-    def playClicked(self):
+    def play_clicked(self):
         self.play.emit()
 
     @pyqtSlot()
-    def pauseClicked(self):
+    def pause_clicked(self):
         self.pause.emit()
 
     @pyqtSlot()
-    def muteClicked(self):
-        self.changeMuting.emit(not self.m_playerMuted)
+    def mute_clicked(self):
+        self.change_muting.emit(not self.player_muted)
 
-    def playbackRate(self):
-        return self.m_rateBox.itemData(self.m_rateBox.currentIndex())
+    def playback_rate(self):
+        return self.rate_box.itemData(self.rate_box.currentIndex())
 
-    def setPlaybackRate(self, rate):
-        for i in range(0, self.m_rateBox.count()):
-            if qFuzzyCompare(rate, self.m_rateBox.itemData(i)):
-                self.m_rateBox.setCurrentIndex(i)
+    def set_playback_rate(self, rate):
+        for i in range(0, self.rate_box.count()):
+            if qFuzzyCompare(rate, self.rate_box.itemData(i)):
+                self.rate_box.setCurrentIndex(i)
                 return
 
-        self.m_rateBox.addItem(f"{rate}x", rate)
-        self.m_rateBox.setCurrentIndex(self.m_rateBox.count() - 1)
+        self.rate_box.addItem(f"{rate}x", rate)
+        self.rate_box.setCurrentIndex(self.rate_box.count() - 1)
 
     @pyqtSlot()
-    def updateRate(self):
-        self.changeRate.emit(self.playbackRate())
+    def update_rate(self):
+        self.change_rate.emit(self.playback_rate())
 
     @pyqtSlot()
-    def onVolumeSliderValueChanged(self):
-        self.changeVolume.emit(self.volume())
+    def on_volume_slider_value_changed(self):
+        self.change_volume.emit(self.volume())
