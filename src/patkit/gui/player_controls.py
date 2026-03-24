@@ -79,10 +79,10 @@ class PlayerControls(QWidget):
 
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.m_stopButton)
         layout.addWidget(self.m_previousButton)
-        layout.addWidget(self.m_pauseButton)
         layout.addWidget(self.m_playButton)
+        layout.addWidget(self.m_pauseButton)
+        layout.addWidget(self.m_stopButton)
         layout.addWidget(self.m_muteButton)
         layout.addWidget(self.m_volumeSlider)
         layout.addWidget(self.m_rateBox)
