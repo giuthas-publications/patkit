@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
     QToolButton, QWidget
 )
 from PyQt6.QtGui import QPalette
-from PyQt6.QtCore import qFuzzyCompare, Qt, pyqtSignal, pyqtSlot
+from PyQt6.QtCore import Qt, pyqtSignal, pyqtSlot
 
 
 class PlayerControls(QWidget):
@@ -67,13 +67,14 @@ class PlayerControls(QWidget):
             self.on_volume_slider_value_changed)
 
         self.rate_box = QComboBox(self)
-        self.rate_box.setToolTip("Rate")
+        self.rate_box.setToolTip("Playback rate - not implemented yet")
         self.rate_box.addItem("0.5x", 0.5)
         self.rate_box.addItem("1.0x", 1.0)
         self.rate_box.addItem("2.0x", 2.0)
         self.rate_box.setCurrentIndex(1)
+        self.rate_box.setEnabled(False)
 
-        self.rate_box.activated.connect(self.update_rate)
+        # self.rate_box.activated.connect(self.update_rate)
 
         self._doSetState(QMediaPlayer.PlaybackState.StoppedState, True)
 
@@ -154,17 +155,17 @@ class PlayerControls(QWidget):
     def mute_clicked(self):
         self.change_muting.emit(not self.player_muted)
 
-    def playback_rate(self):
-        return self.rate_box.itemData(self.rate_box.currentIndex())
+    # def playback_rate(self):
+    #     return self.rate_box.itemData(self.rate_box.currentIndex())
 
-    def set_playback_rate(self, rate):
-        for i in range(0, self.rate_box.count()):
-            if qFuzzyCompare(rate, self.rate_box.itemData(i)):
-                self.rate_box.setCurrentIndex(i)
-                return
+    # def set_playback_rate(self, rate):
+    #     for i in range(0, self.rate_box.count()):
+    #         if qFuzzyCompare(rate, self.rate_box.itemData(i)):
+    #             self.rate_box.setCurrentIndex(i)
+    #             return
 
-        self.rate_box.addItem(f"{rate}x", rate)
-        self.rate_box.setCurrentIndex(self.rate_box.count() - 1)
+    #     self.rate_box.addItem(f"{rate}x", rate)
+    #     self.rate_box.setCurrentIndex(self.rate_box.count() - 1)
 
     @pyqtSlot()
     def update_rate(self):
