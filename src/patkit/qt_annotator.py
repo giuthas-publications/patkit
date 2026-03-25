@@ -65,6 +65,8 @@ from PyQt6.QtGui import (
 from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
+import sounddevice
+
 from patkit.configuration import Configuration
 from patkit.constants import (
     AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType
@@ -275,6 +277,20 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.previous_button.clicked.connect(self.prev)
         self.next_button.clicked.connect(self.next)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
+
+        # Audio playback
+        # TODO 1.0 or later: these could be migrated to their own
+        # class along the lines of self.player.play etc. But that will need
+        # access to the cursor state and current sound etc.
+        self.current_audio_frame = 0
+        self.audio_stream = None
+        self.play_controls.play.connect(self.play)
+        self.play_controls.pause.connect(self.pause)
+        self.play_controls.stop.connect(self.stop)
+        self.play_controls.rewind.connect(self.rewind)
+        self.play_controls.change_volume.connect(self.set_volume)
+        # play_controls.change_muting.connect(self.m_audioOutput.setMuted)
+        # play_controls.change_rate.connect(self.m_player.setPlaybackRate)
 
         # PD categories
         # TODO 1.0: these could be optional instead of the below ones
@@ -1794,6 +1810,43 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.alt_gr_is_held
         )
         return not modifiers_pressed
+
+    def audio_play_callback(self, outdata: np.ndarray, frames, time, status):
+        if status:
+            print(status)
+        chunk_size = min(len(data) - self.current_audio_frame, frames)
+        outdata[:chunk_size] = data[
+            self.current_audio_frame:self.current_audio_frame + chunk_size]
+        if chunk_size < frames:
+            outdata[chunk_size:] = 0
+            raise sounddevice.CallbackStop()
+        self.current_audio_frame += chunk_size
+
+    def play(self) -> None:
+        if 'MonoAudio' not in self.current:
+            print('No audio to play.')
+            print(list(self.current.keys()))
+            return
+
+        self.audio_stream = sounddevice.OutputStream(
+            samplerate=fs,
+            device=args.device,
+            channels=data.shape[1],
+            callback=self.audio_play_callback,
+            finished_callback=event.set
+        )
+
+    def pause(self) -> None:
+        pass
+
+    def stop(self) -> None:
+        pass
+
+    def rewind(self) -> None:
+        pass
+
+    def set_volume(self) -> None:
+        pass
 
 
 def run_annotator(
