@@ -55,7 +55,7 @@ class PlayerControls(QWidget):
         self.mute_button = QToolButton(self)
         self.mute_button.setIcon(style.standardIcon(
             QStyle.StandardPixmap.SP_MediaVolume))
-        self.mute_button.setToolTip("Mute")
+        self.mute_button.setToolTip("Mute - not implemented yet")
         # self.mute_button.clicked.connect(self.mute_clicked)
 
         self.volume_slider = QSlider(Qt.Orientation.Horizontal, self)
@@ -63,8 +63,9 @@ class PlayerControls(QWidget):
         sp = self.volume_slider.sizePolicy()
         sp.setHorizontalPolicy(QSizePolicy.Policy.MinimumExpanding)
         self.volume_slider.setSizePolicy(sp)
-        self.volume_slider.valueChanged.connect(
-            self.on_volume_slider_value_changed)
+        self.volume_slider.setToolTip("Volume - not implemented yet")
+        # self.volume_slider.valueChanged.connect(
+        #     self.on_volume_slider_value_changed)
 
         self.rate_box = QComboBox(self)
         self.rate_box.setToolTip("Playback rate - not implemented yet")
@@ -87,6 +88,7 @@ class PlayerControls(QWidget):
         layout.addWidget(self.rate_box)
 
         self.mute_button.setEnabled(False)
+        self.volume_slider.setEnabled(False)
         self.rate_box.setEnabled(False)
 
     def state(self):
