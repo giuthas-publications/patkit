@@ -1816,42 +1816,23 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         )
         return not modifiers_pressed
 
-    def audio_play_callback(self, outdata: np.ndarray, frames, time, status):
-        data = self.current['MonoAudio'].modality_data.data
-        if status:
-            print(status)
-        chunk_size = min(len(data) - self.current_audio_frame, frames)
-        next_chunk = data[
-            self.current_audio_frame:self.current_audio_frame + chunk_size]
-        next_chunk.shape = (len(next_chunk), 1)
-        outdata[:chunk_size] = next_chunk
-        if chunk_size < frames:
-            outdata[chunk_size:] = 0
-            raise sounddevice.CallbackStop()
-        self.current_audio_frame += chunk_size
-
     def play(self) -> None:
         if 'MonoAudio' not in self.current:
             print('No audio to play.')
             print(list(self.current.keys()))
             return
 
-        self.audio_stream = sounddevice.OutputStream(
+        sounddevice.play(
+            data=self.current['MonoAudio'].modality_data.data,
             samplerate=self.current['MonoAudio'].modality_data.sampling_rate,
-            dtype=self.current['MonoAudio'].modality_data.data.dtype,
             device=self.current_audio_device,
-            channels=1,
-            callback=self.audio_play_callback,
-            finished_callback=self.event.set
         )
-        with self.audio_stream:
-            self.event.wait()
 
     def pause(self) -> None:
         pass
 
     def stop(self) -> None:
-        pass
+        sounddevice.stop()
 
     def rewind(self) -> None:
         pass
