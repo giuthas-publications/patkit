@@ -39,6 +39,7 @@ import sys
 from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
+import threading
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -284,6 +285,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # access to the cursor state and current sound etc.
         self.current_audio_frame = 0
         self.audio_stream = None
+        self.event = threading.Event()
+        self.current_audio_device = sounddevice.default.device
+        # TODO 0.21: use sounddevice.query_devices() to create a selection menu
+        # for audio output
         self.play_controls.play.connect(self.play)
         self.play_controls.pause.connect(self.pause)
         self.play_controls.stop.connect(self.stop)
@@ -1816,8 +1821,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if status:
             print(status)
         chunk_size = min(len(data) - self.current_audio_frame, frames)
-        outdata[:chunk_size] = data[
+        next_chunk = data[
             self.current_audio_frame:self.current_audio_frame + chunk_size]
+        next_chunk.shape = (len(next_chunk), 1)
+        outdata[:chunk_size] = next_chunk
         if chunk_size < frames:
             outdata[chunk_size:] = 0
             raise sounddevice.CallbackStop()
@@ -1831,11 +1838,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.audio_stream = sounddevice.OutputStream(
             samplerate=self.current['MonoAudio'].modality_data.sampling_rate,
-            device=args.device,
-            channels=self.current['MonoAudio'].modality_data.data.shape[1],
+            dtype=self.current['MonoAudio'].modality_data.data.dtype,
+            device=self.current_audio_device,
+            channels=1,
             callback=self.audio_play_callback,
-            finished_callback=event.set
+            finished_callback=self.event.set
         )
+        with self.audio_stream:
+            self.event.wait()
 
     def pause(self) -> None:
         pass
