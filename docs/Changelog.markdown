@@ -39,6 +39,25 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
+## [0.22.0] - 2026-03-31
+
+### Highlights
+
+- 
+
+### Added
+
+- 
+
+### Bugs
+
+- [Old Bugs](Bugs.markdown).
+
+### Fixed
+
+- Manifest files now work.
+
+
 ## [0.21.0] - 2026-03-27
 
 ### Highlights
