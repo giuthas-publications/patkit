@@ -107,6 +107,8 @@ In the fork repository:
    - [Generated documentation](../devel/doc_generation_commands)
    - Consider adding a new GUI screenshot or two if there have been significant
      updates.
+     - If you do take a new screenshot, update the link in README and add it to
+       the [gallery](PATKIT_GUI_versions.markdown).
 3. Send a pull request to the main repo.
 4. After the new version has been released there are some housekeeping steps to
    perform in the fork repository. They are listed at the end of these instructions

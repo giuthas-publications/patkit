@@ -39,6 +39,7 @@ import sys
 from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
+import time
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -65,6 +66,8 @@ from PyQt6.QtGui import (
 from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
+import sounddevice
+
 from patkit.configuration import Configuration
 from patkit.constants import (
     AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType
@@ -77,8 +80,8 @@ from patkit.export import (
     export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, ReplaceDialog,
-    UiMainWindow
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
+    ReplaceDialog, UiMainWindow,
 )
 from patkit.plot_and_publish import (
     format_legend,
@@ -275,6 +278,23 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.previous_button.clicked.connect(self.prev)
         self.next_button.clicked.connect(self.next)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
+
+        # Audio playback
+        # TODO 1.0 or later: these could be migrated to their own
+        # class along the lines of self.player.play etc. But that will need
+        # access to the cursor state and current sound etc.
+        self.current_audio_frame = 0
+        self.audio_start_time = None
+        self.current_audio_device = sounddevice.default.device
+        # TODO 0.21: use sounddevice.query_devices() to create a selection menu
+        # for audio output
+        self.play_controls.play.connect(self.play)
+        self.play_controls.pause.connect(self.pause)
+        self.play_controls.stop.connect(self.stop)
+        self.play_controls.rewind.connect(self.rewind)
+        self.play_controls.change_volume.connect(self.set_volume)
+        # play_controls.change_muting.connect(self.m_audioOutput.setMuted)
+        # play_controls.change_rate.connect(self.m_player.setPlaybackRate)
 
         # PD categories
         # TODO 1.0: these could be optional instead of the below ones
@@ -1795,6 +1815,64 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         )
         return not modifiers_pressed
 
+    def play(self) -> None:
+        """
+        Play the audio of the current recording.
+
+        Playing starts from the current selection cursor if any.
+        """
+        if 'MonoAudio' not in self.current:
+            print('No audio to play.')
+            print(list(self.current.keys()))
+            return
+
+        if self.current.annotations['selected_time'] > -1:
+            timevector = self.current['MonoAudio'].modality_data.timevector
+            selected_time = self.current.annotations['selected_time']
+            start_index = np.argwhere(timevector > selected_time)[0][0]
+            data = self.current['MonoAudio'].modality_data.data[start_index:]
+        else:
+            data = self.current['MonoAudio'].modality_data.data
+
+        # data = self.current['MonoAudio'].modality_data.data
+        sounddevice.play(
+            data=data,
+            samplerate=self.current['MonoAudio'].modality_data.sampling_rate,
+            device=self.current_audio_device,
+        )
+        self.audio_start_time = time.time()
+
+    def pause(self) -> None:
+        """
+        Pause playing audio.
+
+        Moves the selection cursor to the time when the playing was paused. 
+        """
+        sounddevice.stop()
+        paused_time = time.time()
+        played_time = paused_time-self.audio_start_time
+        self.current.annotations['selected_time'] = played_time
+        self.update()
+
+    def stop(self) -> None:
+        """
+        Stop playing audio.
+        """
+        sounddevice.stop()
+        self.audio_start_time = None
+
+    def rewind(self) -> None:
+        """
+        Move the selection cursor to beginning of the recording.
+        """
+        if self.current.annotations['selected_time'] > -1:
+            new_cursor = self.current['MonoAudio'].modality_data.timevector[0]
+            self.current.annotations['selected_time'] = new_cursor
+        self.update()
+
+    def set_volume(self) -> None:
+        pass
+
 
 def run_annotator(
         session: Session,
@@ -1818,4 +1896,5 @@ def run_annotator(
         session=session,
         display_tongue=True,
         config=config)
+    QCoreApplication.setApplicationName("PATKIT")
     sys.exit(app.exec())

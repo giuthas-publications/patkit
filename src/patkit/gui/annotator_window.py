@@ -38,6 +38,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from patkit.constants import AnnotatorMode, ExerciseMode
 from patkit.data_structures import Session
 
+from .player_controls import PlayerControls
+
 
 class UiMainWindow(object):
     def setupUi(self, main_window):
@@ -45,11 +47,11 @@ class UiMainWindow(object):
         main_window.setObjectName("MainWindow")
         # main_window.resize(1087, 795)
         main_window.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.centralwidget = QtWidgets.QWidget(main_window)
-        self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
+        self.central_widget = QtWidgets.QWidget(main_window)
+        self.central_widget.setObjectName("central_widget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.central_widget)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.mplwindow = QtWidgets.QWidget(self.centralwidget)
+        self.mplwindow = QtWidgets.QWidget(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Expanding,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -65,7 +67,7 @@ class UiMainWindow(object):
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
 
         # Side panel
-        self.side_panel = QtWidgets.QFrame(self.centralwidget)
+        self.side_panel = QtWidgets.QFrame(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -136,6 +138,9 @@ class UiMainWindow(object):
         self.database_view.clicked[QtCore.QModelIndex].connect(
             main_window.on_database_view_clicked)
 
+        self.play_controls = PlayerControls(self.side_panel)
+        self.side_panel_layout.addWidget(self.play_controls)
+
         # Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
@@ -188,7 +193,7 @@ class UiMainWindow(object):
         self.horizontalLayout.addWidget(self.side_panel)
         self.horizontalLayout.addWidget(self.mplwindow)
 
-        main_window.setCentralWidget(self.centralwidget)
+        main_window.setCentralWidget(self.central_widget)
 
         # Menu bar
         self.menubar = QtWidgets.QMenuBar(main_window)
@@ -458,7 +463,8 @@ class UiMainWindow(object):
             _translate("MainWindow", "Export distance matrices...")
         )
 
-        # self.action_exercise_mode.setText(_translate("MainWindow", "Exercise"))
+        # self.action_exercise_mode.setText(
+        #   _translate("MainWindow", "Exercise"))
         # self.action_annotator_mode.setText(
         #     _translate("MainWindow", "Annotator"))
 
