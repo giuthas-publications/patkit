@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -42,8 +42,8 @@ The Recording and the Modality. Similarly, the commandline interface -- and
 the batch processing of data -- is handled by classes that extend CLI and 
 graphical annotation tools derive from Annotator.
 
-The following images are mainly used for debugging, and are too large to display
-here, but in case somebody is interested:
+The following images are mainly used for debugging, and are too large to
+display here, but in case somebody is interested:
 - [PATKIT Module hierarchy](packages_patkit.png "PATKIT Module hierarchy")
 - [PATKIT Class hierarchies](classes_patkit.png "PATKIT Class hierarchies")
 """
@@ -60,9 +60,8 @@ from .qt_annotator import run_annotator
 
 # Load logging config from json file.
 LOG_CONFIG = "patkit_logging_configuration.json"
-with resource_path(
-        'patkit.default_configuration', LOG_CONFIG
-) as configuration_path:
+CONFIG_ANCHOR = 'patkit.default_configuration'
+with resource_path(CONFIG_ANCHOR, LOG_CONFIG) as configuration_path:
     with open(configuration_path, 'r', encoding='utf-8') as configuration_file:
         config_dict = json.load(configuration_file)
         logging.config.dictConfig(config_dict)
@@ -72,4 +71,3 @@ _patkit_logger = logging.getLogger('patkit')
 
 # Log that the logger was configured.
 _patkit_logger.info('Completed configuring logger.')
-

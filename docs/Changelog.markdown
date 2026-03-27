@@ -27,38 +27,132 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.18.x releases will add displaying the model answer, saving and loading of
-  exercise answers, and possibly some more detailed configuration.
-- 0.19 will add audio playback
-- 0.20 is planned to be a data structure update giving support for multiple
-  data sources per trial.
-- 0.21 will update configuration handling.
-- 0.22 will add further GUI features
-- 0.23 is planned to be an implementation of kymography. This might get moved 
-  to a release after 0.23.
-- After 0.23 there are planned updates to CLI, GUI, ultrasound frame
-  interpolation, processing speed by implementing multiprocessing, new
-  algorithms (optic flow, LPC for tongues, kymography, ...), new data sources,
-  code testing, documentation and finally a 1.0 release.
+- 0.22.x updates the exercise functionality 
+  - this is mainly saving and loading of exercise answers, and possibly some
+    more detailed configuration.
+- 0.23.x will improve the annotation GUI by adding missing features like interval
+  selection
+- 0.24 will update configuration handling.
+- 0.25 adds simple ways of opening different kinds of data
+- After this we'll be at 1.0.0-alpha and 1.0.0-beta before release of 1.0.
+  - There will be a feature freeze at this point.
+  - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.18.3] - 2025-08-14
+## [0.21.0] - 2026-03-27
 
 ### Highlights
 
-- Save and load answer data.
+- PATKIT can now play the recorded sounds.
 
 ### Added
 
-- Answers can now be named, saved, and loaded.
-- There is a new indicator text in the GUI which shows which mode Patkit is
-  running in: Annotation or Exercise.
-- Example answer can be displayed simultaneously with the answer being worked
-  on.
+- Sound playback for 
+  - whole file
+  - from cursor to end
+  - reset cursor to beginning with rewind button
+
+### Bugs
+
+- [Old Bugs](Bugs.markdown).
 
 ### Fixed
 
+- README links and other content is now more up to date.
 
+
+## [0.20.2] - 2026-03-04
+
+### Fixed
+
+- Symlink to current PATKIT screenshot should work again in various docs.
+
+
+## [0.20.1] - 2026-03-04
+
+### Highlights
+
+- Clearer indicators for exercise mode vs regular edit/analysis mode.
+
+### Added
+
+- Status of Analysis vs Exercise mode and Answer vs Example mode is now
+  displayed in the GUI as a dropdown and with colours.
+
+### Changed
+
+- Exercise mode is now separate from regular edit mode. 
+  - Flipping between new answer being worked on and the example answer does not
+    disable exercise mode.
+  - Editing of example answer boudnaries in exercise mode is disabled.
+
+### Bugs
+
+- The mode colours (Analyse vs Exercise, Answer vs Example) only work well in
+  dark mode as no light mode counterparts have been yet defined.
+- [Old Bugs](Bugs.markdown).
+
+### Fixed
+
+- Some security issues were fixed by upgrading dependencies.
+
+
+## [0.20.0] - 2026-02-24
+
+### Highlights
+
+- Cursor timestamp is now shown in the GUI.
+- Curve values and clicked frequency in spectrogram highlighted in GUI.
+- Roadmap to 1.0 has been updated above.
+
+### Added
+
+- Display of cursor timestamp next to the cursor.
+- Brought 'previous' and 'next' buttons back.
+- Meta addition: The 'Bugs' section below will now track all know bugs. This is
+  subject to change if the practice proves too cumbersome.
+
+### Bugs
+
+Only new bugs will be listed here. Bugs found in previous versions that have
+not yet been fixed are listed in [Bugs](Bugs.markdown). Fixed bugs will be
+listed under Fixed as before.
+
+### Fixed
+
+- Moved back to `tight` layout due to issues in axes not lining up vertically
+  with each other.
+- Commandline history now works in the interactive interpreter mode, because
+  somebody else fixed it in the libraries.
+
+
+## [0.20.0-alpha.1] - 2026-02-12
+
+### Highlights
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
+
+### Fixed
+
+- Fixing prerelease naming to conform with Semantic versioning.
+
+
+## [0.19.0] - 2025-12-08
+
+### Highlights
+
+- New Intensity Modality for analysing image intensity.
+
+### Added
+
+- Basic version of Intensity Modality calculates intensity as sum of pixel
+  values.
+
+### Fixed
+
+- Simulation had broken down with recent updates, but works again.
+- Also some updates to reporting in simulation.
 
 
 ## [0.18.2] - 2025-08-08
@@ -171,7 +265,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Bugs
 
 - Exclusion lists are disabled until reimplementation in most likely version
-  0.20.
+  0.20. -- Updated: most likely in version 0.28.
 
 
 ## [0.15.2] - 2025-04-22

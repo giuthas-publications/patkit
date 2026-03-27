@@ -59,3 +59,7 @@ long run than gains in execution speed.
     - GUI parameters
     - Data processing parameters
   - Local configuration
+
+## Just for reference
+
+- [Screenshots of the GUI in different versions](PATKIT_GUI_versions.markdown)

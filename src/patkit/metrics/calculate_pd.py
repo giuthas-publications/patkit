@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -230,8 +230,12 @@ def calculate_pd(
 
         modality_data = ModalityData(
             norm_data, sampling_rate, timevectors[param_set.timestep])
-        # TODO: add the patkit save path if it is known.
-        file_info = FileInformation()
+        if parent_modality.patkit_path:
+            file_info = FileInformation(
+                patkit_path=parent_modality.patkit_path)
+        else:
+            file_info = FileInformation()
+
         pds.append(
             PD(
                 container=parent_modality.recording,
@@ -257,7 +261,7 @@ def add_pd(recording: Recording,
            pd_on_interpolated_data: bool = False,
            mask_images: bool = False) -> None:
     """
-    Calculate PD on dataModality and add it to recording.
+    Calculate PD on the Modality and add it to the Recording.
 
     Positional arguments:
     recording -- a Recording object

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -30,39 +30,45 @@
 # citations.bib in BibTeX format.
 #
 """
-Error classes for patkit.
+Error classes for PATKIT.
 """
 
 
-class patkitError(Exception):
-    """Base class of patkit Errors."""
+class PatkitError(Exception):
+    """Base class of PATKIT Errors."""
 
 
-class MissingDataError(patkitError):
+class DimensionMismatchError(PatkitError):
+    """
+    Trying to replace the data or timevector with unmatched np.ndarray.
+
+    Fail can be using unmatching dtype, size, or shape.
+    """
+
+class MissingDataError(PatkitError):
     """
     Data requested from Modality but is unavailable.
 
     This Error signifies that a Modality was created without providing either a
-    path to files to load or an algorithm for deriving the Modality from another
-    Modality.
+    path to files to load or an algorithm for deriving the Modality from
+    another Modality.
     """
 
 
-class OverwriteError(patkitError):
+class NoImporterError(PatkitError):
+    """
+    No importer function was found for the data. 
+    """
+
+class OverwriteError(PatkitError):
     """
     Modality or Statistic already exists in container.
     """
 
 
-class DimensionMismatchError(patkitError):
-    """
-    Trying to replace the data or timevector in a Modality with non-matching dtype, size, or shape.
-    """
-
-
-class UnrecognisedNormError(patkitError):
+class UnrecognisedNormError(PatkitError):
     """Did not have an implementation for requested norm."""
 
 
-class UltrasoundInterpolationError(patkitError):
+class UltrasoundInterpolationError(PatkitError):
     """Interpolated ultrasound image could not be produced."""

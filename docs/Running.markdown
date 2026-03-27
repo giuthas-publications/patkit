@@ -20,14 +20,17 @@ Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
 ## Running the examples
 
-TODO 0.19: update this
+TODO 0.28: update this
 
 Get the [test data](Test_data.markdown).
 
-There are three small datasets included in the distribution. You can
-run tests on them with the test script `pd_test.py`. Currently, the
-following work and produce a new spaghetti_plot.pdf and a transcript
-in `[method_name].log`.
+There are three small datasets included in the distribution until they move to
+an external repository. After that there will be functionality in PATKIT to
+download the datasets on request. 
+
+You can run tests on them with the test script `pd_test.py`. Currently, the
+following work and produce a new spaghetti_plot.pdf and a transcript in
+`[method_name].log`.
 
 ``` shell
 patkit recorded_data/tongue_data_1_1

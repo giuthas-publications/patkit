@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -113,7 +113,7 @@ def generate_aaa_recording_list(
         for basename in tqdm(basenames, desc="Generating Recordings")
     ]
 
-    # TODO 0.20 RESOLVE THIS
+    # TODO 0.24 RESOLVE THIS
     # if import_config and import_config.exclusion_list:
     #     apply_exclusion_list(recordings, import_config.exclusion_list)
 

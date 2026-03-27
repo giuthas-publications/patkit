@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -29,24 +29,32 @@
 # articles listed in README.md. They can also be found in
 # citations.bib in BibTeX format.
 #
+"""
+The container classes and calculation functions for metrics and statistics. 
+"""
+
 from .ofreg import of
 from .calculate_aggregate_images import add_aggregate_images
 from .calculate_distance_matrices import add_distance_matrices
+from .calculate_intensity import add_intensity
 from .calculate_pd import add_pd
 from .calculate_spline_metric import add_spline_metric
 
-from .downsample_metric import downsample_metrics_in_session, downsample_metrics
+from .downsample_metric import (
+    downsample_metrics_in_session, downsample_metrics
+)
 
 from .aggregate_image import AggregateImage, AggregateImageParameters
 from .distance_matrix import DistanceMatrix, DistanceMatrixParameters
+from .intensity import Intensity, IntensityParameters
 from .pd import PD, PdParameters, ImageMask
 from .spline_metric import (SplineMetric, SplineMetricParameters)
-from ..constants import SplineDiffsEnum, SplineNNDsEnum, SplineShapesEnum
 
-# TODO: Decide if it is worth it to use typing.Annotated to document this
+# TODO: Decide if it is worth it to use typing.Annotated to document this.
 # metrics is a mapping between a modality name and its actual type and the
 # validator model for its parameters.
 metrics = {
+    'Intensity': (Intensity, IntensityParameters),
     'PD': (PD, PdParameters),
     'SplineMetric': (SplineMetric, SplineMetricParameters),
 }

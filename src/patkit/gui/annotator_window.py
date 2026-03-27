@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -35,19 +35,23 @@ This is the main window of the PATKIT annotator.
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
+from patkit.constants import AnnotatorMode, ExerciseMode
 from patkit.data_structures import Session
+
+from .player_controls import PlayerControls
+
 
 class UiMainWindow(object):
     def setupUi(self, main_window):
-        #### Main elements and sizing
+        # Main elements and sizing
         main_window.setObjectName("MainWindow")
-        main_window.resize(1087, 795)
+        # main_window.resize(1087, 795)
         main_window.setFocusPolicy(QtCore.Qt.FocusPolicy.StrongFocus)
-        self.centralwidget = QtWidgets.QWidget(main_window)
-        self.centralwidget.setObjectName("centralwidget")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
+        self.central_widget = QtWidgets.QWidget(main_window)
+        self.central_widget.setObjectName("central_widget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.central_widget)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.mplwindow = QtWidgets.QWidget(self.centralwidget)
+        self.mplwindow = QtWidgets.QWidget(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Expanding,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -61,10 +65,9 @@ class UiMainWindow(object):
         self.mplWindowVerticalLayout = QtWidgets.QVBoxLayout(self.mplwindow)
         self.mplWindowVerticalLayout.setContentsMargins(0, 0, 0, 0)
         self.mplWindowVerticalLayout.setObjectName("mplWindowVerticalLayout")
-        self.horizontalLayout.addWidget(self.mplwindow)
 
-        ### Top navigation buttons and widgets
-        self.side_panel = QtWidgets.QFrame(self.centralwidget)
+        # Side panel
+        self.side_panel = QtWidgets.QFrame(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
             QtWidgets.QSizePolicy.Policy.Preferred
@@ -82,6 +85,23 @@ class UiMainWindow(object):
         self.side_panel_layout.setContentsMargins(0, 0, 0, 0)
         self.side_panel_layout.setObjectName("side_panel_layout")
 
+        # Mode selection
+        self.mode_controls = QtWidgets.QGroupBox(self.side_panel)
+        self.mode_controls.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.mode_controls.setObjectName("mode_box")
+        self.mode_layout = QtWidgets.QHBoxLayout(self.mode_controls)
+        self.mode_layout.setContentsMargins(0, 0, 0, 0)
+        self.mode_layout.setObjectName("mode_layout")
+
+        self.mode_drop_down = QtWidgets.QComboBox(self.mode_controls)
+        self.mode_drop_down.addItems(list(AnnotatorMode.values()))
+        self.mode_layout.addWidget(self.mode_drop_down)
+        self.exercise_drop_down = QtWidgets.QComboBox(self.mode_controls)
+        self.exercise_drop_down.addItems(list(ExerciseMode.values()))
+        self.mode_layout.addWidget(self.exercise_drop_down)
+        self.side_panel_layout.addWidget(self.mode_controls)
+
+        # Navigation buttons and widgets
         self.go_to_group = QtWidgets.QGroupBox(self.side_panel)
         self.go_to_group.setMaximumSize(QtCore.QSize(16777215, 80))
         self.go_to_group.setObjectName("groupBox")
@@ -98,9 +118,18 @@ class UiMainWindow(object):
         self.goButton.setMaximumSize(QtCore.QSize(80, 16777215))
         self.goButton.setObjectName("goButton")
         self.go_to_layout.addWidget(self.goButton)
+
+        self.previous_button = QtWidgets.QPushButton(self.go_to_group)
+        self.previous_button.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.previous_button.setObjectName("previous_button")
+        self.go_to_layout.addWidget(self.previous_button)
+        self.next_button = QtWidgets.QPushButton(self.go_to_group)
+        self.next_button.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.next_button.setObjectName("next_button")
+        self.go_to_layout.addWidget(self.next_button)
         self.side_panel_layout.addWidget(self.go_to_group)
 
-        ### List view
+        # List view
         self.database_view = QtWidgets.QListView(self.side_panel)
         self.database_model = QtGui.QStandardItemModel()
         self.database_view.setModel(self.database_model)
@@ -109,7 +138,10 @@ class UiMainWindow(object):
         self.database_view.clicked[QtCore.QModelIndex].connect(
             main_window.on_database_view_clicked)
 
-        ### Ultrasound frame display
+        self.play_controls = PlayerControls(self.side_panel)
+        self.side_panel_layout.addWidget(self.play_controls)
+
+        # Ultrasound frame display
         self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
@@ -129,39 +161,46 @@ class UiMainWindow(object):
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.side_panel_layout.addWidget(self.ultrasoundFrame)
 
-        ### Annotation radio buttons
-        self.positionRB = QtWidgets.QGroupBox(self.side_panel)
-        self.positionRB.setObjectName("positionRB")
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_1.setAutoFillBackground(False)
-        self.positionRB_1.setObjectName("positionRB_1")
-        self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
-        self.tonguePositionRBs.setObjectName("tonguePositionRBs")
-        self.tonguePositionRBs.addButton(self.positionRB_1)
-        self.verticalLayout_5.addWidget(self.positionRB_1)
-        self.positionRB_2 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_2.setAutoFillBackground(False)
-        self.positionRB_2.setObjectName("positionRB_2")
-        self.tonguePositionRBs.addButton(self.positionRB_2)
-        self.verticalLayout_5.addWidget(self.positionRB_2)
-        self.positionRB_3 = QtWidgets.QRadioButton(self.positionRB)
-        self.positionRB_3.setAutoFillBackground(False)
-        self.positionRB_3.setObjectName("positionRB_3")
-        self.tonguePositionRBs.addButton(self.positionRB_3)
-        self.verticalLayout_5.addWidget(self.positionRB_3)
-        self.side_panel_layout.addWidget(self.positionRB)
+        # TODO 1.1: Consider bringing these back as a e.g. a mode option like
+        # exercises. Or build a customisation example from them. They are
+        # connected with a section in translation code further below and in
+        # two places in qt_annotator.
+        #
+        # Annotation radio buttons
+        # self.positionRB = QtWidgets.QGroupBox(self.side_panel)
+        # self.positionRB.setObjectName("positionRB")
+        # self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.positionRB)
+        # self.verticalLayout_5.setObjectName("verticalLayout_5")
+        # self.positionRB_1 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_1.setAutoFillBackground(False)
+        # self.positionRB_1.setObjectName("positionRB_1")
+        # self.tonguePositionRBs = QtWidgets.QButtonGroup(main_window)
+        # self.tonguePositionRBs.setObjectName("tonguePositionRBs")
+        # self.tonguePositionRBs.addButton(self.positionRB_1)
+        # self.verticalLayout_5.addWidget(self.positionRB_1)
+        # self.positionRB_2 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_2.setAutoFillBackground(False)
+        # self.positionRB_2.setObjectName("positionRB_2")
+        # self.tonguePositionRBs.addButton(self.positionRB_2)
+        # self.verticalLayout_5.addWidget(self.positionRB_2)
+        # self.positionRB_3 = QtWidgets.QRadioButton(self.positionRB)
+        # self.positionRB_3.setAutoFillBackground(False)
+        # self.positionRB_3.setObjectName("positionRB_3")
+        # self.tonguePositionRBs.addButton(self.positionRB_3)
+        # self.verticalLayout_5.addWidget(self.positionRB_3)
+        # self.side_panel_layout.addWidget(self.positionRB)
+
         self.horizontalLayout.addWidget(self.side_panel)
+        self.horizontalLayout.addWidget(self.mplwindow)
 
-        main_window.setCentralWidget(self.centralwidget)
+        main_window.setCentralWidget(self.central_widget)
 
-        ### Menu bar
+        # Menu bar
         self.menubar = QtWidgets.QMenuBar(main_window)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1087, 22))
         self.menubar.setObjectName("menubar")
 
-        ### Menus
+        # Menus
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
         self.menu_export = QtWidgets.QMenu(self.menubar)
@@ -170,6 +209,8 @@ class UiMainWindow(object):
         self.menu_exercise.setObjectName("menu_exercise")
         self.menu_image = QtWidgets.QMenu(self.menubar)
         self.menu_image.setObjectName("menu_image")
+        # self.menu_mode = QtWidgets.QMenu(self.menubar)
+        # self.menu_mode.setObjectName("menu_mode")
         self.menu_navigation = QtWidgets.QMenu(self.menubar)
         self.menu_navigation.setObjectName("menu_navigation")
         self.menu_script = QtWidgets.QMenu(self.menubar)
@@ -177,14 +218,14 @@ class UiMainWindow(object):
         self.menu_script.setObjectName("menu_script")
         main_window.setMenuBar(self.menubar)
 
-        ### Statusbar
+        # Statusbar
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
-        ## Menu items
+        # Menu items
 
-        ### File menu
+        # File menu
         self.actionNew = QtGui.QAction(main_window)
         self.actionNew.setObjectName("actionNew")
         self.action_open = QtGui.QAction(main_window)
@@ -209,9 +250,7 @@ class UiMainWindow(object):
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_quit)
 
-        ### Exercise menu actions
-        self.action_run_as_exercise = QtGui.QAction(main_window)
-        self.action_run_as_exercise.setObjectName("action_run_as_exercise")
+        # Exercise menu actions
         self.action_create_exercise = QtGui.QAction(main_window)
         self.action_create_exercise.setObjectName("action_create_exercise")
         self.action_open_exercise = QtGui.QAction(main_window)
@@ -221,11 +260,11 @@ class UiMainWindow(object):
         self.action_save_answer = QtGui.QAction(main_window)
         self.action_save_answer.setObjectName("action_save_answer")
         self.action_compare_to_example = QtGui.QAction(main_window)
-        self.action_compare_to_example.setObjectName("action_compare_to_example")
+        self.action_compare_to_example.setObjectName(
+            "action_compare_to_example")
         self.action_show_example = QtGui.QAction(main_window)
         self.action_show_example.setObjectName("action_show_example")
 
-        self.menu_exercise.addAction(self.action_run_as_exercise)
         self.menu_exercise.addAction(self.action_create_exercise)
         self.menu_exercise.addAction(self.action_open_exercise)
         self.menu_exercise.addSeparator()
@@ -235,16 +274,13 @@ class UiMainWindow(object):
         self.menu_exercise.addAction(self.action_compare_to_example)
         self.menu_exercise.addAction(self.action_show_example)
 
-        # TODO: 0.18.1: Implement this?
+        # TODO: 0.22: Implement this?
         self.action_compare_to_example.setEnabled(False)
-
-        self.action_run_as_exercise.setCheckable(True)
-        self.action_run_as_exercise.setChecked(False)
 
         self.action_show_example.setCheckable(True)
         self.action_show_example.setChecked(False)
 
-        ### Export menu actions
+        # Export menu actions
         self.action_export_analysis = QtGui.QAction(main_window)
         self.action_export_analysis.setEnabled(False)
         self.action_export_analysis.setObjectName("action_export_analysis")
@@ -278,7 +314,25 @@ class UiMainWindow(object):
         self.menu_export.addAction(self.action_export_main_figure)
         self.menu_export.addAction(self.action_export_ultrasound_frame)
 
-        ### Navigation menu actions
+        # Mode menu actions
+        # self.mode_group = QtGui.QActionGroup(main_window)
+        # self.action_annotator_mode = QtGui.QAction(main_window)
+        # self.action_annotator_mode.setObjectName(
+        #     "action_annotator_mode"
+        # )
+        # self.action_annotator_mode.setCheckable(True)
+        # self.action_exercise_mode = QtGui.QAction(main_window)
+        # self.action_exercise_mode.setObjectName(
+        #     "action_exercise_mode"
+        # )
+        # self.action_exercise_mode.setCheckable(True)
+        # self.mode_group.addAction(self.action_annotator_mode)
+        # self.mode_group.addAction(self.action_exercise_mode)
+        # self.action_annotator_mode.setChecked(True)
+        # self.menu_mode.addAction(self.action_annotator_mode)
+        # self.menu_mode.addAction(self.action_exercise_mode)
+
+        # Navigation menu actions
         self.action_next = QtGui.QAction(main_window)
         self.action_next.setObjectName("action_next")
         self.action_previous = QtGui.QAction(main_window)
@@ -294,7 +348,7 @@ class UiMainWindow(object):
         self.menu_navigation.addAction(self.action_next_frame)
         self.menu_navigation.addAction(self.action_previous_frame)
 
-        ### Script menu actions
+        # Script menu actions
         self.actionShow_interpreter = QtGui.QAction(main_window)
         self.actionShow_interpreter.setObjectName("actionShow_interpreter")
         self.actionRun_file = QtGui.QAction(main_window)
@@ -303,11 +357,12 @@ class UiMainWindow(object):
         # self.menu_script.addAction(self.actionShow_interpreter)
         # self.menu_script.addAction(self.actionRun_file)
 
-        ### Menubar setup
+        # Menubar setup
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
+        # self.menubar.addAction(self.menu_mode.menuAction())
         self.menubar.addAction(self.menu_navigation.menuAction())
         self.menubar.addAction(self.menu_script.menuAction())
 
@@ -318,27 +373,29 @@ class UiMainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(
             _translate("MainWindow", "PATKIT Annotator"))
+        self.mode_controls.setTitle(_translate("MainWindow", "Annotator Mode"))
         self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
         self.goButton.setText(_translate("MainWindow", "Go"))
-        self.positionRB.setTitle(
-            _translate("MainWindow", "Customised Metadata: TonguePosition")
-        )
-        self.positionRB_1.setText(_translate("MainWindow", "High"))
-        self.positionRB_2.setText(_translate("MainWindow", "Low"))
-        self.positionRB_3.setText(
-            _translate("MainWindow", "Other / Not visible"))
+        self.previous_button.setText(_translate("MainWindow", "Previous"))
+        self.next_button.setText(_translate("MainWindow", "Next"))
+
+        # Annotation radio buttons
+        # self.positionRB.setTitle(
+        #     _translate("MainWindow", "Customised Metadata: TonguePosition")
+        # )
+        # self.positionRB_1.setText(_translate("MainWindow", "High"))
+        # self.positionRB_2.setText(_translate("MainWindow", "Low"))
+        # self.positionRB_3.setText(
+        #     _translate("MainWindow", "Other / Not visible"))
 
         self.menu_file.setTitle(_translate("MainWindow", "File"))
         self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
         self.menu_export.setTitle(_translate("MainWindow", "Export"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
+        # self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
 
-        self.action_run_as_exercise.setText(
-            _translate("MainWindow", "Run as exercise"))
-        self.action_run_as_exercise.setShortcut(
-            _translate("MainWindow", "Alt+E"))
         self.action_create_exercise.setText(
             _translate("MainWindow", "Create exercise..."))
         self.action_open_exercise.setText(
@@ -351,6 +408,8 @@ class UiMainWindow(object):
             _translate("MainWindow", "Compare to example"))
         self.action_show_example.setText(
             _translate("MainWindow", "Show example"))
+        self.action_show_example.setShortcut(
+            _translate("MainWindow", "Alt+E"))
 
         self.actionNew.setText(_translate("MainWindow", "New"))
         self.action_open.setText(_translate("MainWindow", "Open..."))
@@ -374,7 +433,8 @@ class UiMainWindow(object):
         self.action_next_frame.setShortcut(_translate("MainWindow", "Right"))
         self.action_previous_frame.setText(
             _translate("MainWindow", "Previous Frame"))
-        self.action_previous_frame.setShortcut(_translate("MainWindow", "Left"))
+        self.action_previous_frame.setShortcut(
+            _translate("MainWindow", "Left"))
         self.action_export_main_figure.setText(
             _translate("MainWindow", "Export main figure...")
         )
@@ -395,11 +455,18 @@ class UiMainWindow(object):
         self.action_save_current_textgrid.setText(
             _translate("MainWindow", "Save current TextGrid")
         )
+
         self.action_quit.setText(_translate("MainWindow", "Quit"))
         self.action_quit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
+
         self.action_export_distance_matrices.setText(
             _translate("MainWindow", "Export distance matrices...")
         )
+
+        # self.action_exercise_mode.setText(
+        #   _translate("MainWindow", "Exercise"))
+        # self.action_annotator_mode.setText(
+        #     _translate("MainWindow", "Annotator"))
 
     def add_items_to_database_view(self, session: Session):
         """
@@ -425,7 +492,7 @@ class UiMainWindow(object):
         Parameters
         ----------
         session : Session
-            Use the recordings in the given Session to replace the old ones. 
+            Use the recordings in the given Session to replace the old ones.
         """
         self.database_model.clear()
         self.add_items_to_database_view(session)

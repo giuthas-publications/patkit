@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -35,5 +35,5 @@ from .annotator_window import UiMainWindow
 from .boundary_animation import BoundaryAnimator
 from .image_save_dialog import ImageSaveDialog
 from .list_save_dialog import ListSaveDialog
-from .open_answer_dialog import OpenAnswerDialog
+from .player_controls import PlayerControls
 from .replace_dialog import ReplaceDialog

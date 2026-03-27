@@ -37,6 +37,7 @@
                     <li><a href="metrics/calculate_spline_metric.html">calculate_spline_metric</a></li>
                     <li><a href="metrics/distance_matrix.html">distance_matrix</a></li>
                     <li><a href="metrics/downsample_metric.html">downsample_metric</a></li>
+                    <li><a href="metrics/intensity.html">intensity</a></li>
                     <li><a href="metrics/metrics_helpers.html">metrics_helpers</a></li>
                     <li><a href="metrics/ofreg.html">ofreg</a></li>
                     <li><a href="metrics/pd.html">pd</a></li>
@@ -68,13 +69,15 @@
                     <h1 class="modulename">
 <a href="./../patkit.html">patkit</a><wbr>.metrics    </h1>
 
-                
+                        <div class="docstring"><p>The container classes and calculation functions for metrics and statistics.</p>
+</div>
+
                         <input id="mod-metrics-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-metrics-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1">#</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="c1"># Copyright (c) 2019-2026</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="c1">#</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
@@ -104,32 +107,40 @@
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="c1"># articles listed in README.md. They can also be found in</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="c1"># citations.bib in BibTeX format.</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="c1">#</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.ofreg</span><span class="w"> </span><span class="kn">import</span> <span class="n">of</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_aggregate_images</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_aggregate_images</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_distance_matrices</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_distance_matrices</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_pd</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_pd</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_spline_metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_spline_metric</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.downsample_metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">downsample_metrics_in_session</span><span class="p">,</span> <span class="n">downsample_metrics</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.aggregate_image</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateImage</span><span class="p">,</span> <span class="n">AggregateImageParameters</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.distance_matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistanceMatrix</span><span class="p">,</span> <span class="n">DistanceMatrixParameters</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.pd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PD</span><span class="p">,</span> <span class="n">PdParameters</span><span class="p">,</span> <span class="n">ImageMask</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.spline_metric</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">SplineMetric</span><span class="p">,</span> <span class="n">SplineMetricParameters</span><span class="p">)</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">SplineDiffsEnum</span><span class="p">,</span> <span class="n">SplineNNDsEnum</span><span class="p">,</span> <span class="n">SplineShapesEnum</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="c1"># TODO: Decide if it is worth it to use typing.Annotated to document this</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="c1"># metrics is a mapping between a modality name and its actual type and the</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="c1"># validator model for its parameters.</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">PD</span><span class="p">,</span> <span class="n">PdParameters</span><span class="p">),</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="s1">&#39;SplineMetric&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">SplineMetric</span><span class="p">,</span> <span class="n">SplineMetricParameters</span><span class="p">),</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="p">}</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="n">statistics</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="s1">&#39;AggregateImage&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">AggregateImage</span><span class="p">,</span> <span class="n">AggregateImageParameters</span><span class="p">),</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="s1">&#39;DistanceMatrix&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">DistanceMatrix</span><span class="p">,</span> <span class="n">DistanceMatrixParameters</span><span class="p">),</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="p">}</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">The container classes and calculation functions for metrics and statistics. </span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.ofreg</span><span class="w"> </span><span class="kn">import</span> <span class="n">of</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_aggregate_images</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_aggregate_images</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_distance_matrices</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_distance_matrices</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_intensity</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_intensity</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_pd</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_pd</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.calculate_spline_metric</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_spline_metric</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.downsample_metric</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="n">downsample_metrics_in_session</span><span class="p">,</span> <span class="n">downsample_metrics</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.aggregate_image</span><span class="w"> </span><span class="kn">import</span> <span class="n">AggregateImage</span><span class="p">,</span> <span class="n">AggregateImageParameters</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.distance_matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistanceMatrix</span><span class="p">,</span> <span class="n">DistanceMatrixParameters</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.intensity</span><span class="w"> </span><span class="kn">import</span> <span class="n">Intensity</span><span class="p">,</span> <span class="n">IntensityParameters</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.pd</span><span class="w"> </span><span class="kn">import</span> <span class="n">PD</span><span class="p">,</span> <span class="n">PdParameters</span><span class="p">,</span> <span class="n">ImageMask</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.spline_metric</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">SplineMetric</span><span class="p">,</span> <span class="n">SplineMetricParameters</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="c1"># TODO: Decide if it is worth it to use typing.Annotated to document this.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="c1"># metrics is a mapping between a modality name and its actual type and the</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="c1"># validator model for its parameters.</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="s1">&#39;Intensity&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">Intensity</span><span class="p">,</span> <span class="n">IntensityParameters</span><span class="p">),</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="s1">&#39;PD&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">PD</span><span class="p">,</span> <span class="n">PdParameters</span><span class="p">),</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="s1">&#39;SplineMetric&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">SplineMetric</span><span class="p">,</span> <span class="n">SplineMetricParameters</span><span class="p">),</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="p">}</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="n">statistics</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="s1">&#39;AggregateImage&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">AggregateImage</span><span class="p">,</span> <span class="n">AggregateImageParameters</span><span class="p">),</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="s1">&#39;DistanceMatrix&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">DistanceMatrix</span><span class="p">,</span> <span class="n">DistanceMatrixParameters</span><span class="p">),</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="p">}</span>
 </span></pre></div>
 
 
@@ -138,7 +149,7 @@
                     <div class="attr variable">
             <span class="name">metrics</span>        =
 <input id="metrics-view-value" class="view-value-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-            <label class="view-value-button pdoc-button" for="metrics-view-value"></label><span class="default_value">{&#39;PD&#39;: (&lt;class &#39;<a href="metrics/pd.html#PD">patkit.metrics.pd.PD</a>&#39;&gt;, &lt;class &#39;<a href="metrics/pd.html#PdParameters">patkit.metrics.pd.PdParameters</a>&#39;&gt;), &#39;SplineMetric&#39;: (&lt;class &#39;<a href="metrics/spline_metric.html#SplineMetric">patkit.metrics.spline_metric.SplineMetric</a>&#39;&gt;, &lt;class &#39;<a href="metrics/spline_metric.html#SplineMetricParameters">patkit.metrics.spline_metric.SplineMetricParameters</a>&#39;&gt;)}</span>
+            <label class="view-value-button pdoc-button" for="metrics-view-value"></label><span class="default_value">{&#39;Intensity&#39;: (&lt;class &#39;<a href="metrics/intensity.html#Intensity">patkit.metrics.intensity.Intensity</a>&#39;&gt;, &lt;class &#39;<a href="metrics/intensity.html#IntensityParameters">patkit.metrics.intensity.IntensityParameters</a>&#39;&gt;), &#39;PD&#39;: (&lt;class &#39;<a href="metrics/pd.html#PD">patkit.metrics.pd.PD</a>&#39;&gt;, &lt;class &#39;<a href="metrics/pd.html#PdParameters">patkit.metrics.pd.PdParameters</a>&#39;&gt;), &#39;SplineMetric&#39;: (&lt;class &#39;<a href="metrics/spline_metric.html#SplineMetric">patkit.metrics.spline_metric.SplineMetric</a>&#39;&gt;, &lt;class &#39;<a href="metrics/spline_metric.html#SplineMetricParameters">patkit.metrics.spline_metric.SplineMetricParameters</a>&#39;&gt;)}</span>
 
         
     </div>

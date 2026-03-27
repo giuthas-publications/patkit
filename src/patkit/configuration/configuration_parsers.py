@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -260,6 +260,11 @@ def load_data_params(filepath: Path | str | None = None) -> YAML:
                     Optional('sort'): Bool(),
                     Optional('sort_criteria'): UniqueSeq(Str()),
                 }),
+                Optional("intensity_arguments"): Map({
+                    "modalities": Seq(Str()),
+                    Optional("preload", default=True): Bool(),
+                    Optional("release_data_memory", default=True): Bool(),
+                }),
                 Optional("pd_arguments"): Map({
                     "norms": Seq(Str()),
                     "timesteps": Seq(Int()),
@@ -480,6 +485,8 @@ def load_gui_params(filepath: Path | str | None = None) -> YAML:
                 Optional('auto_xlim', default=False): Bool(),
                 "default_font_size": Int(),
                 Optional("color_scheme", default="follow_system"): Str(),
+                Optional("display_image_info", default=True): Bool(),
+                Optional("display_curve_values", default=True): Bool(),
             })
             try:
                 _raw_gui_params_dict = load(yaml_file.read(), schema)

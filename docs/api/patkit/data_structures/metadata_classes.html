@@ -189,7 +189,7 @@
                         <label class="view-source-button" for="mod-metadata_classes-view-source"><span>View Source</span></label>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="c1">#</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Copyright (c) 2019-2025</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Copyright (c) 2019-2026</span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="c1">#</span>
 </span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># This file is part of the Phonetic Analysis ToolKIT</span>
@@ -244,7 +244,7 @@
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="nd">@dataclass</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileInformation</span><span class="p">:</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">    File and Path information for patkit DataObjects. </span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a><span class="sd">    File and Path information for patkit DataObjects.</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">    recorded_data_file: str | None = None</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a><span class="sd">        Name of the file containing the raw recorded data.</span>
@@ -300,7 +300,7 @@
 </span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_data_file</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span><span class="p">:</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>        <span class="k">return</span> <span class="n">stem_path</span><span class="p">(</span><span class="n">basepath</span><span class="p">)</span>
@@ -340,7 +340,7 @@
 </span><span id="L-150"><a href="#L-150"><span class="linenos">150</span></a><span class="sd">    Time point annotations for a Modality.</span>
 </span><span id="L-151"><a href="#L-151"><span class="linenos">151</span></a>
 </span><span id="L-152"><a href="#L-152"><span class="linenos">152</span></a><span class="sd">    For each modality there should be only one of these for each kind of</span>
-</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">    annotation type. </span>
+</span><span id="L-153"><a href="#L-153"><span class="linenos">153</span></a><span class="sd">    annotation type.</span>
 </span><span id="L-154"><a href="#L-154"><span class="linenos">154</span></a>
 </span><span id="L-155"><a href="#L-155"><span class="linenos">155</span></a><span class="sd">    annotation_type : AnnotationType</span>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a><span class="sd">        unique identifier for the annotation type</span>
@@ -348,9 +348,9 @@
 </span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a><span class="sd">        indeces of the annotation points. `modality_data.data[indeces[i]]` and</span>
 </span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a><span class="sd">        `modality_data.timevector[indeces[i]]` correspond to the annotation at</span>
 </span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a><span class="sd">        `i`.</span>
-</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="sd">    times : np.ndarray </span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a><span class="sd">    times : np.ndarray</span>
 </span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a><span class="sd">        timestamps of the annotation points</span>
-</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    generating_parameters : dict </span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a><span class="sd">    generating_parameters : dict</span>
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a><span class="sd">        the function call arguments and other parameters used in generating</span>
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a><span class="sd">        these annotations.</span>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a><span class="sd">    properties : dict</span>
@@ -465,7 +465,7 @@
             <div class="pdoc-code codehilite"><pre><span></span><span id="FileInformation-55"><a href="#FileInformation-55"><span class="linenos"> 55</span></a><span class="nd">@dataclass</span>
 </span><span id="FileInformation-56"><a href="#FileInformation-56"><span class="linenos"> 56</span></a><span class="k">class</span><span class="w"> </span><span class="nc">FileInformation</span><span class="p">:</span>
 </span><span id="FileInformation-57"><a href="#FileInformation-57"><span class="linenos"> 57</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="FileInformation-58"><a href="#FileInformation-58"><span class="linenos"> 58</span></a><span class="sd">    File and Path information for patkit DataObjects. </span>
+</span><span id="FileInformation-58"><a href="#FileInformation-58"><span class="linenos"> 58</span></a><span class="sd">    File and Path information for patkit DataObjects.</span>
 </span><span id="FileInformation-59"><a href="#FileInformation-59"><span class="linenos"> 59</span></a>
 </span><span id="FileInformation-60"><a href="#FileInformation-60"><span class="linenos"> 60</span></a><span class="sd">    recorded_data_file: str | None = None</span>
 </span><span id="FileInformation-61"><a href="#FileInformation-61"><span class="linenos"> 61</span></a><span class="sd">        Name of the file containing the raw recorded data.</span>
@@ -521,14 +521,14 @@
 </span><span id="FileInformation-111"><a href="#FileInformation-111"><span class="linenos">111</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_data_file</span>
 </span><span id="FileInformation-112"><a href="#FileInformation-112"><span class="linenos">112</span></a>            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span><span class="p">:</span>
 </span><span id="FileInformation-113"><a href="#FileInformation-113"><span class="linenos">113</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span>
-</span><span id="FileInformation-114"><a href="#FileInformation-114"><span class="linenos">114</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+</span><span id="FileInformation-114"><a href="#FileInformation-114"><span class="linenos">114</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="FileInformation-115"><a href="#FileInformation-115"><span class="linenos">115</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="FileInformation-116"><a href="#FileInformation-116"><span class="linenos">116</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span>
 </span><span id="FileInformation-117"><a href="#FileInformation-117"><span class="linenos">117</span></a>        <span class="k">return</span> <span class="n">stem_path</span><span class="p">(</span><span class="n">basepath</span><span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>File and Path information for patkit DataObjects. </p>
+            <div class="docstring"><p>File and Path information for patkit DataObjects.</p>
 
 <p>recorded_data_file: str | None = None
     Name of the file containing the raw recorded data.
@@ -696,7 +696,7 @@ patkit_path : Path | None
 </span><span id="FileInformation.basepath-111"><a href="#FileInformation.basepath-111"><span class="linenos">111</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_data_file</span>
 </span><span id="FileInformation.basepath-112"><a href="#FileInformation.basepath-112"><span class="linenos">112</span></a>            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span><span class="p">:</span>
 </span><span id="FileInformation.basepath-113"><a href="#FileInformation.basepath-113"><span class="linenos">113</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">recorded_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">recorded_meta_file</span>
-</span><span id="FileInformation.basepath-114"><a href="#FileInformation.basepath-114"><span class="linenos">114</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+</span><span id="FileInformation.basepath-114"><a href="#FileInformation.basepath-114"><span class="linenos">114</span></a>        <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="FileInformation.basepath-115"><a href="#FileInformation.basepath-115"><span class="linenos">115</span></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="FileInformation.basepath-116"><a href="#FileInformation.basepath-116"><span class="linenos">116</span></a>                <span class="n">basepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patkit_path</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">patkit_meta_file</span>
 </span><span id="FileInformation.basepath-117"><a href="#FileInformation.basepath-117"><span class="linenos">117</span></a>        <span class="k">return</span> <span class="n">stem_path</span><span class="p">(</span><span class="n">basepath</span><span class="p">)</span>
@@ -919,7 +919,7 @@ r-phi-confidence, spline points] for data in polar coordinates.</p>
 </span><span id="PointAnnotations-151"><a href="#PointAnnotations-151"><span class="linenos">151</span></a><span class="sd">    Time point annotations for a Modality.</span>
 </span><span id="PointAnnotations-152"><a href="#PointAnnotations-152"><span class="linenos">152</span></a>
 </span><span id="PointAnnotations-153"><a href="#PointAnnotations-153"><span class="linenos">153</span></a><span class="sd">    For each modality there should be only one of these for each kind of</span>
-</span><span id="PointAnnotations-154"><a href="#PointAnnotations-154"><span class="linenos">154</span></a><span class="sd">    annotation type. </span>
+</span><span id="PointAnnotations-154"><a href="#PointAnnotations-154"><span class="linenos">154</span></a><span class="sd">    annotation type.</span>
 </span><span id="PointAnnotations-155"><a href="#PointAnnotations-155"><span class="linenos">155</span></a>
 </span><span id="PointAnnotations-156"><a href="#PointAnnotations-156"><span class="linenos">156</span></a><span class="sd">    annotation_type : AnnotationType</span>
 </span><span id="PointAnnotations-157"><a href="#PointAnnotations-157"><span class="linenos">157</span></a><span class="sd">        unique identifier for the annotation type</span>
@@ -927,9 +927,9 @@ r-phi-confidence, spline points] for data in polar coordinates.</p>
 </span><span id="PointAnnotations-159"><a href="#PointAnnotations-159"><span class="linenos">159</span></a><span class="sd">        indeces of the annotation points. `modality_data.data[indeces[i]]` and</span>
 </span><span id="PointAnnotations-160"><a href="#PointAnnotations-160"><span class="linenos">160</span></a><span class="sd">        `modality_data.timevector[indeces[i]]` correspond to the annotation at</span>
 </span><span id="PointAnnotations-161"><a href="#PointAnnotations-161"><span class="linenos">161</span></a><span class="sd">        `i`.</span>
-</span><span id="PointAnnotations-162"><a href="#PointAnnotations-162"><span class="linenos">162</span></a><span class="sd">    times : np.ndarray </span>
+</span><span id="PointAnnotations-162"><a href="#PointAnnotations-162"><span class="linenos">162</span></a><span class="sd">    times : np.ndarray</span>
 </span><span id="PointAnnotations-163"><a href="#PointAnnotations-163"><span class="linenos">163</span></a><span class="sd">        timestamps of the annotation points</span>
-</span><span id="PointAnnotations-164"><a href="#PointAnnotations-164"><span class="linenos">164</span></a><span class="sd">    generating_parameters : dict </span>
+</span><span id="PointAnnotations-164"><a href="#PointAnnotations-164"><span class="linenos">164</span></a><span class="sd">    generating_parameters : dict</span>
 </span><span id="PointAnnotations-165"><a href="#PointAnnotations-165"><span class="linenos">165</span></a><span class="sd">        the function call arguments and other parameters used in generating</span>
 </span><span id="PointAnnotations-166"><a href="#PointAnnotations-166"><span class="linenos">166</span></a><span class="sd">        these annotations.</span>
 </span><span id="PointAnnotations-167"><a href="#PointAnnotations-167"><span class="linenos">167</span></a><span class="sd">    properties : dict</span>
@@ -1017,7 +1017,7 @@ r-phi-confidence, spline points] for data in polar coordinates.</p>
             <div class="docstring"><p>Time point annotations for a Modality.</p>
 
 <p>For each modality there should be only one of these for each kind of
-annotation type. </p>
+annotation type.</p>
 
 <p>annotation_type : AnnotationType
     unique identifier for the annotation type
@@ -1025,9 +1025,9 @@ indeces : np.ndarray
     indeces of the annotation points. <code>modality_data.data[indeces[i]]</code> and
     <code>modality_data.timevector[indeces[i]]</code> correspond to the annotation at
     <code>i</code>.
-times : np.ndarray 
+times : np.ndarray
     timestamps of the annotation points
-generating_parameters : dict 
+generating_parameters : dict
     the function call arguments and other parameters used in generating
     these annotations.
 properties : dict

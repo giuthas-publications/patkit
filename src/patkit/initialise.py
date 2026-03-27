@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -55,13 +55,18 @@ from patkit.data_structures import Session
 from patkit.metrics import (
     add_aggregate_images,
     add_distance_matrices,
+    add_intensity,
     add_pd,
     add_spline_metric,
     downsample_metrics_in_session,
 )
-from patkit.modalities import RawUltrasound, Splines
+from patkit.modalities import (
+    RawUltrasound, Splines
+)
+from patkit.get_modality_types import get_modality_types
 from patkit.utility_functions import (
-    log_elapsed_time, set_logging_level)
+    log_elapsed_time, set_logging_level
+)
 
 
 def get_config_dir(path: Path) -> Path:
@@ -83,25 +88,27 @@ def get_config_dir(path: Path) -> Path:
     match path.suffix:
         case SourceSuffix.TEXTGRID:
             print("Direct TextGrid loading planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case SourceSuffix.WAV:
             print("Direct wav loading planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case SourceSuffix.AAA_ULTRA:
             print("Direct AAA ultrasound data loading planned for "
-                    "implementation by 1.0.")
+                  "implementation by 1.0.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
             print("Loading based on a manifest file planned for "
-                    "implementation in 0.18.")
+                  "implementation in 0.18.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
             path = path.parent
+        case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SIMULATION:
+            path = path.parent
         case PatkitSuffix.META:
             print("Loading based of a single saved trial planned for "
-                    "a later release. For now loading the whole directory.")
+                  "a later release. For now loading the whole directory.")
             path = path.parent
         case _:
             message = (
@@ -156,15 +163,20 @@ def initialise_config(
     """
     logger = set_logging_level(logging_level)
 
-    # TODO 0.20 check if this deals correctly with symlinks
+    # TODO 0.25 check if this deals correctly with symlinks
     path = path.resolve()
-    if path.is_file():
+    if not path.exists():
+        message = (
+            f"Path does not exist: {path}."
+        )
+        logger.error(message)
+        sys.exit()
+    elif path.is_file():
         path = get_config_dir(path)
     elif not path.is_dir():
         message = (
-            f"Unknown path type {path}."
+            f"Unknown path type: {path}."
         )
-        print(message)
         logger.error(message)
         sys.exit()
 
@@ -237,7 +249,7 @@ def initialise_patkit(
         session = load_data(config)
         log_elapsed_time(logger)
 
-        # TODO 0.20: resolve this
+        # TODO 0.24: resolve this
         # exclusion_list = None
         # if exclusion_file is not None:
         #     exclusion_file = path_from_name(exclusion_file)
@@ -281,7 +293,17 @@ def add_derived_data(
     """
     data_run_config = config.data_config
 
+    # TODO 0.21: Automate most of this for arbitrary Modalities.
     modality_operation_dict = {}
+    if data_run_config.intensity_arguments:
+        intensity_arguments = data_run_config.intensity_arguments
+        modality_types = get_modality_types(intensity_arguments.modalities)
+        modality_operation_dict["Intensity"] = (
+            add_intensity,
+            modality_types,
+            intensity_arguments.model_dump(exclude=['modalities']),
+        )
+
     if data_run_config.pd_arguments:
         pd_arguments = data_run_config.pd_arguments
         modality_operation_dict["PD"] = (

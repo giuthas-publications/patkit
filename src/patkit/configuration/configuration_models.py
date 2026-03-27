@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -295,6 +295,12 @@ class AggregateImageArguments(UpdatableBaseModel):
     run_on_interpolated_data: bool = False
 
 
+class IntensityArguments(UpdatableBaseModel):
+    modalities: list[str]
+    release_data_memory: bool = True
+    preload: bool = True
+
+
 class PdArguments(UpdatableBaseModel):
     norms: list[str]
     timesteps: list[int]
@@ -391,6 +397,7 @@ class DataConfig(UpdatableBaseModel):
     flags: DataFlags
     output_directory: Path | None = None
     aggregate_image_arguments: AggregateImageArguments | None = None
+    intensity_arguments: IntensityArguments | None = None
     pd_arguments: PdArguments | None = None
     spline_metric_arguments: SplineMetricArguments | None = None
     distance_matrix_arguments: DistanceMatrixArguments | None = None
@@ -529,6 +536,8 @@ class GuiConfig(UpdatableBaseModel):
     auto_xlim: bool | None = None
     default_font_size: int
     color_scheme: GuiColorScheme = GuiColorScheme.FOLLOW_SYSTEM
+    display_image_info: bool = True
+    display_curve_values: bool = True
 
     def plotted_modality_names(self) -> set[str]:
         """

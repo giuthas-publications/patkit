@@ -1,6 +1,6 @@
 # PATKIT - Phonetic Analysis ToolKIT 
 
-![PATKIT GUI](docs/PATKIT_UI.png)
+![PATKIT GUI](https://giuthas.github.io/patkit/PATKIT_UI_0.20.1.png)
 
 PATKIT provides tools for phonetic analysis of speech data. It includes a GUI
 for manual assessment/analysis/annotation (see picture above), command line
@@ -21,13 +21,14 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
 
 ## Getting PATKIT
 
-[Detailed instructions](docs/Installing_and_using.markdown).
+[Detailed instructions](https://giuthas.github.io/patkit/Installing)
 
 ### Quick start guide: 
 
-Check that [PyPi](https://pypi.org/search/?q=patkit) finds patkit and if it
-does:
-- Install [uv](https://docs.astral.sh/uv/#getting-started).
+- Install the package manager uv: 
+  - MacOS/Linux run `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  - Windows run `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+  - See [uv](https://docs.astral.sh/uv/#getting-started) for more details.
 - On the commandline run `uv tool install patkit`
 - Run `patkit --help` for instructions.
 - If you want to run the example data, get the `recorded_data` folder from
@@ -44,15 +45,19 @@ sudo apt-get install -y libxcb-cursor-dev
 ```
 Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
+## Documentation
+
+[Documentation](https://giuthas.github.io/patkit/)
+
 ## Current version and development plans
 
-See [Changelog](docs/Changelog.markdown), for what's new in the current version
+See [Changelog](https://giuthas.github.io/patkit/Changelog), for what's new in the current version
 and what's coming up.
 
 
 ## What's included
 
-TODO 0.15: give a quick description of included data and goodies here.
+TODO 0.22: give a quick description of included data and goodies here.
 TODO 1.0: Move the data elsewhere to be optionally loaded.
 
 ## Contributing
@@ -74,17 +79,9 @@ releases at time of writing) have not been tested in any way.
 For the versions available, see the [tags on this
 repository](https://github.com/giuthas/patkit/tags).
 
-## Authors
+# Contributors
 
-* **Pertti Palo** - *The core of PATKIT* - [giuthas](https://github.com/giuthas)
-* **Scott Moisik** - *Optic flow* - [ScottMoisik](https://github.com/ScottMoisik)
-* **Matthew Faytak** - *Dimensionality reduction with PCA and LDA*
-  [mfaytak](https://github.com/mfaytak)
-* **Motoki Saito** - *Producing interpolated ultrasound images from raw data*
-  [msaito8623](https://github.com/msaito8623)
-
-List of [contributors](https://github.com/your/project/CONTRIBUTORS.markdown)
-will be updated once there are more people working on this project.
+List of [contributors](https://giuthas.github.io/patkit/Contributors)
 
 ## Copyright and License
 
@@ -105,7 +102,7 @@ Tongue and tongue spline example data Copyright (C) 2013-2020 Pertti Palo
 ### Program license
 
 PATKIT is licensed under [GPL
-3.0](https://github.com/giuthas/patkit/blob/master/LICENSE.markdown).
+3.0](https://github.com/giuthas/patkit/blob/main/LICENSE.markdown).
 
 This program (see below for data) is free software: you can
 redistribute it and/or modify it under the terms of the GNU General
@@ -124,7 +121,7 @@ along with this program.  If not, see
 ### Data license
 
 [Data
-License](https://github.com/giuthas/patkit/blob/master/DATA_LICENSE_by-nc-sa.markdown)
+License](https://github.com/giuthas/patkit/blob/main/DATA_LICENSE_by-nc-sa.markdown)
 
 The data in directories `larynx_data`, `tongue_data_1`,
 `tongue_data_1_2`, and `tongue_data_2` are licensed under the Creative

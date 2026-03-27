@@ -159,7 +159,7 @@ spline_metric_arguments:
  'preload': True
 ```
 
-TODO 0.20: Verify that all these work. Especially the exclusion list.
+TODO 0.24: Verify that all these work. Especially the exclusion list.
 
 Distance matrices are used for evaluating ultrasound probe alignment. They have
 their own exclusion list (give it as a relative path) and metrics (currently
@@ -427,7 +427,7 @@ Exercises:
 
 ###  `session-config.yaml`
 
-TODO 0.19: Update the below description.
+TODO 0.27: Update the below description.
 
 Until the data structure update in v0.19.0 only one data source is allowed.
 Accepted names will be `AAA`, `RASL`, `EVA` (once flow data reading is
@@ -463,7 +463,7 @@ unreliable) before processing.
 
 ###  `spline-config.yaml`
 
-TODO 0.20: This will be updated in the next configuration update.
+TODO 0.24: This will be updated in the next configuration update.
 
 ```yaml
 import_config:

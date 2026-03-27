@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -188,7 +188,7 @@ def calculate_spline_metric(
     prompt = splines.recording.metadata.prompt
     notice_base = basename + " " + prompt
 
-    # TODO: This should be handled where iterating over recordings.
+    # TODO 1.0: This should be handled where iterating over recordings.
     if splines.recording.excluded:
         notice = notice_base + ': Token excluded.'
         _logger.info(notice)

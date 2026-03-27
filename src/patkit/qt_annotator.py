@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019-2025
+# Copyright (c) 2019-2026
 # Pertti Palo, Scott Moisik, Matthew Faytak, and Motoki Saito.
 #
 # This file is part of the Phonetic Analysis ToolKIT
@@ -39,11 +39,12 @@ import sys
 from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
+import time
 
 import matplotlib
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+import numpy as np
 
 from icecream import ic
 from matplotlib.figure import Figure
@@ -65,8 +66,12 @@ from PyQt6.QtGui import (
 from PyQt6.QtWidgets import QFileDialog, QMainWindow
 from qbstyles import mpl_style
 
+import sounddevice
+
 from patkit.configuration import Configuration
-from patkit.constants import GuiColorScheme, GuiImageType
+from patkit.constants import (
+    AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType
+)
 from patkit.data_structures import Exercise, Session
 from patkit.export import (
     export_aggregate_image_and_meta,
@@ -75,8 +80,8 @@ from patkit.export import (
     export_ultrasound_frame_and_meta,
 )
 from patkit.gui import (
-    BoundaryAnimator, ImageSaveDialog, ListSaveDialog, 
-    OpenAnswerDialog, ReplaceDialog, UiMainWindow, 
+    BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
+    ReplaceDialog, UiMainWindow,
 )
 from patkit.plot_and_publish import (
     format_legend,
@@ -127,7 +132,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             config: Configuration,
             xlim: tuple[float, float] = (-0.25, 1.5),
             categories: list[str] | None = None,
-            run_as_exercise: bool = False,
+            annotator_mode: AnnotatorMode = AnnotatorMode.ANALYSE,
     ):
         super().__init__()
         self.kymography_clicker = None
@@ -143,8 +148,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.display_tongue = display_tongue
 
-        self.action_run_as_exercise.setChecked(run_as_exercise)
-        if run_as_exercise:
+        self.mode_drop_down.setCurrentText(annotator_mode.value)
+        self.mode = annotator_mode
+        self.exercise_mode = ExerciseMode.ANSWER
+        if annotator_mode is AnnotatorMode.EXERCISE:
             self.exercise = Exercise(session)
         else:
             self.exercise = None
@@ -195,10 +202,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             QKeySequence(self.tr("Ctrl+W", "File|Quit")), self)
         self.close_window_shortcut.activated.connect(self.quit)
 
-        self.test_shortcut = QShortcut(
-            QKeySequence(self.tr("Ctrl+T")), self)
-        self.test_shortcut.activated.connect(self.test)
-
+        # TODO 1.0: move the following block to annotator_window.py
         self.menu_select_image = self.menu_image.addMenu(
             "Select image")
         self.action_mean_image = QAction(
@@ -209,8 +213,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             text="Raw frame at cursor", parent=self.menu_select_image)
         self.action_mean_image.setCheckable(True)
         self.action_frame.setCheckable(True)
-        self.action_frame.setChecked(True)
         self.action_raw_frame.setCheckable(True)
+        self.action_frame.setChecked(True)
+
         self.menu_select_image.addAction(self.action_mean_image)
         self.menu_select_image.addAction(self.action_frame)
         self.menu_select_image.addAction(self.action_raw_frame)
@@ -234,8 +239,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.triggered.connect(
             self.save_all_textgrids)
 
-        self.action_run_as_exercise.triggered.connect(
-            self.run_as_exercise)
+        self.mode_drop_down.currentTextChanged.connect(
+            self.mode_selection_changed)
+        self.exercise_drop_down.currentTextChanged.connect(
+            self.exercise_selection_changed)
+
         self.action_create_exercise.triggered.connect(
             self.create_exercise)
         self.action_open_exercise.triggered.connect(self.open_exercise)
@@ -263,13 +271,32 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.action_quit.triggered.connect(self.quit)
 
-        ## Go to recording
+        # Go to recording
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
         self.goButton.clicked.connect(self.go_to_callback)
+        self.previous_button.clicked.connect(self.prev)
+        self.next_button.clicked.connect(self.next)
         self.go_to_line_edit.returnPressed.connect(self.go_to_callback)
 
-        ## PD categories
+        # Audio playback
+        # TODO 1.0 or later: these could be migrated to their own
+        # class along the lines of self.player.play etc. But that will need
+        # access to the cursor state and current sound etc.
+        self.current_audio_frame = 0
+        self.audio_start_time = None
+        self.current_audio_device = sounddevice.default.device
+        # TODO 0.21: use sounddevice.query_devices() to create a selection menu
+        # for audio output
+        self.play_controls.play.connect(self.play)
+        self.play_controls.pause.connect(self.pause)
+        self.play_controls.stop.connect(self.stop)
+        self.play_controls.rewind.connect(self.rewind)
+        self.play_controls.change_volume.connect(self.set_volume)
+        # play_controls.change_muting.connect(self.m_audioOutput.setMuted)
+        # play_controls.change_rate.connect(self.m_player.setPlaybackRate)
+
+        # PD categories
         # TODO 1.0: these could be optional instead of the below ones
         # self.categoryRB_1.toggled.connect(self.pd_category_cb)
         # self.categoryRB_2.toggled.connect(self.pd_category_cb)
@@ -277,19 +304,19 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.categoryRB_4.toggled.connect(self.pd_category_cb)
         # self.categoryRB_5.toggled.connect(self.pd_category_cb)
 
-        ## Tongue position
-        self.positionRB_1.toggled.connect(self.tongue_position_cb)
-        self.positionRB_2.toggled.connect(self.tongue_position_cb)
-        self.positionRB_3.toggled.connect(self.tongue_position_cb)
-        self.position_rbs = {
-            self.positionRB_1.text(): self.positionRB_1,
-            self.positionRB_2.text(): self.positionRB_2,
-            self.positionRB_3.text(): self.positionRB_3
-        }
+        # Tongue position annotation buttons.
+        # self.positionRB_1.toggled.connect(self.tongue_position_cb)
+        # self.positionRB_2.toggled.connect(self.tongue_position_cb)
+        # self.positionRB_3.toggled.connect(self.tongue_position_cb)
+        # self.position_rbs = {
+        #     self.positionRB_1.text(): self.positionRB_1,
+        #     self.positionRB_2.text(): self.positionRB_2,
+        #     self.positionRB_3.text(): self.positionRB_3
+        # }
 
         # plt.style.use('dark_background')
         plt.style.use('tableau-colorblind10')
-        self.figure = Figure()
+        self.figure = Figure(layout="tight")
         self.canvas = FigureCanvas(self.figure)
         self.mplWindowVerticalLayout.addWidget(self.canvas)
         self.data_axes = []
@@ -318,7 +345,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             ncols=1,
             hspace=0,
             wspace=0,
-            height_ratios=height_ratios)
+            height_ratios=height_ratios,
+        )
         self.tier_grid_spec = None
 
         number_of_data_axes = self.gui_config.number_of_data_axes
@@ -366,8 +394,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.multicursor = None
 
+        self.mode_selection_changed(self.mode.value)
         self.image_updater()
-        self.show()
+        self.showMaximized()
+        # self.show()
         self.ultra_canvas.draw_idle()
         self.update()
 
@@ -393,6 +423,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'selected_time': -1.0,
             'selection_index': -1,
             'frame_selection_index': -1,
+            'selected_frequency': -1,
         }
 
     def _add_annotations(self):
@@ -435,7 +466,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates the graphs but not the buttons.
         """
-        if self.action_run_as_exercise.isChecked():
+        if (
+            self.mode is AnnotatorMode.EXERCISE
+            and self.exercise_mode is ExerciseMode.ANSWER
+        ):
             self.patgrid = self.exercise.current_answer[self.index]
         else:
             self.patgrid = self.current.patgrid
@@ -446,6 +480,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.canvas,
             axes=self.data_axes + self.tier_axes,
             color='deepskyblue', linestyle="--", lw=1)
+        # TODO 0.23: select the color based on dark/light mode.
         self.figure.canvas.draw_idle()
 
         if self.display_tongue:
@@ -456,10 +491,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates parts of the UI outwith the graphs.
         """
-        position_annotation = self.current.annotations['tonguePosition']
-        if position_annotation in self.position_rbs:
-            button_to_activate = self.position_rbs[position_annotation]
-            button_to_activate.setChecked(True)
+        # Annotation radio buttons.
+        # position_annotation = self.current.annotations['tonguePosition']
+        # if position_annotation in self.position_rbs:
+        #     button_to_activate = self.position_rbs[position_annotation]
+        #     button_to_activate.setChecked(True)
 
         self.go_to_line_edit.setText(str(self.index + 1))
 
@@ -499,13 +535,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         if ylim is None:
             if data_axes_params is None and axes_params is None:
-                ylim = (-0.05, 1.05)
+                ylim = None  # (-0.075, 1.075)
             elif data_axes_params.ylim is None and axes_params.ylim is None:
                 if (
                     not data_axes_params.auto_ylim and
                     not axes_params.auto_ylim
-                    ):
-                    ylim = (-0.05, 1.05)
+                ):
+                    ylim = None  # (-0.075, 1.075)
                 else:
                     ylim = None
             elif axes_params.ylim is None:
@@ -513,8 +549,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             else:
                 ylim = axes_params.ylim
 
-        # TODO 0.20: this needs to work together with normalisation, maybe this
+        # TODO 0.23: this needs to work together with normalisation, maybe this
         # should in fact live inside of plot_timeseries instead of here?
+        # This adjust y_limits in case the graphs are offset from each other.
         y_offset = 0
         if axes_params.y_offset is not None:
             y_offset = axes_params.y_offset
@@ -580,13 +617,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 self._get_long_title() + "\nNOTE: Audio missing.")
             return
 
-        # TODO 0.18.2: Add a check to draw plots which adds the model textgrid
-        # to plotting
-        if self.action_show_example.isChecked():
-            print(
-                "I should be showing the model answer but don't yet know how."
-            )
-
         for axes in self.tier_axes:
             axes.remove()
         self.tier_axes = []
@@ -604,6 +634,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         for axes in self.data_axes:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
+        self.data_axes[0].xaxis.set_tick_params(top=True, labeltop=True)
 
         for axes in self.tier_axes[:-1]:
             axes.xaxis.set_tick_params(bottom=False, labelbottom=False)
@@ -637,6 +668,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         axes_counter = 0
         for axes_name in self.gui_config.data_axes:
+            self.data_axes[axes_counter].grid(False)
             match axes_name:
                 case "spectrogram":
                     if self.gui_config.data_axes[axes_name].ylim is not None:
@@ -683,6 +715,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         iterator = zip(self.patgrid.items(),
                        self.tier_axes, strict=True)
         for (name, tier), axis in iterator:
+            axis.grid(False)
             boundaries_by_axis = []
 
             boundary_set, _ = plot_patgrid_tier(
@@ -714,28 +747,107 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             tier_limits = [
                 self.xlim[0] + stimulus_onset, self.xlim[1] + stimulus_onset]
             tier_in_limits = tier.intersects(xlim=tier_limits)
-            for boundaries, interval in zip(
-                    boundaries_by_boundary, tier_in_limits, strict=True):
-                animator = BoundaryAnimator(
-                    main_window=self,
-                    boundaries=boundaries,
-                    segment=interval,
-                    epsilon=self.data_config.epsilon,
-                    time_offset=stimulus_onset)
-                animator.connect()
-                self.animators.append(animator)
+            if (
+                self.mode is AnnotatorMode.ANALYSE or
+                self.exercise_mode is ExerciseMode.ANSWER
+            ):
+                for boundaries, interval in zip(
+                        boundaries_by_boundary, tier_in_limits, strict=True):
+                    animator = BoundaryAnimator(
+                        main_window=self,
+                        boundaries=boundaries,
+                        segment=interval,
+                        epsilon=self.data_config.epsilon,
+                        time_offset=stimulus_onset)
+                    animator.connect()
+                    self.animators.append(animator)
         if self.tier_axes:
             self.tier_axes[-1].set_xlabel("Time (s), go-signal at 0 s.")
 
-        self.figure.tight_layout()
-
         if self.current.annotations['selected_time'] > -1:
+            old_ticks = self.data_axes[0].get_xticks()
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-2],
+                    ]
+                )
+            else:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[0],
+                        self.current.annotations['selected_time'],
+                        old_ticks[-1],
+                    ]
+                )
+
+            xtick_labels = self.data_axes[0].get_xticklabels()
+            xtick_labels[1].set_color(color="deepskyblue")
+            xtick_labels = self.tier_axes[-1].get_xticklabels()
+            xtick_labels[1].set_color(color="deepskyblue")
             for axes in self.data_axes:
+                # Save ylim to restore after annotation lines have been drawn.
+                # This is done because at least spectrogram tends to go weird
+                # otherwise.
+                current_ylim = axes.get_ylim()
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
-            self.data_axes[-1].axvline(
-                x=self.current.annotations['selected_time'],
-                linestyle=':', color="white", lw=1)
+                lines = axes.get_lines()
+                colors = []
+                yticks = axes.get_yticks()
+                for line in lines:
+                    if len(line.get_xdata()) <= 2:
+                        continue
+                    index = np.argmin(np.abs(
+                        line.get_xdata() -
+                        self.current.annotations['selected_time']
+                    ))
+                    y_value = line.get_ydata()[index]
+                    color = line.get_color()
+                    axes.axhline(y=y_value,
+                                 linestyle=':', color=color, lw=1)
+                    yticks = np.append(yticks, y_value)
+                    colors.append(color)
+                axes.set_yticks(yticks)
+
+                labels = axes.get_yticklabels()
+                ytick_lines = axes.yaxis.get_ticklines()
+                for i, color in enumerate(colors):
+                    ytick_lines[i*2+4].set_color(color)
+                    ytick_lines[i*2+5].set_color(color)
+                    labels[i+2].set_color(color)
+                axes.set_ylim(current_ylim)
+        else:
+            old_ticks = self.data_axes[0].get_xticks()
+            if len(old_ticks) > 2:
+                self.data_axes[0].set_xticks(
+                    [
+                        old_ticks[1],
+                        old_ticks[-2]
+                    ]
+                )
+
+        if self.current.annotations['selected_frequency'] > -1:
+            for i, name in enumerate(self.gui_config.data_axes):
+                if "spectrogram" in name:
+                    axes = self.data_axes[i]
+                    yticks = axes.get_yticks()
+                    axes.set_yticks(np.append(
+                        yticks,
+                        self.current.annotations['selected_frequency']
+                    ))
+                    axes.axhline(
+                        y=self.current.annotations['selected_frequency'],
+                        linestyle=':', color="deepskyblue", lw=1
+                    )
+                    labels = axes.get_yticklabels()
+                    labels[2].set_color(color="deepskyblue")
+                    ytick_lines = axes.yaxis.get_ticklines()
+                    ytick_lines[4].set_color(color="deepskyblue")
+                    ytick_lines[5].set_color(color="deepskyblue")
+
             for axes in self.tier_axes:
                 axes.axvline(x=self.current.annotations['selected_time'],
                              linestyle=':', color="deepskyblue", lw=1)
@@ -784,6 +896,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
+
+            # TODO 0.24: implement these
+            if self.gui_config.display_image_info:
+                # image time, image index
+                pass
+            if self.gui_config.display_curve_values:
+                # curve values at intersections
+                pass
 
             # if self.image_type == GuiImageType.FRAME:
             #     self.kymography_clicker = clicker(
@@ -884,7 +1004,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.19: This should not be hard coded
+        # TODO 0.24: This should not be hard coded
         if 'PD l1 on RawUltrasound' in self.current.modalities:
             pd_metrics = self.current.modalities['PD l1 on RawUltrasound']
             ultra_time = pd_metrics.timevector - stimulus_onset
@@ -895,7 +1015,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Move the data cursor to the next frame.
         """
-        # TODO 0.19: Remove hard coding again
+        # TODO 0.24: Remove hard coding again
         if 'PD l1 on RawUltrasound' not in self.current.modalities:
             return
 
@@ -988,7 +1108,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.18.2: these should be loaded from the new directory as
+            # TODO 0.22: these should be loaded from the new directory as
             # well
             # self.display_tongue = display_tongue
 
@@ -1025,7 +1145,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 0.18.2: does this save textgrids too and how does it interact
+        # TODO 0.22: does this save textgrids too and how does it interact
         # with saving answers and exercises.
         save_recording_session(self.session)
 
@@ -1033,8 +1153,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
-        if self.action_run_as_exercise.isChecked:
+        # TODO 0.22: write a call back for asking for overwrite confirmation.
+        if self.mode is AnnotatorMode.EXERCISE:
             return
 
         if not self.current.textgrid_path:
@@ -1053,8 +1173,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.18.2: write a call back for asking for overwrite confirmation.
-        if self.action_run_as_exercise.isChecked:
+        # TODO 0.22: write a call back for asking for overwrite confirmation.
+        if self.mode is AnnotatorMode.EXERCISE:
             return
 
         for recording in self.session:
@@ -1074,48 +1194,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     "Wrote TextGrid to file %s.",
                     str(recording.textgrid_path))
 
-    def run_as_exercise(self):
-        """
-        If `Run as Exercise` is checked, run current Session as an Exercise.
-        """
-        if self.action_run_as_exercise.isChecked() and self.exercise is None:
-            self.exercise = Exercise(
-                scenario=self.session,
-            )
-            self.exercise.new_blank_answer(cursor=self.cursor)
-
-        # TODO 0.18.2: Update this as needed.
-        if self.action_run_as_exercise.isChecked():
-            self.action_save_all_textgrids.setEnabled(False)
-            self.action_save_current_textgrid.setEnabled(False)
-            self.statusbar.showMessage("In exercise mode")
-        else:
-            self.action_save_all_textgrids.setEnabled(True)
-            self.action_save_current_textgrid.setEnabled(True)
-            self.statusbar.showMessage("")
-
-        self.update()
-        self.update_ui()
-
-    def test(self):
-        """
-        Test things like a new dialog window.
-        """
-        statistics_names = self.current.statistics.keys()
-        choice_list = [
-            name for name in statistics_names if 'AggregateImage' in name]
-        image_list, path, export_interpolated = OpenAnswerDialog.get_selection(
-            name="Open Answer",
-            item_names=choice_list,
-            parent=self,
-            option_label='Export interpolated image'
-        )        
-
     def create_exercise(self):
         """
         Wrap a directory as an Exercise.
         """
-        # TODO 0.18.3
+        # TODO 0.22
         # ask for directory
         # ask for patkit/exercise dir
         # write patkit_v.yaml in exercise dir
@@ -1140,9 +1223,113 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def show_example(self):
         """
-        On 'Show example' menu item being triggered, update the plots.
+        On 'Show example' menu item being triggered, update mode.
         """
+        if self.action_show_example.isChecked():
+            self.exercise_drop_down.setCurrentText(ExerciseMode.EXAMPLE.value)
+        else:
+            self.exercise_drop_down.setCurrentText(ExerciseMode.ANSWER.value)
+
+    def to_annotator_mode(self) -> None:
+        """
+        Set the GUI to regular annotator mode.
+        """
+        self.menu_exercise.setEnabled(False)
+        self.exercise_drop_down.setEnabled(False)
+        self.action_save_all_textgrids.setEnabled(True)
+        self.action_save_current_textgrid.setEnabled(True)
+
+        self.figure.patch.set_facecolor("black")
+
         self.update()
+        self.update_ui()
+
+    def to_exercise_mode(self) -> None:
+        """
+        Set the GUI to exercise mode.
+        """
+        self.menu_exercise.setEnabled(True)
+        self.exercise_drop_down.setEnabled(True)
+        if self.exercise is None:
+            self.exercise = Exercise(
+                scenario=self.session,
+            )
+            self.exercise.new_blank_answer(cursor=self.cursor)
+        self.action_save_all_textgrids.setEnabled(False)
+        self.action_save_current_textgrid.setEnabled(False)
+
+        self.figure.patch.set_facecolor("#001202")
+
+        self.update()
+        self.update_ui()
+
+    def mode_selection_changed(self, mode: str) -> None:
+        """
+        Callback for changing annotator mode.
+
+        Parameters
+        ----------
+        mode : str
+            The mode's name as a string.
+
+        Raises
+        ------
+        ValueError
+            If encountering an unimplemented mode an Error will be raised.
+        """
+        self.mode = AnnotatorMode(mode)
+        match self.mode:
+            case AnnotatorMode.ANALYSE:
+                self.to_annotator_mode()
+            case AnnotatorMode.EXERCISE:
+                self.to_exercise_mode()
+            case _:
+                raise ValueError(f"Unknown Annotator Mode requested: {mode}.")
+
+    def to_example_mode(self) -> None:
+        """
+        Set the GUI to showing example answer mode.
+        """
+        if not self.action_show_example.isChecked():
+            self.action_show_example.setChecked(True)
+        self.figure.patch.set_facecolor("#000212")
+
+        self.update()
+        self.update_ui()
+
+    def to_answer_mode(self) -> None:
+        """
+        Set the GUI to answering exercise mode.
+        """
+        if self.action_show_example.isChecked():
+            self.action_show_example.setChecked(False)
+        self.figure.patch.set_facecolor("#001202")
+
+        self.update()
+        self.update_ui()
+
+    def exercise_selection_changed(self, mode: str) -> None:
+        """
+        Callback for changing exercise mode.
+
+        Parameters
+        ----------
+        mode : str
+            The mode's name as a string.
+
+        Raises
+        ------
+        ValueError
+            If encountering an unimplemented mode an Error will be raised.
+        """
+        self.exercise_mode = ExerciseMode(mode)
+        match self.exercise_mode:
+            case ExerciseMode.EXAMPLE:
+                self.to_example_mode()
+            case ExerciseMode.ANSWER:
+                self.to_answer_mode()
+            case _:
+                raise ValueError(f"Unknown Exercise Mode requested: {mode}.")
 
     def export_figure(self):
         """
@@ -1197,7 +1384,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 filepath=path,
                 session=self.session,
                 recording=self.current,
-                selection_index=self.current.annotations['frame_selection_index'],
+                selection_index=self.current.annotations[
+                    'frame_selection_index'],
                 selection_time=self.current.annotations['selected_time'],
                 ultrasound=self.current['RawUltrasound'],
                 interpolation_params=interpolation_params
@@ -1414,10 +1602,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Callback for handling time selection on events.
         """
+        # TODO 0.23: swap None for -1 here and fix everything that breaks. this
+        # will include zooming. probably a good idea to change the dict here
+        # into a dataclass as well.
         if not event.xdata:
             self.current.annotations['selected_time'] = -1
             self.current.annotations['selection_index'] = -1
             self.current.annotations['frame_selection_index'] = -1
+            self.current.annotations['selected_frequency'] = -1
             self.update()
             return
 
@@ -1428,11 +1620,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 break
 
         _logger.debug(
-            "Inside onpick - subplot: %d, x=%f",
-            subplot, event.xdata)
-
-        # if subplot == 1:
-        #     self.current.annotations['selected_time'] = event.pickx
+            "Inside onpick - subplot: %d, x=%f, y=%f",
+            subplot, event.xdata, event.ydata)
 
         audio = self.current.modalities['MonoAudio']
         if audio.go_signal is None:
@@ -1440,12 +1629,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         else:
             stimulus_onset = audio.go_signal
 
-        # TODO 0.19: Remove hardcoding of modality names?
+        # TODO 0.24: Remove hardcoding of modality names?
         if 'RawUltrasound' in self.current.modalities:
             timevector = (
                 self.current.modalities['RawUltrasound'].timevector)
             distances = np.abs(timevector - stimulus_onset - event.xdata)
-            self.current.annotations['frame_selection_index'] = np.argmin(distances)
+            self.current.annotations['frame_selection_index'] = np.argmin(
+                distances)
             self.current.annotations['selected_time'] = event.xdata
         if 'MonoAudio' in self.current.modalities:
             timevector = (
@@ -1453,6 +1643,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             distances = np.abs(timevector - stimulus_onset - event.xdata)
             self.current.annotations['selection_index'] = np.argmin(distances)
             self.current.annotations['selected_time'] = event.xdata
+
+        subplot_names = list(self.gui_config.data_axes.keys())
+        if subplot-1 < len(subplot_names):
+            if "spectrogram" in subplot_names[subplot-1]:
+                self.current.annotations['selected_frequency'] = event.ydata
+        else:
+            self.current.annotations['selected_frequency'] = -1
 
         _logger.debug(
             "Inside onpick - subplot: %d, ultra_index=%d, audio_index=%d, x=%f",
@@ -1618,6 +1815,64 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         )
         return not modifiers_pressed
 
+    def play(self) -> None:
+        """
+        Play the audio of the current recording.
+
+        Playing starts from the current selection cursor if any.
+        """
+        if 'MonoAudio' not in self.current:
+            print('No audio to play.')
+            print(list(self.current.keys()))
+            return
+
+        if self.current.annotations['selected_time'] > -1:
+            timevector = self.current['MonoAudio'].modality_data.timevector
+            selected_time = self.current.annotations['selected_time']
+            start_index = np.argwhere(timevector > selected_time)[0][0]
+            data = self.current['MonoAudio'].modality_data.data[start_index:]
+        else:
+            data = self.current['MonoAudio'].modality_data.data
+
+        # data = self.current['MonoAudio'].modality_data.data
+        sounddevice.play(
+            data=data,
+            samplerate=self.current['MonoAudio'].modality_data.sampling_rate,
+            device=self.current_audio_device,
+        )
+        self.audio_start_time = time.time()
+
+    def pause(self) -> None:
+        """
+        Pause playing audio.
+
+        Moves the selection cursor to the time when the playing was paused. 
+        """
+        sounddevice.stop()
+        paused_time = time.time()
+        played_time = paused_time-self.audio_start_time
+        self.current.annotations['selected_time'] = played_time
+        self.update()
+
+    def stop(self) -> None:
+        """
+        Stop playing audio.
+        """
+        sounddevice.stop()
+        self.audio_start_time = None
+
+    def rewind(self) -> None:
+        """
+        Move the selection cursor to beginning of the recording.
+        """
+        if self.current.annotations['selected_time'] > -1:
+            new_cursor = self.current['MonoAudio'].modality_data.timevector[0]
+            self.current.annotations['selected_time'] = new_cursor
+        self.update()
+
+    def set_volume(self) -> None:
+        pass
+
 
 def run_annotator(
         session: Session,
@@ -1641,4 +1896,5 @@ def run_annotator(
         session=session,
         display_tongue=True,
         config=config)
+    QCoreApplication.setApplicationName("PATKIT")
     sys.exit(app.exec())
