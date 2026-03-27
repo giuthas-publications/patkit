@@ -30,7 +30,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - 0.22.x updates the exercise functionality 
   - this is mainly saving and loading of exercise answers, and possibly some
     more detailed configuration.
-- 0.23 will improve the annotation GUI by adding missing features like interval
+- 0.23.x will improve the annotation GUI by adding missing features like interval
   selection
 - 0.24 will update configuration handling.
 - 0.25 adds simple ways of opening different kinds of data
@@ -51,9 +51,6 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - whole file
   - from cursor to end
   - reset cursor to beginning with rewind button
-
-### Changed
-
 
 ### Bugs
 
