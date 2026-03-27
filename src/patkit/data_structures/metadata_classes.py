@@ -54,7 +54,7 @@ _datastructures_logger = logging.getLogger('patkit.data_structures')
 @dataclass
 class FileInformation:
     """
-    File and Path information for patkit DataObjects. 
+    File and Path information for patkit DataObjects.
 
     recorded_data_file: str | None = None
         Name of the file containing the raw recorded data.
@@ -110,7 +110,7 @@ class FileInformation:
                 basepath = self.recorded_path/self.recorded_data_file
             elif self.recorded_meta_file:
                 basepath = self.recorded_path/self.recorded_meta_file
-        if basepath is None: 
+        if basepath is None:
             if self.patkit_meta_file is not None:
                 basepath = self.patkit_path/self.patkit_meta_file
         return stem_path(basepath)
@@ -150,7 +150,7 @@ class PointAnnotations:
     Time point annotations for a Modality.
 
     For each modality there should be only one of these for each kind of
-    annotation type. 
+    annotation type.
 
     annotation_type : AnnotationType
         unique identifier for the annotation type
@@ -158,9 +158,9 @@ class PointAnnotations:
         indeces of the annotation points. `modality_data.data[indeces[i]]` and
         `modality_data.timevector[indeces[i]]` correspond to the annotation at
         `i`.
-    times : np.ndarray 
+    times : np.ndarray
         timestamps of the annotation points
-    generating_parameters : dict 
+    generating_parameters : dict
         the function call arguments and other parameters used in generating
         these annotations.
     properties : dict
