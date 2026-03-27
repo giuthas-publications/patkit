@@ -1816,6 +1816,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         return not modifiers_pressed
 
     def play(self) -> None:
+        """
+        Play the audio of the current recording.
+
+        Playing starts from the current selection cursor if any.
+        """
         if 'MonoAudio' not in self.current:
             print('No audio to play.')
             print(list(self.current.keys()))
@@ -1838,6 +1843,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.audio_start_time = time.time()
 
     def pause(self) -> None:
+        """
+        Pause playing audio.
+
+        Moves the selection cursor to the time when the playing was paused. 
+        """
         sounddevice.stop()
         paused_time = time.time()
         played_time = paused_time-self.audio_start_time
@@ -1845,10 +1855,16 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.update()
 
     def stop(self) -> None:
+        """
+        Stop playing audio.
+        """
         sounddevice.stop()
         self.audio_start_time = None
 
     def rewind(self) -> None:
+        """
+        Move the selection cursor to beginning of the recording.
+        """
         if self.current.annotations['selected_time'] > -1:
             new_cursor = self.current['MonoAudio'].modality_data.timevector[0]
             self.current.annotations['selected_time'] = new_cursor
