@@ -39,7 +39,7 @@ import sys
 from contextlib import closing
 from copy import deepcopy
 from pathlib import Path
-import threading
+import time
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -284,8 +284,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # class along the lines of self.player.play etc. But that will need
         # access to the cursor state and current sound etc.
         self.current_audio_frame = 0
-        self.audio_stream = None
-        self.event = threading.Event()
+        self.audio_start_time = None
         self.current_audio_device = sounddevice.default.device
         # TODO 0.21: use sounddevice.query_devices() to create a selection menu
         # for audio output
@@ -1822,20 +1821,38 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             print(list(self.current.keys()))
             return
 
+        if self.current.annotations['selected_time'] > -1:
+            timevector = self.current['MonoAudio'].modality_data.timevector
+            selected_time = self.current.annotations['selected_time']
+            start_index = np.argwhere(timevector > selected_time)[0][0]
+            data = self.current['MonoAudio'].modality_data.data[start_index:]
+        else:
+            data = self.current['MonoAudio'].modality_data.data
+
+        # data = self.current['MonoAudio'].modality_data.data
         sounddevice.play(
-            data=self.current['MonoAudio'].modality_data.data,
+            data=data,
             samplerate=self.current['MonoAudio'].modality_data.sampling_rate,
             device=self.current_audio_device,
         )
+        self.audio_start_time = time.time()
 
     def pause(self) -> None:
-        pass
+        sounddevice.stop()
+        paused_time = time.time()
+        played_time = paused_time-self.audio_start_time
+        self.current.annotations['selected_time'] = played_time
+        self.update()
 
     def stop(self) -> None:
         sounddevice.stop()
+        self.audio_start_time = None
 
     def rewind(self) -> None:
-        pass
+        if self.current.annotations['selected_time'] > -1:
+            new_cursor = self.current['MonoAudio'].modality_data.timevector[0]
+            self.current.annotations['selected_time'] = new_cursor
+        self.update()
 
     def set_volume(self) -> None:
         pass
