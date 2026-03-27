@@ -59,13 +59,13 @@ from .metadata_classes import (
 _logger = logging.getLogger('patkit.data_structures')
 
 
-
 class Answer(UserList):
     """
     Answer is an answer to an Exercise and consists of PatGrids.
 
     The PatGrids correspond to the Recordings that the Exercise is based on.
     """
+
     def __init__(
         self,
         container: Exercise,
@@ -94,7 +94,7 @@ class Answer(UserList):
         representation = ""
         for patgrid in self:
             patgrid_string = f"{patgrid}"
-            representation += indent(text=patgrid_string,prefix="\t")
+            representation += indent(text=patgrid_string, prefix="\t")
         return representation
 
     def current(self) -> PatGrid:
@@ -169,7 +169,7 @@ class Exercise(UserDict):
             self.example = Answer(
                 container=self,
                 scenario=scenario,
-                scramble = False,
+                scramble=False,
             )
         else:
             self.example = example
@@ -183,16 +183,16 @@ class Exercise(UserDict):
     def __repr__(self) -> str:
         representation = "Exercise:\n"
         scenario_repr = f"{self.scenario}"
-        scenario_repr = indent(text=scenario_repr,prefix="\t\t")
+        scenario_repr = indent(text=scenario_repr, prefix="\t\t")
         representation += f"\tScenario:\n{scenario_repr}\n"
         example_repr = f"{self.example}"
-        example_repr = indent(text=example_repr,prefix="\t")
+        example_repr = indent(text=example_repr, prefix="\t")
         representation += f"\tExample:\n{example_repr}\n"
         representation += "\tAnswers:\n"
         answers_string = ""
         for name in list(self.keys()):
             answers_string += f"{name}:\n{self[name]}"
-        representation += indent(text=answers_string,prefix="\t\t")
+        representation += indent(text=answers_string, prefix="\t\t")
         return representation
 
     @property
@@ -210,11 +210,11 @@ class Exercise(UserDict):
         """
         _logger.debug("Creating a blank answer.")
         blank = Answer(
-                container=self,
-                scenario=self.scenario,
-                scramble = True,
-                cursor=cursor,
-            )
+            container=self,
+            scenario=self.scenario,
+            scramble=True,
+            cursor=cursor,
+        )
         name = f"Answer {len(self)+1}"
         self[name] = blank
 
@@ -268,14 +268,12 @@ class Manifest(UserList):
 
     def save(self):
         """
-        Write this manifest into its file. 
+        Write this manifest into its file.
         """
         if self.path is not None:
             with open(self.path, 'w', encoding='UTF-8') as file:
                 for scenario_path in self:
                     file.write(f"{scenario_path}\n")
-
-
 
 
 class Session(AbstractDataContainer, UserList):
@@ -301,7 +299,7 @@ class Session(AbstractDataContainer, UserList):
             container=None, name=name, metadata=config,
             file_info=file_info, statistics=statistics)
 
-        if not recordings is None:
+        if recordings is not None:
             for recording in recordings:
                 if not recording.container:
                     recording.container = self
@@ -407,8 +405,8 @@ class Recording(AbstractDataContainer, UserDict):
         """
         Read the textgrid specified in self.meta.
 
-        If file does not exist or reading fails, recovery is attempted 
-        by logging an error and creating an empty textgrid for this 
+        If file does not exist or reading fails, recovery is attempted
+        by logging an error and creating an empty textgrid for this
         recording.
         """
         textgrid = None
@@ -444,7 +442,7 @@ class Recording(AbstractDataContainer, UserDict):
         Set `self.excluded` to True with a method.
 
         This method exists to facilitate list comprehensions being used
-        for excluding recordings e.g. 
+        for excluding recordings e.g.
         [recording.exclude() for recording in recordings if in some_list].
         """
         self.excluded = True
@@ -454,13 +452,13 @@ class Recording(AbstractDataContainer, UserDict):
         Save this recording's textgrid to file.
 
         Keyword argument:
-        filepath -- string specifying the path and name of the 
-            file to be written. If filepath is not specified, this 
-            method will try to overwrite the textgrid specified in 
+        filepath -- string specifying the path and name of the
+            file to be written. If filepath is not specified, this
+            method will try to overwrite the textgrid specified in
             self.meta.
 
-            If filepath is specified, subsequent calls to this 
-            function will write into the new path rather than 
+            If filepath is specified, subsequent calls to this
+            function will write into the new path rather than
             the original one.
         """
         try:
@@ -486,7 +484,7 @@ class Recording(AbstractDataContainer, UserDict):
         and the `replace` argument is not True, an Error is raised.
 
         Arguments:
-        modality -- object of type Modality to be added to 
+        modality -- object of type Modality to be added to
             this Recording.
 
         Keyword arguments:
@@ -514,7 +512,7 @@ class Recording(AbstractDataContainer, UserDict):
         Currently, this is only used to create placeholder TextGrids when
         needed.
         """
-        textgrid_path  = None
+        textgrid_path = None
         if self.recorded_meta_path:
             textgrid_path = self.recorded_meta_path.with_suffix(
                 SourceSuffix.TEXTGRID
@@ -565,7 +563,6 @@ class Recording(AbstractDataContainer, UserDict):
             self.patgrid = PatGrid(self.textgrid)
         else:
             self.patgrid = None
-
 
     def __str__(self) -> str:
         """
@@ -630,20 +627,20 @@ class Modality(AbstractData, OrderedDict):
         Keyword arguments:
         data_path -- path of the data file
         load_path -- path of data when saved by patkit - both data and metadata
-        parent -- the Modality this one was derived from. None means this 
+        parent -- the Modality this one was derived from. None means this
             is a recorded data Modality.
         parsed_data -- ModalityData object containing waveform, sampling rate,
-            and either timevector and/or time_offset. 
-        parsed_data -- a ModalityData object containing parsed data 
-            that's been either read from file, loaded from file 
+            and either timevector and/or time_offset.
+        parsed_data -- a ModalityData object containing parsed data
+            that's been either read from file, loaded from file
             (previously saved by patkit), or calculated from another modality.
-            Providing a timevector 
-            overrides any time_offset value given, but in absence of a 
-            timevector the time_offset will be applied on reading the data 
-            from file. 
+            Providing a timevector
+            overrides any time_offset value given, but in absence of a
+            timevector the time_offset will be applied on reading the data
+            from file.
         time_offset -- offset of this modality in relation to the Recordings
-            baseline - usually the audio track. This will be ignored if 
-            parsed_data exists and effectively overridden by 
+            baseline - usually the audio track. This will be ignored if
+            parsed_data exists and effectively overridden by
             parsed_data.timevector.
         """
         super().__init__(
@@ -718,7 +715,7 @@ class Modality(AbstractData, OrderedDict):
         """
         Derive data from another modality -- overridden by inheriting classes.
 
-        This method should be implemented by subclasses by calling 
+        This method should be implemented by subclasses by calling
         a suitable deriving function to provide on-the-fly loading of data.
 
         This method is intended to rely on `self.parent` to provide the data
@@ -731,7 +728,7 @@ class Modality(AbstractData, OrderedDict):
         """
         Load data from a saved file -- to be overridden by inheriting classes.
 
-        This method should be implemented by subclasses by calling 
+        This method should be implemented by subclasses by calling
         a suitable loading function to provide on-the-fly loading of data.
 
         This method is intended to rely on self.load_path to know what to read.
@@ -743,7 +740,7 @@ class Modality(AbstractData, OrderedDict):
         """
         Load data from file -- to be overridden by inheriting classes.
 
-        This method should be implemented by subclasses by calling 
+        This method should be implemented by subclasses by calling
         a suitable reading function to provide on-the-fly loading of data.
 
         This method is intended to rely on self.data_path to know what to read.
@@ -786,17 +783,17 @@ class Modality(AbstractData, OrderedDict):
     @property
     def modality_data(self) -> ModalityData:
         """
-        The data of this Modality as a NumPy array. 
+        The data of this Modality as a NumPy array.
 
         The data refers to the actual data this modality represents
-        and for DerivedModality it is the result of running the 
+        and for DerivedModality it is the result of running the
         modality's algorithm on the original data.
 
-        The dimensions of the array are in the 
+        The dimensions of the array are in the
         order of [time, others]
 
         If this modality is not preloaded, accessing this property will
-        cause data to be loaded on the fly _and_ saved in memory. To 
+        cause data to be loaded on the fly _and_ saved in memory. To
         release the memory, assign None to this Modality's data.
         """
         if self._modality_data is None:
@@ -809,17 +806,17 @@ class Modality(AbstractData, OrderedDict):
     @property
     def data(self) -> np.ndarray:
         """
-        The data of this Modality as a NumPy array. 
+        The data of this Modality as a NumPy array.
 
         The data refers to the actual data this modality represents
-        and for DerivedModality it is the result of running the 
+        and for DerivedModality it is the result of running the
         modality's algorithm on the original data.
 
-        The dimensions of the array are in the 
+        The dimensions of the array are in the
         order of [time, others]
 
         If this modality is not preloaded, accessing this property will
-        cause data to be loaded on the fly _and_ saved in memory. To 
+        cause data to be loaded on the fly _and_ saved in memory. To
         release the memory, assign None to this Modality's data.
         """
         if self._modality_data is None or self._modality_data.data is None:
@@ -834,8 +831,8 @@ class Modality(AbstractData, OrderedDict):
         """
         Data setter method.
 
-        Arguments: 
-        data -- either None or a numpy.ndarray with same dtype, size, 
+        Arguments:
+        data -- either None or a numpy.ndarray with same dtype, size,
             and shape as self.data.
 
         Assigning anything but None or a numpy ndarray with matching dtype,
@@ -912,21 +909,21 @@ class Modality(AbstractData, OrderedDict):
         self._time_offset = time_offset
         if self._modality_data.timevector:
             self._modality_data.timevector = (
-                    self.timevector + (time_offset - self.timevector[0]))
+                self.timevector + (time_offset - self.timevector[0]))
 
     @property
     def timevector(self):
         """
         The timevector corresponding to `self.data` as a NumPy array.
 
-        If the data has not been previously loaded, accessing this 
-        property will cause data to be loaded on the fly _and_ saved 
-        in memory. To release the memory, assign None to this 
-        Modality's data. If the data has been previously 
-        loaded and after that released, the timevector still persists and  
+        If the data has not been previously loaded, accessing this
+        property will cause data to be loaded on the fly _and_ saved
+        in memory. To release the memory, assign None to this
+        Modality's data. If the data has been previously
+        loaded and after that released, the timevector still persists and
         accessing it does not trigger a new loading operation.
 
-        Assigning a value to this property is implemented so 
+        Assigning a value to this property is implemented so
         that `self.timevector[0]` stays equal to `self._timeOffset`.
         """
         if (self._modality_data is None or
