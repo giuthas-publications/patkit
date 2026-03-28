@@ -293,7 +293,7 @@ def add_derived_data(
     """
     data_run_config = config.data_config
 
-    # TODO 0.21: Automate most of this for arbitrary Modalities.
+    # TODO 0.24: Automate most of this for arbitrary Modalities.
     modality_operation_dict = {}
     if data_run_config.intensity_arguments:
         intensity_arguments = data_run_config.intensity_arguments

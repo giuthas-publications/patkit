@@ -286,7 +286,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.current_audio_frame = 0
         self.audio_start_time = None
         self.current_audio_device = sounddevice.default.device
-        # TODO 0.21: use sounddevice.query_devices() to create a selection menu
+        # TODO 0.23: use sounddevice.query_devices() to create a selection menu
         # for audio output
         self.play_controls.play.connect(self.play)
         self.play_controls.pause.connect(self.pause)
