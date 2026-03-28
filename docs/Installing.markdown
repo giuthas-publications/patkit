@@ -26,12 +26,15 @@ Do get in touch if you would like to *test* any of these. A downloadable
 executable will hopefully also become reality. Do get in touch if you would like
 to *develop* it.
 
-Meanwhile `uv` and `pip` are valid options.
+Meanwhile `uv` and `pip` are good options.
 
 ### Using uv
 
-- Install [uv](https://docs.astral.sh/uv/#getting-started).
-- On the commandline run `uv tool install patkit`.
+- Install the package manager uv: 
+  - MacOS/Linux run `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  - Windows run `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+  - See [uv](https://docs.astral.sh/uv/#getting-started) for more details.
+- On the commandline run `uv tool install patkit`
 - Running [instructions](Running.markdown).
 
 ### Using pip
