@@ -56,6 +56,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Fixed
 
 - Manifest files now work.
+- Some corrections to documentation.
 
 
 ## [0.21.0] - 2026-03-27
