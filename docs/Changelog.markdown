@@ -57,6 +57,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - Manifest files now work.
 - Some corrections to documentation.
+  - Links on PyPi will now hopefully work.
 
 
 ## [0.21.0] - 2026-03-27
