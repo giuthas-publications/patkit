@@ -168,6 +168,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.tongue_positions = PdQtAnnotator.default_tongue_positions
         self._add_annotations()
 
+        self.gui_mode = config.gui_config.color_scheme
         match config.gui_config.color_scheme:
             case GuiColorScheme.DARK:
                 self.change_to_dark()
@@ -403,10 +404,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def change_to_dark(self):
         """Activate dark mode."""
+        self.gui_mode = GuiColorScheme.DARK
         mpl_style(dark=True)
 
     def change_to_light(self):
         """Activate light mode."""
+        self.gui_mode = GuiColorScheme.LIGHT
         mpl_style(dark=False)
 
     @property
@@ -1239,7 +1242,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.setEnabled(True)
         self.action_save_current_textgrid.setEnabled(True)
 
-        self.figure.patch.set_facecolor("black")
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("black")
+        else:
+            self.figure.patch.set_facecolor("white")
 
         self.update()
         self.update_ui()
@@ -1258,7 +1264,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.setEnabled(False)
         self.action_save_current_textgrid.setEnabled(False)
 
-        self.figure.patch.set_facecolor("#001202")
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e6ffe9")
 
         self.update()
         self.update_ui()
@@ -1292,7 +1301,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         if not self.action_show_example.isChecked():
             self.action_show_example.setChecked(True)
-        self.figure.patch.set_facecolor("#000212")
+
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e7eaff")
 
         self.update()
         self.update_ui()
@@ -1303,7 +1316,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         if self.action_show_example.isChecked():
             self.action_show_example.setChecked(False)
-        self.figure.patch.set_facecolor("#001202")
+
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e6ffe9")
 
         self.update()
         self.update_ui()
