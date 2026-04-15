@@ -20,7 +20,7 @@ Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
 ## Running the examples
 
-TODO 0.28: update this
+TODO 0.24: update this
 
 Get the [test data](Test_data.markdown).
 

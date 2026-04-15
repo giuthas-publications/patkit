@@ -168,6 +168,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.tongue_positions = PdQtAnnotator.default_tongue_positions
         self._add_annotations()
 
+        self.gui_mode = config.gui_config.color_scheme
         match config.gui_config.color_scheme:
             case GuiColorScheme.DARK:
                 self.change_to_dark()
@@ -286,7 +287,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.current_audio_frame = 0
         self.audio_start_time = None
         self.current_audio_device = sounddevice.default.device
-        # TODO 0.21: use sounddevice.query_devices() to create a selection menu
+        # TODO 0.23: use sounddevice.query_devices() to create a selection menu
         # for audio output
         self.play_controls.play.connect(self.play)
         self.play_controls.pause.connect(self.pause)
@@ -403,10 +404,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
     def change_to_dark(self):
         """Activate dark mode."""
+        self.gui_mode = GuiColorScheme.DARK
         mpl_style(dark=True)
 
     def change_to_light(self):
         """Activate light mode."""
+        self.gui_mode = GuiColorScheme.LIGHT
         mpl_style(dark=False)
 
     @property
@@ -1108,7 +1111,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         directory = QFileDialog.getExistingDirectory(
             self, caption="Open directory", directory='.')
         if directory:
-            # TODO 0.22: these should be loaded from the new directory as
+            # TODO 0.22.1: these should be loaded from the new directory as
             # well
             # self.display_tongue = display_tongue
 
@@ -1145,7 +1148,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 0.22: does this save textgrids too and how does it interact
+        # TODO 0.22.1: does this save textgrids too and how does it interact
         # with saving answers and exercises.
         save_recording_session(self.session)
 
@@ -1153,7 +1156,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 0.22: write a call back for asking for overwrite confirmation.
+        # TODO 0.22.1: write a call back for asking for overwrite confirmation.
         if self.mode is AnnotatorMode.EXERCISE:
             return
 
@@ -1173,7 +1176,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.22: write a call back for asking for overwrite confirmation.
+        # TODO 0.22.1: write a call back for asking for overwrite confirmation.
         if self.mode is AnnotatorMode.EXERCISE:
             return
 
@@ -1198,7 +1201,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Wrap a directory as an Exercise.
         """
-        # TODO 0.22
+        # TODO: AFTER 1.0
         # ask for directory
         # ask for patkit/exercise dir
         # write patkit_v.yaml in exercise dir
@@ -1239,7 +1242,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.setEnabled(True)
         self.action_save_current_textgrid.setEnabled(True)
 
-        self.figure.patch.set_facecolor("black")
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("black")
+        else:
+            self.figure.patch.set_facecolor("white")
 
         self.update()
         self.update_ui()
@@ -1258,7 +1264,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_save_all_textgrids.setEnabled(False)
         self.action_save_current_textgrid.setEnabled(False)
 
-        self.figure.patch.set_facecolor("#001202")
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e6ffe9")
 
         self.update()
         self.update_ui()
@@ -1292,7 +1301,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         if not self.action_show_example.isChecked():
             self.action_show_example.setChecked(True)
-        self.figure.patch.set_facecolor("#000212")
+
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e7eaff")
 
         self.update()
         self.update_ui()
@@ -1303,7 +1316,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         if self.action_show_example.isChecked():
             self.action_show_example.setChecked(False)
-        self.figure.patch.set_facecolor("#001202")
+
+        if self.gui_mode is GuiColorScheme.DARK:
+            self.figure.patch.set_facecolor("#001202")
+        else:
+            self.figure.patch.set_facecolor("#e6ffe9")
 
         self.update()
         self.update_ui()

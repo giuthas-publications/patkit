@@ -60,6 +60,7 @@ long run than gains in execution speed.
     - Data processing parameters
   - Local configuration
 
-## Just for reference
+## For reference
 
 - [Screenshots of the GUI in different versions](PATKIT_GUI_versions.markdown)
+- [List of Contributors](Contributors.markdown)

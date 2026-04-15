@@ -31,9 +31,9 @@ thesis](https://eresearch.qmu.ac.uk/handle/20.500.12289/10163).
   - See [uv](https://docs.astral.sh/uv/#getting-started) for more details.
 - On the commandline run `uv tool install patkit`
 - Run `patkit --help` for instructions.
-- If you want to run the example data, get the `recorded_data` folder from
+- If you want to run the example data, get the `recorded_data` and `scenarios` folders from
   [github](https://github.com/giuthas/patkit).
-  - Run `patkit recorded_data/minimal` in the folder where you downloaded the data
+  - Run `patkit scenarios/minimal` in the folder where you downloaded the data
     and experiment from there.
 
 - If on Linux of the debian variety (ubuntu, popos, others), you may also need 
@@ -57,7 +57,7 @@ and what's coming up.
 
 ## What's included
 
-TODO 0.22: give a quick description of included data and goodies here.
+TODO 0.22.1: give a quick description of included data and goodies here.
 TODO 1.0: Move the data elsewhere to be optionally loaded.
 
 ## Contributing

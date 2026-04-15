@@ -39,6 +39,32 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
+<!-- 
+- Manifest files now work.
+- Some corrections to documentation.
+  - Links on PyPi will now hopefully work. 
+-->
+
+
+## [0.22.0] - 2026-04-14
+
+### Highlights
+
+- New light mode colors for exercise mode.
+- Bug fixes
+
+### Bugs
+
+- [Old Bugs](Bugs.markdown).
+
+### Fixed
+
+- Fixed use of a deprecated function in loading ultrasound data. 
+- Light mode now works in exercise mode.
+- Some corrections to documentation.
+  - Links on PyPi will now hopefully work. 
+
+
 ## [0.21.0] - 2026-03-27
 
 ### Highlights

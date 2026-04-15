@@ -64,8 +64,6 @@ class ListSaveDialog(QDialog):
         self.save_path = save_path
         self.option = None
 
-        # self.icon = icon
-
         # The checklist
         self.list_view = QListView()
         self.list_view.setHorizontalScrollBarPolicy(
@@ -137,7 +135,7 @@ class ListSaveDialog(QDialog):
             vbox.addLayout(option_box)
         vbox.addLayout(path_and_name_box)
         vbox.addWidget(self.ok_cancel_buttons)
-        
+
         self.setWindowTitle(self.name)
         if icon:
             self.setWindowIcon(icon)
