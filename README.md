@@ -57,7 +57,7 @@ and what's coming up.
 
 ## What's included
 
-TODO 0.22: give a quick description of included data and goodies here.
+TODO 0.22.1: give a quick description of included data and goodies here.
 TODO 1.0: Move the data elsewhere to be optionally loaded.
 
 ## Contributing
