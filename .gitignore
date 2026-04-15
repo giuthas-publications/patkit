@@ -6,6 +6,7 @@ venv/
 #
 *.meta
 *.npz
+patkit-manifest.yaml
 
 ####
 # Groups of files 
