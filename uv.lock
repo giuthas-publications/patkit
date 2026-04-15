@@ -1417,7 +1417,7 @@ wheels = [
 
 [[package]]
 name = "patkit"
-version = "0.22.0"
+version = "0.22.1"
 source = { editable = "." }
 dependencies = [
     { name = "bioread" },
@@ -1442,9 +1442,11 @@ dependencies = [
     { name = "praat-textgrids" },
     { name = "pydantic" },
     { name = "pydicom" },
+    { name = "pygments" },
     { name = "pylint" },
     { name = "pyqt6" },
     { name = "pyreadline3", marker = "sys_platform == 'win32'" },
+    { name = "pytest" },
     { name = "qbstyles" },
     { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -1478,9 +1480,11 @@ requires-dist = [
     { name = "praat-textgrids", specifier = ">=1.4.0" },
     { name = "pydantic", specifier = ">=2.10.4" },
     { name = "pydicom", specifier = ">=3.0.2" },
+    { name = "pygments", specifier = ">=2.19.2" },
     { name = "pylint", specifier = ">=3.3.3" },
     { name = "pyqt6", specifier = ">=6.10.0" },
     { name = "pyreadline3", marker = "sys_platform == 'win32'", specifier = ">=3.5.4" },
+    { name = "pytest", specifier = ">=9.0.2" },
     { name = "qbstyles", specifier = ">=0.1.4" },
     { name = "scipy", specifier = ">=1.15.0" },
     { name = "seaborn", specifier = ">=0.13.2" },
