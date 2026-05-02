@@ -54,8 +54,6 @@ from copy import deepcopy
 from pathlib import Path
 from textwrap import indent
 
-from icecream import ic
-
 
 _logger = logging.getLogger('patkit.data_structures')
 
