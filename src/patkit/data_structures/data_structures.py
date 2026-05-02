@@ -275,10 +275,9 @@ class Manifest(UserList):
 
     def __init__(self, path: Path | None = None):
         super().__init__()
-        path = path.resolve()
-        ic(path)
-        self.path = path
         if path is not None:
+            path = path.resolve()
+            self.path = path
             scenario_paths = Manifest.read_manifest(path)
             if scenario_paths is not None:
                 self.extend(scenario_paths)
