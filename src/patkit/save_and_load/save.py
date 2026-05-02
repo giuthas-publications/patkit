@@ -78,7 +78,8 @@ def save_modality_data(
 
     This saves only `ModalityData.data` and ModalityData.timevector.
 
-    Returns the filename of the 
+    Returns the filename of the modality metadata file and confirmation flag
+    for overwriting files.
     """
     _logger.debug("Saving data for %s.", modality.name)
     suffix = modality.name_underscored
@@ -112,7 +113,7 @@ def save_modality_meta(
     Save meta data and annotations for a Modality.
 
     Saved data includes sampling frequency and any processing metadata that is
-    needed to reconstruct the Modality. 
+    needed to reconstruct the Modality.
     """
     _logger.debug("Saving meta for %s.", modality.name)
     suffix = modality.name_underscored
@@ -300,7 +301,8 @@ def save_statistic_meta(
 
 
 def save_statistics(
-        aggregator: AbstractDataContainer, confirmation: OverwriteConfirmation | None
+        aggregator: AbstractDataContainer,
+        confirmation: OverwriteConfirmation | None
 ) -> tuple[dict, OverwriteConfirmation]:
     """
     Save Statistics and gather meta for all Statistics.
@@ -418,8 +420,8 @@ def save_manifest(session: Session) -> None:
     manifest_path = session.recorded_path/PatkitConfigFile.MANIFEST
 
     manifest = Manifest(manifest_path)
-    if session.patkit_meta_path not in manifest:
-        manifest.append(session.patkit_meta_path)
+    # Manifest.append is safe against duplicates.
+    manifest.append(session.patkit_meta_path)
     # Always write in case there is an update to the file format.
     manifest.save()
 
@@ -435,7 +437,6 @@ def save_recording_session(
     #     print("patkit path is none")
     #     sys.exit()
     #     session.patkit_path = session.recorded_path
-    save_manifest(session)
     recording_meta_files, confirmation = save_recordings(
         recordings=session.recordings, confirmation=None)
     statistics_saves, confirmation = save_statistics(
@@ -448,5 +449,6 @@ def save_recording_session(
         confirmation=confirmation,
         statistics_saves=statistics_saves,
     )
+    save_manifest(session)
 
     return meta_name, confirmation
