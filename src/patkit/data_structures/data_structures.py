@@ -323,7 +323,9 @@ class Session(AbstractDataContainer, UserList):
 
     This class behaves exactly like a list of Recordings with some extra
     fields. While some legacy code may be left behind, the preferred idiom for
-    iterating over the recordings is `for recording in recording_session:`.
+    iterating over the recordings is `for recording in recording_session:` or
+    `for recording in tqdm(recording_session):` if you want a progress bar on
+    the command line.
 
     Sessions can also hold aggregate data in the form of Statistics.
     """
