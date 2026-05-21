@@ -245,7 +245,7 @@ class Manifest(UserList):
     @staticmethod
     def read_manifest(path: Path) -> list[str] | None:
         """
-        Static method for reading a Manifest files contents.
+        Static method for reading a Manifest file contents.
 
         Parameters
         ----------
