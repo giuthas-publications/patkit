@@ -421,6 +421,7 @@ def save_manifest(session: Session) -> None:
 
     manifest = Manifest(manifest_path)
     # Manifest.append is safe against duplicates.
+    print(f"trying to add {session.patkit_meta_path}")
     manifest.append(session.patkit_meta_path)
     # Always write in case there is an update to the file format.
     manifest.save()

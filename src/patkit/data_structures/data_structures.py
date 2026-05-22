@@ -277,6 +277,7 @@ class Manifest(UserList):
             path = path.resolve()
             self.path = path
             scenario_paths = Manifest.read_manifest(path)
+            print(scenario_paths)
             if scenario_paths is not None:
                 self.extend(scenario_paths)
 
