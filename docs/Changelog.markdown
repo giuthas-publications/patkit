@@ -39,7 +39,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - The alpha and beta versions will be mainly quality assurance and code clean up.
 
 
-## [0.22.0] - 2026-04-24
+## [0.22.1] - 2026-05-23
 
 ### Highlights
 
@@ -47,12 +47,18 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Some corrections to documentation.
   - Links on PyPi will now hopefully work. 
 
+### Added
+
+- First unit test.
+
 ### Bugs
 
 - [Old Bugs](Bugs.markdown).
 
 ### Fixed
 
+- Manifest overwrite bug.
+- Links on PyPi
 
 
 ## [0.22.0] - 2026-04-14
