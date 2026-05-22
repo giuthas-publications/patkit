@@ -38,7 +38,7 @@ from pathlib import Path
 import click
 
 from patkit.initialise import initialise_config, initialise_patkit
-from patkit.path_resolution import resolve_scenario_path
+from patkit.cli_helpers import resolve_scenario_path
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
