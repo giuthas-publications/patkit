@@ -37,12 +37,55 @@ from pathlib import Path
 
 import click
 
+from patkit.constants import OpenPathType
 from patkit.initialise import initialise_config, initialise_patkit
-from patkit.cli_helpers import resolve_scenario_path
+from patkit.path_resolution import get_manifest_scenarios, resolve_open_path
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
 from patkit.simulation.simulate import setup_contours_comparisons_soundpairs
+
+
+def resolve_scenario_path(path: Path) -> Path:
+    """
+    CLI-specific path resolution that prompts the user via the terminal.
+
+    Parameters
+    ----------
+    path : Path
+        The original target path provided by the user.
+
+    Returns
+    -------
+    Path
+        The chosen scenario path, or the original path if none apply.
+    """
+    scenarios = get_manifest_scenarios(path=path)
+
+    if not scenarios:
+        return path
+
+    if len(scenarios) == 1:
+        click.echo(
+            f"Automatically opening the single scenario from "
+            f"manifest: {scenarios[0]}"
+        )
+        return scenarios[0]
+
+    click.echo("\nMultiple scenarios found in the manifest file:")
+    for idx, s_path in enumerate(scenarios, 1):
+        click.echo(f"  [{idx}] {s_path}")
+
+    choice = click.prompt(
+        "\nPlease select which scenario you want to open",
+        type=click.IntRange(1, len(scenarios)),
+        default=1
+    )
+
+    chosen_path = scenarios[choice - 1]
+    click.echo(f"Opening selected scenario: {chosen_path}\n")
+
+    return chosen_path
 
 
 @click.command(name="open")
@@ -61,7 +104,28 @@ def open_in_annotator(
     \b
     PATH to the data - maybe be a file or a directory.
     """
-    path = resolve_scenario_path(path=path)
+    path_type, path = resolve_open_path(path)
+    match path_type:
+        case OpenPathType.MANIFEST:
+            path = resolve_scenario_path(path=path)
+        case OpenPathType.SCENARIO:
+            pass
+        case OpenPathType.DIRECTORY:
+            raise NotImplementedError(
+                "Opening a directory of data without "
+                "config is not implemented yet."
+            )
+        case OpenPathType.SINGLE_DATA:
+            raise NotImplementedError(
+                "Opening a single data file without "
+                "config is not implemented yet."
+            )
+        case _:
+            raise NotImplementedError(
+                f"Unimplemented type of load path "
+                f"{path_type}."
+            )
+
     config, logger = initialise_config(
         path=path, require_gui=True, require_data=True)
     session = initialise_patkit(config=config, logger=logger)

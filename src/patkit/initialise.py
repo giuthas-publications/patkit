@@ -88,19 +88,19 @@ def get_config_dir(path: Path) -> Path:
     match path.suffix:
         case SourceSuffix.TEXTGRID:
             print("Direct TextGrid loading planned for "
-                  "implementation in 0.18.")
+                  "implementation in 0.25.")
             sys.exit()
         case SourceSuffix.WAV:
             print("Direct wav loading planned for "
-                  "implementation in 0.18.")
+                  "implementation in 0.25.")
             sys.exit()
         case SourceSuffix.AAA_ULTRA:
             print("Direct AAA ultrasound data loading planned for "
-                  "implementation by 1.0.")
+                  "implementation by 0.25.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.MANIFEST:
             print("Loading based on a manifest file planned for "
-                  "implementation in 0.18.")
+                  "implementation in 0.25.")
             sys.exit()
         case PatkitSuffix.CONFIG if path.name == PatkitConfigFile.SESSION:
             path = path.parent
@@ -141,7 +141,7 @@ def initialise_config(
     require_data : bool, optional
         Do we need data configuration, by default False. This can come in the
         form of either a `patkit_data.yaml` file or a manifest or a session
-        `.meta`. The PATKIT will try to back track the latter two to the
+        `.meta`. PATKIT will try to back track the latter two to
         `patkit_data.yaml`.
     require_gui : bool, optional
         If the annotator GUI is going to be opened, we should have

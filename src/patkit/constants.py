@@ -39,7 +39,6 @@ values and avoids typos and makes an IDE help in writing code.
 Frozen dataclasses are used for constants that only ever need to be accessed
 and never are stored. In effect, they function as look-up tables.
 """
-from dataclasses import dataclass
 from enum import Enum
 from importlib.metadata import version
 
@@ -169,8 +168,7 @@ class IntervalCategory(Enum):
     LAST_LABELED = 'last labeled'
 
 
-@dataclass(frozen=True)
-class PatkitConfigFile:
+class PatkitConfigFile(str, Enum):
     """
     Human written yaml files to control importing data.
 
@@ -203,9 +201,14 @@ class PatkitConfigFile:
     SESSION = 'session-config.yaml'
     SPLINE = 'spline-config.yaml'
 
+    def __str__(self) -> str:
+        """
+        Ensure f-strings and print() output the string value.
+        """
+        return self.value
 
-@dataclass(frozen=True)
-class PatkitSuffix:
+
+class PatkitSuffix(str, Enum):
     """
     Suffixes for files saved by patkit.
 
@@ -216,6 +219,12 @@ class PatkitSuffix:
     CONFIG = ".yaml"
     DATA = ".npz"
     META = ".meta"
+
+    def __str__(self) -> str:
+        """
+        Ensure f-strings and print() output the string value.
+        """
+        return self.value
 
 
 class SavedObjectTypes(Enum):
@@ -232,8 +241,7 @@ class SavedObjectTypes(Enum):
     TRIAL = "Trial"
 
 
-@dataclass(frozen=True)
-class SourceSuffix:
+class SourceSuffix(str, Enum):
     """
     Suffixes for files imported by patkit.
 
@@ -256,6 +264,22 @@ class SourceSuffix:
     CSV = ".csv"
     TEXTGRID = ".TextGrid"
     WAV = ".wav"
+
+    def __str__(self) -> str:
+        """
+        Ensure f-strings and print() output the string value.
+        """
+        return self.value
+
+
+class OpenPathType(Enum):
+    """
+    Path types resolved when running patkit subcommands (open, interact...).
+    """
+    MANIFEST = "manifest"
+    SCENARIO = "scenario"
+    SINGLE_DATA = "single_data"
+    DIRECTORY = "directory"
 
 
 # def patkit_suffix(
