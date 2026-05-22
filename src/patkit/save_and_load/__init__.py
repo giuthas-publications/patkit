@@ -30,5 +30,5 @@
 # citations.bib in BibTeX format.
 #
 from .load import load_exercise, load_recordings, load_recording_session
-from .save import save_recordings, save_recording_session
+from .save import save_manifest, save_recordings, save_recording_session
 from .save_and_load_schemas import nested_text_converters

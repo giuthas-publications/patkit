@@ -10,7 +10,7 @@ from unittest.mock import MagicMock
 
 from patkit.constants import PatkitConfigFile
 from patkit.data_structures import Session
-from patkit.save import save_manifest
+from patkit.save_and_load import save_manifest
 
 
 def test_save_manifest_appends_scenarios(tmp_path: Path) -> None:
