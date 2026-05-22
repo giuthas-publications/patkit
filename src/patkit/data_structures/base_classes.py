@@ -52,10 +52,10 @@ class AbstractDataObject(abc.ABC):
     Abstract base class for patkit data objects.
 
     Almost no class should directly inherit from this class. Exceptions are
-    AbstractDataContainer and AbstractData. The latter is the abstract baseclass for
-    Modality and Statistic and the former for all data base classes: Recording,
-    Session, DataSet and any others that contain either DataContainers and/or
-    AbstractDataContainers.
+    AbstractDataContainer and AbstractData. The latter is the abstract
+    baseclass for Modality and Statistic and the former for all data base
+    classes: Recording, Session, DataSet and any others that contain either
+    DataContainers and/or AbstractDataContainers.
     """
 
     def __init__(self,
@@ -116,7 +116,7 @@ class AbstractDataObject(abc.ABC):
     @property
     def file_info(self) -> FileInformation:
         """
-        The paths and filenames of this AbstractDataObject as a FileInformation object.
+        The paths and filenames of this AbstractDataObject.
 
         NOTE: Regularly you should not need to access this directly. Instead,
         use the `[recorded|patkit]_path`, `[recorded|patkit]_data_file`, and
@@ -182,7 +182,7 @@ class AbstractDataObject(abc.ABC):
         Path to the recorded meta data file of this AbstractDataObject.
 
         This file will exist only for some recorded data. For example, wav
-        files do not have a corresponding recorded meta data file. 
+        files do not have a corresponding recorded meta data file.
 
         This file may also cover more than one recorded data file - usually a
         whole Session if not just a single recorded data file.
@@ -230,7 +230,7 @@ class AbstractDataObject(abc.ABC):
         """
         if not self._file_info.recorded_path:
             return None
-        if not self.container is None:
+        if self.container is not None:
             return self.container.recorded_path / self._file_info.recorded_path
         return self._file_info.recorded_path
 
@@ -367,11 +367,11 @@ class AbstractDataObject(abc.ABC):
         Get meta data as a dict.
 
         This is a helper method for saving as nested text. Allows for rewriting
-        any fields that need a simpler representation. 
+        any fields that need a simpler representation.
 
         Subclasses should override this method if any of their fields require
         special handling such as derived Enums needing to be converted to plain
-        text etc. 
+        text etc.
 
         Returns
         -------
@@ -383,7 +383,7 @@ class AbstractDataObject(abc.ABC):
 
 class AbstractDataContainer(AbstractDataObject):
     """
-    Abstract baseclass for Recording, Session, and DataSet. 
+    Abstract baseclass for Recording, Session, and DataSet.
 
     This class collects behaviors that are shared by the data base classes i.e.
     classes which collect DataContainers and/or AbstractDataContainers.
@@ -409,9 +409,9 @@ class AbstractDataContainer(AbstractDataObject):
         """
         Name of this instance.
 
-        AbstractDataContainers get their names mainly from the file system. DataSets
-        are named after the root directory name, Sessions for the session
-        directories and Trials for the trial file names. 
+        AbstractDataContainers get their names mainly from the file system.
+        DataSets are named after the root directory name, Sessions for the
+        session directories and Trials for the trial file names.
 
         Returns
         -------
@@ -456,7 +456,7 @@ class AbstractDataContainer(AbstractDataObject):
 
 class AbstractData(AbstractDataObject):
     """
-    Abstract baseclass for Modality and Statistic. 
+    Abstract baseclass for Modality and Statistic.
 
     This class collects behaviors shared by the classes that contain data:
     Modalities contain time varying data and Statistics contain time
@@ -519,7 +519,7 @@ class AbstractData(AbstractDataObject):
 
 class Statistic(AbstractData):
     """
-    Abstract baseclass for statistics generated from members of a container. 
+    Abstract baseclass for statistics generated from members of a container.
 
     Specifically Statistics are time independent data while Modalities are
     time-dependent data.
@@ -539,16 +539,17 @@ class Statistic(AbstractData):
             parsed_data: np.ndarray | None = None,
     ) -> None:
         """
-        Build a Statistic.       
+        Build a Statistic.
 
         Parameters
         ----------
         metadata : PatkitBaseModel
             Parameters used in calculating this Statistic.
         container : AbstractDataContainer
-            The container of this Statistic. Usually this will be the object whose
-            contents this Statistic was calculated on. By default, None, to
-            facilitate mass generation and setting the container after wards.
+            The container of this Statistic. Usually this will be the object
+            whose contents this Statistic was calculated on. By default, None,
+            to facilitate mass generation and setting the container after
+            wards.
         file_info : FileInformation
             The patkit load path and names for this Statistic. Recorded path
             and names should usually be empty. Defaults to None, when the
