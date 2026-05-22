@@ -8,9 +8,6 @@ def get_manifest_scenarios(path: Path) -> list[Path] | None:
     """
     Find and resolve all scenario paths from a manifest.
 
-    This function contains no UI elements and is safe to call from both CLI and
-    GUI contexts.
-
     Parameters
     ----------
     path : Path
