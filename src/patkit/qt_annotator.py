@@ -46,10 +46,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 
-from icecream import ic
 from matplotlib.figure import Figure
 from matplotlib.widgets import MultiCursor
-from mpl_point_clicker import clicker
 
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import (
@@ -1863,7 +1861,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Pause playing audio.
 
-        Moves the selection cursor to the time when the playing was paused. 
+        Moves the selection cursor to the time when the playing was paused.
         """
         sounddevice.stop()
         paused_time = time.time()
