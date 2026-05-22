@@ -1,0 +1,38 @@
+name: test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install System Dependencies for PyQt6 and Headless Display
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libxcb-cursor0 libxkbcommon-x11-0 libegl1 libopengl0
+
+      - name: Install Package and Test Dependencies
+        run: |
+          # Assuming you have your test dependencies (pytest, pytest-qt) defined
+          uv pip install --system -e .[dev] 
+          uv pip install --system pytest pytest-qt
+
+      - name: Run tests with virtual display
+        run: |
+          xvfb-run python -m pytest tests/
