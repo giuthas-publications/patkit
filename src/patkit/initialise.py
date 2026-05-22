@@ -142,7 +142,7 @@ def initialise_config(
         Do we need data configuration, by default False. This can come in the
         form of either a `patkit_data.yaml` file or a manifest or a session
         `.meta`. The PATKIT will try to back track the latter two to the
-        `patkit_data.yaml`. 
+        `patkit_data.yaml`.
     require_gui : bool, optional
         If the annotator GUI is going to be opened, we should have
         `patkit_gui.yaml`, by default False
