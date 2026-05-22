@@ -38,6 +38,7 @@ from pathlib import Path
 import click
 
 from patkit.initialise import initialise_config, initialise_patkit
+from patkit.path_resolution import resolve_scenario_path
 from patkit.qt_annotator import run_annotator
 from patkit.interpreter import run_interpreter
 from patkit.simulation import run_simulations
@@ -60,6 +61,7 @@ def open_in_annotator(
     \b
     PATH to the data - maybe be a file or a directory.
     """
+    path = resolve_scenario_path(path=path)
     config, logger = initialise_config(
         path=path, require_gui=True, require_data=True)
     session = initialise_patkit(config=config, logger=logger)
@@ -81,6 +83,7 @@ def interact(
     \b
     PATH to the data - maybe be a file or a directory.
     """
+    path = resolve_scenario_path(path=path)
     config, logger = initialise_config(path=path, require_data=True)
     session = initialise_patkit(config=config, logger=logger)
     run_interpreter(session=session, configuration=config)
@@ -101,6 +104,7 @@ def publish(path: Path):
 
     NOT IMPLEMENTED YET.
     """
+    path = resolve_scenario_path(path=path)
     config, logger = initialise_config(path=path, require_publish=True)
     session = initialise_patkit(config=config, logger=logger)
     print(
