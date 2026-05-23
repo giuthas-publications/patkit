@@ -41,11 +41,12 @@ from patkit.modalities import (
 )
 
 modality_dict = {
-    "MonoAudio": MonoAudio, 
-    "RawUltrasound": RawUltrasound, 
-    "Video": Video, 
+    "MonoAudio": MonoAudio,
+    "RawUltrasound": RawUltrasound,
+    "Video": Video,
     "ThreeD_Ultrasound": ThreeD_Ultrasound,
 }
+
 
 def get_modality_types(names: list[str]) -> list:
     """

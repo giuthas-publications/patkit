@@ -33,19 +33,42 @@
 PATKIT doc generator.
 """
 from pathlib import Path
+import pkgutil
+import sys
+import warnings
 
 import pdoc
+
+# Suppress the annoying duplicate module warnings from pdoc
+warnings.filterwarnings(
+    "ignore",
+    message="The module specification.*adds a module named.*has already been added"
+)
 
 
 def main():
     """
     Generate the docs for PATKIT.
 
-    Run with `uv run scripts/generate_docs.py` at project root.
+    Run with `uv run devel/generate_docs.py` at project root.
     """
-    source_path = Path("src/patkit/")
+    src_path = Path("src").resolve()
+    if str(src_path) not in sys.path:
+        sys.path.insert(0, str(src_path))
+
+    # Import patkit dynamically to inspect its contents
+    import patkit
+
+    # 2. Programmatically crawl and collect the package and all submodules
+    modules_to_document = ["patkit"]
+    for module_info in pkgutil.walk_packages(
+        patkit.__path__, patkit.__name__ + "."
+    ):
+        modules_to_document.append(module_info.name)
+
     pdoc.render.configure(docformat="numpy", )
-    pdoc.pdoc(source_path, output_directory=Path("docs/api"))
+
+    pdoc.pdoc(*modules_to_document, output_directory=Path("docs/api"))
 
 
 if __name__ == "__main__":

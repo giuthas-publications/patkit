@@ -89,46 +89,49 @@
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
 </span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="c1"># scikit-video for io and processing of video data.</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">skvideo.io</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModalityData</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="c1"># TODO 0.26: replace this with probably imageio and imageio-ffmpeg</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="c1"># but do check before doing so. Should also support mpeg and mp4.</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">skvideo.io</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_avi</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalityData</span><span class="p">:</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">    Read wavfile from path.</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">    Positional arguments:</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    path -- Path of the wav file</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">    meta -- a dict containing the following keys:</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">        NumVectors -- number of scanlines in the data</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">        PixPerVector -- number of pixels on a scanline</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">    Keyword argument:</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">    detect_beep -- Should 1kHz beep detection be run. Changes return values (see below).</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    Returns a ModalityData instance that contains the wav frames, a timevector, and</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">    the sampling rate. </span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">    Also adds the &#39;no_frames&#39;, &#39;width&#39;, and &#39;height&#39; keys and values to the meta dict.</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="n">video_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="mi">0</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="n">num</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="n">timevector</span> <span class="o">=</span> <span class="n">video_time</span> <span class="o">/</span> \
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>    <span class="c1"># this should be added for PD and similar time vectors:</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="c1"># + .5/self.meta[&#39;framesPerSec&#39;]</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>    <span class="c1"># while at the same time dropping a suitable number</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="c1"># (most likely = timestep) of timestamps</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>    <span class="k">return</span> <span class="n">ModalityData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">],</span> <span class="n">timevector</span><span class="p">)</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">patkit.data_structures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModalityData</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_avi</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalityData</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">    Read wavfile from path.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">    Positional arguments: path -- Path of the wav file meta -- a dict</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">    containing the following keys:</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">        NumVectors -- number of scanlines in the data PixPerVector -- number of</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">        pixels on a scanline</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">    Keyword argument: detect_beep -- Should 1kHz beep detection be run. Changes</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    return values (see below).</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">    Returns a ModalityData instance that contains the wav frames, a timevector,</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">    and the sampling rate.</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">    Also adds the &#39;no_frames&#39;, &#39;width&#39;, and &#39;height&#39; keys and values to the</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">    meta dict.</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">video_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="mi">0</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="n">num</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="n">timevector</span> <span class="o">=</span> <span class="n">video_time</span> <span class="o">/</span> \
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="c1"># this should be added for PD and similar time vectors:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>    <span class="c1"># + .5/self.meta[&#39;framesPerSec&#39;]</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>    <span class="c1"># while at the same time dropping a suitable number</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="c1"># (most likely = timestep) of timestamps</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>    <span class="k">return</span> <span class="n">ModalityData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">],</span> <span class="n">timevector</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -144,59 +147,59 @@
 
     </div>
     <a class="headerlink" href="#read_avi"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="read_avi-42"><a href="#read_avi-42"><span class="linenos">42</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_avi</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalityData</span><span class="p">:</span>
-</span><span id="read_avi-43"><a href="#read_avi-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="read_avi-44"><a href="#read_avi-44"><span class="linenos">44</span></a><span class="sd">    Read wavfile from path.</span>
-</span><span id="read_avi-45"><a href="#read_avi-45"><span class="linenos">45</span></a>
-</span><span id="read_avi-46"><a href="#read_avi-46"><span class="linenos">46</span></a><span class="sd">    Positional arguments:</span>
-</span><span id="read_avi-47"><a href="#read_avi-47"><span class="linenos">47</span></a><span class="sd">    path -- Path of the wav file</span>
-</span><span id="read_avi-48"><a href="#read_avi-48"><span class="linenos">48</span></a><span class="sd">    meta -- a dict containing the following keys:</span>
-</span><span id="read_avi-49"><a href="#read_avi-49"><span class="linenos">49</span></a><span class="sd">        NumVectors -- number of scanlines in the data</span>
-</span><span id="read_avi-50"><a href="#read_avi-50"><span class="linenos">50</span></a><span class="sd">        PixPerVector -- number of pixels on a scanline</span>
-</span><span id="read_avi-51"><a href="#read_avi-51"><span class="linenos">51</span></a>
-</span><span id="read_avi-52"><a href="#read_avi-52"><span class="linenos">52</span></a><span class="sd">    Keyword argument:</span>
-</span><span id="read_avi-53"><a href="#read_avi-53"><span class="linenos">53</span></a><span class="sd">    detect_beep -- Should 1kHz beep detection be run. Changes return values (see below).</span>
-</span><span id="read_avi-54"><a href="#read_avi-54"><span class="linenos">54</span></a>
-</span><span id="read_avi-55"><a href="#read_avi-55"><span class="linenos">55</span></a><span class="sd">    Returns a ModalityData instance that contains the wav frames, a timevector, and</span>
-</span><span id="read_avi-56"><a href="#read_avi-56"><span class="linenos">56</span></a><span class="sd">    the sampling rate. </span>
-</span><span id="read_avi-57"><a href="#read_avi-57"><span class="linenos">57</span></a>
-</span><span id="read_avi-58"><a href="#read_avi-58"><span class="linenos">58</span></a><span class="sd">    Also adds the &#39;no_frames&#39;, &#39;width&#39;, and &#39;height&#39; keys and values to the meta dict.</span>
-</span><span id="read_avi-59"><a href="#read_avi-59"><span class="linenos">59</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="read_avi-60"><a href="#read_avi-60"><span class="linenos">60</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-</span><span id="read_avi-61"><a href="#read_avi-61"><span class="linenos">61</span></a>
-</span><span id="read_avi-62"><a href="#read_avi-62"><span class="linenos">62</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="read_avi-63"><a href="#read_avi-63"><span class="linenos">63</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span id="read_avi-64"><a href="#read_avi-64"><span class="linenos">64</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span id="read_avi-65"><a href="#read_avi-65"><span class="linenos">65</span></a>    <span class="n">video_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
-</span><span id="read_avi-66"><a href="#read_avi-66"><span class="linenos">66</span></a>        <span class="mi">0</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
-</span><span id="read_avi-67"><a href="#read_avi-67"><span class="linenos">67</span></a>        <span class="n">num</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
-</span><span id="read_avi-68"><a href="#read_avi-68"><span class="linenos">68</span></a>        <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="read_avi-69"><a href="#read_avi-69"><span class="linenos">69</span></a>    <span class="n">timevector</span> <span class="o">=</span> <span class="n">video_time</span> <span class="o">/</span> \
-</span><span id="read_avi-70"><a href="#read_avi-70"><span class="linenos">70</span></a>        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span>
-</span><span id="read_avi-71"><a href="#read_avi-71"><span class="linenos">71</span></a>    <span class="c1"># this should be added for PD and similar time vectors:</span>
-</span><span id="read_avi-72"><a href="#read_avi-72"><span class="linenos">72</span></a>    <span class="c1"># + .5/self.meta[&#39;framesPerSec&#39;]</span>
-</span><span id="read_avi-73"><a href="#read_avi-73"><span class="linenos">73</span></a>    <span class="c1"># while at the same time dropping a suitable number</span>
-</span><span id="read_avi-74"><a href="#read_avi-74"><span class="linenos">74</span></a>    <span class="c1"># (most likely = timestep) of timestamps</span>
-</span><span id="read_avi-75"><a href="#read_avi-75"><span class="linenos">75</span></a>
-</span><span id="read_avi-76"><a href="#read_avi-76"><span class="linenos">76</span></a>    <span class="k">return</span> <span class="n">ModalityData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">],</span> <span class="n">timevector</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="read_avi-45"><a href="#read_avi-45"><span class="linenos">45</span></a><span class="k">def</span><span class="w"> </span><span class="nf">read_avi</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">meta</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">time_offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalityData</span><span class="p">:</span>
+</span><span id="read_avi-46"><a href="#read_avi-46"><span class="linenos">46</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="read_avi-47"><a href="#read_avi-47"><span class="linenos">47</span></a><span class="sd">    Read wavfile from path.</span>
+</span><span id="read_avi-48"><a href="#read_avi-48"><span class="linenos">48</span></a>
+</span><span id="read_avi-49"><a href="#read_avi-49"><span class="linenos">49</span></a><span class="sd">    Positional arguments: path -- Path of the wav file meta -- a dict</span>
+</span><span id="read_avi-50"><a href="#read_avi-50"><span class="linenos">50</span></a><span class="sd">    containing the following keys:</span>
+</span><span id="read_avi-51"><a href="#read_avi-51"><span class="linenos">51</span></a><span class="sd">        NumVectors -- number of scanlines in the data PixPerVector -- number of</span>
+</span><span id="read_avi-52"><a href="#read_avi-52"><span class="linenos">52</span></a><span class="sd">        pixels on a scanline</span>
+</span><span id="read_avi-53"><a href="#read_avi-53"><span class="linenos">53</span></a>
+</span><span id="read_avi-54"><a href="#read_avi-54"><span class="linenos">54</span></a><span class="sd">    Keyword argument: detect_beep -- Should 1kHz beep detection be run. Changes</span>
+</span><span id="read_avi-55"><a href="#read_avi-55"><span class="linenos">55</span></a><span class="sd">    return values (see below).</span>
+</span><span id="read_avi-56"><a href="#read_avi-56"><span class="linenos">56</span></a>
+</span><span id="read_avi-57"><a href="#read_avi-57"><span class="linenos">57</span></a><span class="sd">    Returns a ModalityData instance that contains the wav frames, a timevector,</span>
+</span><span id="read_avi-58"><a href="#read_avi-58"><span class="linenos">58</span></a><span class="sd">    and the sampling rate.</span>
+</span><span id="read_avi-59"><a href="#read_avi-59"><span class="linenos">59</span></a>
+</span><span id="read_avi-60"><a href="#read_avi-60"><span class="linenos">60</span></a><span class="sd">    Also adds the &#39;no_frames&#39;, &#39;width&#39;, and &#39;height&#39; keys and values to the</span>
+</span><span id="read_avi-61"><a href="#read_avi-61"><span class="linenos">61</span></a><span class="sd">    meta dict.</span>
+</span><span id="read_avi-62"><a href="#read_avi-62"><span class="linenos">62</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="read_avi-63"><a href="#read_avi-63"><span class="linenos">63</span></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">skvideo</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">vread</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+</span><span id="read_avi-64"><a href="#read_avi-64"><span class="linenos">64</span></a>
+</span><span id="read_avi-65"><a href="#read_avi-65"><span class="linenos">65</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="read_avi-66"><a href="#read_avi-66"><span class="linenos">66</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="read_avi-67"><a href="#read_avi-67"><span class="linenos">67</span></a>    <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span id="read_avi-68"><a href="#read_avi-68"><span class="linenos">68</span></a>    <span class="n">video_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+</span><span id="read_avi-69"><a href="#read_avi-69"><span class="linenos">69</span></a>        <span class="mi">0</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
+</span><span id="read_avi-70"><a href="#read_avi-70"><span class="linenos">70</span></a>        <span class="n">num</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;no_frames&#39;</span><span class="p">],</span>
+</span><span id="read_avi-71"><a href="#read_avi-71"><span class="linenos">71</span></a>        <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="read_avi-72"><a href="#read_avi-72"><span class="linenos">72</span></a>    <span class="n">timevector</span> <span class="o">=</span> <span class="n">video_time</span> <span class="o">/</span> \
+</span><span id="read_avi-73"><a href="#read_avi-73"><span class="linenos">73</span></a>        <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">time_offset</span>
+</span><span id="read_avi-74"><a href="#read_avi-74"><span class="linenos">74</span></a>    <span class="c1"># this should be added for PD and similar time vectors:</span>
+</span><span id="read_avi-75"><a href="#read_avi-75"><span class="linenos">75</span></a>    <span class="c1"># + .5/self.meta[&#39;framesPerSec&#39;]</span>
+</span><span id="read_avi-76"><a href="#read_avi-76"><span class="linenos">76</span></a>    <span class="c1"># while at the same time dropping a suitable number</span>
+</span><span id="read_avi-77"><a href="#read_avi-77"><span class="linenos">77</span></a>    <span class="c1"># (most likely = timestep) of timestamps</span>
+</span><span id="read_avi-78"><a href="#read_avi-78"><span class="linenos">78</span></a>
+</span><span id="read_avi-79"><a href="#read_avi-79"><span class="linenos">79</span></a>    <span class="k">return</span> <span class="n">ModalityData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;FramesPerSec&#39;</span><span class="p">],</span> <span class="n">timevector</span><span class="p">)</span>
 </span></pre></div>
 
 
             <div class="docstring"><p>Read wavfile from path.</p>
 
-<p>Positional arguments:
-path -- Path of the wav file
-meta -- a dict containing the following keys:
-    NumVectors -- number of scanlines in the data
-    PixPerVector -- number of pixels on a scanline</p>
+<p>Positional arguments: path -- Path of the wav file meta -- a dict
+containing the following keys:
+    NumVectors -- number of scanlines in the data PixPerVector -- number of
+    pixels on a scanline</p>
 
-<p>Keyword argument:
-detect_beep -- Should 1kHz beep detection be run. Changes return values (see below).</p>
+<p>Keyword argument: detect_beep -- Should 1kHz beep detection be run. Changes
+return values (see below).</p>
 
-<p>Returns a ModalityData instance that contains the wav frames, a timevector, and
-the sampling rate. </p>
+<p>Returns a ModalityData instance that contains the wav frames, a timevector,
+and the sampling rate.</p>
 
-<p>Also adds the 'no_frames', 'width', and 'height' keys and values to the meta dict.</p>
+<p>Also adds the 'no_frames', 'width', and 'height' keys and values to the
+meta dict.</p>
 </div>
 
 

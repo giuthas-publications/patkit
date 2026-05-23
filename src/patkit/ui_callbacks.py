@@ -41,7 +41,7 @@ T = TypeVar('T')
 
 class UiCallbacks:
     """
-    Mechanisms for handling user interaction via callbacks in a 
+    Mechanisms for handling user interaction via callbacks in a
     ui implementation agnostic way.
 
     It is the responsibility of all UIs to implement and register

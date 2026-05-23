@@ -6,7 +6,7 @@ This page shows the development of the GUI over different versions.
 
 ![PATKIT GUI](PATKIT_UI.png)
 
-## 0.21.0
+## 0.22.0
 
 ![PATKIT GUI 0.22.0 in light mode](PATKIT_UI_0.22.0.png)
 

@@ -33,8 +33,11 @@
 from pathlib import Path
 
 import numpy as np
-# scikit-video for io and processing of video data.
+
+# TODO 0.26: replace this with probably imageio and imageio-ffmpeg
+# but do check before doing so. Should also support mpeg and mp4.
 import skvideo.io
+
 from patkit.data_structures import ModalityData
 
 
@@ -42,19 +45,19 @@ def read_avi(path: Path, meta: dict, time_offset: float) -> ModalityData:
     """
     Read wavfile from path.
 
-    Positional arguments:
-    path -- Path of the wav file
-    meta -- a dict containing the following keys:
-        NumVectors -- number of scanlines in the data
-        PixPerVector -- number of pixels on a scanline
+    Positional arguments: path -- Path of the wav file meta -- a dict
+    containing the following keys:
+        NumVectors -- number of scanlines in the data PixPerVector -- number of
+        pixels on a scanline
 
-    Keyword argument:
-    detect_beep -- Should 1kHz beep detection be run. Changes return values (see below).
+    Keyword argument: detect_beep -- Should 1kHz beep detection be run. Changes
+    return values (see below).
 
-    Returns a ModalityData instance that contains the wav frames, a timevector, and
-    the sampling rate. 
+    Returns a ModalityData instance that contains the wav frames, a timevector,
+    and the sampling rate.
 
-    Also adds the 'no_frames', 'width', and 'height' keys and values to the meta dict.
+    Also adds the 'no_frames', 'width', and 'height' keys and values to the
+    meta dict.
     """
     data = skvideo.io.vread(str(path))
 

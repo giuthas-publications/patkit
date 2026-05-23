@@ -1,6 +1,6 @@
 # PATKIT - Phonetic Analysis ToolKIT 
 
-![PATKIT GUI](https://giuthas.github.io/patkit/PATKIT_UI_0.20.1.png)
+![PATKIT GUI](https://giuthas.github.io/patkit/PATKIT_UI_0.22.0.png)
 
 PATKIT provides tools for phonetic analysis of speech data. It includes a GUI
 for manual assessment/analysis/annotation (see picture above), command line
@@ -51,13 +51,26 @@ Try this in case trying to run patkit complains about a missing `xcb` plugin.
 
 ## Current version and development plans
 
-See [Changelog](https://giuthas.github.io/patkit/Changelog), for what's new in the current version
-and what's coming up.
+See [Changelog](https://giuthas.github.io/patkit/Changelog), for what's new in
+the current version and what's coming up.
 
 
 ## What's included
 
-TODO 0.22.1: give a quick description of included data and goodies here.
+There is some test and demo data that is temporarily hosted in the GitHub repo.
+Download the contents of
+`https://github.com/giuthas/patkit/tree/main/recorded_data/` and
+`https://github.com/giuthas/patkit/tree/main/scenarios/`. Easiest way to do
+this is by copy-pasting the URLs to [this
+page](https://download-directory.github.io/) to get a zip file with the
+contents of the directory.
+
+Place the unzipped directories in the same directory and after installing
+patkit try running 
+```
+patkit scenarios minimal
+```
+
 TODO 1.0: Move the data elsewhere to be optionally loaded.
 
 ## Contributing

@@ -65,7 +65,7 @@ def _load_data_container_data_and_meta(
 ) -> tuple[FileInformation, DataContainerLoadSchema, Any]:
     """
     Load file information, meta data, and actual data for a DataContainer.
-    
+
     Only a helper function, not for general use.
     """
     file_info = FileInformation(
@@ -355,7 +355,7 @@ def load_recording_session(
 
     file_info = FileInformation(
         patkit_meta_file=filename,
-        patkit_path=meta.parameters.patkit_path,
+        patkit_path=directory,
         recorded_path=meta.parameters.recorded_path,
         recorded_meta_file=session_config_path.name
     )
