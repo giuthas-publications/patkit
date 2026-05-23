@@ -89,16 +89,16 @@ In the fork repository:
    - This applies from version 1.0. Before that the roadmap is for 1.0 and
      minor releases are done when significant parts have been updated without
      fulfilling all of the promises in the roadmap.
-   - Switch to `devel` and merge the feature branch.
    - Check that Changelog (both current version and Unreleased) is correct and
      intelligible to a lay person.
    - Check that there are no `# TODO [version number]:` comments (like `TODO 0.11:`) 
      left for the version being released. If you find any either finish them or move 
      them to a later version.
-   - If all is good delete the feature branch: 
-   `git push -d <remote_name> <branchname>` and `git branch -d <branchname>` 
-   - Otherwise, go back to the feature branch and fix any TODOs or missing
-   features from the roadmap in Changelog.
+   - Fix any TODOs or missing features from the roadmap in Changelog.
+   - Switch to `devel` and merge the feature branch.
+   - When all is good delete the feature branch (unless planning multiple minor
+   releases): `git push -d <remote_name> <branchname>` and `git branch -d
+   <branchname>` 
 2. Update documentation and bump version number.
    - Version number lives in [pyproject.toml](../pyproject.toml).
      - File version number will be different from program version number after
