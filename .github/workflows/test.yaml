@@ -12,27 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version-file: "pyproject.toml"
 
-      - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
 
-      - name: Install System Dependencies for PyQt6 and Headless Display
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libxcb-cursor0 libxkbcommon-x11-0 libegl1 libopengl0
-
-      - name: Install Package and Test Dependencies
-        run: |
-          # Assuming you have your test dependencies (pytest, pytest-qt) defined
-          uv pip install --system -e .[dev] 
-          uv pip install --system pytest pytest-qt
-
-      - name: Run tests with virtual display
-        run: |
-          xvfb-run python -m pytest tests/
+      - name: Run Integration Tests
+        run: uv run pytest tests/test_integration.py
