@@ -171,29 +171,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self._add_annotations()
 
         self.gui_mode = config.gui_config.color_scheme
-        match config.gui_config.color_scheme:
-            case GuiColorScheme.DARK:
-                self.change_to_dark()
-            case GuiColorScheme.LIGHT:
-                self.change_to_light()
-            case GuiColorScheme.FOLLOW_SYSTEM:
-                match QGuiApplication.styleHints().colorScheme():
-                    case Qt.ColorScheme.Dark:
-                        config.gui_config.color_scheme = GuiColorScheme.DARK
-                        self.change_to_dark()
-                    case Qt.ColorScheme.Light:
-                        config.gui_config.color_scheme = GuiColorScheme.LIGHT
-                        self.change_to_light()
-                    case _:
-                        config.gui_config.color_scheme = GuiColorScheme.DARK
-                        self.change_to_dark()
-                        _logger.warning(
-                            "Unknown system level color scheme. "
-                            "So just setting mode to dark.")
-            case _:
-                _logger.warning(
-                    "Unrecognised gui style %s.",
-                    config.gui_config.color_scheme)
+        self._update_color_mode()
 
         QGuiApplication.styleHints().colorSchemeChanged.connect(
             self.on_color_scheme_changed)
@@ -403,6 +381,31 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         # self.show()
         self.ultra_canvas.draw_idle()
         self.update()
+
+    def _update_color_mode(self) -> None:
+        match self.gui_config.color_scheme:
+            case GuiColorScheme.DARK:
+                self.change_to_dark()
+            case GuiColorScheme.LIGHT:
+                self.change_to_light()
+            case GuiColorScheme.FOLLOW_SYSTEM:
+                match QGuiApplication.styleHints().colorScheme():
+                    case Qt.ColorScheme.Dark:
+                        self.gui_config.color_scheme = GuiColorScheme.DARK
+                        self.change_to_dark()
+                    case Qt.ColorScheme.Light:
+                        self.gui_config.color_scheme = GuiColorScheme.LIGHT
+                        self.change_to_light()
+                    case _:
+                        self.gui_config.color_scheme = GuiColorScheme.DARK
+                        self.change_to_dark()
+                        _logger.warning(
+                            "Unknown system level color scheme. "
+                            "So just setting mode to dark.")
+            case _:
+                _logger.warning(
+                    "Unrecognised gui style %s.",
+                    self.gui_config.color_scheme)
 
     def change_to_dark(self):
         """Activate dark mode."""
@@ -1138,18 +1141,17 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                     # Prompt the user to choose if multiple exist
                     scenario_strings = [str(p) for p in scenarios]
                     chosen_string, ok_pressed = QInputDialog.getItem(
-                        parent=self,
-                        title="Select Scenario",
-                        label="Multiple scenarios found. Select one:",
-                        items=scenario_strings,
-                        current=0,
-                        editable=False,
+                        self,  # parent
+                        "Select Scenario",  # title
+                        "Multiple scenarios found. Select one:",  # label
+                        scenario_strings,  # items
+                        0,  # current selection
+                        False,  # editable
                     )
                     if ok_pressed and chosen_string:
                         target_path = Path(chosen_string)
                     else:
                         return  # User cancelled the prompt
-
             case OpenPathType.SCENARIO:
                 pass
             case OpenPathType.DIRECTORY:
@@ -1173,34 +1175,26 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         )
         self.session = initialise_patkit(config=config, logger=logger)
 
-        # 1. Re-bind Configuration Properties
+        # Re-bind Configuration Properties
         self.config = config  # Update the annotator's config reference
         self.data_config = config.data_config
         self.gui_config = config.gui_config
+        self.gui_mode = self.gui_config.color_scheme
+        self._update_color_mode()
+        plt.style.use('tableau-colorblind10')
 
-        # 2. Reset Core State Variables
+        # Reset Core State Variables
         self.recordings = self.session.recordings
         self.index = 0
         self.max_index = len(self.recordings)
         self.patgrid = self.current.patgrid  # self.current uses self.index
 
-        # 3. Update Validators and Database View
+        # Update Validators and Database View
         go_validator = QIntValidator(1, self.max_index + 1, self)
         self.go_to_line_edit.setValidator(go_validator)
         self.replace_items_in_database_view(session=self.session)
         self._add_annotations()
 
-        # 4. Apply New Color Scheme from GUI Config
-        self.gui_mode = self.gui_config.color_scheme
-        match self.gui_config.color_scheme:
-            case GuiColorScheme.DARK:
-                self.change_to_dark()
-            case GuiColorScheme.LIGHT:
-                self.change_to_light()
-            case GuiColorScheme.FOLLOW_SYSTEM:
-                pass  # Or implement system following if supported
-
-        # 6. Final UI Updates
         self.update()
         # In case labels change as new plots are drawn.
         self.figure.align_ylabels()
