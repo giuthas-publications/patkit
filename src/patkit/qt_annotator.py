@@ -62,7 +62,7 @@ from PyQt6.QtGui import (
     QShortcut,
 )
 from PyQt6.QtWidgets import (
-    QFileDialog, QInputDialog, QMainWindow
+    QFileDialog, QMainWindow
 )
 from qbstyles import mpl_style
 
@@ -81,7 +81,7 @@ from patkit.export import (
 )
 from patkit.gui import (
     BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
-    ReplaceDialog, UiMainWindow,
+    ListSelectionDialog, ReplaceDialog, UiMainWindow,
 )
 from patkit.initialise import initialise_config, initialise_patkit
 from patkit.path_resolution import get_manifest_scenarios, resolve_open_path
@@ -1140,13 +1140,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 else:
                     # Prompt the user to choose if multiple exist
                     scenario_strings = [str(p) for p in scenarios]
-                    chosen_string, ok_pressed = QInputDialog.getItem(
-                        self,  # parent
-                        "Select Scenario",  # title
-                        "Multiple scenarios found. Select one:",  # label
-                        scenario_strings,  # items
-                        0,  # current selection
-                        False,  # editable
+                    chosen_string, ok_pressed = ListSelectionDialog.get_item(
+                        parent=self,
+                        title="Select Scenario",
+                        label="Multiple scenarios found. Select one:",
+                        items=scenario_strings,
+                        current=0,
                     )
                     if ok_pressed and chosen_string:
                         target_path = Path(chosen_string)

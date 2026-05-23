@@ -35,5 +35,6 @@ from .annotator_window import UiMainWindow
 from .boundary_animation import BoundaryAnimator
 from .image_save_dialog import ImageSaveDialog
 from .list_save_dialog import ListSaveDialog
+from .list_selection_dialog import ListSelectionDialog
 from .player_controls import PlayerControls
 from .replace_dialog import ReplaceDialog
