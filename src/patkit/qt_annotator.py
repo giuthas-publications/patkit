@@ -61,14 +61,16 @@ from PyQt6.QtGui import (
     QKeySequence,
     QShortcut,
 )
-from PyQt6.QtWidgets import QFileDialog, QMainWindow
+from PyQt6.QtWidgets import (
+    QFileDialog, QInputDialog, QMainWindow
+)
 from qbstyles import mpl_style
 
 import sounddevice
 
 from patkit.configuration import Configuration
 from patkit.constants import (
-    AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType
+    AnnotatorMode, ExerciseMode, GuiColorScheme, GuiImageType, OpenPathType
 )
 from patkit.data_structures import Exercise, Session
 from patkit.export import (
@@ -81,6 +83,8 @@ from patkit.gui import (
     BoundaryAnimator, ImageSaveDialog, ListSaveDialog,
     ReplaceDialog, UiMainWindow,
 )
+from patkit.initialise import initialise_config, initialise_patkit
+from patkit.path_resolution import get_manifest_scenarios, resolve_open_path
 from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
@@ -93,7 +97,7 @@ from patkit.plot_and_publish import (
 )
 from patkit.plot_and_publish.plot import plot_spectrogram2
 from patkit.save_and_load import (
-    load_exercise, load_recording_session, save_recording_session
+    load_exercise, save_recording_session
 )
 from patkit.ui_callbacks import UiCallbacks
 
@@ -1106,30 +1110,101 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Open either patkit saved data or import new data.
         """
-        directory = QFileDialog.getExistingDirectory(
-            self, caption="Open directory", directory='.')
-        if directory:
-            # TODO 0.22.1: these should be loaded from the new directory as
-            # well
-            # self.display_tongue = display_tongue
+        directory_name = QFileDialog.getExistingDirectory(
+            self, caption="Open directory", directory='.'
+        )
+        if not directory_name:
+            return  # User cancelled the dialog
 
-            # self.data_config = config.data_config
-            # self.gui_config = config.gui_config
+        target_path = Path(directory_name)
 
-            self.session = load_recording_session(
-                directory=directory)
-            for recording in self.session:
-                recording.after_modalities_init()
-            self.recordings = self.session.recordings
-            self.index = 0
-            self.max_index = len(self.recordings)
-            go_validator = QIntValidator(1, self.max_index + 1, self)
-            self.go_to_line_edit.setValidator(go_validator)
-            self.replace_items_in_database_view(session=self.session)
-            self._add_annotations()
+        # TODO 0.22.1: these should be loaded from the new directory as
+        # well
+        # self.display_tongue = display_tongue
 
-            self.update()
-            self.update_ui()
+        # self.data_config = config.data_config
+        # self.gui_config = config.gui_config
+
+        path_type, target_path = resolve_open_path(target_path)
+
+        match path_type:
+            case OpenPathType.MANIFEST:
+                scenarios = get_manifest_scenarios(path=target_path)
+                if not scenarios:
+                    raise ValueError("Manifest file is empty or invalid.")
+                elif len(scenarios) == 1:
+                    target_path = scenarios[0]
+                else:
+                    # Prompt the user to choose if multiple exist
+                    scenario_strings = [str(p) for p in scenarios]
+                    chosen_string, ok_pressed = QInputDialog.getItem(
+                        parent=self,
+                        title="Select Scenario",
+                        label="Multiple scenarios found. Select one:",
+                        items=scenario_strings,
+                        current=0,
+                        editable=False,
+                    )
+                    if ok_pressed and chosen_string:
+                        target_path = Path(chosen_string)
+                    else:
+                        return  # User cancelled the prompt
+
+            case OpenPathType.SCENARIO:
+                pass
+            case OpenPathType.DIRECTORY:
+                raise NotImplementedError(
+                    "Opening a directory of data without "
+                    "config is not implemented yet."
+                )
+            case OpenPathType.SINGLE_DATA:
+                raise NotImplementedError(
+                    "Opening a single data file without "
+                    "config is not implemented yet."
+                )
+            case _:
+                raise NotImplementedError(
+                    f"Unknown path type {path_type}."
+                )
+
+        # Read config and data
+        config, logger = initialise_config(
+            path=target_path, require_gui=True
+        )
+        self.session = initialise_patkit(config=config, logger=logger)
+
+        # 1. Re-bind Configuration Properties
+        self.config = config  # Update the annotator's config reference
+        self.data_config = config.data_config
+        self.gui_config = config.gui_config
+
+        # 2. Reset Core State Variables
+        self.recordings = self.session.recordings
+        self.index = 0
+        self.max_index = len(self.recordings)
+        self.patgrid = self.current.patgrid  # self.current uses self.index
+
+        # 3. Update Validators and Database View
+        go_validator = QIntValidator(1, self.max_index + 1, self)
+        self.go_to_line_edit.setValidator(go_validator)
+        self.replace_items_in_database_view(session=self.session)
+        self._add_annotations()
+
+        # 4. Apply New Color Scheme from GUI Config
+        self.gui_mode = self.gui_config.color_scheme
+        match self.gui_config.color_scheme:
+            case GuiColorScheme.DARK:
+                self.change_to_dark()
+            case GuiColorScheme.LIGHT:
+                self.change_to_light()
+            case GuiColorScheme.FOLLOW_SYSTEM:
+                pass  # Or implement system following if supported
+
+        # 6. Final UI Updates
+        self.update()
+        # In case labels change as new plots are drawn.
+        self.figure.align_ylabels()
+        self.update_ui()
 
     def open_file(self):
         """
