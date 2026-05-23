@@ -49,7 +49,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- First unit test.
+- First automated unit tests and integration tests.
 
 ### Bugs
 
