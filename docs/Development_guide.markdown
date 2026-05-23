@@ -125,8 +125,9 @@ In the main repository (done by Pertti or other maintainers):
   - TODO 1.0: This does not actually work because it installs from pypi rather
     than from the local dir.
 5. Run tests.
-   - These don't exist yet at the time of PATKIT 0.10.0 except as
-     'integration_tests.sh'.
+   - Either push an untagged version to github and let github run the tests or
+     do the recommended thing and run this a the project root:
+     `uv run python -m pytest tests/`
 6. Fix any bugs that occur, run tests to see that they pass, update the docs.
    - Check if [Changelog](Changelog.markdown) needs any final updates.
      - Check also if any of the old 'known issues' or 'bugs' got fixed.
