@@ -141,7 +141,7 @@
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">FileInformation</span><span class="p">,</span> <span class="n">DataContainerLoadSchema</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 </span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">    Load file information, meta data, and actual data for a DataContainer.</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">    </span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">    Only a helper function, not for general use.</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>    <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
@@ -431,7 +431,7 @@
 </span><span id="L-355"><a href="#L-355"><span class="linenos">355</span></a>
 </span><span id="L-356"><a href="#L-356"><span class="linenos">356</span></a>    <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
 </span><span id="L-357"><a href="#L-357"><span class="linenos">357</span></a>        <span class="n">patkit_meta_file</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-</span><span id="L-358"><a href="#L-358"><span class="linenos">358</span></a>        <span class="n">patkit_path</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">,</span>
+</span><span id="L-358"><a href="#L-358"><span class="linenos">358</span></a>        <span class="n">patkit_path</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
 </span><span id="L-359"><a href="#L-359"><span class="linenos">359</span></a>        <span class="n">recorded_path</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">recorded_path</span><span class="p">,</span>
 </span><span id="L-360"><a href="#L-360"><span class="linenos">360</span></a>        <span class="n">recorded_meta_file</span><span class="o">=</span><span class="n">session_config_path</span><span class="o">.</span><span class="n">name</span>
 </span><span id="L-361"><a href="#L-361"><span class="linenos">361</span></a>    <span class="p">)</span>
@@ -921,7 +921,7 @@ directory will be loaded.</li>
 </span><span id="load_recording_session-356"><a href="#load_recording_session-356"><span class="linenos">356</span></a>
 </span><span id="load_recording_session-357"><a href="#load_recording_session-357"><span class="linenos">357</span></a>    <span class="n">file_info</span> <span class="o">=</span> <span class="n">FileInformation</span><span class="p">(</span>
 </span><span id="load_recording_session-358"><a href="#load_recording_session-358"><span class="linenos">358</span></a>        <span class="n">patkit_meta_file</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-</span><span id="load_recording_session-359"><a href="#load_recording_session-359"><span class="linenos">359</span></a>        <span class="n">patkit_path</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">patkit_path</span><span class="p">,</span>
+</span><span id="load_recording_session-359"><a href="#load_recording_session-359"><span class="linenos">359</span></a>        <span class="n">patkit_path</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
 </span><span id="load_recording_session-360"><a href="#load_recording_session-360"><span class="linenos">360</span></a>        <span class="n">recorded_path</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">recorded_path</span><span class="p">,</span>
 </span><span id="load_recording_session-361"><a href="#load_recording_session-361"><span class="linenos">361</span></a>        <span class="n">recorded_meta_file</span><span class="o">=</span><span class="n">session_config_path</span><span class="o">.</span><span class="n">name</span>
 </span><span id="load_recording_session-362"><a href="#load_recording_session-362"><span class="linenos">362</span></a>    <span class="p">)</span>
