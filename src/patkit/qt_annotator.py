@@ -1121,12 +1121,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         target_path = Path(directory_name)
 
-        # TODO 0.22.1: these should be loaded from the new directory as
-        # well
+        # TODO 0.24: this should be made into a proper option, now it's just
+        # set at in run_annotator below
         # self.display_tongue = display_tongue
-
-        # self.data_config = config.data_config
-        # self.gui_config = config.gui_config
 
         path_type, target_path = resolve_open_path(target_path)
 
@@ -1214,7 +1211,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save derived modalities and annotations.
         """
-        # TODO 0.22.1: does this save textgrids too and how does it interact
+        # TODO 0.22.2: does this save textgrids too and how does it interact
         # with saving answers and exercises.
         save_recording_session(self.session)
 
@@ -1222,7 +1219,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the current TextGrid.
         """
-        # TODO 0.22.1: write a call back for asking for overwrite confirmation.
+        # TODO 0.22.2: write a call back for asking for overwrite confirmation.
         if self.mode is AnnotatorMode.EXERCISE:
             return
 
@@ -1242,7 +1239,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Save the all TextGrids in this Session.
         """
-        # TODO 0.22.1: write a call back for asking for overwrite confirmation.
+        # TODO 0.22.2: write a call back for asking for overwrite confirmation.
         if self.mode is AnnotatorMode.EXERCISE:
             return
 
