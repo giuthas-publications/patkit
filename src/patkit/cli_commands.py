@@ -147,7 +147,28 @@ def interact(
     \b
     PATH to the data - maybe be a file or a directory.
     """
-    path = resolve_scenario_path(path=path)
+    path_type, path = resolve_open_path(path)
+    match path_type:
+        case OpenPathType.MANIFEST:
+            path = resolve_scenario_path(path=path)
+        case OpenPathType.SCENARIO:
+            pass
+        case OpenPathType.DIRECTORY:
+            raise NotImplementedError(
+                "Opening a directory of data without "
+                "config is not implemented yet."
+            )
+        case OpenPathType.SINGLE_DATA:
+            raise NotImplementedError(
+                "Opening a single data file without "
+                "config is not implemented yet."
+            )
+        case _:
+            raise NotImplementedError(
+                f"Unimplemented type of load path "
+                f"{path_type}."
+            )
+
     config, logger = initialise_config(path=path, require_data=True)
     session = initialise_patkit(config=config, logger=logger)
     run_interpreter(session=session, configuration=config)
