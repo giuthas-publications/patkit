@@ -22,10 +22,10 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Install Qt system dependencies
+      - name: Install Qt and Audio system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgl1 libegl1 libxkbcommon-x11-0 libxcb-cursor0 xvfb
+          sudo apt-get install -y libgl1 libegl1 libxkbcommon-x11-0 libxcb-cursor0 xvfb libportaudio2
 
       - name: Install dependencies
         run: uv sync --all-extras --dev
