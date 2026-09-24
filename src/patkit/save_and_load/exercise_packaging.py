@@ -14,9 +14,15 @@ def package_exercise_to_zip(
     zip_path: Path,
     active_answer_name: str,
     include_root_textgrids: bool = False,
+    include_wav_files: bool = True,
 ) -> None:
     """
     Package a Patkit Session and Exercise into a zip file.
+
+    Please note that, if the wav files will be included in the zip, they will
+    be included in the *patkit directory* rather than as a separate recorded
+    data directory. This is regardless of where they are originally situated
+    and done to keep the whole exercise contained in one directory.
 
     Parameters
     ----------
@@ -29,42 +35,50 @@ def package_exercise_to_zip(
         renamed to 'answer' in the resulting zip structure.
     include_root_textgrids : bool, optional
         Whether to include root-level `.TextGrid` files, by default False.
+    include_wav_files : bool, optional
+        Whether to include wav files, by default True. 
     """
     with ZipFile(file=zip_path, mode='w', compression=ZIP_DEFLATED) as output:
-        session_path = file_info.patkit_path
-        for item in session_path.rglob('*'):
+        patkit_path = file_info.patkit_path
+        for item in patkit_path.rglob('*'):
+            # Only include files.
             if not item.is_file():
                 continue
 
-            rel_path = item.relative_to(session_path)
-
-            # Filter root-level TextGrids
+            # Skip root-level TextGrids if they are not being included.
             if (
                 not include_root_textgrids and
-                len(rel_path.parts) == 1 and
-                (rel_path.suffix.lower() == SourceSuffix.TEXTGRID.lower())
+                len(item.parts) == 1 and
+                (item.suffix.lower() == SourceSuffix.TEXTGRID.lower())
             ):
                 continue
 
+            relative_path = item.relative_to(patkit_path)
+
             # Process the exercise directory to filter answers
-            if rel_path.parts[0] == 'exercise':
-                if len(rel_path.parts) >= 3 and rel_path.parts[1] == 'answers':
+            if relative_path.parts[0] == 'exercise':
+                if (
+                    len(relative_path.parts) >= 3 and
+                    relative_path.parts[1] == 'answers'
+                ):
                     # Only include the targeted answer,
                     # and rename it to 'answer'
-                    if rel_path.parts[2] == active_answer_name:
-                        new_parts = list(rel_path.parts)
+                    if relative_path.parts[2] == active_answer_name:
+                        new_parts = list(relative_path.parts)
                         new_parts[2] = 'answer'
                         arcname = Path(*new_parts)
                         output.write(filename=item, arcname=arcname)
                     continue  # Skip all other answer directories
 
             # Write all other allowed files
-            output.write(filename=item, arcname=rel_path)
+            output.write(filename=item, arcname=relative_path)
 
         recorded_path = file_info.recorded_path
-        for item in recorded_path.rglob(SourceSuffix.WAV):
+        for item in recorded_path.glob('*' + SourceSuffix.WAV):
             if not item.is_file():
                 continue
+
+            output.write(filename=item, arcname=item.name)
 
         # TODO 0.23: verify that wavs or in future other data files are
         # included

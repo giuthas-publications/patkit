@@ -870,6 +870,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         dest_dir = Path(dest_dir_str) / zip_path.stem
 
+        # TODO 0.25: ask for confirmation before overwriting instead of just
+        # refusing. This should take the form of a callback handed to
+        # unpackage_exercise_from_zip, so that individual files can be
+        # confirmed as needed.
         unpackage_exercise_from_zip(
             zip_filepath=zip_path,
             destination_directory=dest_dir
