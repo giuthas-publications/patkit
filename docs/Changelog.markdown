@@ -27,13 +27,36 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
-- 0.23 will add kymography on laryngoscopic and other video data. 
 - 0.24.x will improve the annotation GUI by adding features like interval
   selection
 - 0.25 will update configuration handling.
 - 0.26 adds simple ways of opening different kinds of data
 - After this we'll be a 1.0.0-rc before release of 1.0.
   - There will be a feature freeze at this point.
+
+
+## [0.23.0] - 2026-10-07
+
+### Highlights
+
+- Kymography on laryngography, ultrasound, and other videos.
+
+### Added
+
+- Kymography tools
+  - Define a kymography sampling line. 
+  - Display kymogram as part of the main data display.
+  - Display kymogram next to the video panel.
+
+### Testing
+
+- New tests for: 
+  - Sampling the kymogram.
+  - Kymogram display
+
+### Bugs
+
+- [All Bugs](Bugs.markdown).
 
 
 ## [0.22.3] - 2026-10-06
