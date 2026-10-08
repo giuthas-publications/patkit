@@ -491,7 +491,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Updates title and graphs to show this Recording is excluded.
         """
-        # TODO 0.23: do this correctly
+        # TODO 0.24: do this correctly
         pass
 
     def next(self):
