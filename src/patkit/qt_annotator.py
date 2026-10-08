@@ -185,10 +185,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.image_updater)
         self.image_type = GuiImageType.MEAN_IMAGE
 
-        # self.action_select_kymography_line = QAction(
-        #     text="Select kymography sample line", parent=self.menu_plot)
-        # self.menu_plot.addAction(self.action_select_kymography_line)
-
         self.action_open.triggered.connect(self.open)
         self.action_save_all.triggered.connect(self.save_all)
         self.action_save_current_textgrid.triggered.connect(self.save_textgrid)
@@ -1380,7 +1376,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             self.current.annotations['selected_frequency'] = -1
 
         _logger.debug(
-            "Inside onpick - subplot: %d, ultra_index=%d, audio_index=%d, x=%f",
+            "Inside onpick/subplot: %d, ultra_index=%d, audio_index=%d, x=%f",
             subplot,
             self.current.annotations['frame_selection_index'],
             self.current.annotations['selection_index'],

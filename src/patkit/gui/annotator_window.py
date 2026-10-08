@@ -223,6 +223,8 @@ class UiMainWindow(object):
         # Menus
         self.menu_file = QtWidgets.QMenu(self.menubar)
         self.menu_file.setObjectName("menu_file")
+        self.menu_edit = QtWidgets.QMenu(self.menubar)
+        self.menu_edit.setObjectName("menu_edit")
         self.menu_export = QtWidgets.QMenu(self.menubar)
         self.menu_export.setObjectName("menu_export")
         self.menu_exercise = QtWidgets.QMenu(self.menubar)
@@ -270,7 +272,14 @@ class UiMainWindow(object):
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_quit)
 
-        # Exercise menu actions
+        # Edit menu
+        self.action_select_kymography_line = QtGui.QAction(main_window)
+        self.action_select_kymography_line.setObjectName(
+            "action_select_kymography_line")
+
+        self.menu_edit.addAction(self.action_select_kymography_line)
+
+        # Exercise menu
         self.action_new_exercise = QtGui.QAction(main_window)
         self.action_new_exercise.setObjectName("action_new_exercise")
         self.action_save_exercise = QtGui.QAction(main_window)
@@ -304,7 +313,7 @@ class UiMainWindow(object):
         self.menu_exercise.addAction(self.action_compare_to_example)
         self.menu_exercise.addAction(self.action_show_example)
 
-        # TODO: 0.22: Implement this?
+        # TODO 0.24: Implement this?
         self.action_compare_to_example.setEnabled(False)
 
         self.action_show_example.setCheckable(True)
@@ -414,6 +423,7 @@ class UiMainWindow(object):
 
         # Menubar setup
         self.menubar.addAction(self.menu_file.menuAction())
+        self.menubar.addAction(self.menu_edit.menuAction())
         self.menubar.addAction(self.menu_exercise.menuAction())
         self.menubar.addAction(self.menu_export.menuAction())
         self.menubar.addAction(self.menu_image.menuAction())
@@ -444,12 +454,16 @@ class UiMainWindow(object):
         #     _translate("MainWindow", "Other / Not visible"))
 
         self.menu_file.setTitle(_translate("MainWindow", "File"))
+        self.menu_edit.setTitle(_translate("MainWindow", "Edit"))
         self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
         self.menu_export.setTitle(_translate("MainWindow", "Export"))
         self.menu_image.setTitle(_translate("MainWindow", "Image"))
         # self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
         self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
         self.menu_script.setTitle(_translate("MainWindow", "Script"))
+
+        self.action_select_kymography_line.setText(
+            _translate("MainWindow", "Select kymography line"))
 
         self.action_new_exercise.setText(
             _translate("MainWindow", "New exercise..."))
