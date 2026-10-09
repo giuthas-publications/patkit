@@ -1,3 +1,7 @@
+"""
+Function for extracting kymograms from 3D video arrays.
+"""
+
 import numpy as np
 from scipy.ndimage import map_coordinates
 
@@ -6,7 +10,7 @@ def extract_kymogram(
     video_array: np.ndarray,
     start_point: tuple[float, float],
     end_point: tuple[float, float],
-    num_samples: int | None = None
+    num_samples: int | None = None,
 ) -> np.ndarray:
     """
     Sample pixel values along a line across all time frames of a video array.
@@ -38,7 +42,7 @@ def extract_kymogram(
     --------
     >>> import numpy as np
     >>> video = np.random.rand(100, 50, 50)
-    >>> kymograph = sample_line_across_time(
+    >>> kymograph = extract_kymogram(
     ...     video_array=video,
     ...     start_point=(10.0, 10.0),
     ...     end_point=(40.0, 40.0)
@@ -67,7 +71,7 @@ def extract_kymogram(
         input=video_array,
         coordinates=coordinates,
         order=1,
-        mode='nearest'
+        mode='nearest',
     )
 
     return sampled
