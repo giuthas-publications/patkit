@@ -37,6 +37,7 @@ from .boundary_animation import BoundaryAnimator
 from .exercise_dialogs import (
     PackageExerciseDialog, NewAnswerDialog, NewExerciseDialog
 )
+from .draggable_line_segment import DraggableLineSegment
 from .image_save_dialog import ImageSaveDialog
 from .list_save_dialog import ListSaveDialog
 from .list_selection_dialog import ListSelectionDialog

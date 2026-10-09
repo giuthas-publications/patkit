@@ -123,7 +123,6 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             annotator_mode: AnnotatorMode = AnnotatorMode.ANALYSE,
     ):
         super().__init__()
-        self.kymography_clicker = None
         self.setupUi(self)
         setup_qtannotator_ui_callbacks()
 
@@ -369,6 +368,19 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'frame_selection_index': -1,
             'selected_frequency': -1,
         }
+
+    def toggle_kymography_line(self) -> None:
+        """
+        Toggle display of the kymography sampling line on the ultrasound axes.
+        """
+        # TODO 0.23.0: Implement this by calling a suitable method in
+        # plot_controller. Plot controller should take care of line
+        # initialisation with good start and end point default values if
+        # self.current.kymography_line is None. If
+        # self.current.toggle_kymography_line does exist then that should be
+        # passed to the plot controller method. Plot controller should also
+        # updated the values in self.current.kymography_line when the user
+        # drags the line end points around.
 
     def _add_annotations(self):
         """Add the annotations."""
@@ -1391,11 +1403,13 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         if self.display_tongue:
             if self.image_type == GuiImageType.RAW_FRAME:
                 has_ultra = self.plot_controller.draw_raw_ultra_frame(
-                    self.current, self.image_type
+                    recording=self.current,
+                    image_type=self.image_type
                 )
             else:
                 has_ultra = self.plot_controller.draw_ultra_frame(
-                    self.current, self.image_type
+                    recording=self.current,
+                    image_type=self.image_type,
                 )
 
             # Since we bypassed self.update(), update the UI button locally

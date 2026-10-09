@@ -61,6 +61,7 @@ from patkit.plot_and_publish import (
 
 from .annotator_window import UiMainWindow
 from .boundary_animation import BoundaryAnimator
+from .draggable_line_segment import DraggableLineSegment
 
 _logger = logging.getLogger(__name__)
 
@@ -101,6 +102,8 @@ class PlotController:
         self.ultra_fig = Figure()
         self.ultra_canvas = FigureCanvas(self.ultra_fig)
         self.ultra_axes = self.ultra_fig.add_axes((0, 0, 1, 1))
+
+        self.kymography_sampling_line: DraggableLineSegment | None = None
 
         self.data_axes: list = []
         self.tier_axes: list = []
@@ -763,17 +766,6 @@ class PlotController:
             if self.gui_config.display_curve_values:
                 # curve values at intersections
                 pass
-
-            # if image_type == GuiImageType.FRAME:
-            #     self.kymography_clicker = clicker(
-            #         ax=self.ultra_axes,
-            #         classes=["event"],
-            #         markers=["x"],
-            #         linestyle="--")
-            #     self.kymography_clicker.on_point_added(self.point_added_cb)
-                # self.kymography_clicker.on_point_removed(
-                #     self.point_removed_cb
-                # )
 
             if (image_type == GuiImageType.FRAME
                     and 'Splines' in recording.modalities):
