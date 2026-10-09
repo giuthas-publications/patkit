@@ -383,9 +383,14 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         self.update()
 
-    def toggle_kymography_line(self) -> None:
+    def toggle_kymography_line(self, checked: bool | None = None) -> None:
         """
         Toggle display of the kymography sampling line on the ultrasound axes.
+
+        Parameters
+        ----------
+        checked : bool | None, optional
+            State of the action trigger, by default None.
         """
         is_checked = self.action_display_kymography_line.isChecked()
         self.plot_controller.toggle_kymography_line(

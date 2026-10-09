@@ -15,6 +15,18 @@ def test_draw_kymogram_renders_small_kymogram(
     mock_ultrasound.data = np.ones((5, 40, 40))
     dummy_recording.modalities["RawUltrasound"] = mock_ultrasound
 
+    params = KymogramParameters(
+        parent_name="RawUltrasound",
+        line_points=((0.0, 10.0), (0.0, 50.0)),
+    )
+    kymogram = Kymogram(
+        container=dummy_recording,
+        metadata=params,
+        file_info=FileInformation(),
+        parsed_data=np.ones((5, 20)),
+    )
+    dummy_recording.statistics["Kymogram on RawUltrasound"] = kymogram
+
     plot_controller.kymogram_axes = MagicMock()
     plot_controller.kymogram_canvas = MagicMock()
     plot_controller.main_window.action_display_small_kymogram.isChecked = (

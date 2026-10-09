@@ -199,6 +199,8 @@ class Kymogram(Statistic):
             end_point=end_point,
             num_samples=num_samples,
         )
+
+        self._data = sampled_data
         return sampled_data
 
     def get_meta(self) -> dict:
