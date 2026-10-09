@@ -264,6 +264,10 @@ class PlotController:
                 on_changed=_on_line_changed,
             )
         else:
+            if self.kymography_sampling_line.line not in self.ultra_axes.lines:
+                self.ultra_axes.add_line(
+                    line=self.kymography_sampling_line.line
+                )
             self.kymography_sampling_line.set_endpoints(
                 endpoints=kymogram.metadata.line_points
             )
@@ -886,6 +890,12 @@ class PlotController:
                                 splines.cartesian_spline(spline_index))
             else:
                 _logger.info("No splines")
+
+        if self.main_window.action_display_kymography_line.isChecked():
+            self.toggle_kymography_line(
+                recording=recording,
+                visible=True,
+            )
 
         self.ultra_canvas.draw_idle()
         return True
