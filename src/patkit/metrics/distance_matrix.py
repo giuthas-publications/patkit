@@ -133,17 +133,17 @@ class DistanceMatrix(Statistic):
 
         if params.slice_max_step:
             name_string = (
-                    name_string + f" slice_max_step {params.slice_max_step}")
+                name_string + f" slice_max_step {params.slice_max_step}")
         elif params.slice_step_to:
             name_string = (
-                    name_string + f" slice_step_to {params.slice_step_to}")
+                name_string + f" slice_step_to {params.slice_step_to}")
 
         if params.sort:
             name_string = (
-                    name_string + f" sort {params.sort}")
+                name_string + f" sort {params.sort}")
             if params.sort_criteria:
                 name_string = (
-                        name_string + " sort_criteria specified")
+                    name_string + " sort_criteria specified")
 
         return name_string
 
@@ -196,7 +196,7 @@ class DistanceMatrix(Statistic):
         exclusion_list : ExclusionList | None
             The ExclusionList to apply when generating the DistanceMatrices. By
             default, None.
-        
+
         Returns
         -------
         dict[str: DistanceMatrixParameters]
@@ -259,7 +259,7 @@ class DistanceMatrix(Statistic):
 
     def _derive_data(self) -> tuple[np.ndarray, np.ndarray, float]:
         """
-        Calculate the distance matrix on the data Session parent.       
+        Calculate the distance matrix on the data Session parent.
         """
         raise NotImplementedError(
             "Currently MSE Modalities have to be "
