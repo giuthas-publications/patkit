@@ -2,6 +2,8 @@
 A line segment for interactively selecting e.g. the kymography sampling line.
 """
 
+from collections.abc import Callable
+
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.backend_bases import MouseEvent
@@ -18,65 +20,82 @@ class DraggableLineSegment:
 
     def __init__(
         self,
-        ax: Axes,
-        x_start: float,
-        y_start: float,
-        x_end: float,
-        y_end: float
+        axes: Axes,
+        endpoints: tuple[tuple[float, float], tuple[float, float]]
+        | None = None,
+        x_start: float | None = None,
+        y_start: float | None = None,
+        x_end: float | None = None,
+        y_end: float | None = None,
+        on_changed: Callable[
+            [tuple[float, float], tuple[float, float]], None
+        ] | None = None,
     ) -> None:
         """
         Parameters
         ----------
-        ax : matplotlib.axes.Axes
+        axes : matplotlib.axes.Axes
             The matplotlib axes object to which the line will be added.
-        x_start : float
-            Initial x coordinate of the first endpoint.
-        y_start : float
-            Initial y coordinate of the first endpoint.
-        x_end : float
-            Initial x coordinate of the second endpoint.
-        y_end : float
-            Initial y coordinate of the second endpoint.
+        endpoints : tuple[tuple[float, float], tuple[float, float]] | None
+            Endpoints ((x1, y1), (x2, y2)) in data coordinates, by default
+            None.
+        x_start : float | None
+            Initial x coordinate of the first endpoint, by default None.
+        y_start : float | None
+            Initial y coordinate of the first endpoint, by default None.
+        x_end : float | None
+            Initial x coordinate of the second endpoint, by default None.
+        y_end : float | None
+            Initial y coordinate of the second endpoint, by default None.
+        on_changed : Callable[[tuple[float, float], tuple[float, float]], None] | None
+            Callback invoked with updated endpoints ((x1, y1), (x2, y2)) when
+            the line is dragged, by default None.
         """
-        self.ax = ax
-        self.canvas = self.ax.figure.canvas
+        if endpoints is not None:
+            (x_s, y_s), (x_e, y_e) = endpoints
+        else:
+            x_s, y_s, x_e, y_e = x_start, y_start, x_end, y_end
+
+        self.axes = axes
+        self.canvas = self.axes.figure.canvas
         self.active_point_index: int | None = None
+        self.on_changed = on_changed
 
         self.line = Line2D(
-            xdata=[x_start, x_end],
-            ydata=[y_start, y_end],
+            xdata=[x_s, x_e],
+            ydata=[y_s, y_e],
             marker='o',
             color='red',
             linewidth=2,
             picker=True,
-            pickradius=10
+            pickradius=10,
         )
-        self.ax.add_line(line=self.line)
+        self.axes.add_line(line=self.line)
 
         self.cid_press = self.canvas.mpl_connect(
             s='button_press_event',
-            func=self.on_press
+            func=self.on_press,
         )
         self.cid_release = self.canvas.mpl_connect(
             s='button_release_event',
-            func=self.on_release
+            func=self.on_release,
         )
         self.cid_motion = self.canvas.mpl_connect(
             s='motion_notify_event',
-            func=self.on_motion
+            func=self.on_motion,
         )
 
     def on_press(self, event: MouseEvent) -> None:
         """
         Handle mouse button press events to detect endpoint selection.
         """
-        if event.inaxes != self.ax:
+        if event.inaxes != self.axes:
             return
 
         xy_data = np.column_stack(
             tup=(self.line.get_xdata(), self.line.get_ydata())
         )
-        xy_display = self.ax.transData.transform(values=xy_data)
+        xy_display = self.axes.transData.transform(values=xy_data)
         event_xy = np.array(object=[event.x, event.y])
 
         distances = np.linalg.norm(x=xy_display - event_xy, axis=1)
@@ -90,7 +109,7 @@ class DraggableLineSegment:
         """
         if self.active_point_index is None:
             return
-        if event.inaxes != self.ax:
+        if event.inaxes != self.axes:
             return
 
         xdata = list(self.line.get_xdata())
@@ -100,6 +119,10 @@ class DraggableLineSegment:
         ydata[self.active_point_index] = event.ydata
 
         self.line.set_data(x=xdata, y=ydata)
+        if self.on_changed is not None:
+            p1 = (float(xdata[0]), float(ydata[0]))
+            p2 = (float(xdata[1]), float(ydata[1]))
+            self.on_changed(p1, p2)
         self.canvas.draw_idle()
 
     def on_release(self, event: MouseEvent) -> None:
@@ -109,7 +132,7 @@ class DraggableLineSegment:
         self.active_point_index = None
 
     def get_coordinates(
-        self
+        self,
     ) -> tuple[tuple[float, float], tuple[float, float]]:
         """
         Retrieve the current coordinates of the line endpoints.
@@ -121,7 +144,48 @@ class DraggableLineSegment:
         """
         xdata = self.line.get_xdata()
         ydata = self.line.get_ydata()
-        return (xdata[0], ydata[0]), (xdata[1], ydata[1])
+        return (float(xdata[0]), float(ydata[0])), (
+            float(xdata[1]),
+            float(ydata[1]),
+        )
+
+    def set_endpoints(
+        self, endpoints: tuple[tuple[float, float], tuple[float, float]]
+    ) -> None:
+        """
+        Set the line segment endpoints in data coordinates.
+
+        Parameters
+        ----------
+        endpoints : tuple[tuple[float, float], tuple[float, float]]
+            Coordinates ((x1, y1), (x2, y2)).
+        """
+        (x1, y1), (x2, y2) = endpoints
+        self.line.set_data(x=[x1, x2], y=[y1, y2])
+        self.canvas.draw_idle()
+
+    def set_visible(self, visible: bool) -> None:
+        """
+        Set the line visibility.
+
+        Parameters
+        ----------
+        visible : bool
+            Whether the line should be visible.
+        """
+        self.line.set_visible(visible)
+        self.canvas.draw_idle()
+
+    def get_visible(self) -> bool:
+        """
+        Get the line visibility state.
+
+        Returns
+        -------
+        bool
+            True if visible, False otherwise.
+        """
+        return self.line.get_visible()
 
     def disconnect(self) -> None:
         """

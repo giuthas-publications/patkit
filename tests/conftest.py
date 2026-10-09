@@ -31,6 +31,7 @@
 #
 """Pytest configuration and shared fixtures for PATKIT GUI testing."""
 
+from datetime import datetime
 from pathlib import Path
 import pytest
 
@@ -40,7 +41,9 @@ from pytestqt.plugin import QtBot
 from unittest.mock import MagicMock
 
 from patkit.constants import AnnotatorMode, GuiColorScheme
-from patkit.data_structures import Recording, Session
+from patkit.data_structures import (
+    FileInformation, Recording, RecordingMetaData, Session
+)
 from patkit.gui import NewExerciseDialog, NewAnswerDialog, PlotController
 from patkit.patgrid import PatGrid
 from patkit.qt_annotator import PdQtAnnotator
@@ -116,6 +119,27 @@ def real_patgrid(dummy_textgrid_file: Path) -> PatGrid:
     Parse the dummy TextGrid file into a real patgrid object.
     """
     return PatGrid(dummy_textgrid_file)
+
+
+@pytest.fixture
+def dummy_recording(real_patgrid) -> Recording:
+    """
+    Create a minimal Recording instance for testing.
+    """
+    metadata = RecordingMetaData(
+        prompt="dummy prompt",
+        time_of_recording=datetime(2026, 1, 1, 12, 0, 0),
+        participant_id="P01",
+    )
+    file_info = FileInformation(
+        patkit_meta_file="dummy.patkit_meta",
+    )
+    recording = Recording(
+        metadata=metadata,
+        file_info=file_info,
+    )
+    recording.patgrid = real_patgrid
+    return recording
 
 
 @pytest.fixture

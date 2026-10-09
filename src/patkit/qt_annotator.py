@@ -220,6 +220,10 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         self.action_export_ultrasound_frame.triggered.connect(
             self.export_ultrasound_frame)
 
+        self.action_display_kymography_line.triggered.connect(
+            self.toggle_kymography_line
+        )
+
         self.action_next.triggered.connect(self.next)
         self.action_previous.triggered.connect(self.prev)
 
@@ -373,6 +377,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         """
         Toggle display of the kymography sampling line on the ultrasound axes.
         """
+        is_checked = self.action_display_kymography_line.isChecked()
+        self.plot_controller.toggle_kymography_line(
+            recording=self.current,
+            visible=is_checked,
+        )
         # TODO 0.23.0: Implement this by calling a suitable method in
         # plot_controller. Plot controller should take care of line
         # initialisation with good start and end point default values if

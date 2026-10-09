@@ -41,12 +41,13 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import MultiCursor
 import numpy as np
 
-from patkit.data_structures import Recording
+from patkit.data_structures import FileInformation, Recording
 from patkit.configuration import DataConfig, GuiConfig
 from patkit.constants import (
     AnnotatorMode, ColorPalettes, DefaultCanvasColors, DefaultCursorColors,
     ExerciseMode, GuiColorScheme, GuiImageType
 )
+from patkit.metrics import Kymogram, KymogramParameters
 from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
@@ -220,6 +221,56 @@ class PlotController:
                     f"Unknown GUI color scheme: {gui_color_mode}"
                 )
         plt.style.use(ColorPalettes.COLORBLIND_10)
+
+    def toggle_kymography_line(
+        self,
+        recording: Recording,
+        visible: bool | None = None,
+    ) -> None:
+        """
+        Toggle or update the display of the kymography line on ultra_axes.
+
+        Parameters
+        ----------
+        recording : Recording
+            The currently active recording.
+        visible : bool | None, optional
+            Whether the line should be visible. If None, toggles current state.
+        """
+        # TODO 0.24: This is bad practice and we need a neater way of finding
+        # Kymograms and selecting between them if necessary.
+        stat_name = "Kymogram on RawUltrasound"
+        if stat_name not in recording.statistics:
+            params = KymogramParameters(
+                parent_name="RawUltrasound",
+                line_points=((0.0, 10.0), (0.0, 50.0)),
+            )
+            file_info = FileInformation()
+            recording.statistics[stat_name] = Kymogram(
+                container=recording,
+                metadata=params,
+                file_info=file_info,
+            )
+
+        kymogram = recording.statistics[stat_name]
+
+        if self.kymography_sampling_line is None:
+            def _on_line_changed(
+                p1: tuple[float, float], p2: tuple[float, float]
+            ) -> None:
+                kymogram.metadata.line_points = (p1, p2)
+
+            self.kymography_sampling_line = DraggableLineSegment(
+                axes=self.ultra_axes,
+                endpoints=kymogram.metadata.line_points,
+                on_changed=_on_line_changed,
+            )
+
+        if visible is None:
+            visible = not self.kymography_sampling_line.get_visible()
+
+        self.kymography_sampling_line.set_visible(visible)
+        self.ultra_canvas.draw_idle()
 
     def setup_axes(self) -> None:
         """
