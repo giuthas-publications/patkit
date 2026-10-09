@@ -1,5 +1,5 @@
 """
-
+A line segment for interactively selecting e.g. the kymography sampling line.
 """
 
 import numpy as np
