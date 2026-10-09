@@ -67,8 +67,10 @@ class DraggableLineSegment:
             xdata=[x_s, x_e],
             ydata=[y_s, y_e],
             marker='o',
-            color='red',
-            linewidth=2,
+            markerfacecolor=None,
+            markeredgecolor='lightblue',
+            color='lightblue',
+            linewidth=1,
             picker=True,
             pickradius=10,
         )
