@@ -64,4 +64,5 @@ metrics = {
 statistics = {
     'AggregateImage': (AggregateImage, AggregateImageParameters),
     'DistanceMatrix': (DistanceMatrix, DistanceMatrixParameters),
+    'Kymogram': (Kymogram, KymogramParameters),
 }

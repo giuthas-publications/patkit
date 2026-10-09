@@ -108,10 +108,13 @@ class PlotController:
         # Small Kymogram Canvas Setup
         self.kymogram_fig = Figure()
         self.kymogram_canvas = FigureCanvas(self.kymogram_fig)
-        self.kymogram_axes = self.kymogram_fig.add_axes((0.15, 0.15, 0.8, 0.8))
+        self.kymogram_axes = self.kymogram_fig.add_axes(
+            (0.22, 0.22, 0.72, 0.72)
+        )
 
         self.kymography_sampling_line: DraggableLineSegment | None = None
-
+        self.kymography_label_a: matplotlib.text.Text | None = None
+        self.kymography_label_b: matplotlib.text.Text | None = None
         self.data_axes: list = []
         self.tier_axes: list = []
 
@@ -257,11 +260,17 @@ class PlotController:
             )
 
         kymogram = recording.statistics[stat_name]
+        p1, p2 = kymogram.metadata.line_points
 
         def _on_line_changed(
             p1: tuple[float, float], p2: tuple[float, float]
         ) -> None:
             kymogram.metadata.line_points = (p1, p2)
+            # Update endpoint label coordinates on line drag
+            if self.kymography_label_a is not None:
+                self.kymography_label_a.set_position(p1)
+            if self.kymography_label_b is not None:
+                self.kymography_label_b.set_position(p2)
             if 'RawUltrasound' in recording.modalities:
                 kymogram.parsed_data = kymogram._derive_data()
                 self.draw_kymogram(recording=recording)
@@ -282,10 +291,25 @@ class PlotController:
             )
             self.kymography_sampling_line.on_changed = _on_line_changed
 
+        # Render endpoint labels on the ultrasound canvas
+        if self.kymography_label_a is None:
+            self.kymography_label_a = self.ultra_axes.text(
+                p1[0], p1[1], "A", color="lime", fontweight="bold"
+            )
+            self.kymography_label_b = self.ultra_axes.text(
+                p2[0], p2[1], "B", color="red", fontweight="bold"
+            )
+        else:
+            self.kymography_label_a.set_position(p1)
+            self.kymography_label_b.set_position(p2)
+
         if visible is None:
             visible = not self.kymography_sampling_line.get_visible()
+            # visible = True
 
         self.kymography_sampling_line.set_visible(visible=visible)
+        self.kymography_label_a.set_visible(visible)
+        self.kymography_label_b.set_visible(visible)
         self.ultra_canvas.draw_idle()
 
     def draw_kymogram(self, recording: Recording) -> bool:
@@ -314,7 +338,7 @@ class PlotController:
         if stat_name not in recording.statistics:
             params = KymogramParameters(
                 parent_name="RawUltrasound",
-                line_points=((0.0, 10.0), (0.0, 50.0)),
+                line_points=((-10.0, 10.0), (50.0, 50.0)),
             )
             file_info = FileInformation()
             recording.statistics[stat_name] = Kymogram(
@@ -339,6 +363,8 @@ class PlotController:
             axes=self.kymogram_axes,
             kymogram_data=kymogram_data,
             current_frame_index=frame_index,
+            vmin=0,
+            vmax=255,
         )
         self.kymogram_canvas.draw_idle()
         return True

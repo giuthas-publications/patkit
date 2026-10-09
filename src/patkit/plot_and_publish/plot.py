@@ -641,6 +641,10 @@ def plot_kymogram(
     kymogram_data: np.ndarray,
     current_frame_index: int | None = None,
     cmap: str = 'gray',
+    vmin: int | None = None,
+    vmax: int | None = None,
+    label_a: str | None = 'A',
+    label_b: str | None = 'B',
 ) -> AxesImage:
     """
     Plot a 2D kymogram array on the given axes.
@@ -656,6 +660,14 @@ def plot_kymogram(
         by default None.
     cmap : str, optional
         Colormap to use for rendering, by default 'gray'.
+    vmin : int | None, optional
+        Minimum intensity value for colormap scaling, by default None.
+    vmax : int | None, optional
+        Maximum intensity value for colormap scaling, by default None.
+    label_a : str | None, optional
+        Label for the start point of the sampling line, by default 'A'.
+    label_b : str | None, optional
+        Label for the end point of the sampling line, by default 'B'.
 
     Returns
     -------
@@ -668,6 +680,8 @@ def plot_kymogram(
         origin='lower',
         aspect='auto',
         cmap=cmap,
+        vmin=vmin,
+        vmax=vmax,
     )
     if current_frame_index is not None and current_frame_index >= 0:
         axes.axvline(
@@ -676,6 +690,17 @@ def plot_kymogram(
             linewidth=1,
             linestyle='--',
         )
-    axes.set_ylabel(ylabel="Sample")
-    axes.set_xlabel(xlabel="Frame")
+    if label_a is not None and label_b is not None:
+        axes.set_ylabel(ylabel=f"Position ({label_a} \u2192 {label_b})")
+    else:
+        axes.set_ylabel(ylabel="Position")
+    axes.set_xlabel(xlabel="Time")
+    axes.tick_params(
+        axis='both',
+        which='both',
+        bottom=True,
+        left=True,
+        labelbottom=True,
+        labelleft=True,
+    )
     return image

@@ -64,6 +64,8 @@ class KymogramParameters(StatisticMetaData):
         Number of points to sample along line segment, by default None.
     """
     parent_name: str
+    # TODO 0.23.0: name the end points a and b to make understanding code and
+    # saved data easier.
     line_points: tuple[tuple[float, float], tuple[float, float]] = (
         (0.0, 0.0),
         (1.0, 1.0),
@@ -71,6 +73,8 @@ class KymogramParameters(StatisticMetaData):
     num_samples: PositiveInt | None = None
 
 
+# TODO 0.23.0: Kymogram is really a metric not a statistic and should have a
+# timevector.
 class Kymogram(Statistic):
     """
     Kymogram statistic representing a 2D sampling along a line over time.
@@ -199,6 +203,10 @@ class Kymogram(Statistic):
             end_point=end_point,
             num_samples=num_samples,
         )
+
+        # TODO 0.23.0: This maybe incorrect
+        if num_samples is None:
+            self.metadata.num_samples = self._data.shape[0]
 
         self._data = sampled_data
         return sampled_data
