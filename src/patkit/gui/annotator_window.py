@@ -33,6 +33,8 @@
 This is the main window of the PATKIT annotator.
 """
 
+from typing import Any
+
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 from patkit.constants import AnnotatorMode, ExerciseMode
@@ -42,7 +44,260 @@ from .player_controls import PlayerControls
 
 
 class UiMainWindow(object):
-    def setupUi(self, main_window):
+    """
+    User interface definition for the PATKIT Annotator main window.
+
+    This class constructs and configures the layout, widgets, menu items,
+    and localization properties for the main application interface.
+    """
+
+    # Menu declarations, actions, and texts
+    #
+    # TODO 0.24: Move this to a separate file and translate it to yaml, after
+    # reading in from a package resource, validate with pydantic. Eventually
+    # grow this into the save format for editable shortcuts. The edited version
+    # should live in .patkit in the user's home dir and any parts of it present
+    # should precede the resource file.
+    MENU_SPECS: tuple[dict[str, Any], ...] = (
+        {
+            "attr": "menu_file",
+            "title": "File",
+            "items": [
+                {
+                    "attr": "action_open",
+                    "text": "Open...",
+                    "shortcut": "Ctrl+Shift+O",
+                },
+                {
+                    "attr": "action_save_current_textgrid",
+                    "text": "Save current TextGrid",
+                },
+                {
+                    "attr": "action_save_all_textgrids",
+                    "text": "Save all TextGrids",
+                },
+                {
+                    "attr": "action_save_all",
+                    "text": "Save all",
+                    "shortcut": "Ctrl+Shift+S",
+                },
+                None,  # Separator
+                {
+                    "attr": "action_quit",
+                    "text": "Quit",
+                    "shortcut": "Ctrl+Q",
+                },
+            ],
+            "standalone_actions": [
+                {"attr": "actionNew", "text": "New"},
+                {"attr": "actionSave_as", "text": "Save as"},
+            ],
+        },
+        {
+            "attr": "menu_edit",
+            "title": "Edit",
+            "enabled": False,
+            "items": [
+                {
+                    "attr": "action_undo",
+                    "text": "Undo",
+                    "shortcut": "Ctrl+Z",
+                },
+                {
+                    "attr": "action_redo",
+                    "text": "Redo",
+                    "shortcut": "Ctrl+Shift+Z",
+                },
+            ],
+        },
+        {
+            "attr": "menu_exercise",
+            "title": "Exercise",
+            "items": [
+                {
+                    "attr": "action_new_exercise",
+                    "text": "New exercise...",
+                    "shortcut": "Ctrl+Shift+N",
+                },
+                {"attr": "action_save_exercise", "text": "Save exercise"},
+                {
+                    "attr": "action_package_exercise",
+                    "text": "Package exercise...",
+                },
+                {
+                    "attr": "action_unpackage_exercise",
+                    "text": "Unpackage exercise...",
+                },
+                None,  # Separator
+                {
+                    "attr": "action_new_answer",
+                    "text": "New answer...",
+                    "shortcut": "Ctrl+N",
+                },
+                {
+                    "attr": "action_save_answer",
+                    "text": "Save answer",
+                    "shortcut": "Ctrl+S",
+                },
+                {
+                    "attr": "action_open_answer",
+                    "text": "Open answer...",
+                    "shortcut": "Ctrl+O",
+                },
+                None,  # Separator
+                {
+                    "attr": "action_compare_to_example",
+                    "text": "Compare to example",
+                    "enabled": False,  # TODO 0.24: Implement this?
+                },
+                {
+                    "attr": "action_show_example",
+                    "text": "Show example",
+                    "shortcut": "Alt+E",
+                    "checkable": True,
+                    "checked": False,
+                },
+            ],
+        },
+        {
+            "attr": "menu_export",
+            "title": "Export",
+            "items": [
+                {
+                    "attr": "action_export_aggregate_images",
+                    "text": "Export aggregate images...",
+                },
+                {
+                    "attr": "action_export_annotations_and_metadata",
+                    "text": "Export annotations and metadata...",
+                },
+                {
+                    "attr": "action_export_distance_matrices",
+                    "text": "Export distance matrices...",
+                },
+                {
+                    "attr": "action_export_main_figure",
+                    "text": "Export main figure...",
+                    "shortcut": "Ctrl+E",
+                },
+                {
+                    "attr": "action_export_ultrasound_frame",
+                    "text": "Export ultrasound figure...",
+                },
+            ],
+            "standalone_actions": [
+                {
+                    "attr": "action_export_analysis",
+                    "text": "Export analysis...",
+                    "enabled": False,
+                },
+            ],
+        },
+        {
+            "attr": "menu_image",
+            "title": "Image",
+            "submenus": [
+                {
+                    "attr": "menu_select_image",
+                    "title": "Select image",
+                    "items": [
+                        {
+                            "attr": "action_mean_image",
+                            "text": "Mean image",
+                            "checkable": True,
+                            "checked": False,
+                        },
+                        {
+                            "attr": "action_frame",
+                            "text": "Frame at cursor",
+                            "checkable": True,
+                            "checked": True,
+                        },
+                        {
+                            "attr": "action_raw_frame",
+                            "text": "Raw frame at cursor",
+                            "checkable": True,
+                            "checked": False,
+                        },
+                    ],
+                    "action_group": "menu_select_small_action_group",
+                },
+            ],
+        },
+        {
+            "attr": "menu_kymography",
+            "title": "Kymography",
+            "items": [
+                {
+                    "attr": "action_select_kymography_line",
+                    "text": "Select kymography line",
+                },
+                {
+                    "attr": "action_display_small_kymogram",
+                    "text": "Display small kymogram",
+                    "checkable": True,
+                    "checked": True,
+                },
+                {
+                    "attr": "action_display_main_kymogram",
+                    "text": "Display main kymogram",
+                    "enabled": False,
+                },
+            ],
+        },
+        {
+            "attr": "menu_navigation",
+            "title": "Navigation",
+            "items": [
+                {
+                    "attr": "action_next",
+                    "text": "Next Recording",
+                    "shortcut": "Down",
+                },
+                {
+                    "attr": "action_previous",
+                    "text": "Previous Recording",
+                    "shortcut": "Up",
+                },
+                None,  # Separator
+                {
+                    "attr": "action_next_frame",
+                    "text": "Next Frame",
+                    "shortcut": "Right",
+                },
+                {
+                    "attr": "action_previous_frame",
+                    "text": "Previous Frame",
+                    "shortcut": "Left",
+                },
+            ],
+        },
+        {
+            "attr": "menu_script",
+            "title": "Script",
+            "enabled": False,
+            "standalone_actions": [
+                {
+                    "attr": "actionShow_interpreter",
+                    "text": "Show interpreter",
+                },
+                {
+                    "attr": "actionRun_file",
+                    "text": "Run file..."
+                },
+            ],
+        },
+    )
+
+    def setupUi(self, main_window: QtWidgets.QMainWindow) -> None:
+        """
+        Set up the user interface components for the main window.
+
+        Parameters
+        ----------
+        main_window : QtWidgets.QMainWindow
+            The parent QMainWindow instance to populate with UI widgets.
+        """
         # Main elements and sizing
         main_window.setObjectName("MainWindow")
         # main_window.resize(1087, 795)
@@ -54,12 +309,13 @@ class UiMainWindow(object):
         self.mplwindow = QtWidgets.QWidget(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Expanding,
-            QtWidgets.QSizePolicy.Policy.Preferred
+            QtWidgets.QSizePolicy.Policy.Preferred,
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(
-            self.mplwindow.sizePolicy().hasHeightForWidth())
+            self.mplwindow.sizePolicy().hasHeightForWidth()
+        )
         self.mplwindow.setSizePolicy(sizePolicy)
         self.mplwindow.setObjectName("mplwindow")
         self.mplWindowVerticalLayout = QtWidgets.QVBoxLayout(self.mplwindow)
@@ -70,7 +326,7 @@ class UiMainWindow(object):
         self.side_panel = QtWidgets.QFrame(self.central_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum,
-            QtWidgets.QSizePolicy.Policy.Preferred
+            QtWidgets.QSizePolicy.Policy.Preferred,
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -87,13 +343,15 @@ class UiMainWindow(object):
 
         # Vertical splitter for side panel (to resize/collapse ultrasound)
         self.side_panel_splitter = QtWidgets.QSplitter(
-            QtCore.Qt.Orientation.Vertical)
+            QtCore.Qt.Orientation.Vertical
+        )
         self.side_panel_layout.addWidget(self.side_panel_splitter)
 
         # Top container for side panel
         self.side_panel_top_widget = QtWidgets.QWidget()
         self.side_panel_top_layout = QtWidgets.QVBoxLayout(
-            self.side_panel_top_widget)
+            self.side_panel_top_widget
+        )
         self.side_panel_top_layout.setContentsMargins(0, 0, 0, 0)
         self.side_panel_splitter.addWidget(self.side_panel_top_widget)
 
@@ -148,7 +406,8 @@ class UiMainWindow(object):
         self.database_view.setObjectName("databaseView")
         self.side_panel_top_layout.addWidget(self.database_view)
         self.database_view.clicked[QtCore.QModelIndex].connect(
-            main_window.on_database_view_clicked)
+            main_window.on_database_view_clicked
+        )
 
         self.play_controls = PlayerControls(self.side_panel_top_widget)
         self.side_panel_top_layout.addWidget(self.play_controls)
@@ -157,7 +416,7 @@ class UiMainWindow(object):
         self.ultrasoundFrame = QtWidgets.QWidget(self.side_panel_top_widget)
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Policy.Preferred,
-            QtWidgets.QSizePolicy.Policy.Expanding
+            QtWidgets.QSizePolicy.Policy.Expanding,
         )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -204,7 +463,8 @@ class UiMainWindow(object):
 
         # Main horizontal splitter for resizable side panel vs plots
         self.main_splitter = QtWidgets.QSplitter(
-            QtCore.Qt.Orientation.Horizontal)
+            QtCore.Qt.Orientation.Horizontal
+        )
         self.main_splitter.addWidget(self.side_panel)
         self.main_splitter.addWidget(self.mplwindow)
         # Give the plot window stretching priority when
@@ -214,234 +474,123 @@ class UiMainWindow(object):
 
         main_window.setCentralWidget(self.central_widget)
 
-        # Menu bar
-        # self.menubar = QtWidgets.QMenuBar(main_window)
-        self.menubar = main_window.menuBar()
-        self.menubar.setNativeMenuBar(False)
-        self.menubar.setObjectName("menubar")
-
-        # Menus
-        self.menu_file = QtWidgets.QMenu(self.menubar)
-        self.menu_file.setObjectName("menu_file")
-        self.menu_edit = QtWidgets.QMenu(self.menubar)
-        self.menu_edit.setObjectName("menu_edit")
-        self.menu_export = QtWidgets.QMenu(self.menubar)
-        self.menu_export.setObjectName("menu_export")
-        self.menu_exercise = QtWidgets.QMenu(self.menubar)
-        self.menu_exercise.setObjectName("menu_exercise")
-        self.menu_image = QtWidgets.QMenu(self.menubar)
-        self.menu_image.setObjectName("menu_image")
-        # self.menu_mode = QtWidgets.QMenu(self.menubar)
-        # self.menu_mode.setObjectName("menu_mode")
-        self.menu_navigation = QtWidgets.QMenu(self.menubar)
-        self.menu_navigation.setObjectName("menu_navigation")
-        self.menu_script = QtWidgets.QMenu(self.menubar)
-        self.menu_script.setEnabled(False)
-        self.menu_script.setObjectName("menu_script")
-        # main_window.setMenuBar(self.menubar)
+        # Menu bar and menus
+        self._setup_menubar(main_window)
 
         # Statusbar
         self.statusbar = QtWidgets.QStatusBar(main_window)
         self.statusbar.setObjectName("statusbar")
         main_window.setStatusBar(self.statusbar)
 
-        # Menu items
-
-        # File menu
-        self.actionNew = QtGui.QAction(main_window)
-        self.actionNew.setObjectName("actionNew")
-        self.action_open = QtGui.QAction(main_window)
-        self.action_open.setObjectName("action_open")
-        self.action_save_all = QtGui.QAction(main_window)
-        self.action_save_all.setObjectName("action_save_all")
-        self.actionSave_as = QtGui.QAction(main_window)
-        self.actionSave_as.setObjectName("actionSave_as")
-        self.action_save_all_textgrids = QtGui.QAction(main_window)
-        self.action_save_all_textgrids.setObjectName(
-            "action_save_all_textgrids")
-        self.action_save_current_textgrid = QtGui.QAction(main_window)
-        self.action_save_current_textgrid.setObjectName(
-            "action_save_current_textgrid")
-        self.action_quit = QtGui.QAction(main_window)
-        self.action_quit.setObjectName("action_quit")
-
-        self.menu_file.addAction(self.action_open)
-        self.menu_file.addAction(self.action_save_current_textgrid)
-        self.menu_file.addAction(self.action_save_all_textgrids)
-        self.menu_file.addAction(self.action_save_all)
-        self.menu_file.addSeparator()
-        self.menu_file.addAction(self.action_quit)
-
-        # Edit menu
-        self.action_select_kymography_line = QtGui.QAction(main_window)
-        self.action_select_kymography_line.setObjectName(
-            "action_select_kymography_line")
-
-        self.menu_edit.addAction(self.action_select_kymography_line)
-
-        # Exercise menu
-        self.action_new_exercise = QtGui.QAction(main_window)
-        self.action_new_exercise.setObjectName("action_new_exercise")
-        self.action_save_exercise = QtGui.QAction(main_window)
-        self.action_save_exercise.setObjectName("action_save_exercise")
-        self.action_package_exercise = QtGui.QAction(main_window)
-        self.action_package_exercise.setObjectName("action_package_exercise")
-        self.action_unpackage_exercise = QtGui.QAction(main_window)
-        self.action_unpackage_exercise.setObjectName(
-            "action_unpackage_exercise")
-        self.action_new_answer = QtGui.QAction(main_window)
-        self.action_new_answer.setObjectName("action_new_answer")
-        self.action_save_answer = QtGui.QAction(main_window)
-        self.action_save_answer.setObjectName("action_save_answer")
-        self.action_open_answer = QtGui.QAction(main_window)
-        self.action_open_answer.setObjectName("action_open_answer")
-        self.action_compare_to_example = QtGui.QAction(main_window)
-        self.action_compare_to_example.setObjectName(
-            "action_compare_to_example")
-        self.action_show_example = QtGui.QAction(main_window)
-        self.action_show_example.setObjectName("action_show_example")
-
-        self.menu_exercise.addAction(self.action_new_exercise)
-        self.menu_exercise.addAction(self.action_save_exercise)
-        self.menu_exercise.addAction(self.action_package_exercise)
-        self.menu_exercise.addAction(self.action_unpackage_exercise)
-        self.menu_exercise.addSeparator()
-        self.menu_exercise.addAction(self.action_new_answer)
-        self.menu_exercise.addAction(self.action_save_answer)
-        self.menu_exercise.addAction(self.action_open_answer)
-        self.menu_exercise.addSeparator()
-        self.menu_exercise.addAction(self.action_compare_to_example)
-        self.menu_exercise.addAction(self.action_show_example)
-
-        # TODO 0.24: Implement this?
-        self.action_compare_to_example.setEnabled(False)
-
-        self.action_show_example.setCheckable(True)
-        self.action_show_example.setChecked(False)
-
-        # Export menu actions
-        self.action_export_analysis = QtGui.QAction(main_window)
-        self.action_export_analysis.setEnabled(False)
-        self.action_export_analysis.setObjectName("action_export_analysis")
-        self.action_export_main_figure = QtGui.QAction(main_window)
-        self.action_export_main_figure.setObjectName(
-            "action_export_main_figure")
-        self.action_export_ultrasound_frame = QtGui.QAction(
-            main_window)
-        self.action_export_ultrasound_frame.setObjectName(
-            "action_export_ultrasound_frame"
-        )
-        self.action_export_annotations_and_metadata = QtGui.QAction(
-            main_window)
-        self.action_export_annotations_and_metadata.setObjectName(
-            "action_export_annotations_and_metadata"
-        )
-        self.action_export_aggregate_images = QtGui.QAction(
-            main_window)
-        self.action_export_aggregate_images.setObjectName(
-            "action_export_aggregate_images"
-        )
-        self.action_export_distance_matrices = QtGui.QAction(
-            main_window)
-        self.action_export_distance_matrices.setObjectName(
-            "action_export_distance_matrices"
-        )
-
-        self.menu_export.addAction(self.action_export_aggregate_images)
-        self.menu_export.addAction(self.action_export_annotations_and_metadata)
-        self.menu_export.addAction(self.action_export_distance_matrices)
-        self.menu_export.addAction(self.action_export_main_figure)
-        self.menu_export.addAction(self.action_export_ultrasound_frame)
-
-        # Image actions
-        self.menu_select_image = self.menu_image.addMenu("Select image")
-
-        self.action_mean_image = QtGui.QAction(
-            text="Mean image", parent=self.menu_select_image)
-        self.action_frame = QtGui.QAction(
-            text="Frame at cursor", parent=self.menu_select_image)
-        self.action_raw_frame = QtGui.QAction(
-            text="Raw frame at cursor", parent=self.menu_select_image)
-
-        self.action_mean_image.setCheckable(True)
-        self.action_frame.setCheckable(True)
-        self.action_raw_frame.setCheckable(True)
-        self.action_frame.setChecked(True)
-
-        self.menu_select_image.addAction(self.action_mean_image)
-        self.menu_select_image.addAction(self.action_frame)
-        self.menu_select_image.addAction(self.action_raw_frame)
-
-        self.menu_select_small_action_group = QtGui.QActionGroup(
-            self.menu_select_image)
-        self.menu_select_small_action_group.addAction(self.action_mean_image)
-        self.menu_select_small_action_group.addAction(self.action_frame)
-        self.menu_select_small_action_group.addAction(self.action_raw_frame)
-
-        # Mode menu actions
-        # self.mode_group = QtGui.QActionGroup(main_window)
-        # self.action_annotator_mode = QtGui.QAction(main_window)
-        # self.action_annotator_mode.setObjectName(
-        #     "action_annotator_mode"
-        # )
-        # self.action_annotator_mode.setCheckable(True)
-        # self.action_exercise_mode = QtGui.QAction(main_window)
-        # self.action_exercise_mode.setObjectName(
-        #     "action_exercise_mode"
-        # )
-        # self.action_exercise_mode.setCheckable(True)
-        # self.mode_group.addAction(self.action_annotator_mode)
-        # self.mode_group.addAction(self.action_exercise_mode)
-        # self.action_annotator_mode.setChecked(True)
-        # self.menu_mode.addAction(self.action_annotator_mode)
-        # self.menu_mode.addAction(self.action_exercise_mode)
-
-        # Navigation menu actions
-        self.action_next = QtGui.QAction(main_window)
-        self.action_next.setObjectName("action_next")
-        self.action_previous = QtGui.QAction(main_window)
-        self.action_previous.setObjectName("action_previous")
-        self.action_next_frame = QtGui.QAction(main_window)
-        self.action_next_frame.setObjectName("action_next_frame")
-        self.action_previous_frame = QtGui.QAction(main_window)
-        self.action_previous_frame.setObjectName("action_previous_frame")
-
-        self.menu_navigation.addAction(self.action_next)
-        self.menu_navigation.addAction(self.action_previous)
-        self.menu_navigation.addSeparator()
-        self.menu_navigation.addAction(self.action_next_frame)
-        self.menu_navigation.addAction(self.action_previous_frame)
-
-        # Script menu actions
-        self.actionShow_interpreter = QtGui.QAction(main_window)
-        self.actionShow_interpreter.setObjectName("actionShow_interpreter")
-        self.actionRun_file = QtGui.QAction(main_window)
-        self.actionRun_file.setObjectName("actionRun_file")
-
-        # self.menu_script.addAction(self.actionShow_interpreter)
-        # self.menu_script.addAction(self.actionRun_file)
-
-        # Menubar setup
-        self.menubar.addAction(self.menu_file.menuAction())
-        self.menubar.addAction(self.menu_edit.menuAction())
-        self.menubar.addAction(self.menu_exercise.menuAction())
-        self.menubar.addAction(self.menu_export.menuAction())
-        self.menubar.addAction(self.menu_image.menuAction())
-        # self.menubar.addAction(self.menu_mode.menuAction())
-        self.menubar.addAction(self.menu_navigation.menuAction())
-        self.menubar.addAction(self.menu_script.menuAction())
-
         self.retranslateUi(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, main_window):
+    def _setup_menubar(self, main_window: QtWidgets.QMainWindow) -> None:
+        """
+        Construct the menu bar, menus, and actions dynamically from MENU_SPECS.
+
+        Parameters
+        ----------
+        main_window : QtWidgets.QMainWindow
+            The main application window hosting the menu bar.
+        """
+        # Menu bar
+        # self.menubar = QtWidgets.QMenuBar(main_window)
+        self.menubar = main_window.menuBar()
+        self.menubar.setNativeMenuBar(False)
+        self.menubar.setObjectName("menubar")
+
+        for menu_spec in self.MENU_SPECS:
+            menu = QtWidgets.QMenu(self.menubar)
+            menu.setObjectName(menu_spec["attr"])
+            if not menu_spec.get("enabled", True):
+                menu.setEnabled(False)
+            setattr(self, menu_spec["attr"], menu)
+
+            # Submenus
+            for sub_spec in menu_spec.get("submenus", []):
+                submenu = menu.addMenu("")
+                submenu.setObjectName(sub_spec["attr"])
+                setattr(self, sub_spec["attr"], submenu)
+
+                if "action_group" in sub_spec:
+                    group = QtGui.QActionGroup(submenu)
+                    setattr(self, sub_spec["action_group"], group)
+
+                for item in sub_spec.get("items", []):
+                    action = self._build_action(main_window, item)
+                    submenu.addAction(action)
+                    if "action_group" in sub_spec:
+                        group.addAction(action)
+
+            # Menu items
+            for item in menu_spec.get("items", []):
+                if item is None:
+                    menu.addSeparator()
+                else:
+                    action = self._build_action(main_window, item)
+                    menu.addAction(action)
+
+            # Standalone actions
+            for item in menu_spec.get("standalone_actions", []):
+                self._build_action(main_window, item)
+
+            self.menubar.addAction(menu.menuAction())
+
+        # main_window.setMenuBar(self.menubar)
+
+    def _build_action(
+        self, main_window: QtWidgets.QMainWindow, item_spec: dict[str, Any]
+    ) -> QtGui.QAction:
+        """
+        Instantiate a QAction from a spec item dictionary and register it.
+
+        Parameters
+        ----------
+        main_window : QtWidgets.QMainWindow
+            Parent window for the action.
+        item_spec : dict[str, Any]
+            Configuration dictionary containing object attribute name and
+            states.
+
+        Returns
+        -------
+        QtGui.QAction
+            The constructed QAction instance.
+        """
+        action = QtGui.QAction(main_window)
+        action.setObjectName(item_spec["attr"])
+        if item_spec.get("checkable", False):
+            action.setCheckable(True)
+            action.setChecked(item_spec.get("checked", False))
+        if not item_spec.get("enabled", True):
+            action.setEnabled(False)
+        setattr(self, item_spec["attr"], action)
+        return action
+
+    def retranslateUi(self, main_window: QtWidgets.QMainWindow) -> None:
+        """
+        Translate user interface text for localization using MENU_SPECS schema.
+
+        Parameters
+        ----------
+        main_window : QtWidgets.QMainWindow
+            The parent QMainWindow instance containing localized components.
+        """
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(
-            _translate("MainWindow", "PATKIT Annotator"))
-        self.mode_controls.setTitle(_translate("MainWindow", "Annotator Mode"))
-        self.go_to_group.setTitle(_translate("MainWindow", "Go to Recording"))
+            _translate("MainWindow", "PATKIT Annotator")
+        )
+        self.mode_controls.setTitle(
+            _translate("MainWindow", "Annotator Mode")
+        )
+        self.go_to_group.setTitle(
+            _translate("MainWindow", "Go to Recording")
+        )
         self.goButton.setText(_translate("MainWindow", "Go"))
-        self.previous_button.setText(_translate("MainWindow", "Previous"))
+        self.previous_button.setText(
+            _translate("MainWindow", "Previous")
+        )
         self.next_button.setText(_translate("MainWindow", "Next"))
 
         # Annotation radio buttons
@@ -453,115 +602,41 @@ class UiMainWindow(object):
         # self.positionRB_3.setText(
         #     _translate("MainWindow", "Other / Not visible"))
 
-        self.menu_file.setTitle(_translate("MainWindow", "File"))
-        self.menu_edit.setTitle(_translate("MainWindow", "Edit"))
-        self.menu_exercise.setTitle(_translate("MainWindow", "Exercise"))
-        self.menu_export.setTitle(_translate("MainWindow", "Export"))
-        self.menu_image.setTitle(_translate("MainWindow", "Image"))
-        # self.menu_mode.setTitle(_translate("MainWindow", "Mode"))
-        self.menu_navigation.setTitle(_translate("MainWindow", "Navigation"))
-        self.menu_script.setTitle(_translate("MainWindow", "Script"))
-
-        self.action_select_kymography_line.setText(
-            _translate("MainWindow", "Select kymography line"))
-
-        self.action_new_exercise.setText(
-            _translate("MainWindow", "New exercise..."))
-        self.action_new_exercise.setShortcut(
-            _translate("MainWindow", "Ctrl+Shift+N"))
-        self.action_save_exercise.setText(
-            _translate("MainWindow", "Save exercise"))
-        self.action_package_exercise.setText(
-            _translate("MainWindow", "Package exercise..."))
-        self.action_unpackage_exercise.setText(
-            _translate("MainWindow", "Unpackage exercise..."))
-        self.action_new_answer.setText(
-            _translate("MainWindow", "New answer..."))
-        self.action_new_answer.setShortcut(
-            _translate("MainWindow", "Ctrl+N"))
-        self.action_save_answer.setText(
-            _translate("MainWindow", "Save answer"))
-        self.action_save_answer.setShortcut(
-            _translate("MainWindow", "Ctrl+S"))
-        self.action_open_answer.setText(
-            _translate("MainWindow", "Open answer..."))
-        self.action_open_answer.setShortcut(
-            _translate("MainWindow", "Ctrl+O"))
-        self.action_compare_to_example.setText(
-            _translate("MainWindow", "Compare to example"))
-        self.action_show_example.setText(
-            _translate("MainWindow", "Show example"))
-        self.action_show_example.setShortcut(
-            _translate("MainWindow", "Alt+E"))
-
-        self.actionNew.setText(_translate("MainWindow", "New"))
-        self.action_open.setText(_translate("MainWindow", "Open..."))
-        self.action_open.setShortcut(
-            _translate("MainWindow", "Ctrl+Shift+O"))
-        self.action_save_all.setText(_translate("MainWindow", "Save all"))
-        self.action_save_all.setShortcut(
-            _translate("MainWindow", "Ctrl+Shift+S"))
-        self.actionShow_interpreter.setText(
-            _translate("MainWindow", "Show interpreter")
-        )
-        self.actionRun_file.setText(_translate("MainWindow", "Run file..."))
-        self.action_next.setText(_translate("MainWindow", "Next Recording"))
-        self.action_next.setShortcut(_translate("MainWindow", "Down"))
-        self.action_previous.setText(
-            _translate("MainWindow", "Previous Recording"))
-        self.action_previous.setShortcut(_translate("MainWindow", "Up"))
-        self.action_export_analysis.setText(
-            _translate("MainWindow", "Export analysis...")
-        )
-        self.action_next_frame.setText(_translate("MainWindow", "Next Frame"))
-        self.action_next_frame.setShortcut(_translate("MainWindow", "Right"))
-        self.action_previous_frame.setText(
-            _translate("MainWindow", "Previous Frame"))
-        self.action_previous_frame.setShortcut(
-            _translate("MainWindow", "Left"))
-        self.action_export_main_figure.setText(
-            _translate("MainWindow", "Export main figure...")
-        )
-        self.action_export_main_figure.setShortcut(
-            _translate("MainWindow", "Ctrl+E"))
-        self.action_export_ultrasound_frame.setText(
-            _translate("MainWindow", "Export ultrasound figure...")
-        )
-        self.action_export_annotations_and_metadata.setText(
-            _translate("MainWindow", "Export annotations and metadata...")
-        )
-        self.action_export_aggregate_images.setText(
-            _translate("MainWindow", "Export aggregate images...")
-        )
-        self.action_save_all_textgrids.setText(
-            _translate("MainWindow", "Save all TextGrids")
-        )
-        self.action_save_current_textgrid.setText(
-            _translate("MainWindow", "Save current TextGrid")
-        )
-
-        self.menu_select_image.setTitle(
-            _translate("MainWindow", "Select image"))
-        self.action_mean_image.setText(
-            _translate("MainWindow", "Mean image"))
-        self.action_frame.setText(
-            _translate("MainWindow", "Frame at cursor"))
-        self.action_raw_frame.setText(
-            _translate("MainWindow", "Raw frame at cursor"))
-
-        self.action_quit.setText(_translate("MainWindow", "Quit"))
-        self.action_quit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
-
-        self.action_export_distance_matrices.setText(
-            _translate("MainWindow", "Export distance matrices...")
-        )
-
+        # Mode menu actions
         # self.action_exercise_mode.setText(
         #   _translate("MainWindow", "Exercise"))
         # self.action_annotator_mode.setText(
         #     _translate("MainWindow", "Annotator"))
 
-    def add_items_to_database_view(self, session: Session):
+        # Translate menu titles, submenus, and action labels from MENU_SPECS
+        for menu_spec in self.MENU_SPECS:
+            menu = getattr(self, menu_spec["attr"])
+            menu.setTitle(_translate("MainWindow", menu_spec["title"]))
+
+            for sub_spec in menu_spec.get("submenus", []):
+                submenu = getattr(self, sub_spec["attr"])
+                submenu.setTitle(_translate("MainWindow", sub_spec["title"]))
+
+            actions_to_translate: list[dict[str, Any]] = []
+            for item in menu_spec.get("items", []):
+                if isinstance(item, dict):
+                    actions_to_translate.append(item)
+            for sub_spec in menu_spec.get("submenus", []):
+                for item in sub_spec.get("items", []):
+                    if isinstance(item, dict):
+                        actions_to_translate.append(item)
+            for item in menu_spec.get("standalone_actions", []):
+                actions_to_translate.append(item)
+
+            for act_spec in actions_to_translate:
+                action = getattr(self, act_spec["attr"])
+                action.setText(_translate("MainWindow", act_spec["text"]))
+                if "shortcut" in act_spec:
+                    action.setShortcut(
+                        _translate("MainWindow", act_spec["shortcut"])
+                    )
+
+    def add_items_to_database_view(self, session: Session) -> None:
         """
         Add items/recordings to the list view.
 
@@ -571,14 +646,15 @@ class UiMainWindow(object):
             Use the recordings in the given session to populate the list view.
         """
         for recording in session:
+            display_text = (
+                f"{recording.basename}: "
+                f"{recording.metadata.prompt.strip()}"
+            )
             self.database_model.appendRow(
-                QtGui.QStandardItem(
-                    f"{recording.basename}: "
-                    f"{recording.metadata.prompt.strip()}"
-                )
+                QtGui.QStandardItem(display_text)
             )
 
-    def replace_items_in_database_view(self, session: Session):
+    def replace_items_in_database_view(self, session: Session) -> None:
         """
         Replace the items/recordings in the list view.
 

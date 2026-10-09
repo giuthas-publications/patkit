@@ -180,6 +180,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             QKeySequence(self.tr("Ctrl+W", "File|Quit")), self)
         self.close_window_shortcut.activated.connect(self.quit)
 
+        # self.action_select_kymography_line.triggered.connect(self.)
+
         # Image selection logic hookups
         self.menu_select_small_action_group.triggered.connect(
             self.image_updater)
