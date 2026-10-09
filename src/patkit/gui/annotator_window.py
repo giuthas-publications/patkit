@@ -229,8 +229,10 @@ class UiMainWindow(object):
             "title": "Kymography",
             "items": [
                 {
-                    "attr": "action_select_kymography_line",
-                    "text": "Select kymography line",
+                    "attr": "action_display_kymography_line",
+                    "text": "Display kymography sampling line",
+                    "checkable": True,
+                    "checked": True,
                 },
                 {
                     "attr": "action_display_small_kymogram",

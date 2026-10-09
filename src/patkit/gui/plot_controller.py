@@ -723,13 +723,7 @@ class PlotController:
         if 'RawUltrasound' not in recording.modalities:
             return False
 
-        if (
-            (
-                'frame_selection_index' not in recording.annotations or
-                recording.annotations['frame_selection_index'] == -1
-            )
-            or image_type == GuiImageType.MEAN_IMAGE
-        ):
+        if image_type == GuiImageType.MEAN_IMAGE:
             self.ultra_axes.clear()
             image_name = 'AggregateImage mean on RawUltrasound'
             if image_name in recording.statistics:
@@ -740,6 +734,24 @@ class PlotController:
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
             return False
+
+        elif (
+                'frame_selection_index' not in recording.annotations or
+                recording.annotations['frame_selection_index'] == -1
+        ):
+            self.ultra_axes.clear()
+            index = 0
+
+            ultrasound = recording.modalities['RawUltrasound']
+            if image_type == GuiImageType.FRAME:
+                image = ultrasound.interpolated_image(index)
+            elif image_type == GuiImageType.RAW_FRAME:
+                image = ultrasound.raw_image(index)
+
+            self.ultra_axes.imshow(
+                image, interpolation='nearest', cmap='gray',
+                extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
+                        -.5, image.shape[0] + .5))
 
         elif (
             'frame_selection_index' in recording.annotations and
