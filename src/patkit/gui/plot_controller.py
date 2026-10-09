@@ -237,8 +237,6 @@ class PlotController:
         visible : bool | None, optional
             Whether the line should be visible. If None, toggles current state.
         """
-        # TODO 0.24: This is bad practice and we need a neater way of finding
-        # Kymograms and selecting between them if necessary.
         stat_name = "Kymogram on RawUltrasound"
         if stat_name not in recording.statistics:
             params = KymogramParameters(
@@ -265,11 +263,22 @@ class PlotController:
                 endpoints=kymogram.metadata.line_points,
                 on_changed=_on_line_changed,
             )
+        else:
+            self.kymography_sampling_line.set_endpoints(
+                endpoints=kymogram.metadata.line_points
+            )
+
+            def _on_line_changed(
+                p1: tuple[float, float], p2: tuple[float, float]
+            ) -> None:
+                kymogram.metadata.line_points = (p1, p2)
+
+            self.kymography_sampling_line.on_changed = _on_line_changed
 
         if visible is None:
             visible = not self.kymography_sampling_line.get_visible()
 
-        self.kymography_sampling_line.set_visible(visible)
+        self.kymography_sampling_line.set_visible(visible=visible)
         self.ultra_canvas.draw_idle()
 
     def setup_axes(self) -> None:

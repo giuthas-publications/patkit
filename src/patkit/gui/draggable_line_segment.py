@@ -47,7 +47,9 @@ class DraggableLineSegment:
             Initial x coordinate of the second endpoint, by default None.
         y_end : float | None
             Initial y coordinate of the second endpoint, by default None.
-        on_changed : Callable[[tuple[float, float], tuple[float, float]], None] | None
+        on_changed : Callable[
+            [tuple[float, float], tuple[float, float]], None
+        ] | None
             Callback invoked with updated endpoints ((x1, y1), (x2, y2)) when
             the line is dragged, by default None.
         """
@@ -118,7 +120,7 @@ class DraggableLineSegment:
         xdata[self.active_point_index] = event.xdata
         ydata[self.active_point_index] = event.ydata
 
-        self.line.set_data(x=xdata, y=ydata)
+        self.line.set_data(xdata, ydata)
         if self.on_changed is not None:
             p1 = (float(xdata[0]), float(ydata[0]))
             p2 = (float(xdata[1]), float(ydata[1]))
@@ -161,7 +163,7 @@ class DraggableLineSegment:
             Coordinates ((x1, y1), (x2, y2)).
         """
         (x1, y1), (x2, y2) = endpoints
-        self.line.set_data(x=[x1, x2], y=[y1, y2])
+        self.line.set_data([x1, x2], [y1, y2])
         self.canvas.draw_idle()
 
     def set_visible(self, visible: bool) -> None:
