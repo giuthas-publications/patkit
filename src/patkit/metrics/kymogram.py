@@ -99,6 +99,7 @@ class Kymogram(Statistic):
         line_points: tuple[
             tuple[float, float], tuple[float, float]
         ] = ((0.0, 0.0), (1.0, 1.0)),
+        num_samples: int | None = None,
     ) -> dict[str, KymogramParameters]:
         """
         Generate Kymogram names and metadata.
@@ -109,6 +110,8 @@ class Kymogram(Statistic):
             Parent Modality, Statistic, or name string.
         line_points : tuple[tuple[float, float], tuple[float, float]]
             Two points in data coordinates defining the line segment.
+        num_samples : int | None
+            Number of points to sample along line segment, by default None.
 
         Returns
         -------
@@ -125,6 +128,7 @@ class Kymogram(Statistic):
         params = KymogramParameters(
             parent_name=parent_name,
             line_points=line_points,
+            num_samples=num_samples,
         )
         return {Kymogram.generate_name(params=params): params}
 
