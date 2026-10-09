@@ -30,6 +30,8 @@
 # citations.bib in BibTeX format.
 #
 
+from concurrent.futures import ProcessPoolExecutor
+from functools import partial
 import logging
 import math
 
@@ -44,87 +46,146 @@ _logger = logging.getLogger('patkit.interpolate_raw_uti')
 
 
 def to_fan(
-        scanline_data, *, angle=None, zero_offset=None, pixels_per_mm=None,
-        num_vectors=None, magnify=1, reserve=1800, show_progress=False
-):
+        scanline_data: np.ndarray,
+        *,
+        angle: float | None = None,
+        zero_offset: float | None = None,
+        pixels_per_mm: float | None = None,
+        num_vectors: int | None = None,
+        magnify: int = 1,
+        reserve: int = 1800,
+        show_progress: bool = False,
+        num_workers: int | None = None,
+) -> np.ndarray:
     """
     Generate interpolated images from scanline ultrasound data.
 
-    Positional argument:
-    scanline_data - numpy array containing each frame as a vector,
-        but in case of RGB data, each color as its own vector.
+    Parameters
+    ----------
+    scanline_data : np.ndarray
+        NumPy array containing each frame as a vector, or in case of RGB
+        data, each color as its own vector.
+    angle : float | None, optional
+        Angle between scanlines in radians.
+    zero_offset : float | None, optional
+        Distance between probe center and first pixel of a scanline.
+    pixels_per_mm : float | None, optional
+        Pixels per mm in the depth direction of a scanline.
+    num_vectors : int | None, optional
+        Number of scanlines per frame.
+    magnify : int, default=1
+        Magnification factor.
+    reserve : int, default=1800
+        Reserve memory/pixel boundary parameter.
+    show_progress : bool, default=False
+        Whether to show a tqdm progress bar during processing.
+    num_workers : int | None, optional
+        Number of worker processes for parallel processing. If None,
+        uses all available CPU cores.
 
-    Keyword arguments:
-    angle - angle between scanlines in radians
-    zero_offset - distance between probe center and first pixel of a scanline
-    pix_per_mm - pixels per mm in the depth direction of a scanline
-    num_vectors - number of scanlines per frame
-
-    Returns a numpy array containing the generated image(s).
+    Returns
+    -------
+    np.ndarray
+        NumPy array containing the generated image(s).
     """
-    # TODO: looks like cases multiple rgb and grayscale can be handled by the
-    # same call. don't have the data to test that so not refactoring - Pertti
+    # TODO: looks like cases multiple rgb and grayscale can be handled by
+    # the same call. don't have the data to test that so not refactoring
+    # - Pertti
+    fan_fn = partial(
+        to_fan_2d,
+        angle=angle,
+        zero_offset=zero_offset,
+        pixels_per_mm=pixels_per_mm,
+        num_vectors=num_vectors,
+        magnify=magnify,
+        reserve=reserve,
+    )
+
     if len(scanline_data.shape) == 4:  # multiple RGB images
-        if show_progress:
-            images = [to_fan_2d(frame, angle=angle, zero_offset=zero_offset,
-                                pixels_per_mm=pixels_per_mm,
-                                num_vectors=num_vectors,
-                                magnify=magnify, reserve=reserve)
-                      for frame in tqdm(scanline_data, desc='Fanshape')]
-        else:
-            images = [to_fan_2d(frame, angle=angle, zero_offset=zero_offset,
-                                pixels_per_mm=pixels_per_mm,
-                                num_vectors=num_vectors,
-                                magnify=magnify, reserve=reserve)
-                      for frame in scanline_data]
+        with ProcessPoolExecutor(max_workers=num_workers) as executor:
+            map_iter = executor.map(fan_fn, scanline_data)
+            if show_progress:
+                images = list(
+                    tqdm(
+                        map_iter,
+                        total=len(scanline_data),
+                        desc='Fanshape',
+                    )
+                )
+            else:
+                images = list(map_iter)
     elif len(scanline_data.shape) == 3:
         if scanline_data.shape[-1] == 3:  # single RGB image
-            images = to_fan_2d(scanline_data, angle=angle,
-                               zero_offset=zero_offset,
-                               pixels_per_mm=pixels_per_mm,
-                               num_vectors=num_vectors, magnify=magnify,
-                               reserve=reserve)
+            images = to_fan_2d(
+                img=scanline_data,
+                angle=angle,
+                zero_offset=zero_offset,
+                pixels_per_mm=pixels_per_mm,
+                num_vectors=num_vectors,
+                magnify=magnify,
+                reserve=reserve,
+            )
         else:  # multiple grayscale images
-            if show_progress:
-                images = [to_fan_2d(frame, angle=angle,
-                                    zero_offset=zero_offset,
-                                    pixels_per_mm=pixels_per_mm,
-                                    num_vectors=num_vectors, magnify=magnify,
-                                    reserve=reserve)
-                          for frame in tqdm(scanline_data, desc='Fanshape')]
-            else:
-                images = [to_fan_2d(frame, angle=angle,
-                                    zero_offset=zero_offset,
-                                    pixels_per_mm=pixels_per_mm,
-                                    num_vectors=num_vectors, magnify=magnify,
-                                    reserve=reserve)
-                          for frame in scanline_data]
+            with ProcessPoolExecutor(max_workers=num_workers) as executor:
+                map_iter = executor.map(fan_fn, scanline_data)
+                if show_progress:
+                    images = list(
+                        tqdm(
+                            map_iter,
+                            total=len(scanline_data),
+                            desc='Fanshape',
+                        )
+                    )
+                else:
+                    images = list(map_iter)
     else:  # single grayscale image
-        images = to_fan_2d(scanline_data, angle=angle, zero_offset=zero_offset,
-                           pixels_per_mm=pixels_per_mm, num_vectors=num_vectors,
-                           magnify=magnify, reserve=reserve)
+        images = to_fan_2d(
+            img=scanline_data,
+            angle=angle,
+            zero_offset=zero_offset,
+            pixels_per_mm=pixels_per_mm,
+            num_vectors=num_vectors,
+            magnify=magnify,
+            reserve=reserve,
+        )
     return np.array(images)
 
 
-# TODO 1.0: Make the parameters mandatory, add typehinting
 def to_fan_2d(
-        img, *, angle=None, zero_offset=None, pixels_per_mm=None,
-        num_vectors=None, magnify=1, reserve=1800
-):
+        img: np.ndarray,
+        *,
+        angle: float | None = None,
+        zero_offset: float | None = None,
+        pixels_per_mm: float | None = None,
+        num_vectors: int | None = None,
+        magnify: int = 1,
+        reserve: int = 1800,
+) -> np.ndarray:
     """
     Transform a raw ultrasound image to a fanshaped image.
+
+    Parameters
+    ----------
+    img : np.ndarray
+        Raw ultrasound image frame array.
+    angle : float | None, optional
+        Angle between scanlines in radians.
+    zero_offset : float | None, optional
+        Distance between probe center and first pixel of a scanline.
+    pixels_per_mm : float | None, optional
+        Pixels per mm in the depth direction of a scanline.
+    num_vectors : int | None, optional
+        Number of scanlines per frame.
+    magnify : int, default=1
+        Magnification factor.
+    reserve : int, default=1800
+        Reserve size parameter.
+
+    Returns
+    -------
+    np.ndarray
+        Transformed fanshaped image array.
     """
-
-    # if None in [angle, zero_offset, pixels_per_mm, num_vectors]:
-    #     warning = 'WARNING: Not all the necessary information was provided. '
-    #     warning += 'General parameters are used instead.'
-    #     _logger.warning(warning)
-    #     img = cv2.resize(img, (500, 500))
-    #     angle = 0.0031
-    #     zero_offset = 150
-    #     pixels_per_mm = 2
-    #     num_vectors = img.shape[0]
-
     pixels_per_mm = pixels_per_mm // magnify
 
     img = np.rot90(img, 3)
@@ -150,18 +211,21 @@ def to_fan_2d(
 
     origin = (int(output_shape[0] // 2), 0)
 
-    img = ndimage.geometric_transform(img,
-                                      mapping=ult_cart2pol,
-                                      output_shape=output_shape,
-                                      order=2,
-                                      cval=255,
-                                      extra_keywords={
-                                          'origin': origin,
-                                          'num_of_vectors': num_vectors,
-                                          'angle': angle,
-                                          'zero_offset': zero_offset,
-                                          'pix_per_mm': pixels_per_mm,
-                                          'grayscale': grayscale})
+    img = ndimage.geometric_transform(
+        img,
+        mapping=ult_cart2pol,
+        output_shape=output_shape,
+        order=2,
+        cval=255,
+        extra_keywords={
+            'origin': origin,
+            'num_of_vectors': num_vectors,
+            'angle': angle,
+            'zero_offset': zero_offset,
+            'pix_per_mm': pixels_per_mm,
+            'grayscale': grayscale,
+        },
+    )
     img = trim_picture(img)
     img = np.rot90(img, 1)
     return img
@@ -191,7 +255,7 @@ def ult_cart2pol(
         res = cl - ((theta - np.pi / 2) / angle), r - zero_offset
     else:
         res = cl - ((theta - np.pi / 2) / angle), r - \
-              zero_offset, output_coordinates[2]
+            zero_offset, output_coordinates[2]
     return res
 
 

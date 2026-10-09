@@ -171,7 +171,7 @@ class Kymogram(Statistic):
         """
         parent_name = self.metadata.parent_name
         parent_modality = self.container.modalities[parent_name]
-        parent_data = parent_modality.data
+        parent_data = parent_modality.interpolated_frames()
 
         if parent_data.ndim == 2:
             parent_data = parent_data[np.newaxis, :, :]

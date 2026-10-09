@@ -263,6 +263,9 @@ class RawUltrasound(Modality):
 
         Arguments: index - the index of the ultrasound frame to be returned
         """
+        if self.video_has_been_stored:
+            return self.stored_video.copy()
+
         data = self.data.copy()
 
         self.video_has_been_stored = True
