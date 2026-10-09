@@ -634,3 +634,48 @@ def plot_spline(
                 -interpolated_spline[1], color='red', linewidth=1)
     if display_points:
         ax.plot(data[0, :], -data[1, :], 'ob', markersize=2)
+
+
+def plot_kymogram(
+    axes: Axes,
+    kymogram_data: np.ndarray,
+    current_frame_index: int | None = None,
+    cmap: str = 'gray',
+) -> AxesImage:
+    """
+    Plot a 2D kymogram array on the given axes.
+
+    Parameters
+    ----------
+    axes : Axes
+        Matplotlib axes to plot on.
+    kymogram_data : np.ndarray
+        2D numpy array of shape (num_frames, num_samples).
+    current_frame_index : int | None, optional
+        Index of the currently selected frame to mark on the kymogram,
+        by default None.
+    cmap : str, optional
+        Colormap to use for rendering, by default 'gray'.
+
+    Returns
+    -------
+    AxesImage
+        The plotted image artist.
+    """
+    axes.clear()
+    image = axes.imshow(
+        X=kymogram_data.T,
+        origin='lower',
+        aspect='auto',
+        cmap=cmap,
+    )
+    if current_frame_index is not None and current_frame_index >= 0:
+        axes.axvline(
+            x=current_frame_index,
+            color='red',
+            linewidth=1,
+            linestyle='--',
+        )
+    axes.set_ylabel(ylabel="Sample")
+    axes.set_xlabel(xlabel="Frame")
+    return image

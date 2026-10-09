@@ -52,6 +52,7 @@ from patkit.plot_and_publish import (
     format_legend,
     get_colors_in_sequence,
     mark_peaks,
+    plot_kymogram,
     plot_patgrid_tier,
     plot_spectrogram,
     plot_spectrogram2,
@@ -103,6 +104,11 @@ class PlotController:
         self.ultra_fig = Figure()
         self.ultra_canvas = FigureCanvas(self.ultra_fig)
         self.ultra_axes = self.ultra_fig.add_axes((0, 0, 1, 1))
+
+        # Small Kymogram Canvas Setup
+        self.kymogram_fig = Figure()
+        self.kymogram_canvas = FigureCanvas(self.kymogram_fig)
+        self.kymogram_axes = self.kymogram_fig.add_axes((0.15, 0.15, 0.8, 0.8))
 
         self.kymography_sampling_line: DraggableLineSegment | None = None
 
@@ -222,6 +228,8 @@ class PlotController:
                 )
         plt.style.use(ColorPalettes.COLORBLIND_10)
 
+# Context: inside PlotController class in patkit/gui/plot_controller.py
+
     def toggle_kymography_line(
         self,
         recording: Recording,
@@ -237,6 +245,9 @@ class PlotController:
         visible : bool | None, optional
             Whether the line should be visible. If None, toggles current state.
         """
+        if 'RawUltrasound' not in recording.modalities:
+            return
+
         stat_name = "Kymogram on RawUltrasound"
         if stat_name not in recording.statistics:
             params = KymogramParameters(
@@ -257,6 +268,8 @@ class PlotController:
                 p1: tuple[float, float], p2: tuple[float, float]
             ) -> None:
                 kymogram.metadata.line_points = (p1, p2)
+                kymogram.parsed_data = kymogram._derive_data()
+                self.draw_kymogram(recording=recording)
 
             self.kymography_sampling_line = DraggableLineSegment(
                 axes=self.ultra_axes,
@@ -276,6 +289,8 @@ class PlotController:
                 p1: tuple[float, float], p2: tuple[float, float]
             ) -> None:
                 kymogram.metadata.line_points = (p1, p2)
+                kymogram.parsed_data = kymogram._derive_data()
+                self.draw_kymogram(recording=recording)
 
             self.kymography_sampling_line.on_changed = _on_line_changed
 
@@ -284,6 +299,55 @@ class PlotController:
 
         self.kymography_sampling_line.set_visible(visible=visible)
         self.ultra_canvas.draw_idle()
+
+    def draw_kymogram(self, recording: Recording) -> bool:
+        """
+        Draw the small kymogram into the secondary kymogram canvas.
+
+        Parameters
+        ----------
+        recording : Recording
+            The currently active recording.
+
+        Returns
+        -------
+        bool
+            True if kymogram was successfully rendered, False otherwise.
+        """
+        if 'RawUltrasound' not in recording.modalities:
+            return False
+
+        if not self.main_window.action_display_small_kymogram.isChecked():
+            self.kymogram_axes.clear()
+            self.kymogram_canvas.draw_idle()
+            return False
+
+        stat_name = "Kymogram on RawUltrasound"
+        if stat_name not in recording.statistics:
+            self.kymogram_axes.clear()
+            self.kymogram_canvas.draw_idle()
+            return False
+
+        kymogram = recording.statistics[stat_name]
+        if kymogram.data is None:
+            self.kymogram_axes.clear()
+            self.kymogram_canvas.draw_idle()
+            return False
+
+        kymogram_data = kymogram.data
+
+        if 'frame_selection_index' in recording.annotations:
+            frame_index = recording.annotations['frame_selection_index']
+        else:
+            frame_index = -1
+
+        plot_kymogram(
+            axes=self.kymogram_axes,
+            kymogram_data=kymogram_data,
+            current_frame_index=frame_index,
+        )
+        self.kymogram_canvas.draw_idle()
+        return True
 
     def setup_axes(self) -> None:
         """

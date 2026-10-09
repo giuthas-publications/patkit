@@ -161,6 +161,7 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         # Add the canvases to their respective Qt Layouts
         self.mplWindowVerticalLayout.addWidget(self.plot_controller.canvas)
+        self.verticalLayout_6.addWidget(self.plot_controller.kymogram_canvas)
         self.verticalLayout_6.addWidget(self.plot_controller.ultra_canvas)
 
         self.plot_controller.canvas.mpl_connect(
@@ -222,6 +223,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
 
         self.action_display_kymography_line.triggered.connect(
             self.toggle_kymography_line
+        )
+        self.action_display_small_kymogram.triggered.connect(
+            self.toggle_small_kymogram
         )
 
         self.action_next.triggered.connect(self.next)
@@ -373,6 +377,12 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             'selected_frequency': -1,
         }
 
+    def toggle_small_kymogram(self) -> None:
+        """
+        Toggle display of the small kymogram in the side panel.
+        """
+        self.update()
+
     def toggle_kymography_line(self) -> None:
         """
         Toggle display of the kymography sampling line on the ultrasound axes.
@@ -482,6 +492,11 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 recording=self.current,
                 image_type=self.image_type
             )
+            # TODO 0.23.0: This test is crude and should be better.
+            if "Kymogram on RawUltrasound" in self.current.statistics:
+                self.plot_controller.draw_kymogram(
+                    recording=self.current
+                )
             self.plot_controller.ultra_canvas.draw_idle()
             self.action_export_ultrasound_frame.setEnabled(has_ultra_data)
 

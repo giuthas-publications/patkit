@@ -38,7 +38,7 @@ and sizing and other contextual matters should be taken care of by the caller.
 
 from .legend_generation import format_legend
 from .plot import (
-    mark_peaks, plot_patgrid_tier, plot_spectrogram,
+    mark_peaks, plot_kymogram, plot_patgrid_tier, plot_spectrogram,
     plot_spectrogram2, plot_spline,
     plot_timeseries, plot_wav)
 from .publish import publish_session_pdf, publish_distribution_data
