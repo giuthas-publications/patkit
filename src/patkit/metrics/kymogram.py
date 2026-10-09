@@ -36,11 +36,14 @@ Kymogram Statistic and its Parameter class.
 import logging
 
 import numpy as np
+from pydantic import PositiveInt
 
 from patkit.data_structures import (
     AbstractDataContainer, FileInformation, Modality, Statistic,
     StatisticMetaData
 )
+
+from .extract_kymogram import extract_kymogram
 
 _logger = logging.getLogger('patkit.kymogram')
 
@@ -56,10 +59,16 @@ class KymogramParameters(StatisticMetaData):
         calculated on or defined for.
     line_points : tuple[tuple[float, float], tuple[float, float]]
         Coordinates of the kymography sampling line as two points in data
-        coordinates ((x1, y1), (x2, y2)), defaults to None when not set.
+        coordinates ((x1, y1), (x2, y2)).
+    num_samples : PositiveInt | None
+        Number of points to sample along line segment, by default None.
     """
     parent_name: str
-    line_points: tuple[tuple[float, float], tuple[float, float]] | None = None
+    line_points: tuple[tuple[float, float], tuple[float, float]] = (
+        (0.0, 0.0),
+        (1.0, 1.0),
+    )
+    num_samples: PositiveInt | None = None
 
 
 class Kymogram(Statistic):
@@ -154,11 +163,39 @@ class Kymogram(Statistic):
         Returns
         -------
         np.ndarray
-            Sampled kymogram array.
+            Sampled kymogram array of shape (num_frames, num_samples).
         """
-        raise NotImplementedError(
-            "Kymogram sampling computation will be implemented in Step 4."
+        parent_name = self.metadata.parent_name
+        parent_modality = self.container.modalities[parent_name]
+        parent_data = parent_modality.data
+
+        if parent_data.ndim == 2:
+            parent_data = parent_data[np.newaxis, :, :]
+
+        num_frames, height, width = parent_data.shape
+        (x1, y1), (x2, y2) = self.metadata.line_points
+        num_samples = self.metadata.num_samples
+
+        # Convert data coordinates ((x1, y1), (x2, y2)) to pixel coordinates
+        col1 = x1 + width / 2.0
+        col2 = x2 + width / 2.0
+        row1 = y1
+        row2 = y2
+
+        start_point = (col1, row1)
+        end_point = (col2, row2)
+
+        # Transpose parent_data from (time, height/row, width/col) to (time,
+        # width/col, height/row) so axis 1 is x (col) and axis 2 is y (row)
+        video_array = np.transpose(a=parent_data, axes=(0, 2, 1))
+
+        sampled_data = extract_kymogram(
+            video_array=video_array,
+            start_point=start_point,
+            end_point=end_point,
+            num_samples=num_samples,
         )
+        return sampled_data
 
     def get_meta(self) -> dict:
         """

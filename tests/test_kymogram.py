@@ -1,6 +1,7 @@
 """Unit tests for Kymogram statistic and KymogramParameters."""
 
-import pytest
+import numpy as np
+from unittest.mock import MagicMock
 
 from patkit.data_structures import FileInformation
 from patkit.metrics import Kymogram, KymogramParameters
@@ -60,8 +61,14 @@ def test_kymogram_instance_creation(dummy_recording):
     assert retrieved.metadata.line_points == ((5.0, 10.0), (15.0, 20.0))
 
 
-def test_kymogram_derive_data_raises_not_implemented(dummy_recording):
-    """Test that _derive_data raises NotImplementedError prior to Step 4."""
+def test_kymogram_derive_data(dummy_recording):
+    """
+    Test that _derive_data calculates kymogram array from parent modality.
+    """
+    mock_modality = MagicMock()
+    mock_modality.data = np.ones((5, 40, 40))
+    dummy_recording.modalities["RawUltrasound"] = mock_modality
+
     params = KymogramParameters(
         parent_name="RawUltrasound",
         line_points=((0.0, 0.0), (10.0, 10.0)),
@@ -72,5 +79,6 @@ def test_kymogram_derive_data_raises_not_implemented(dummy_recording):
         metadata=params,
         file_info=file_info,
     )
-    with pytest.raises(NotImplementedError):
-        kymogram._derive_data()
+    sampled = kymogram._derive_data()
+    assert isinstance(sampled, np.ndarray)
+    assert sampled.shape[0] == 5
