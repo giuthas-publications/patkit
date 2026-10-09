@@ -32,6 +32,7 @@
 """Pytest configuration and shared fixtures for PATKIT GUI testing."""
 
 from datetime import datetime
+import logging
 from pathlib import Path
 import pytest
 
@@ -47,6 +48,9 @@ from patkit.data_structures import (
 from patkit.gui import NewExerciseDialog, NewAnswerDialog, PlotController
 from patkit.patgrid import PatGrid
 from patkit.qt_annotator import PdQtAnnotator
+
+logging.getLogger("matplotlib").setLevel(logging.WARNING)
+logging.getLogger("PIL").setLevel(logging.WARNING)
 
 TEXTGRID_CONTENT = """File type = "ooTextFile"
 Object class = "TextGrid"
@@ -225,6 +229,7 @@ def mock_session(real_patgrid) -> MagicMock:
     # Set attributes required by add_items_to_database_view and plots
     recording.basename = "test_recording"
     recording.excluded = False
+    recording.statistics = {}
 
     audio_mock = MagicMock()
     audio_mock.go_signal = 0.0
