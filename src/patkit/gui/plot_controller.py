@@ -273,8 +273,10 @@ class PlotController:
             # Update endpoint label coordinates on line drag
             if self.kymography_label_a is not None:
                 self.kymography_label_a.set_position(p1)
+                # self.kymography_label_a.set_text(p1[1])
             if self.kymography_label_b is not None:
                 self.kymography_label_b.set_position(p2)
+                # self.kymography_label_b.set_text(p2[1])
             if 'RawUltrasound' in recording.modalities:
                 kymogram._derive_data()
                 self.draw_kymogram(recording=recording)
@@ -300,10 +302,10 @@ class PlotController:
         # Render endpoint labels on the ultrasound canvas
         if self.kymography_label_a is None:
             self.kymography_label_a = self.ultra_axes.text(
-                p1[0], p1[1], "A", color="orange",
+                p1[0], p1[1], "B", color="orange",
             )
             self.kymography_label_b = self.ultra_axes.text(
-                p2[0], p2[1], "B", color="orange",
+                p2[0], p2[1], "A", color="orange",
             )
         else:
             self.kymography_label_a.set_position(p1)
@@ -911,8 +913,8 @@ class PlotController:
                 image = stat.data
                 self.ultra_axes.imshow(
                     image, interpolation='nearest', cmap='gray',
-                    extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
-                            -.5, image.shape[0] + .5))
+                    extent=(-image.shape[0] / 2 - .5, image.shape[0] / 2 + .5,
+                            -.5, image.shape[1] + .5))
                 # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
             return False
 
@@ -929,6 +931,11 @@ class PlotController:
             elif image_type == GuiImageType.RAW_FRAME:
                 image = ultrasound.raw_image(index)
 
+            print(image.shape)
+            print(
+                (-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
+                 -.5, image.shape[0] + .5)
+            )
             self.ultra_axes.imshow(
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
@@ -951,7 +958,8 @@ class PlotController:
             self.ultra_axes.imshow(
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
-                        -.5, image.shape[0] + .5))
+                        -.5, image.shape[0] + .5)
+            )
             # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
 
             # TODO 0.24: implement these

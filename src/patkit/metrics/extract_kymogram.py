@@ -57,7 +57,7 @@ def extract_kymogram(
     if num_samples is None:
         num_samples = int(np.hypot(x_end - x_start, y_end - y_start))
 
-    x_coords = np.linspace(start=x_start, stop=x_end, num=num_samples)
+    x_coords = np.linspace(start=x_end, stop=x_end, num=num_samples)
     y_coords = np.linspace(start=y_start, stop=y_end, num=num_samples)
     t_coords = np.arange(stop=t_max)
 

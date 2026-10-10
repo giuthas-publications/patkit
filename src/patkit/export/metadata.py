@@ -40,8 +40,13 @@ from typing import TextIO
 import nestedtext
 
 from patkit.constants import PATKIT_VERSION
-from patkit.data_structures import FileInformation, Modality, Recording, Session
-from patkit.metrics import AggregateImageParameters, DistanceMatrixParameters
+from patkit.data_structures import (
+    FileInformation, Modality, Recording, Session
+)
+from patkit.metrics import (
+    AggregateImageParameters, DistanceMatrixParameters,
+    KymogramParameters,
+)
 from patkit.save_and_load import nested_text_converters
 from patkit.utility_functions import path_from_name
 
@@ -181,7 +186,10 @@ def export_modality_meta(
             object_name=description,
             filename=filename)
         _write_session_and_recording_meta(
-            file=file, session=modality.owner.container, recording=modality.owner)
+            file=file,
+            session=modality.owner.container,
+            recording=modality.owner
+        )
         file.write("\n")
         nestedtext.dump(
             obj=dict(sorted(modality.metadata.model_dump().items())),
@@ -199,8 +207,9 @@ def export_derived_modalities_meta(
     """
     Export meta data for derived Modalities.
 
-    NOTE: There is no meta data exporter for recorded modalities as we keep that
-    in the original format as written by what ever software recorded the data.
+    NOTE: There is no meta data exporter for recorded modalities as we keep
+    that in the original format as written by what ever software recorded the
+    data.
 
     Parameters
     ----------
@@ -305,4 +314,49 @@ def export_ultrasound_frame_meta(
             file=file, session=session, recording=recording)
         file.write(f"Frame number: {selection_index}\n")
         file.write(f"Timestamp in recording: {selection_time}\n")
+        _logger.debug("Wrote file %s.", str(meta_filepath))
+
+
+def export_kymogram_meta(
+    filename: str | Path,
+    session: Session,
+    recording: Recording,
+    kymogram_meta: KymogramParameters,
+    selection_index: int,
+) -> None:
+    """
+    Write kymogram metadata to a human-readable text file.
+
+    Parameters
+    ----------
+    filename : str | Path
+        Filename or path of the exported kymogram image.
+    session : Session
+        Session that the kymogram belongs to.
+    recording : Recording
+        Recording that the kymogram belongs to.
+    kymogram_meta : KymogramParameters
+        The parameters of the Kymogram to be dumped in a file along with
+        the session and recording information.
+    selection_index : int
+        Index of the currently marked frame, or -1 if no frame is selected.
+    """
+    filepath, meta_filepath = _paths_from_name(filename)
+    with meta_filepath.open('w', encoding='utf-8') as file:
+        _export_header(
+            file=file,
+            object_name="Kymogram",
+            filename=filename,
+        )
+        _write_session_and_recording_meta(
+            file=file, session=session, recording=recording
+        )
+        if selection_index >= 0:
+            file.write(f"Marked frame index: {selection_index}\n")
+
+        nestedtext.dump(
+            obj=kymogram_meta.model_dump(),
+            dest=file,
+            converters=nested_text_converters,
+        )
         _logger.debug("Wrote file %s.", str(meta_filepath))

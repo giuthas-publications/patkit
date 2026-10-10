@@ -245,6 +245,10 @@ class UiMainWindow(object):
                     "text": "Display main kymogram",
                     "enabled": False,
                 },
+                {
+                    "attr": "action_export_kymogram",
+                    "text": "Export kymogram image...",
+                },
             ],
         },
         {

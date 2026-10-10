@@ -38,20 +38,22 @@ import logging
 from pathlib import Path
 
 import numpy as np
+from matplotlib.figure import Figure
 from PIL import Image
 
 from patkit.data_structures import (
-    AbstractData, AbstractDataContainer, Recording, Session 
+    AbstractData, AbstractDataContainer, Recording, Session
 )
 from patkit.interpolate_raw_uti import to_fan_2d
 from patkit.metrics import (
-    AggregateImage, DistanceMatrix
+    AggregateImage, DistanceMatrix, Kymogram,
 )
 from patkit.modalities import RawUltrasound
 
 from .metadata import (
     export_aggregate_image_meta,
     export_distance_matrix_meta,
+    export_kymogram_meta,
     export_ultrasound_frame_meta
 )
 
@@ -66,7 +68,7 @@ def _export_data_as_image(
 ) -> Path:
     if path.is_dir() and not isinstance(data, AbstractData):
         raise ValueError("Data must be AbstractData if path is a directory.")
-    
+
     if path.is_dir():
         filename = data.name.replace(" ", "_")
         filepath = path / filename
@@ -215,4 +217,71 @@ def export_ultrasound_frame_and_meta(
         recording=recording,
         selection_index=selection_index,
         selection_time=selection_time,
+    )
+
+
+def export_kymogram_and_meta(
+    figure: Figure,
+    kymogram: Kymogram,
+    session: Session,
+    recording: Recording,
+    path: Path,
+    ultra_figure: Figure | None = None,
+    image_format: str = ".png",
+) -> None:
+    """
+    Export Kymogram figure to an image file and meta to a text file.
+
+    Parameters
+    ----------
+    figure : Figure
+        The Matplotlib figure containing the rendered kymogram.
+    kymogram : Kymogram
+        The Kymogram statistic to be exported.
+    session : Session
+        Session the Kymogram belongs to.
+    recording : Recording
+        Recording that the Kymogram belongs to.
+    path : Path
+        Path or directory to save the image and meta file.
+    ultra_figure : Figure | None, optional
+        The Matplotlib figure of the ultrasound frame at the selection point,
+        by default None. If provided, it is exported to
+        [filename].kymogram_selection.png.
+    image_format : str, optional
+        File format to save the image in, by default ".png"
+    """
+    # TODO 0.24: Figure out a good way of saving information on which
+    # ultrasound frame was used to select the kymography line.
+
+    if path.is_dir():
+        filename = kymogram.name.replace(" ", "_")
+        filepath = path / filename
+    else:
+        filepath = path
+
+    filepath = filepath.with_suffix(image_format)
+
+    figure.savefig(fname=filepath, bbox_inches="tight", pad_inches=0.05)
+    _logger.info("Wrote file %s.", filepath)
+
+    if ultra_figure is not None:
+        selection_filename = (
+            f"{filepath.stem}.kymogram_selection{image_format}"
+        )
+        selection_filepath = filepath.with_name(selection_filename)
+        ultra_figure.savefig(
+            fname=selection_filepath,
+            bbox_inches="tight",
+            pad_inches=0.05,
+        )
+        _logger.info("Wrote file %s.", selection_filepath)
+
+    frame_index = recording.annotations["frame_selection_index"]
+    export_kymogram_meta(
+        filename=filepath,
+        session=session,
+        recording=recording,
+        kymogram_meta=kymogram.metadata,
+        selection_index=frame_index,
     )

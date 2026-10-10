@@ -34,10 +34,12 @@
 from .images import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
+    export_kymogram_and_meta,
     export_ultrasound_frame_and_meta,
 )
 from .metadata import (
     export_aggregate_image_meta, export_derived_modalities_meta,
+    export_kymogram_meta,
     export_session_and_recording_meta, export_ultrasound_frame_meta
 )
 from .modality_data import (

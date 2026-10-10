@@ -70,6 +70,7 @@ from patkit.data_structures import (
 from patkit.export import (
     export_aggregate_image_and_meta,
     export_distance_matrix_and_meta,
+    export_kymogram_and_meta,
     export_session_and_recording_meta,
     export_ultrasound_frame_and_meta,
 )
@@ -249,6 +250,9 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         )
         self.action_display_small_kymogram.triggered.connect(
             self.toggle_small_kymogram
+        )
+        self.action_export_kymogram.triggered.connect(
+            self.export_kymogram
         )
 
         self.action_next.triggered.connect(self.next)
@@ -1150,8 +1154,8 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
         The metadata is written to a separate `.txt` file of the same name as
         the image file.
         """
-        # TODO: Add a check that grays out the export ultrasound figure when
-        # one isn't available.
+        # TODO 0.24: Add a check that grays out the export ultrasound figure
+        # when one isn't available.
 
         if self.current.annotations['frame_selection_index'] >= 0:
             suggested_path = Path.cwd() / "Raw_ultrasound_frame.png"
@@ -1180,6 +1184,33 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
                 ultrasound=self.current['RawUltrasound'],
                 interpolation_params=interpolation_params
             )
+
+    def export_kymogram(self) -> None:
+        """
+        Export the current kymogram image and its metadata text file.
+        """
+        stat_name = "Kymogram on RawUltrasound"
+        if stat_name not in self.current.statistics:
+            return
+
+        suggested_path = Path.cwd() / f"{self.current.basename}_kymogram.png"
+        path, _ = ImageSaveDialog.get_selection(
+            name="Export kymogram",
+            save_path=suggested_path,
+            parent=self,
+        )
+        if path is None:
+            return
+
+        kymogram = self.current.statistics[stat_name]
+        export_kymogram_and_meta(
+            figure=self.plot_controller.kymogram_fig,
+            kymogram=kymogram,
+            session=self.session,
+            recording=self.current,
+            path=path,
+            ultra_figure=self.plot_controller.ultra_fig,
+        )
 
     def export_aggregate_image(self) -> None:
         """
