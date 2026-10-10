@@ -674,7 +674,7 @@ def plot_kymogram(
     AxesImage
         The plotted image artist.
     """
-    axes.clear()
+    # axes.clear()
     image = axes.imshow(
         X=kymogram_data.T,
         origin='lower',
@@ -686,7 +686,7 @@ def plot_kymogram(
     if current_frame_index is not None and current_frame_index >= 0:
         axes.axvline(
             x=current_frame_index,
-            color='red',
+            color='lightblue',
             linewidth=1,
             linestyle='--',
         )
@@ -694,7 +694,7 @@ def plot_kymogram(
         axes.set_ylabel(ylabel=f"Position ({label_a} \u2192 {label_b})")
     else:
         axes.set_ylabel(ylabel="Position")
-    axes.set_xlabel(xlabel="Time")
+    axes.set_xlabel(xlabel="Time (s)")
     axes.tick_params(
         axis='both',
         which='both',

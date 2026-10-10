@@ -106,11 +106,14 @@ class PlotController:
         self.ultra_axes = self.ultra_fig.add_axes((0, 0, 1, 1))
 
         # Small Kymogram Canvas Setup
-        self.kymogram_fig = Figure()
+        self.kymogram_fig = Figure(layout="tight")
         self.kymogram_canvas = FigureCanvas(self.kymogram_fig)
-        self.kymogram_axes = self.kymogram_fig.add_axes(
-            (0.22, 0.22, 0.72, 0.72)
+        self.kymogram_axes = self.kymogram_fig.add_subplot(
+            1, 1, 1
         )
+        # self.kymogram_axes = self.kymogram_fig.add_axes(
+        #     (0.2, 0.15, 1, 1)
+        # )
 
         self.kymography_sampling_line: DraggableLineSegment | None = None
         self.kymography_label_a: matplotlib.text.Text | None = None
@@ -248,6 +251,7 @@ class PlotController:
         """
         stat_name = "Kymogram on RawUltrasound"
         if stat_name not in recording.statistics:
+            print(list(recording.statistics.keys()))
             params = KymogramParameters(
                 parent_name="RawUltrasound",
                 line_points=((0.0, 10.0), (0.0, 50.0)),
@@ -272,7 +276,7 @@ class PlotController:
             if self.kymography_label_b is not None:
                 self.kymography_label_b.set_position(p2)
             if 'RawUltrasound' in recording.modalities:
-                kymogram.parsed_data = kymogram._derive_data()
+                kymogram._derive_data()
                 self.draw_kymogram(recording=recording)
 
         if self.kymography_sampling_line is None:
@@ -286,6 +290,8 @@ class PlotController:
                 self.ultra_axes.add_line(
                     line=self.kymography_sampling_line.line
                 )
+                self.ultra_axes.add_artist(self.kymography_label_a)
+                self.ultra_axes.add_artist(self.kymography_label_b)
             self.kymography_sampling_line.set_endpoints(
                 endpoints=kymogram.metadata.line_points
             )
@@ -294,10 +300,10 @@ class PlotController:
         # Render endpoint labels on the ultrasound canvas
         if self.kymography_label_a is None:
             self.kymography_label_a = self.ultra_axes.text(
-                p1[0], p1[1], "A", color="lime", fontweight="bold"
+                p1[0], p1[1], "A", color="orange",
             )
             self.kymography_label_b = self.ultra_axes.text(
-                p2[0], p2[1], "B", color="red", fontweight="bold"
+                p2[0], p2[1], "B", color="orange",
             )
         else:
             self.kymography_label_a.set_position(p1)
@@ -311,6 +317,31 @@ class PlotController:
         self.kymography_label_a.set_visible(visible)
         self.kymography_label_b.set_visible(visible)
         self.ultra_canvas.draw_idle()
+
+    def _adjust_ultra_canvas_aspect(
+        self,
+        image_shape: tuple[int, ...],
+        is_extent: bool = True
+    ) -> None:
+        """
+        Adjust ultra_canvas height to match image aspect ratio given width.
+
+        Parameters
+        ----------
+        image_shape : tuple[int, ...]
+            Shape of the 2D image array (height, width).
+        is_extent : bool, optional
+            Whether coordinates include half-pixel extent margins,
+            by default True.
+        """
+        canvas_width = self.ultra_canvas.width()
+        if canvas_width > 0:
+            if is_extent:
+                aspect = (image_shape[0] + 1.0) / (image_shape[1] + 1.0)
+            else:
+                aspect = float(image_shape[0]) / float(image_shape[1])
+            target_height = round(canvas_width * aspect)
+            self.ultra_canvas.setFixedHeight(target_height)
 
     def draw_kymogram(self, recording: Recording) -> bool:
         """
@@ -642,6 +673,7 @@ class PlotController:
         modifications without a full canvas wipe/rebuild.
         """
         # Clean up old drawn selection lines
+        # TODO 0.23.0: Let's not eat Exceptions.
         for artist in getattr(self, 'selection_artists', []):
             try:
                 artist.remove()
@@ -881,6 +913,7 @@ class PlotController:
                     image, interpolation='nearest', cmap='gray',
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
+                self._adjust_ultra_canvas_aspect(image_shape=image.shape)
             return False
 
         elif (
@@ -900,6 +933,7 @@ class PlotController:
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
+            self._adjust_ultra_canvas_aspect(image_shape=image.shape)
 
         elif (
             'frame_selection_index' in recording.annotations and
@@ -918,6 +952,7 @@ class PlotController:
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
+            self._adjust_ultra_canvas_aspect(image_shape=image.shape)
 
             # TODO 0.24: implement these
             if self.gui_config.display_image_info:

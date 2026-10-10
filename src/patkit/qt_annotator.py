@@ -54,7 +54,7 @@ from PyQt6.QtGui import (
     QShortcut,
 )
 from PyQt6.QtWidgets import (
-    QFileDialog, QInputDialog, QMainWindow
+    QFileDialog, QInputDialog, QMainWindow, QSizePolicy,
 )
 from qbstyles import mpl_style
 
@@ -159,11 +159,34 @@ class PdQtAnnotator(QMainWindow, UiMainWindow):
             main_window=self
         )
 
-        # Add the canvases to their respective Qt Layouts
-        self.mplWindowVerticalLayout.addWidget(self.plot_controller.canvas)
-        self.verticalLayout_6.addWidget(self.plot_controller.kymogram_canvas)
-        self.verticalLayout_6.addWidget(self.plot_controller.ultra_canvas)
+        # Allow canvas widgets to shrink/expand dynamically within Qt layout
+        canvas_policy = QSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
+        self.plot_controller.kymogram_canvas.setSizePolicy(canvas_policy)
+        self.plot_controller.ultra_canvas.setSizePolicy(canvas_policy)
 
+        # Add the canvases to their respective Qt Layouts with stretch factors
+        self.mplWindowVerticalLayout.addWidget(
+            self.plot_controller.canvas
+        )
+        self.kymogram_ultra_splitter.addWidget(
+            self.plot_controller.kymogram_canvas
+        )
+        self.kymogram_ultra_splitter.addWidget(
+            self.plot_controller.ultra_canvas
+        )
+        self.kymogram_ultra_splitter.setStretchFactor(0, 1)
+        self.kymogram_ultra_splitter.setStretchFactor(1, 2)
+        # self.verticalLayout_6.addWidget(
+        #     self.plot_controller.kymogram_canvas,
+        #     stretch=2
+        # )
+        # self.verticalLayout_6.addWidget(
+        #     self.plot_controller.ultra_canvas,
+        #     stretch=1
+        # )
         self.plot_controller.canvas.mpl_connect(
             'button_press_event', self.onpick)
 

@@ -432,7 +432,13 @@ class UiMainWindow(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.ultrasoundFrame)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        self.side_panel_top_layout.addWidget(self.ultrasoundFrame)
+
+        # Vertical splitter between kymogram_canvas and ultra_canvas
+        self.kymogram_ultra_splitter = QtWidgets.QSplitter(
+            QtCore.Qt.Orientation.Vertical
+        )
+        self.verticalLayout_6.addWidget(self.kymogram_ultra_splitter)
+        self.side_panel_splitter.addWidget(self.ultrasoundFrame)
 
         # TODO 1.1: Consider bringing these back as a e.g. a mode option like
         # exercises. Or build a customisation example from them. They are
