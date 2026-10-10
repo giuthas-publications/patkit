@@ -694,7 +694,10 @@ def plot_kymogram(
         axes.set_ylabel(ylabel=f"Position ({label_a} \u2192 {label_b})")
     else:
         axes.set_ylabel(ylabel="Position")
-    axes.set_xlabel(xlabel="Time (s)")
+
+    # TODO 0.23.0: This should really be either time or have an option of frame
+    # number or time.
+    axes.set_xlabel(xlabel="Frame nro")
     axes.tick_params(
         axis='both',
         which='both',

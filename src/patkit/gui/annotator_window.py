@@ -445,7 +445,7 @@ class UiMainWindow(object):
         self.side_panel_splitter.setStretchFactor(1, 2)
         self.side_panel_splitter.setCollapsible(0, False)
         self.side_panel_splitter.setCollapsible(1, False)
-        self.side_panel_splitter.setSizes([250, 500])
+        self.side_panel_splitter.setSizes([350, 350])
 
         # TODO 1.1: Consider bringing these back as a e.g. a mode option like
         # exercises. Or build a customisation example from them. They are
