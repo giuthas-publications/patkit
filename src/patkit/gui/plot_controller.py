@@ -913,7 +913,7 @@ class PlotController:
                     image, interpolation='nearest', cmap='gray',
                     extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                             -.5, image.shape[0] + .5))
-                self._adjust_ultra_canvas_aspect(image_shape=image.shape)
+                # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
             return False
 
         elif (
@@ -933,7 +933,7 @@ class PlotController:
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
-            self._adjust_ultra_canvas_aspect(image_shape=image.shape)
+            # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
 
         elif (
             'frame_selection_index' in recording.annotations and
@@ -952,7 +952,7 @@ class PlotController:
                 image, interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
-            self._adjust_ultra_canvas_aspect(image_shape=image.shape)
+            # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
 
             # TODO 0.24: implement these
             if self.gui_config.display_image_info:

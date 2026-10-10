@@ -440,6 +440,13 @@ class UiMainWindow(object):
         self.verticalLayout_6.addWidget(self.kymogram_ultra_splitter)
         self.side_panel_splitter.addWidget(self.ultrasoundFrame)
 
+        # Allocate stretch priority and initial sizes for side panel
+        self.side_panel_splitter.setStretchFactor(0, 1)
+        self.side_panel_splitter.setStretchFactor(1, 2)
+        self.side_panel_splitter.setCollapsible(0, False)
+        self.side_panel_splitter.setCollapsible(1, False)
+        self.side_panel_splitter.setSizes([250, 500])
+
         # TODO 1.1: Consider bringing these back as a e.g. a mode option like
         # exercises. Or build a customisation example from them. They are
         # connected with a section in translation code further below and in

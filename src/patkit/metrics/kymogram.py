@@ -205,7 +205,7 @@ class Kymogram(Statistic):
         )
 
         # TODO 0.23.0: This maybe incorrect
-        if num_samples is None:
+        if num_samples is None and self._data is not None:
             self.metadata.num_samples = self._data.shape[0]
 
         self._data = sampled_data
