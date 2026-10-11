@@ -302,10 +302,10 @@ class PlotController:
         # Render endpoint labels on the ultrasound canvas
         if self.kymography_label_a is None:
             self.kymography_label_a = self.ultra_axes.text(
-                p1[0], p1[1], "B", color="orange",
+                p1[0], p1[1], "A", color="orange",
             )
             self.kymography_label_b = self.ultra_axes.text(
-                p2[0], p2[1], "A", color="orange",
+                p2[0], p2[1], "B", color="orange",
             )
         else:
             self.kymography_label_a.set_position(p1)
@@ -937,7 +937,7 @@ class PlotController:
                  -.5, image.shape[0] + .5)
             )
             self.ultra_axes.imshow(
-                image, interpolation='nearest', cmap='gray',
+                np.flip(image, axis=0), interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5))
             # self._adjust_ultra_canvas_aspect(image_shape=image.shape)
@@ -956,7 +956,7 @@ class PlotController:
                 image = ultrasound.raw_image(index)
 
             self.ultra_axes.imshow(
-                image, interpolation='nearest', cmap='gray',
+                np.flip(image, axis=0), interpolation='nearest', cmap='gray',
                 extent=(-image.shape[1] / 2 - .5, image.shape[1] / 2 + .5,
                         -.5, image.shape[0] + .5)
             )

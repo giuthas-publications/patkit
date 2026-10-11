@@ -257,12 +257,13 @@ class RawUltrasound(Modality):
         """
         Return an interpolated version of the ultrasound frame at index.
 
-        A new interpolated image is calculated, if necessary. To avoid large
-        memory overheads only the current frame's interpolated version maybe
-        stored in memory.
-
+        A new interpolated video is calculated, if necessary.
         Arguments: index - the index of the ultrasound frame to be returned
         """
+        # TODO 0.23.0:  To avoid large memory overheads only the current
+        # frame's interpolated version should be stored in memory. And the
+        # video should potentially really become its own Modality.
+
         if self.video_has_been_stored:
             return self.stored_video.copy()
 
