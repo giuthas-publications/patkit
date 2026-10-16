@@ -545,6 +545,16 @@ class PlotController:
         for axes_name in self.gui_config.data_axes:
             self.data_axes[axes_counter].grid(False)
             match axes_name:
+                case "kymogram":
+                    kymograms = [
+                        key for key in recording.modalities.keys()
+                        if "kymogram" in key.lower()
+                    ]
+                    if len(kymograms) == 1:
+                        plot_kymogram(
+                            axes=self.gui_config.data_axes[axes_name],
+                            # TODO 0.23.0: FINISH THIS CALL
+                        )
                 case "spectrogram":
                     if self.gui_config.data_axes[axes_name].ylim is not None:
                         ylim = self.gui_config.data_axes[axes_name].ylim
