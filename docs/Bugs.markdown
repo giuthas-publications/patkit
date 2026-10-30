@@ -49,7 +49,8 @@
   properly again.
 
 ## Documentation
-- Exercise documentation is out of date. Expected to be fixed in version 0.24.3.
+- Exercise documentation is out of date. Expected to be fixed in version
+  0.24.3.
 - Many parts of the documentation in general are out of date.
 
 ## Misc
