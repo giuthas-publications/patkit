@@ -100,12 +100,12 @@ List of [contributors](https://giuthas.github.io/patkit/Contributors)
 The Phonetic Analysis ToolKIT (PATKIT or patkit for short) and examples is a
 tool box for analysing phonetic data.
 
-PATKIT Copyright (C) 2019-2025 Pertti Palo, Scott Moisik, Matthew
+PATKIT Copyright (C) 2019-2026 Pertti Palo, Scott Moisik, Matthew
 Faytak and Motoki Saito.
 
-Optical Flow tools Copyright (C) 2020-2025 Scott Moisik
+Optical Flow tools Copyright (C) 2020-2026 Scott Moisik
 
-Pixel Difference tools Copyright (C) 2019-2025 Pertti Palo
+Pixel Difference tools Copyright (C) 2019-2026 Pertti Palo
 
 Laryngeal example data Copyright (C) 2020 Scott Moisik
 
