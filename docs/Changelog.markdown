@@ -2,8 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a
+Changelog](https://keepachangelog.com/en/1.1.0/), and this project uses
+[Intended Effort Versioning](https://jacobtomlinson.dev/effver/) as of version
+0.23.0. 
+
+In case you are unfamiliar with the latter, it is similar to [Semantic
+Versioning](https://semver.org/spec/v2.0.0.html) but has more emphasis on how
+much effort adopting the new version will require from the user.
 
 [//]: # (Possible headings in a release:)
 [//]: # (Highlights for shiny new features.)
@@ -35,7 +41,7 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   - There will be a feature freeze at this point.
 
 
-## [0.23.0] - 2026-11-02
+## [0.23.0] - 2026-11-21
 
 ### Highlights
 
